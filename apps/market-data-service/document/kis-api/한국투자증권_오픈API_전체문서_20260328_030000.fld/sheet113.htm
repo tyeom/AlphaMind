@@ -1,0 +1,3133 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File
+href="../한국투자증권_오픈API_전체문서_20260328_030000.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕";
+	mso-generic-font-family:auto;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(112);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../한국투자증권_오픈API_전체문서_20260328_030000.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#467886" vlink="#96607D">
+
+<table border=0 cellpadding=0 cellspacing=0 width=689 style='border-collapse:
+ collapse;table-layout:fixed;width:516pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=151 style='mso-width-source:userset;mso-width-alt:4821;width:113pt'>
+ <col width=76 style='mso-width-source:userset;mso-width-alt:2432;width:57pt'>
+ <col width=79 style='mso-width-source:userset;mso-width-alt:2517;width:59pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2218;width:52pt'>
+ <col width=55 style='mso-width-source:userset;mso-width-alt:1749;width:41pt'>
+ <col width=71 style='width:53pt'>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl68 width=689 style='height:17.0pt;width:516pt'>국내주식
+  신용잔고 일별추이</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 통신방식</td>
+  <td colspan=6 class=xl66 style='border-left:none'>REST</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>메뉴 위치</td>
+  <td colspan=6 class=xl66 style='border-left:none'>[국내주식] 시세분석</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>국내주식 신용잔고 일별추이</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>국내주식-110</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>FHPST04760000</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>기본정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>HTTP Method</td>
+  <td colspan=6 class=xl66 style='border-left:none'>GET</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>https://openapi.koreainvestment.com:9443</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>URL 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>/uapi/domestic-stock/v1/quotations/daily-credit-balance</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>개요</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>개요</td>
+  <td colspan=6 class=xl65 width=501 style='border-left:none;width:375pt'>국내주식
+  신용잔고 일별추이 API입니다.<br />
+    <br />
+    한국투자 HTS(eFriend Plus) &amp;gt; [0476] 국내주식 신용잔고 일별추이 화면의 기능을 API로 개발한
+  사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.<br />
+    <br />
+    한 번의 호출에 최대 30건 확인 가능하며, fid_input_date_1 을 입력하여 다음 조회가 가능합니다.<br />
+    <br />
+    <br />
+    <br />
+    ※ 상환수량은 &quot;매도상환수량+현금상환수량&quot;의 합계 수치입니다.</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Layout</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>구분</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Element</td>
+  <td class=xl67 style='border-top:none;border-left:none'>한글명</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Type</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Required</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Length</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Description</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=13 height=1433 class=xl67 style='height:1074.0pt;border-top:none'>Request
+  Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=427 style='height:320.0pt'>
+  <td height=427 class=xl66 style='height:320.0pt;border-top:none'>authorization</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접근토큰</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>350</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>OAuth
+  토큰이 필요한 API 경우 발급한 Access token <br />
+    <br />
+    일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) <br
+  />
+    <br />
+    법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization
+  Code Grant 절차를 준용)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appkey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>36</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appsecret</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱시크릿키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>personalseckey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객식별키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사 회원 관리를 위한 고객식별키</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>FHPST04760000</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>custtype</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객 타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>B
+  : 법인 <br />
+    <br />
+    P : 개인</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>seq_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>일련번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 001</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>mac_address</td>
+  <td class=xl66 style='border-top:none;border-left:none'>맥주소</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>법인고객
+  혹은 개인고객의 Mac address 값</td>
+ </tr>
+ <tr height=191 style='height:143.0pt'>
+  <td height=191 class=xl66 style='height:143.0pt;border-top:none'>phone_number</td>
+  <td class=xl66 style='border-top:none;border-left:none'>핸드폰번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 <br />
+    <br />
+    ex) 01011112222 (하이픈 등 구분값 제거)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>ip_addr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접속 단말 공인 IP</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 사용자(회원)의 IP Address</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td rowspan=4 height=157 class=xl67 style='height:117.0pt'>Request Query
+  Parameter</td>
+  <td class=xl66 style='border-top:none'>fid_cond_mrkt_div_code</td>
+  <td class=xl66 style='border-top:none;border-left:none'>시장 분류 코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>시장구분코드
+  (주식 J)</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>fid_cond_scr_div_code</td>
+  <td class=xl66 style='border-top:none;border-left:none'>화면 분류 코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>5</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>Unique
+  key(20476)</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>fid_input_iscd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>종목코드
+  (ex 005930)</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>fid_input_date_1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>결제일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>결제일자
+  (ex 20240313)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=248 class=xl67 style='height:186.0pt'>Response Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>요청한
+  tr_id</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=30 height=690 class=xl67 style='height:510.0pt'>Response Body</td>
+  <td class=xl66 style='border-top:none'>rt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>성공 실패 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답메세지</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>80</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object array</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>array</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>deal_date</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매매 일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stck_prpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식 현재가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdy_vrss_sign</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전일 대비 부호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdy_vrss</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전일 대비</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdy_ctrt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전일 대비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>acml_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>누적 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stlm_date</td>
+  <td class=xl66 style='border-top:none;border-left:none'>결제 일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_loan_new_stcn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 융자 신규 주수</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>단위:
+  주</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_loan_rdmp_stcn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 융자 상환 주수</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>단위:
+  주</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_loan_rmnd_stcn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 융자 잔고 주수</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>단위:
+  주</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_loan_new_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 융자 신규 금액</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>단위:
+  만원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_loan_rdmp_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 융자 상환 금액</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>단위:
+  만원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_loan_rmnd_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 융자 잔고 금액</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>단위:
+  만원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_loan_rmnd_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 융자 잔고 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>84</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_loan_gvrt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 융자 공여율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_stln_new_stcn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 대주 신규 주수</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>단위:
+  주</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_stln_rdmp_stcn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 대주 상환 주수</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>단위:
+  주</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_stln_rmnd_stcn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 대주 잔고 주수</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>단위:
+  주</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_stln_new_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 대주 신규 금액</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>단위:
+  만원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_stln_rdmp_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 대주 상환 금액</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>단위:
+  만원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_stln_rmnd_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 대주 잔고 금액</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>단위:
+  만원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_stln_rmnd_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 대주 잔고 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>84</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_stln_gvrt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 대주 공여율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stck_oprc</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식 시가2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stck_hgpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식 최고가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stck_lwpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식 최저가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Example</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Request
+  Example (Python)</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    &quot;fid_cond_mrkt_div_code&quot;:&quot;J&quot;,<br />
+    <br />
+    &quot;fid_cond_scr_div_code&quot;:&quot;20476&quot;,<br />
+    <br />
+    &quot;fid_input_iscd&quot;:&quot;005930&quot;,<br />
+    <br />
+    &quot;fid_input_date_1&quot;:&quot;20240315&quot;<br />
+    <br />
+    }</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Response
+  Example</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output&quot;: [<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240313&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;74100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;15243134&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;whol_loan_new_stcn&quot;:
+  &quot;253817&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;603451&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;whol_loan_rmnd_stcn&quot;:
+  &quot;7155720&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;1678904&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;3982732&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;47321639&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;1.65&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6861&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43104&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;73700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;74100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;73500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240312&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;73300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;13011654&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240314&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;357971&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;429002&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;7507526&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;2370294&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;2871401&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;49639923&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;2.74&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6861&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43104&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;72600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;73500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72100&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240311&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;72400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-1.23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;9740504&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240313&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;395234&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;242330&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;7586197&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;2579480&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;1479272&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;50194590&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;4.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6861&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43104&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;72900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;73100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72300&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240308&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;73300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;1100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.52&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;19271349&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240312&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;350421&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;580071&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;7433714&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;2212537&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;3786566&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;49096831&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;1.81&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6861&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43104&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;72800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;73400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72600&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240307&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;72200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.96&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;14516963&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240311&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;497407&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;252707&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;7666721&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;3207234&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;1692347&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;50691156&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;3.42&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;1&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6861&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;7&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43104&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;73100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;73300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72200&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240306&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;72900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-1.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;21547905&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240308&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;619036&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;176578&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;7424246&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;4069217&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;1148738&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;49189736&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;2.87&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6862&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43111&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;73200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;73500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72700&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240305&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;73700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-1200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-1.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;19505125&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240307&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;422627&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;301232&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;6981765&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;2822363&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;1986157&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;46269511&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;2.15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6862&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;139&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43111&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;74600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;74800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;73700&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240304&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;74900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;1500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;2.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;23210474&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240306&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;838785&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;1450926&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;6862995&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;5536867&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;9135415&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;45449103&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;3.61&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6882&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43251&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;74300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;75000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;74000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;73400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;21176403&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240305&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;563158&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;330265&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;7477578&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;3366177&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;2109787&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;49063520&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;2.65&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6882&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43251&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;72600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;73400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240228&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;73200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.41&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;11795859&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240304&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;506896&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;458211&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;7245825&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;3059090&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;2956451&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;47813948&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;4.29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6882&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43251&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;72900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;73900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72800&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240227&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;72900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;13201981&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;319365&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;291088&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;7199469&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;2086955&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;1907718&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;47725597&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;2.41&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6882&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43251&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;73100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;73400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72700&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240226&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;72800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;14669352&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240228&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;282018&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;261288&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;7171604&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;1838364&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;1639156&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;47549260&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;1.91&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6882&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43251&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;72300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;73200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72200&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;72900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;16225166&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240227&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;526563&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;473526&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;7151330&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;3397702&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;3122338&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;47353285&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;3.23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6882&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43251&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;73600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;74200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72900&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;73100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;15208934&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240226&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;617034&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;362458&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;7098784&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;4055099&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;2420852&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;47080801&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;4.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6882&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43251&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;73800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;73900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72700&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240221&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;73000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.41&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;11503495&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;181753&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;159505&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;6849915&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;1154019&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;997307&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;45485001&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;1.57&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6882&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43251&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;73400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;73700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72900&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;73300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.68&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;14681477&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;245659&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;162302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;6827253&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;1650740&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;1053242&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;45325256&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;1.66&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6882&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;699&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43251&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;73700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;73700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72800&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240219&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;73800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;1000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;12726404&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240221&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;196561&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;395332&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;6746234&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;1233245&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;2617252&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;44744474&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;1.53&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6982&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;105&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;43950&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;72800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;73900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72800&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;72800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;13444781&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;353711&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;258304&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;6946822&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;2336237&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;1746554&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;46141630&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;2.63&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6997&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;44055&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;73300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;73400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240215&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;73000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-1000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-1.35&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;14120600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240219&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;668521&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;244617&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;6851613&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;4541397&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;1581331&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;45553486&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;4.72&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6997&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;44055&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;74200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;74400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;73000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240214&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;74000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-1200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-1.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;12434945&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;607994&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;168766&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;6428256&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;4042856&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;1140083&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;42597320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;4.88&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6997&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;44055&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;73700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;74300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;73700&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240213&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;75200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;1100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.48&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;21966745&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240215&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;510482&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;766361&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;5989340&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;2751983&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;4536820&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;39696538&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;2.32&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;139&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;6997&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;996&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;44055&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;74800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;75200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;74400&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240208&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;74100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-1.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;20810708&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240214&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;943012&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;549849&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;6247522&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;5594562&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;2907687&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;41495520&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;4.52&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;1&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;7136&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;6&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;45052&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;75000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;75200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;73600&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240207&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;75000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.81&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;16566445&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240213&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;252078&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;439983&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;5856240&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;1614166&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;2860455&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;38821115&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;1.51&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;7137&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;45059&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;74600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;75500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;74300&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240206&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;74400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;14559254&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240208&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;295323&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;281735&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;6045644&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;1941262&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;1889253&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;40074751&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;2.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;7137&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;45059&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;74300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;74700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;73300&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240205&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;74300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-1.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;19026021&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240207&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;580976&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;315236&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;6035531&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;3882685&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;2127798&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;40047278&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;3.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;728&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;7137&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;5099&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;45059&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;74200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;74800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;73500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240202&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;75200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;1600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;2.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;14955881&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240206&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;227532&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;559999&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;5770153&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;1423587&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;3552220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;38294939&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;1.52&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;8&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;7865&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;55&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;50158&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;74000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;75200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;73700&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240201&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;73600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;19881033&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240205&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;340408&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;432474&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;6103384&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;2222626&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;2835418&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;40428694&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;1.70&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;347&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;7873&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;2376&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;50214&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;73000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;74200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72900&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240131&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;72700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-1600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-2.15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;15703560&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240202&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;401245&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;234735&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;6207574&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;2627294&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;1541985&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;41122407&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;2.55&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;8220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;204&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;52590&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;73400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;74000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;72500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240130&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;74300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;12244418&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240201&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;308957&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;165640&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;6042179&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;1980096&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;1089607&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;40044649&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;2.51&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;894&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;8250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;5983&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;52795&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;75000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;75300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;73700&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;deal_date&quot;:
+  &quot;20240129&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_prpr&quot;:
+  &quot;74400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;1000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.36&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;13976521&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stlm_date&quot;:
+  &quot;20240131&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_stcn&quot;: &quot;207309&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_stcn&quot;: &quot;415351&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_stcn&quot;: &quot;5901536&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_new_amt&quot;: &quot;1397554&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rdmp_amt&quot;: &quot;2745405&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_amt&quot;: &quot;39169933&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_rmnd_rate&quot;: &quot;0.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_loan_gvrt&quot;: &quot;1.47&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_stcn&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_stcn&quot;: &quot;39&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_stcn&quot;: &quot;9144&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_new_amt&quot;: &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rdmp_amt&quot;: &quot;261&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_amt&quot;: &quot;58779&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_rmnd_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_stln_gvrt&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_oprc&quot;:
+  &quot;73800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_hgpr&quot;:
+  &quot;75200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_lwpr&quot;:
+  &quot;73500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>}<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>],<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;rt_cd&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg_cd&quot;:
+  &quot;MCA00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg1&quot;: &quot;정상처리
+  되었습니다.&quot;<br />
+    <br />
+    }</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=188 style='width:141pt'></td>
+  <td width=151 style='width:113pt'></td>
+  <td width=76 style='width:57pt'></td>
+  <td width=79 style='width:59pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=55 style='width:41pt'></td>
+  <td width=71 style='width:53pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

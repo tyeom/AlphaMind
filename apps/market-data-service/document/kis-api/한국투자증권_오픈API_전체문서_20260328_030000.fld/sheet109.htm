@@ -1,0 +1,3082 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File
+href="../한국투자증권_오픈API_전체문서_20260328_030000.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕";
+	mso-generic-font-family:auto;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(108);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../한국투자증권_오픈API_전체문서_20260328_030000.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#467886" vlink="#96607D">
+
+<table border=0 cellpadding=0 cellspacing=0 width=659 style='border-collapse:
+ collapse;table-layout:fixed;width:494pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=109 style='mso-width-source:userset;mso-width-alt:3498;width:82pt'>
+ <col width=88 style='mso-width-source:userset;mso-width-alt:2816;width:66pt'>
+ <col width=79 style='mso-width-source:userset;mso-width-alt:2517;width:59pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2218;width:52pt'>
+ <col width=55 style='mso-width-source:userset;mso-width-alt:1749;width:41pt'>
+ <col width=71 style='width:53pt'>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl68 width=659 style='height:17.0pt;width:494pt'>예탁원정보(합병_분할일정)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 통신방식</td>
+  <td colspan=6 class=xl66 style='border-left:none'>REST</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>메뉴 위치</td>
+  <td colspan=6 class=xl66 style='border-left:none'>[국내주식] 종목정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>예탁원정보(합병_분할일정)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>국내주식-147</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>HHKDB669104C0</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>기본정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>HTTP Method</td>
+  <td colspan=6 class=xl66 style='border-left:none'>GET</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>https://openapi.koreainvestment.com:9443</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>URL 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>/uapi/domestic-stock/v1/ksdinfo/merger-split</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>개요</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>개요</td>
+  <td colspan=6 class=xl65 width=471 style='border-left:none;width:353pt'>예탁원정보(합병/분할일정)
+  API입니다. <br />
+    <br />
+    한국투자 HTS(eFriend Plus) &amp;gt; [0664] 합병/분할 화면의 기능을 API로 개발한 사항으로, 해당 화면을
+  참고하시면 기능을 이해하기 쉽습니다.<br />
+    <br />
+    <br />
+    <br />
+    ※ 예탁원에서 제공한 자료이므로 정보용으로만 사용하시기 바랍니다.</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Layout</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>구분</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Element</td>
+  <td class=xl67 style='border-top:none;border-left:none'>한글명</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Type</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Required</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Length</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Description</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=13 height=1433 class=xl67 style='height:1074.0pt;border-top:none'>Request
+  Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=427 style='height:320.0pt'>
+  <td height=427 class=xl66 style='height:320.0pt;border-top:none'>authorization</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접근토큰</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>350</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>OAuth
+  토큰이 필요한 API 경우 발급한 Access token <br />
+    <br />
+    일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) <br
+  />
+    <br />
+    법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization
+  Code Grant 절차를 준용)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appkey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>36</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appsecret</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱시크릿키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>personalseckey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객식별키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사 회원 관리를 위한 고객식별키</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>HHKDB669104C0</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>custtype</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객 타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>B
+  : 법인 <br />
+    <br />
+    P : 개인</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>seq_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>일련번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 001</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>mac_address</td>
+  <td class=xl66 style='border-top:none;border-left:none'>맥주소</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>법인고객
+  혹은 개인고객의 Mac address 값</td>
+ </tr>
+ <tr height=191 style='height:143.0pt'>
+  <td height=191 class=xl66 style='height:143.0pt;border-top:none'>phone_number</td>
+  <td class=xl66 style='border-top:none;border-left:none'>핸드폰번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 <br />
+    <br />
+    ex) 01011112222 (하이픈 등 구분값 제거)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>ip_addr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접속 단말 공인 IP</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 사용자(회원)의 IP Address</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=4 height=138 class=xl67 style='height:103.0pt'>Request Query
+  Parameter</td>
+  <td class=xl66 style='border-top:none'>CTS</td>
+  <td class=xl66 style='border-top:none;border-left:none'>CTS</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>17</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>F_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회일자From</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>일자
+  ~</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>T_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회일자To</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>~
+  일자</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>SHT_CD</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백:
+  전체,<span style='mso-spacerun:yes'>  </span>특정종목 조회시 : 종목코드</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=248 class=xl67 style='height:186.0pt'>Response Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>요청한
+  tr_id</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=18 height=414 class=xl67 style='height:306.0pt'>Response Body</td>
+  <td class=xl66 style='border-top:none'>rt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>성공 실패 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답메세지</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>80</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object array</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>array</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>record_date</td>
+  <td class=xl66 style='border-top:none;border-left:none'>기준일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sht_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>opp_cust_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>피합병(피분할)회사코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>5</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>opp_cust_nm</td>
+  <td class=xl66 style='border-top:none;border-left:none'>피합병(피분할)회사명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>37</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>cust_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>합병(분할)회사코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>5</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>cust_nm</td>
+  <td class=xl66 style='border-top:none;border-left:none'>합병(분할)회사명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>37</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>merge_type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>합병사유</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>merge_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>142</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>td_stop_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매매거래정지기간</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>23</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>list_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상장/등록일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>odd_amt_pay_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>단주대금지급일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tot_issue_stk_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>발행주식</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>issue_stk_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>발행할주식</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>seq</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연번</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Example</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Request
+  Example (Python)</td>
+  <td colspan=6 class=xl70 style='border-left:none'>cts:<br />
+    <br />
+    f_dt:20230301<br />
+    <br />
+    t_dt:20240326<br />
+    <br />
+    sht_cd:</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Response
+  Example</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output1&quot;: [<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240311&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;224020&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;22402&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;에스케이씨에스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;17735&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;베셀&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.66&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/03/08 ~ 2024/03/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240329&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2024/04/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240305&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;397880&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;39788&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;교보11호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;42057&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;제이투케이바이오&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/03/04 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2024/04/01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;210980&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;21098&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;에스케이디앤디&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;47515&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;에스케이이터닉스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;회사분할&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 1.15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/02/28 ~ 2024/03/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240329&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2024/04/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20240229&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;21098L&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;21098&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;에스케이디앤디&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;21098&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;에스케이디앤디&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;회사분할&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.77&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/02/28 ~ 2024/03/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240329&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2024/04/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240228&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;072700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;07270&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;더존홀딩스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;01251&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;더존비즈온&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot;834.0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/02/27 ~ 2024/03/21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2024/03/29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240228&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;452240&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;45224&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;뉴온&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;12384&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;뉴온&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot;24.52&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2024/04/02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240213&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;001880&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;00188&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;디엘건설&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;37550&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;디엘이앤씨&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;주식교환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/02/08 ~ 2024/03/03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240304&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2024/03/12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240213&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;00188K&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;00188&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;디엘건설&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;00188&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;디엘건설&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;주식교환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/02/08 ~ 2024/03/03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240213&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;115960&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;11596&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;연우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;16189&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;한국콜마&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;주식교환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/02/08 ~ 2024/03/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240306&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2024/03/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20240130&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;183410&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;18341&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;골프존데카&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;21500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;골프존&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;주식교환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/01/29 ~ 2024/02/21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2024/02/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240123&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;372290&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;37229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;하나머스트7호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;45243&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;사피엔반도체&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/01/22 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240219&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2024/02/23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240122&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;426550&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;42655&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;아이비케이에스제19호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;44367&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;에스피소프트&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.62&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/01/19 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240215&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2024/02/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20240115&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;068400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;06840&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;에스케이렌터카&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;06840&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;에스케이렌터카&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;주식교환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/01/12 ~ 2024/01/30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240131&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240115&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;427950&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;42795&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;하나금융23호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;19955&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;레이저옵텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/01/12 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240201&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2024/02/07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240108&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;377400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;37740&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;하이제6호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;36299&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;드림인사이트&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/01/05 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240125&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2024/02/02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20231227&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;033290&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;03329&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;코웰패션&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;47285&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;폰드그룹&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;회사분할&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/26 ~ 2024/02/01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240202&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2024/02/08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231219&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;091990&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;09199&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;셀트리온헬스케어&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;06827&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;셀트리온&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.45&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/18 ~ 2024/01/11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240112&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2024/02/08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231211&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;404950&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;40495&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;디비금융제10호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;45219&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;한빛레이저&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.65&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/08 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240104&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2024/01/11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20231204&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;450410&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;45041&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;엔에이치기업인수목적28호&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;10967&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;씨싸이트&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.18&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/01 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20231221&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/12/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231203&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;046140&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;04614&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;에스비에스콘텐츠허브&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;04614&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;에스비에스콘텐츠허브&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;주식교환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/11/30 ~ 2023/12/17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/12/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20231107&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;173200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;17320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;아센텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;47196&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;세종에이앤에프&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;회사분할&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231107&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;367360&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;36736&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;디비금융제9호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;45216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;제이엔비&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.35&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/11/06 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20231124&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/12/01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231017&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;440200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;44020&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;케이비제23호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;18826&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;세니젠&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/10/16 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20231103&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/11/10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20231012&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;085370&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;08537&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;루트로닉&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;08537&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;루트로닉&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;주식교환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/10/11 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231012&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;08537M&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;08537&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;루트로닉&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;08537&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;루트로닉&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;주식교환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/10/11 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231011&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;284100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;28410&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;이안프론티어&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;46939&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;퍼스트온파트너스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;회사분할&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231011&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;405350&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;40535&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;아이비케이에스제17호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;29056&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;신시웨이&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/10/10 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20231103&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/11/08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231010&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;177900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;17790&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;쓰리에이로직스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;46933&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;쓰리에이솔루션&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;회사분할&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/11/29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230927&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;077500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;07750&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;유니퀘스트&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;19265&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;드림텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;분할합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.92&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/09/26 ~ 2023/10/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20231023&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/11/01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20230919&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;019360&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;01936&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;한국신소재&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;01796&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;한국카본&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot;39.74&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20231020&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/10/27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230904&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;366330&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;36633&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;신한제7호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;38447&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;코어라인소프트&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/09/01 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20230918&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/09/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230831&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;011810&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;01181&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;STX&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;46577&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;STX 그린로지스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;회사분할&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/08/30 ~ 2023/09/14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20230915&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/10/31&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20230824&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;048120&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;04812&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;원옥&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;16857&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;포겟&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot;12.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;20230912&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230822&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;400560&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;40056&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;하나금융20호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;40349&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;농업회사법인 우듬지팜&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.74&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/08/21 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20230919&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/09/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20230821&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;259210&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;25921&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;글람&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;25921&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;글람&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;주식교환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230821&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;367480&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;36748&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;유안타제8호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;14606&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;율촌&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.87&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/08/18 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20230908&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/09/14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230808&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;409570&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;40957&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;한국제10호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;35539&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;크라우드웍스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20230831&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/09/07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230807&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;010050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;01005&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;우리종합금융&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;31614&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;우리금융지주&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;주식교환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/08/04 ~ 2023/08/27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20230828&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/08/31&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230807&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;298870&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;29887&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;우리벤처파트너스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;31614&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;우리금융지주&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;주식교환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/08/04 ~ 2023/08/27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20230828&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/08/31&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230702&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;390620&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;39062&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;엠리테일&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;05788&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;피에이치씨&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230630&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;000480&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;00048&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;시알홀딩스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;46252&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;조선내화&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;회사분할&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/06/29 ~ 2023/07/27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20230728&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/08/04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230630&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;011870&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;01187&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;엘티삼보&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;46220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;엘티&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;회사분할&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/06/29 ~ 2023/07/30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230626&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;046110&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;04611&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;한일네트웍스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;03787&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;유베이스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;주식교환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230531&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;001230&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;00123&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;동국홀딩스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;46086&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;동국제강&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;회사분할&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.52&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/05/30 ~ 2023/06/15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20230616&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/06/23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230501&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;388220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;38822&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;하나금융19호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;27183&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;팸텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.41&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/04/27 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20230523&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/05/30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230428&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;005950&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;00595&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;이수화학&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;45719&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;이수스페셜티케미컬&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;회사분할&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/04/27 ~ 2023/05/30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20230531&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/06/14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20230428&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;010060&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;01006&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;OCI홀딩스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;45604&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;OCI&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;회사분할&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.31&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/04/27 ~ 2023/05/29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20230530&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/06/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230411&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;246070&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;24607&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;딤채홀딩스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;00288&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;대유에이텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230410&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;396770&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;39677&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;엔에이치기업인수목적22호&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;29883&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;슈어소프트테크&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/04/07 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20230428&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/05/04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20230410&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;421750&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;42175&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;벨로크&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;42476&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;벨로크&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 5.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;20230428&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/05/04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230404&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;008560&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;00856&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;메리츠증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;13804&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;메리츠금융지주&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;주식교환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/04/03 ~ 2023/04/24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20230425&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/04/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230403&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;426670&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;42667&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;대신밸런스제12호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;31816&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;셀바이오휴먼텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 0.33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/03/31 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20230420&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/04/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20230317&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;062760&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_cd&quot;:
+  &quot;06276&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;opp_cust_nm&quot;:
+  &quot;코스텍시스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_cd&quot;:
+  &quot;35515&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cust_nm&quot;:
+  &quot;코스텍시스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_type&quot;:
+  &quot;흡수합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;merge_rate&quot;:
+  &quot; 6.42&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/03/16 ~ 2023/04/02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20230403&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;odd_amt_pay_dt&quot;: &quot;2023/04/10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;seq&quot;:
+  &quot;00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>}<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>],<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;rt_cd&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg_cd&quot;:
+  &quot;MCA00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg1&quot;: &quot;정상처리
+  되었습니다.&quot;<br />
+    <br />
+    }</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=188 style='width:141pt'></td>
+  <td width=109 style='width:82pt'></td>
+  <td width=88 style='width:66pt'></td>
+  <td width=79 style='width:59pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=55 style='width:41pt'></td>
+  <td width=71 style='width:53pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

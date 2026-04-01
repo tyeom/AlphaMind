@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node-terminal",
+            "name": "Debug: Backend",
+            "request": "launch",
+            "command": "pnpm run start:debug",
+            "cwd": "${workspaceFolder}/apps/backend",
+            "sourceMaps": true,
+            "smartStep": true,
+            "outFiles": ["${workspaceFolder}/apps/backend/dist/**/*.js"]
+        },
+        {
+            "type": "node-terminal",
+            "name": "Debug: Market Data Service",
+            "request": "launch",
+            "command": "pnpm run start:debug",
+            "cwd": "${workspaceFolder}/apps/market-data-service",
+            "sourceMaps": true,
+            "smartStep": true,
+            "outFiles": ["${workspaceFolder}/apps/market-data-service/dist/**/*.js"]
+        }
+    ]
+}

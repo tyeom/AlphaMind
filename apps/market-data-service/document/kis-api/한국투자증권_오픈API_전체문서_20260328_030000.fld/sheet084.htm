@@ -1,0 +1,1878 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File
+href="../한국투자증권_오픈API_전체문서_20260328_030000.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕";
+	mso-generic-font-family:auto;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(83);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../한국투자증권_오픈API_전체문서_20260328_030000.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#467886" vlink="#96607D">
+
+<table border=0 cellpadding=0 cellspacing=0 width=700 style='border-collapse:
+ collapse;table-layout:fixed;width:525pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=173 style='mso-width-source:userset;mso-width-alt:5546;width:130pt'>
+ <col width=100 style='mso-width-source:userset;mso-width-alt:3200;width:75pt'>
+ <col width=44 style='mso-width-source:userset;mso-width-alt:1408;width:33pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2218;width:52pt'>
+ <col width=55 style='mso-width-source:userset;mso-width-alt:1749;width:41pt'>
+ <col width=71 style='width:53pt'>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl68 width=700 style='height:17.0pt;width:525pt'>변동성완화장치(VI)
+  현황</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 통신방식</td>
+  <td colspan=6 class=xl66 style='border-left:none'>REST</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>메뉴 위치</td>
+  <td colspan=6 class=xl66 style='border-left:none'>[국내주식] 업종/기타</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>변동성완화장치(VI) 현황</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>v1_국내주식-055</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>FHPST01390000</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>기본정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>HTTP Method</td>
+  <td colspan=6 class=xl66 style='border-left:none'>GET</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>https://openapi.koreainvestment.com:9443</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>URL 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>/uapi/domestic-stock/v1/quotations/inquire-vi-status</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>개요</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>개요</td>
+  <td colspan=6 class=xl65 width=512 style='border-left:none;width:384pt'>HTS(eFriend
+  Plus) [0139] 변동성 완화장치(VI) 현황 데이터를 확인할 수 있는 API입니다.<br />
+    <br />
+    <br />
+    <br />
+    최근 30건까지 확인 가능합니다.</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Layout</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>구분</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Element</td>
+  <td class=xl67 style='border-top:none;border-left:none'>한글명</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Type</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Required</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Length</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Description</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=13 height=1433 class=xl67 style='height:1074.0pt;border-top:none'>Request
+  Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=427 style='height:320.0pt'>
+  <td height=427 class=xl66 style='height:320.0pt;border-top:none'>authorization</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접근토큰</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>350</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>OAuth
+  토큰이 필요한 API 경우 발급한 Access token <br />
+    <br />
+    일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) <br
+  />
+    <br />
+    법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization
+  Code Grant 절차를 준용)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appkey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>36</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appsecret</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱시크릿키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>personalseckey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객식별키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사 회원 관리를 위한 고객식별키</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>FHPST01390000</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>custtype</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객 타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>B
+  : 법인 <br />
+    <br />
+    P : 개인</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>seq_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>일련번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 001</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>mac_address</td>
+  <td class=xl66 style='border-top:none;border-left:none'>맥주소</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>법인고객
+  혹은 개인고객의 Mac address 값</td>
+ </tr>
+ <tr height=191 style='height:143.0pt'>
+  <td height=191 class=xl66 style='height:143.0pt;border-top:none'>phone_number</td>
+  <td class=xl66 style='border-top:none;border-left:none'>핸드폰번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 <br />
+    <br />
+    ex) 01011112222 (하이픈 등 구분값 제거)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>ip_addr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접속 단말 공인 IP</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 사용자(회원)의 IP Address</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td rowspan=8 height=254 class=xl67 style='height:189.0pt'>Request Query
+  Parameter</td>
+  <td class=xl66 style='border-top:none'>FID_DIV_CLS_CODE</td>
+  <td class=xl66 style='border-top:none;border-left:none'>FID 분류 구분 코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>0:전체
+  1:상승 2:하락</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>FID_COND_SCR_DIV_CODE</td>
+  <td class=xl66 style='border-top:none;border-left:none'>FID 조건 화면 분류 코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>5</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>20139</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>FID_MRKT_CLS_CODE</td>
+  <td class=xl66 style='border-top:none;border-left:none'>FID 시장 구분 코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>0:전체
+  K:거래소 Q:코스닥</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>FID_INPUT_ISCD</td>
+  <td class=xl66 style='border-top:none;border-left:none'>FID 입력 종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>FID_RANK_SORT_CLS_CODE</td>
+  <td class=xl66 style='border-top:none;border-left:none'>FID 순위 정렬 구분 코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>0:전체1:정적2:동적3:정적&amp;동적</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>FID_INPUT_DATE_1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>FID 입력 날짜1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>영업일</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>FID_TRGT_CLS_CODE</td>
+  <td class=xl66 style='border-top:none;border-left:none'>FID 대상 구분 코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>FID_TRGT_EXLS_CLS_CODE</td>
+  <td class=xl66 style='border-top:none;border-left:none'>FID 대상 제외 구분 코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=248 class=xl67 style='height:186.0pt'>Response Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>요청한
+  tr_id</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=17 height=432 class=xl67 style='height:320.0pt'>Response Body</td>
+  <td class=xl66 style='border-top:none'>rt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>성공 실패 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답메세지</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>80</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>hts_kor_isnm</td>
+  <td class=xl66 style='border-top:none;border-left:none'>HTS 한글 종목명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>mksc_shrn_iscd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>유가증권 단축 종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>vi_cls_code</td>
+  <td class=xl66 style='border-top:none;border-left:none'>VI발동상태</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>Y:
+  발동 / N: 해제</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>bsop_date</td>
+  <td class=xl66 style='border-top:none;border-left:none'>영업 일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>　</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>cntg_vi_hour</td>
+  <td class=xl66 style='border-top:none;border-left:none'>VI발동시간</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>6</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>VI발동시간</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>vi_cncl_hour</td>
+  <td class=xl66 style='border-top:none;border-left:none'>VI해제시간</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>6</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>VI해제시간</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>vi_kind_code</td>
+  <td class=xl66 style='border-top:none;border-left:none'>VI종류코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>1:정적
+  2:동적 3:정적&amp;동적</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>vi_prc</td>
+  <td class=xl66 style='border-top:none;border-left:none'>VI발동가격</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>vi_stnd_prc</td>
+  <td class=xl66 style='border-top:none;border-left:none'>정적VI발동기준가격</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>vi_dprt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>정적VI발동괴리율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>%</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>vi_dmc_stnd_prc</td>
+  <td class=xl66 style='border-top:none;border-left:none'>동적VI발동기준가격</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>vi_dmc_dprt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>동적VI발동괴리율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>%</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>vi_count</td>
+  <td class=xl66 style='border-top:none;border-left:none'>VI발동횟수</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>7</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Example</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Request
+  Example (Python)</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    	&quot;fid_cond_scr_div_code&quot;:&quot;20139&quot;,<br />
+    <br />
+    	&quot;fid_mrkt_cls_code&quot;:&quot;0&quot;,<br />
+    <br />
+    	&quot;fid_input_iscd&quot;:&quot;&quot;,<br />
+    <br />
+    	&quot;fid_rank_sort_cls_code&quot;:&quot;0&quot;,<br />
+    <br />
+    	&quot;fid_input_date_1&quot;:&quot;20240126&quot;,<br />
+    <br />
+    	&quot;fid_trgt_cls_code&quot;:&quot;&quot;,<br />
+    <br />
+    	&quot;fid_trgt_exls_cls_code&quot;:&quot;&quot;,<br />
+    <br />
+    	&quot;fid_div_cls_code&quot;:&quot;0&quot;<br />
+    <br />
+    }</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Response
+  Example</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output&quot;: [<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;KODEX Fn멀티팩터&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;337120&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;174012&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;174212&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;12135&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;vi_dmc_stnd_prc&quot;: &quot;13275&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;-8.59&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;2&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;루멘스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;038060&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;174008&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;174210&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;1337&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_stnd_prc&quot;:
+  &quot;1241&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;7.74&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;DL건설&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;001880&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;173030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;173234&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;14000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;vi_dmc_stnd_prc&quot;: &quot;14990&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;-6.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;2&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;성창기업지주&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;000180&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;173030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;173224&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;1860&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_stnd_prc&quot;:
+  &quot;1992&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;-6.63&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;2&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;성창기업지주&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;000180&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;172030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;172204&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;1992&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;vi_dmc_stnd_prc&quot;: &quot;1857&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;7.27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;유아이디&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;069330&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;172030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;172234&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;1640&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_stnd_prc&quot;:
+  &quot;1490&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;10.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;뷰웍스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;100120&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;172010&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;172208&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;27700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;vi_dmc_stnd_prc&quot;: &quot;29700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;-6.73&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;2&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;TIGER 미국배당+3%프리미엄다우존스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;458750&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;171030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;171212&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;11700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_stnd_prc&quot;:
+  &quot;10675&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;9.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;아스타&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;246720&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;171030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;171253&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;5100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;vi_dmc_stnd_prc&quot;: &quot;5490&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;-7.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;2&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;제일전기공업&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;199820&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;170030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;170232&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;10050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_stnd_prc&quot;:
+  &quot;9350&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;7.49&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;파인디지털&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;038950&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;170030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;170244&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;5200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;vi_dmc_stnd_prc&quot;: &quot;4800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;8.33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;엔시트론&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;101400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;170013&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;170218&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;644&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_stnd_prc&quot;:
+  &quot;604&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;6.62&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;TIGER 2차전지TOP10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;364980&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;165030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;165250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;12450&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;vi_dmc_stnd_prc&quot;: &quot;13740&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;-9.39&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;2&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;지니너스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;389030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;165030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;165222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;2270&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_stnd_prc&quot;:
+  &quot;2125&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;6.82&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;패션플랫폼&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;225590&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;165030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;165228&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;1263&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;vi_dmc_stnd_prc&quot;: &quot;1153&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;9.54&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;씨엔플러스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;115530&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;165030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;165240&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;344&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_stnd_prc&quot;:
+  &quot;368&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;-6.52&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;2&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;케이비제22호스팩&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;436530&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;164030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;164208&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;4455&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;vi_dmc_stnd_prc&quot;: &quot;4795&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;-7.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;2&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;제너셈&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;217190&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;164030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;164230&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;14980&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_stnd_prc&quot;:
+  &quot;15990&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;-6.32&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;2&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;아스타&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;246720&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;163030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;163220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;5550&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;vi_dmc_stnd_prc&quot;: &quot;5090&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;9.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;세니젠&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;188260&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;163030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;163252&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;3955&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_stnd_prc&quot;:
+  &quot;4230&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;-6.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;2&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;KODEX Fn멀티팩터&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;337120&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;163024&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;163250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;13280&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;vi_dmc_stnd_prc&quot;: &quot;12075&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;9.98&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;ES큐브&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;050120&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;163017&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;163228&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;3055&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_stnd_prc&quot;:
+  &quot;2860&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;6.82&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;무학&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;033920&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;162030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;162241&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;5220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;vi_dmc_stnd_prc&quot;: &quot;4880&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;6.97&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;아이씨에이치&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;368600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;162030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;162210&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;5860&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_stnd_prc&quot;:
+  &quot;5460&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;7.33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;KBSTAR 2차전지TOP10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;465330&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;162030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;162217&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;14475&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;vi_dmc_stnd_prc&quot;: &quot;13485&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;7.34&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;제너셈&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;217190&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;162030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;162232&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;15990&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_stnd_prc&quot;:
+  &quot;14910&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;7.24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;알엔투테크놀로지&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;148250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;162030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;162212&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;5390&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;vi_dmc_stnd_prc&quot;: &quot;4915&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;9.66&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;엑서지21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;043090&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;162030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;162206&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;463&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_stnd_prc&quot;:
+  &quot;507&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;-8.68&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;2&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;DL건설&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;001880&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;162028&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;162214&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;15010&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;vi_dmc_stnd_prc&quot;: &quot;14000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;7.21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hts_kor_isnm&quot;:
+  &quot;뷰웍스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;mksc_shrn_iscd&quot;: &quot;100120&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cls_code&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bsop_date&quot;:
+  &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vi_hour&quot;:
+  &quot;162015&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_cncl_hour&quot;:
+  &quot;162207&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_kind_code&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_prc&quot;:
+  &quot;27600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_stnd_prc&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_stnd_prc&quot;:
+  &quot;29700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_dmc_dprt&quot;:
+  &quot;-7.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;vi_count&quot;:
+  &quot;1&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>}<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>],<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;rt_cd&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg_cd&quot;:
+  &quot;MCA00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg1&quot;: &quot;정상처리
+  되었습니다.&quot;<br />
+    <br />
+    }</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=188 style='width:141pt'></td>
+  <td width=173 style='width:130pt'></td>
+  <td width=100 style='width:75pt'></td>
+  <td width=44 style='width:33pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=55 style='width:41pt'></td>
+  <td width=71 style='width:53pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

@@ -1,0 +1,3651 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File
+href="../한국투자증권_오픈API_전체문서_20260328_030000.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕";
+	mso-generic-font-family:auto;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(12);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../한국투자증권_오픈API_전체문서_20260328_030000.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#467886" vlink="#96607D">
+
+<table border=0 cellpadding=0 cellspacing=0 width=674 style='border-collapse:
+ collapse;table-layout:fixed;width:505pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=124 style='mso-width-source:userset;mso-width-alt:3968;width:93pt'>
+ <col width=88 style='mso-width-source:userset;mso-width-alt:2816;width:66pt'>
+ <col width=79 style='mso-width-source:userset;mso-width-alt:2517;width:59pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2218;width:52pt'>
+ <col width=55 style='mso-width-source:userset;mso-width-alt:1749;width:41pt'>
+ <col width=71 style='width:53pt'>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl68 width=674 style='height:17.0pt;width:505pt'>기간별매매손익현황조회</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 통신방식</td>
+  <td colspan=6 class=xl66 style='border-left:none'>REST</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>메뉴 위치</td>
+  <td colspan=6 class=xl66 style='border-left:none'>[국내주식] 주문/계좌</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>기간별매매손익현황조회</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>v1_국내주식-060</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>TTTC8715R</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>기본정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>HTTP Method</td>
+  <td colspan=6 class=xl66 style='border-left:none'>GET</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>https://openapi.koreainvestment.com:9443</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>URL 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>/uapi/domestic-stock/v1/trading/inquire-period-trade-profit</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>개요</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>개요</td>
+  <td colspan=6 class=xl65 width=486 style='border-left:none;width:364pt'>기간별매매손익현황조회
+  API입니다.<br />
+    <br />
+    한국투자 HTS(eFriend Plus) &amp;gt; [0856] 기간별 매매손익 화면 에서 &quot;종목별&quot; 클릭 시의
+  기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Layout</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>구분</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Element</td>
+  <td class=xl67 style='border-top:none;border-left:none'>한글명</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Type</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Required</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Length</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Description</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=13 height=1508 class=xl67 style='height:1130.0pt;border-top:none'>Request
+  Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=427 style='height:320.0pt'>
+  <td height=427 class=xl66 style='height:320.0pt;border-top:none'>authorization</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접근토큰</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>350</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>OAuth
+  토큰이 필요한 API 경우 발급한 Access token <br />
+    <br />
+    일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) <br
+  />
+    <br />
+    법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization
+  Code Grant 절차를 준용)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appkey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>36</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appsecret</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱시크릿키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>personalseckey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객식별키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사 회원 관리를 위한 고객식별키</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>TTTC8715R</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백
+  : 초기 조회<br />
+    <br />
+    N : 다음 데이터 조회 (output header의 tr_cont가 M일 경우)</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>custtype</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객 타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>B
+  : 법인 <br />
+    <br />
+    P : 개인</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>seq_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>일련번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 001</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>mac_address</td>
+  <td class=xl66 style='border-top:none;border-left:none'>맥주소</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>법인고객
+  혹은 개인고객의 Mac address 값</td>
+ </tr>
+ <tr height=191 style='height:143.0pt'>
+  <td height=191 class=xl66 style='height:143.0pt;border-top:none'>phone_number</td>
+  <td class=xl66 style='border-top:none;border-left:none'>핸드폰번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 <br />
+    <br />
+    ex) 01011112222 (하이픈 등 구분값 제거)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>ip_addr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접속 단말 공인 IP</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 사용자(회원)의 IP Address</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=9 height=248 class=xl67 style='height:184.0pt'>Request Query
+  Parameter</td>
+  <td class=xl66 style='border-top:none'>CANO</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종합계좌번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>SORT_DVSN</td>
+  <td class=xl66 style='border-top:none;border-left:none'>정렬구분</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>00:
+  최근 순, 01: 과거 순, 02: 최근 순</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>ACNT_PRDT_CD</td>
+  <td class=xl66 style='border-top:none;border-left:none'>계좌상품코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>PDNO</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>&quot;&quot;공란입력
+  시, 전체</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>INQR_STRT_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회시작일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>INQR_END_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회종료일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>CTX_AREA_NK100</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속조회키100</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>100</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>CBLC_DVSN</td>
+  <td class=xl66 style='border-top:none;border-left:none'>잔고구분</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>00:
+  전체</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>CTX_AREA_FK100</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속조회검색조건100</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>100</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=265 class=xl67 style='height:199.0pt'>Response Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>요청한
+  tr_id</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>F
+  or M : 다음 데이터 있음<br />
+    <br />
+    D or E : 마지막 데이터</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=42 height=995 class=xl67 style='height:736.0pt'>Response Body</td>
+  <td class=xl66 style='border-top:none'>rt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>성공 실패 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답메세지</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>80</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>ctx_area_nk100</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속조회키100</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>100</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>　</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>ctx_area_fk100</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속조회검색조건100</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>100</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>　</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object array</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>array</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>trad_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매매일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>pdno</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>종목번호(뒤
+  6자리만 해당)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdt_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>60</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>trad_dvsn_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매매구분명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>60</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>loan_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>대출일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>hldg_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>보유수량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>pchs_unpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매입단가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>buy_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매수수량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>buy_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매수금액</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sll_pric</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매도가격</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sll_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매도수량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sll_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매도금액</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>rlzt_pfls</td>
+  <td class=xl66 style='border-top:none;border-left:none'>실현손익</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>pfls_rt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>손익률</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>238</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>fee</td>
+  <td class=xl66 style='border-top:none;border-left:none'>수수료</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tl_tax</td>
+  <td class=xl66 style='border-top:none;border-left:none'>제세금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>loan_int</td>
+  <td class=xl66 style='border-top:none;border-left:none'>대출이자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sll_qty_smtl</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매도수량합계</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sll_tr_amt_smtl</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매도거래금액합계</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sll_fee_smtl</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매도수수료합계</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sll_tltx_smtl</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매도제세금합계</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sll_excc_amt_smtl</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매도정산금액합계</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>buyqty_smtl</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매수수량합계</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>buy_tr_amt_smtl</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매수거래금액합계</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>buy_fee_smtl</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매수수수료합계</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>buy_tax_smtl</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매수제세금합계</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>buy_excc_amt_smtl</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매수정산금액합계</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tot_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>총수량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tot_tr_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>총거래금액</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tot_fee</td>
+  <td class=xl66 style='border-top:none;border-left:none'>총수수료</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tot_tltx</td>
+  <td class=xl66 style='border-top:none;border-left:none'>총제세금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tot_excc_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>총정산금액</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tot_rlzt_pfls</td>
+  <td class=xl66 style='border-top:none;border-left:none'>총실현손익</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>loan_int</td>
+  <td class=xl66 style='border-top:none;border-left:none'>대출이자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tot_pftrt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>총수익률</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>238</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Example</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Request
+  Example (Python)</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    &quot;CANO&quot;:&quot;12345678&quot;,<br />
+    <br />
+    &quot;ACNT_PRDT_CD&quot;:&quot;01&quot;,<br />
+    <br />
+    &quot;PDNO&quot;:&quot;&quot;,<br />
+    <br />
+    &quot;INQR_STRT_DT&quot;:&quot;20240216&quot;,<br />
+    <br />
+    &quot;INQR_END_DT&quot;:&quot;20240216&quot;,<br />
+    <br />
+    &quot;SORT_DVSN&quot;:&quot;02&quot;,<br />
+    <br />
+    &quot;CBLC_DVSN&quot;:&quot;00&quot;,<br />
+    <br />
+    &quot;CTX_AREA_FK100&quot;:&quot;&quot;<br />
+    <br />
+    &quot;CTX_AREA_FK100&quot;:&quot;&quot;<br />
+    <br />
+    }</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Response
+  Example</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;ctx_area_fk100&quot;:
+  &quot;<span
+  style='mso-spacerun:yes'>                                                                                                   
+  </span>&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;ctx_area_nk100&quot;:
+  &quot;20240216^00000A000120^300^0^00000000^<span
+  style='mso-spacerun:yes'>                                                              
+  </span>&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output1&quot;: [<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;000J2552221D&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;SG 17WR&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;135&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;: &quot;2&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;271&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;000J00532219&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;국동 9WR&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;130&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;: &quot;10&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;1300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000Q520057&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;미래에셋 인버스 2X 코스닥150 선물 ETN&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;1&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;9365&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;: &quot;1&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;9365&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A900270&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;헝셩그룹&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;66&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;: &quot;66&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;21252&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A402340&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;SK스퀘어&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;59000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;: &quot;10&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;590000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A373220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;LG에너지솔루션&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;552000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;: &quot;10&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;5520000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A361610&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;SK아이이테크놀로지&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;110000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;: &quot;10&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;1100000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A352820&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;하이브&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;383000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;766000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A302440&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;SK바이오사이언스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;100000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;: &quot;10&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;1000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A298050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;효성첨단소재&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;480000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;: &quot;2&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;960000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A298020&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;효성티앤씨&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;365000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;: &quot;2&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;730000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A285130&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;SK케미칼&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;100000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;: &quot;10&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;1000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A136480&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;하림&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;2893&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;226&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;526563&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;2936&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;7&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;20555&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;304&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;1.50116044&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A114090&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;GKL&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;1&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;15010&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;1&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;15010&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A097950&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;CJ제일제당&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;210500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;: &quot;10&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;2105000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A096770&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;SK이노베이션&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;228000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;: &quot;10&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;2280000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A093370&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;후성&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;15510&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;31020&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A057050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;현대홈쇼핑&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dvsn_name&quot;:
+  &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;30100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;60200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;: &quot;00000A047050&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;포스코인터내셔널&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;74400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;148800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;: &quot;00000A036460&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;한국가스공사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;27850&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;: &quot;55700&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A035760&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;CJ ENM&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;58836&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;647200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A035420&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;NAVER&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;356000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;3560000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A035250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;강원랜드&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;20950&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;209500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A034730&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;SK&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;: &quot;182700&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;1827000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;: &quot;0.00000000&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A030200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;KT&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;: &quot;26050&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;260500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A028670&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;팬오션&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;: &quot;4865&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;9730&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A028260&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;삼성물산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;156100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;780500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A018260&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;삼성에스디에스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;250000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;500000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A017670&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;SK텔레콤&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;50100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;501000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A015760&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;한국전력&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;4&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;8030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;4&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;32120&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A011790&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;SKC&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;: &quot;49950&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;499500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A011780&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;금호석유&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;200000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;2000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A009540&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;HD한국조선해양&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;170000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;1700000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A008770&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;호텔신라&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;99850&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;199700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A006260&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;LS&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;: &quot;122000&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;1220000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;: &quot;0.00000000&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A005940&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;NH투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;11710&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;117100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A005930&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;삼성전자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;1414&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;53213&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;1415&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;: &quot;75510700&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;75900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;1&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;75900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;22687&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;42.63431868&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;: &quot;00000A005490&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;POSCO홀딩스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;133500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;1335000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;: &quot;00000A005380&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;현대차&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;240500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;: &quot;481000&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A004800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;효성&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;: &quot;66400&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;132800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A003670&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;포스코퓨처엠&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;531000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;1062000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A003550&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;LG&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;: &quot;105600&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;211200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A002380&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;KCC&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;1&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;: &quot;252000&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;1&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;252000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A001120&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;LX인터내셔널&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;1&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;34050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;1&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;34050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A000990&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;DB하이텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;23000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;46000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A000670&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;영풍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;4&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;: &quot;640750&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;4&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;2563000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;: &quot;0.00000000&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A000660&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;SK하이닉스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;122583&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;1345000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A000270&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;기아&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;: &quot;84500&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;845000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A000240&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;한국앤컴퍼니&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;:
+  &quot;23850&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;47700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;trad_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;00000A000210&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;DL&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;trad_dvsn_name&quot;: &quot;현금&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;hldg_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pchs_unpr&quot;: &quot;50400&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_qty&quot;:
+  &quot;10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;buy_amt&quot;:
+  &quot;504000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_pric&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sll_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rlzt_pfls&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pfls_rt&quot;:
+  &quot;0.00000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tl_tax&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;loan_int&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>}<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>],<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output2&quot;: {<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;sll_qty_smtl&quot;:
+  &quot;8&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;sll_tr_amt_smtl&quot;:
+  &quot;96455&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;sll_fee_smtl&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;sll_tltx_smtl&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;sll_excc_amt_smtl&quot;: &quot;96455&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;buyqty_smtl&quot;:
+  &quot;2003&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;buy_tr_amt_smtl&quot;:
+  &quot;116697331&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;buy_fee_smtl&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;buy_tax_smtl&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;buy_excc_amt_smtl&quot;: &quot;116697331&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;tot_qty&quot;:
+  &quot;2011&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;tot_tr_amt&quot;:
+  &quot;116793786&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;tot_fee&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;tot_tltx&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;tot_excc_amt&quot;:
+  &quot;116793786&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;tot_rlzt_pfls&quot;:
+  &quot;22991&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;loan_int&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;tot_pftrt&quot;:
+  &quot;31.29560057&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;rt_cd&quot;: &quot;0&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg_cd&quot;:
+  &quot;KIOK0500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg1&quot;: &quot;조회가
+  계속됩니다..다음버튼을 Click 하십시오.<span style='mso-spacerun:yes'>                                  
+  </span>&quot;<br />
+    <br />
+    }</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=188 style='width:141pt'></td>
+  <td width=124 style='width:93pt'></td>
+  <td width=88 style='width:66pt'></td>
+  <td width=79 style='width:59pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=55 style='width:41pt'></td>
+  <td width=71 style='width:53pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

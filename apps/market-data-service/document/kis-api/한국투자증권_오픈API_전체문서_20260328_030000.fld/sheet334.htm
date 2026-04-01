@@ -1,0 +1,2397 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File
+href="../한국투자증권_오픈API_전체문서_20260328_030000.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕";
+	mso-generic-font-family:auto;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(333);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../한국투자증권_오픈API_전체문서_20260328_030000.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#467886" vlink="#96607D">
+
+<table border=0 cellpadding=0 cellspacing=0 width=687 style='border-collapse:
+ collapse;table-layout:fixed;width:515pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=125 style='mso-width-source:userset;mso-width-alt:4010;width:94pt'>
+ <col width=100 style='mso-width-source:userset;mso-width-alt:3200;width:75pt'>
+ <col width=79 style='mso-width-source:userset;mso-width-alt:2517;width:59pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2218;width:52pt'>
+ <col width=55 style='mso-width-source:userset;mso-width-alt:1749;width:41pt'>
+ <col width=71 style='width:53pt'>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl68 width=687 style='height:17.0pt;width:515pt'>장내채권
+  평균단가조회</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 통신방식</td>
+  <td colspan=6 class=xl66 style='border-left:none'>REST</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>메뉴 위치</td>
+  <td colspan=6 class=xl66 style='border-left:none'>[장내채권] 기본시세</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>장내채권 평균단가조회</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>국내주식-158</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>CTPF2005R</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>기본정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>HTTP Method</td>
+  <td colspan=6 class=xl66 style='border-left:none'>GET</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>https://openapi.koreainvestment.com:9443</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>URL 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>/uapi/domestic-bond/v1/quotations/avg-unit</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>개요</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>개요</td>
+  <td colspan=6 class=xl65 width=499 style='border-left:none;width:374pt'>장내채권
+  평균단가조회 API입니다. <br />
+    <br />
+    한국투자 HTS(eFriend Plus) &amp;gt; [7216] 채권 발행정보 화면의 기능을 API로 개발한 사항으로, 해당
+  화면을 참고하시면 기능을 이해하기 쉽습니다.<span style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Layout</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>구분</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Element</td>
+  <td class=xl67 style='border-top:none;border-left:none'>한글명</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Type</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Required</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Length</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Description</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=13 height=1421 class=xl67 style='height:1065.0pt;border-top:none'>Request
+  Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=427 style='height:320.0pt'>
+  <td height=427 class=xl66 style='height:320.0pt;border-top:none'>authorization</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접근토큰</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>350</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>OAuth
+  토큰이 필요한 API 경우 발급한 Access token <br />
+    <br />
+    일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) <br
+  />
+    <br />
+    법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization
+  Code Grant 절차를 준용)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appkey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>36</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appsecret</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱시크릿키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>personalseckey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객식별키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사 회원 관리를 위한 고객식별키</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>CTPF2005R</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>custtype</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객 타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>B
+  : 법인 <br />
+    <br />
+    P : 개인</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>seq_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>일련번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 001</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>mac_address</td>
+  <td class=xl66 style='border-top:none;border-left:none'>맥주소</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>법인고객
+  혹은 개인고객의 Mac address 값</td>
+ </tr>
+ <tr height=191 style='height:143.0pt'>
+  <td height=191 class=xl66 style='height:143.0pt;border-top:none'>phone_number</td>
+  <td class=xl66 style='border-top:none;border-left:none'>핸드폰번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 <br />
+    <br />
+    ex) 01011112222 (하이픈 등 구분값 제거)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>ip_addr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접속 단말 공인 IP</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 사용자(회원)의 IP Address</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=7 height=231 class=xl67 style='height:172.0pt'>Request Query
+  Parameter</td>
+  <td class=xl66 style='border-top:none'>INQR_STRT_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회시작일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>일자
+  ~</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>INQR_END_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회종료일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>~
+  일자</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>PDNO</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백:
+  전체,<span style='mso-spacerun:yes'>  </span>특정종목 조회시 : 종목코드</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>PRDT_TYPE_CD</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품유형코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>Unique
+  key(302)</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>VRFC_KIND_CD</td>
+  <td class=xl66 style='border-top:none;border-left:none'>검증종류코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>Unique
+  key(00)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>CTX_AREA_NK30</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속조회키30</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>30</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백<span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>CTX_AREA_FK100</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속조회검색조건100</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>100</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백<span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=248 class=xl67 style='height:186.0pt'>Response Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>요청한
+  tr_id</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=55 height=1265 class=xl67 style='height:935.0pt'>Response Body</td>
+  <td class=xl66 style='border-top:none'>rt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>성공 실패 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답메세지</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>80</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object array</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>array</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>evlu_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>평가일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>245</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>pdno</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>202</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdt_type_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품유형코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>238</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdt_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kis_unpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국신용평가단가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kbp_unpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국채권평가단가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>500</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nice_evlu_unpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국신용정보평가단가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>238</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>fnp_unpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>에프앤자산평가단가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>202</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>avg_evlu_unpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>평균평가단가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>500</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kis_crdt_grad_text</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국신용평가신용등급내용</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>238</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kbp_crdt_grad_text</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국채권평가신용등급내용</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>202</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nice_crdt_grad_text</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국신용정보신용등급내용</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>238</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>fnp_crdt_grad_text</td>
+  <td class=xl66 style='border-top:none;border-left:none'>에프앤자산평가신용등급내용</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>500</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>chng_yn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>변경여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>238</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kis_erng_rt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국신용평가수익율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>202</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kbp_erng_rt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국채권평가수익율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>238</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nice_evlu_erng_rt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국신용정보평가수익율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>500</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>fnp_erng_rt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>에프앤자산평가수익율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>179</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>avg_evlu_erng_rt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>평균평가수익율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>202</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kis_rf_unpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국신용평가RF단가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>238</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kbp_rf_unpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국채권평가RF단가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nice_evlu_rf_unpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국신용정보평가RF단가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>60</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>avg_evlu_rf_unpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>평균평가RF단가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object array</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>array</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>evlu_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>평가일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>pdno</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdt_type_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품유형코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdt_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kis_evlu_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국신용평가평가금액</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kbp_evlu_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국채권평가평가금액</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nice_evlu_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국신용정보평가금액</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>fnp_evlu_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>에프앤자산평가평가금액</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>avg_evlu_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>평균평가금액</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>60</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>chng_yn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>변경여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output3</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object array</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>array</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>evlu_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>평가일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>236</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>pdno</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdt_type_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품유형코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdt_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kis_crcy_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국신용평가통화코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kis_evlu_unit_pric</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국신용평가평가단위가격</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>236</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kis_evlu_pric</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국신용평가평가가격</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kbp_crcy_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국채권평가통화코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kbp_evlu_unit_pric</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국채권평가평가단위가격</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>236</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kbp_evlu_pric</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국채권평가평가가격</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nice_crcy_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국신용정보통화코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nice_evlu_unit_pric</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국신용정보평가단위가격</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>236</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nice_evlu_pric</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국신용정보평가가격</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>avg_evlu_unit_pric</td>
+  <td class=xl66 style='border-top:none;border-left:none'>평균평가단위가격</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>avg_evlu_pric</td>
+  <td class=xl66 style='border-top:none;border-left:none'>평균평가가격</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>60</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>chng_yn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>변경여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Example</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Request
+  Example (Python)</td>
+  <td colspan=6 class=xl70 style='border-left:none'>INQR_STRT_DT:20240101<br
+  />
+    <br />
+    INQR_END_DT:20240425<br />
+    <br />
+    PDNO:KR2033022D33<br />
+    <br />
+    PRDT_TYPE_CD:302<br />
+    <br />
+    VRFC_KIND_CD:00<br />
+    <br />
+    CTX_AREA_NK30:<br />
+    <br />
+    CTX_AREA_FK100:</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Response
+  Example</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;ctx_area_nk30&quot;:
+  &quot;20240406!^KR2033022D33!^302<span style='mso-spacerun:yes'>  
+  </span>&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;ctx_area_fk100&quot;:
+  &quot;20240101!^20240425!^KR2033022D33!^302!^00<span
+  style='mso-spacerun:yes'>                                                          
+  </span>&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output1&quot;: [<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240425&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9745.69000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9760.39000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9767.78000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9760.76&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9758.65000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.87000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.83000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nice_evlu_erng_rt&quot;:
+  &quot;3.810000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.82900000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;avg_evlu_erng_rt&quot;:
+  &quot;3.83480&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240424&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9757.62000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9771.98000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9780.14000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9773.46&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9770.80000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.83500000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.79600000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.774000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.79200000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.79930&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240423&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9764.04000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9778.42000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9785.84000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9779.90&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9777.05000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.81500000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.77600000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.756000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.77200000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.77980&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240422&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9753.79000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9768.17000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9777.44000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9769.65&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9767.26000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.84000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.80100000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.776000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.79700000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.80350&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240421&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9765.77000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9780.18000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9789.47000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9781.66&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9779.27000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.80500000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.76600000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.741000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.76200000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.76850&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240420&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9764.79000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9779.20000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9788.50000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9780.69&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9778.29000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.80500000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.76600000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.741000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.76200000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.76850&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240419&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9763.81000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9778.23000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9787.53000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9779.72&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9777.32000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.80500000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.76600000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.741000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.76200000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.76850&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240418&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9782.54000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9793.65000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9805.22000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9798.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9794.97000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.75200000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.72200000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.691000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.70900000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.71850&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240417&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9770.02000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9777.77000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9791.94000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9784.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9780.95000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.78300000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.76200000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.724000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.74500000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.75350&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240416&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9767.18000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9774.93000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9788.73000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9782.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9778.21000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.78800000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.76700000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.730000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.74800000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.75830&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240415&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9778.13000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9787.02000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9798.98000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9794.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9789.56000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.75600000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.73200000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.700000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.71300000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.72530&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240414&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9795.10000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9802.13000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9812.25000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9808.13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9804.40000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.70800000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.68900000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.662000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.67300000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.68300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240413&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9794.13000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9801.18000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9811.30000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9807.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9803.44000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.70800000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.68900000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.662000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.67300000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.68300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240412&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9793.17000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9800.22000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9810.35000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9806.22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9802.49000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.70800000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.68900000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.662000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.67300000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.68300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240411&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9764.91000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9773.80000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9783.16000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9778.67&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9775.13000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.78100000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.75700000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.732000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.74400000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.75350&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240410&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9793.13000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9799.81000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9809.20000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9804.69&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9801.70000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.70300000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.68500000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.660000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.67200000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.68000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240409&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9792.17000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9798.85000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9808.25000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9803.74&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9800.75000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.70300000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.68500000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.660000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.67200000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.68000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240408&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9796.84000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9802.41000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9812.94000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9806.92&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9804.77000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.68800000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.67300000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.645000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.66100000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.66680&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240407&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9814.71000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9818.40000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9830.10000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9822.93&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9821.53000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.63800000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.62800000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.597000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.61600000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.61980&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evlu_dt&quot;:
+  &quot;20240406&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;KR2033022D33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;302&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;충북지역개발채권23-03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_unpr&quot;:
+  &quot;9813.76000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_unpr&quot;:
+  &quot;9817.46000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_unpr&quot;: &quot;9829.16000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_unpr&quot;:
+  &quot;9821.99&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_unpr&quot;: &quot;9820.59000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kis_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;kbp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fnp_crdt_grad_text&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;chng_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_erng_rt&quot;:
+  &quot;3.63800000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_erng_rt&quot;:
+  &quot;3.62800000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_erng_rt&quot;: &quot;3.597000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;fnp_erng_rt&quot;:
+  &quot;3.61600000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_erng_rt&quot;: &quot;3.61980&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kis_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kbp_rf_unpr&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nice_evlu_rf_unpr&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;avg_evlu_rf_unpr&quot;: &quot;0.00&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>}<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>],<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output2&quot;: [],<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output3&quot;: [],<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;rt_cd&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg_cd&quot;:
+  &quot;KIOK0500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg1&quot;: &quot;조회가
+  계속됩니다..다음버튼을 Click 하십시오.<span
+  style='mso-spacerun:yes'>                                   </span>&quot;<br
+  />
+    <br />
+    }</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=188 style='width:141pt'></td>
+  <td width=125 style='width:94pt'></td>
+  <td width=100 style='width:75pt'></td>
+  <td width=79 style='width:59pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=55 style='width:41pt'></td>
+  <td width=71 style='width:53pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

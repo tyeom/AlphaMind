@@ -1,0 +1,3407 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File
+href="../한국투자증권_오픈API_전체문서_20260328_030000.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕";
+	mso-generic-font-family:auto;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(86);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../한국투자증권_오픈API_전체문서_20260328_030000.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#467886" vlink="#96607D">
+
+<table border=0 cellpadding=0 cellspacing=0 width=643 style='border-collapse:
+ collapse;table-layout:fixed;width:482pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=109 style='mso-width-source:userset;mso-width-alt:3498;width:82pt'>
+ <col width=72 style='mso-width-source:userset;mso-width-alt:2304;width:54pt'>
+ <col width=79 style='mso-width-source:userset;mso-width-alt:2517;width:59pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2218;width:52pt'>
+ <col width=55 style='mso-width-source:userset;mso-width-alt:1749;width:41pt'>
+ <col width=71 style='width:53pt'>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl68 width=643 style='height:17.0pt;width:482pt'>예탁원정보(상장정보일정)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 통신방식</td>
+  <td colspan=6 class=xl66 style='border-left:none'>REST</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>메뉴 위치</td>
+  <td colspan=6 class=xl66 style='border-left:none'>[국내주식] 종목정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>예탁원정보(상장정보일정)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>국내주식-150</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>HHKDB669107C0</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>기본정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>HTTP Method</td>
+  <td colspan=6 class=xl66 style='border-left:none'>GET</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>https://openapi.koreainvestment.com:9443</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>URL 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>/uapi/domestic-stock/v1/ksdinfo/list-info</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>개요</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>개요</td>
+  <td colspan=6 class=xl65 width=455 style='border-left:none;width:341pt'>예탁원정보(상장정보일정)
+  API입니다. <br />
+    <br />
+    한국투자 HTS(eFriend Plus) &amp;gt; [0666] 상장정보 화면의 기능을 API로 개발한 사항으로, 해당 화면을
+  참고하시면 기능을 이해하기 쉽습니다.<br />
+    <br />
+    <br />
+    <br />
+    ※ 예탁원에서 제공한 자료이므로 정보용으로만 사용하시기 바랍니다.</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Layout</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>구분</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Element</td>
+  <td class=xl67 style='border-top:none;border-left:none'>한글명</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Type</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Required</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Length</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Description</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=13 height=1433 class=xl67 style='height:1074.0pt;border-top:none'>Request
+  Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=427 style='height:320.0pt'>
+  <td height=427 class=xl66 style='height:320.0pt;border-top:none'>authorization</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접근토큰</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>350</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>OAuth
+  토큰이 필요한 API 경우 발급한 Access token <br />
+    <br />
+    일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) <br
+  />
+    <br />
+    법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization
+  Code Grant 절차를 준용)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appkey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>36</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appsecret</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱시크릿키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>personalseckey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객식별키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사 회원 관리를 위한 고객식별키</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>HHKDB669107C0</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>custtype</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객 타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>B
+  : 법인 <br />
+    <br />
+    P : 개인</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>seq_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>일련번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 001</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>mac_address</td>
+  <td class=xl66 style='border-top:none;border-left:none'>맥주소</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>법인고객
+  혹은 개인고객의 Mac address 값</td>
+ </tr>
+ <tr height=191 style='height:143.0pt'>
+  <td height=191 class=xl66 style='height:143.0pt;border-top:none'>phone_number</td>
+  <td class=xl66 style='border-top:none;border-left:none'>핸드폰번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 <br />
+    <br />
+    ex) 01011112222 (하이픈 등 구분값 제거)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>ip_addr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접속 단말 공인 IP</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 사용자(회원)의 IP Address</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=138 class=xl67 style='height:103.0pt'>Request Query
+  Parameter</td>
+  <td class=xl66 style='border-top:none'>SHT_CD</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백:
+  전체,<span style='mso-spacerun:yes'>  </span>특정종목 조회시 : 종목코드</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>T_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회일자To</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>~
+  일자</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>F_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회일자From</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>일자
+  ~</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>CTS</td>
+  <td class=xl66 style='border-top:none;border-left:none'>CTS</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>17</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=248 class=xl67 style='height:186.0pt'>Response Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>요청한
+  tr_id</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=12 height=276 class=xl67 style='height:204.0pt'>Response Body</td>
+  <td class=xl66 style='border-top:none'>rt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>성공 실패 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답메세지</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>80</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object array</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>array</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>list_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상장/등록일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sht_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>isin_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stk_kind</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식종류</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>issue_type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>사유</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>21</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>issue_stk_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상장주식수</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tot_issue_stk_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>총발행주식수</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>issue_price</td>
+  <td class=xl66 style='border-top:none;border-left:none'>발행가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Example</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Request
+  Example (Python)</td>
+  <td colspan=6 class=xl70 style='border-left:none'>cts:<br />
+    <br />
+    f_dt:20230301<br />
+    <br />
+    t_dt:20240326<br />
+    <br />
+    sht_cd:</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Response
+  Example</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output1&quot;: [<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;034220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;LG디스플레이&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;유상증자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>142184300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>500000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>9090&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;047560&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;이스트소프트&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>13000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>11488232&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>15000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;054180&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;메디콕스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>2348484&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>57151168&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>792&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;067310&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;하나마이크론&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>5500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>52136475&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>9275&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;146060&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;율촌&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>2391679&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>24015595&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1154&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;403490&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;우듬지팜&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>288000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>45212464&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;455900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엔젤로보틱스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;유상증자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>1648000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>14322012&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>20000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;455900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엔젤로보틱스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;주식전환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>692224&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>14322012&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>2891&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;455900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엔젤로보틱스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;통일교체&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>8850720&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>14322012&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;455900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엔젤로보틱스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>161120&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>14322012&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;007980&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;태평양물산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>162337&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>51175130&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1848&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;119650&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;케이씨코트렐&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;유상증자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>   
+  </span>12733857&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>63669287&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1380&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;123840&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;뉴온&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>175537376&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>   </span>277394122&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>100&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;151910&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에스비더블유생명과학&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>1700680&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>190071722&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>294&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;192230&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;아리바이오&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>16500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>23632031&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>7500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;192650&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;드림텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>45000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>68852050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>4518&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;222080&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;씨아이에스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>350261&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>71440876&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>9707&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;373200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;하인크코리아&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;무상증자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>   
+  </span>56778657&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>75705657&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>100&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;420570&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;제이투케이바이오&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;통일교체&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>5059840&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>     </span>5574115&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;420570&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;제이투케이바이오&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>514275&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>5574115&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;005320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;국동&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>144300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>66750697&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>693&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;005810&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;풍산홀딩스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;무상증자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>4668764&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>14417292&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>5000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;012510&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;더존비즈온&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>9423939&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>30382784&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;024850&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에이치엘비이노베이션&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>2681010&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>72378055&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1022&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;036180&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;지더블유바이텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;유상증자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>   
+  </span>28911564&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>91464525&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>588&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;038460&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;바이오스마트&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>140230&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>21437123&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>3209&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;060280&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;큐렉소&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>5000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>41084990&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>9510&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;066970&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엘앤에프&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>         </span>168&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>36255993&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>71430&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;115450&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에이치엘비테라퓨틱스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>15351&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>77948338&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>3619&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;197140&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;디지캡&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>16000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>     </span>9596854&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>4098&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;199730&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;바이오인프라&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>37500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>     </span>4834367&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>6667&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;314930&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;바이오다인&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;무상증자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>23581408&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>29764103&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;403550&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;쏘카&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>3125&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>32791402&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>16000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;440110&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;파두&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>34520&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>49072322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>7107&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;441270&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;파인엠텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내BW행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>42313&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>36928663&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>7090&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;023960&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에쓰씨엔지니어링&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>23132&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>32861366&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1513&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;064520&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;테크엘&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>50124&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>22005961&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>3990&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;065650&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;메디프론디비티&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;주식전환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>3814835&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>63153285&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>983&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;114840&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;아이패밀리에스씨&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;무상증자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>8600972&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>17201944&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;199800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;툴젠&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>     </span>7930258&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>32850&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;222080&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;씨아이에스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;합병&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>544552&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>71440876&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>11116&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;245620&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;이원다이애그노믹스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;유상증자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>   
+  </span>17633408&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>138493951&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>431&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;323410&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;카카오뱅크&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>5000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>476921137&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>5000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;417010&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;나노팀&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>228000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>19724328&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>2631&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;437730&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;삼현&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;유상증자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>2033333&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>10569189&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>30000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;437730&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;삼현&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;통일교체&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>8535856&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>10569189&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;452300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;캡스톤파트너스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>66250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>14060755&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>560&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;001210&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;금호전기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>260416&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>38069709&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>768&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;011300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;성안&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>1828152&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>70551785&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1094&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;031310&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;아이즈비전&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>61859&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>22843356&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>2829&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;067630&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에이치엘비생명과학&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>20990&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>107122760&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>11434&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;170900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;동아에스티&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>          </span>56&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>     </span>8834970&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>72359&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;255220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에스지이&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>1692045&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>61173984&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1182&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;255220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에스지이&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내BW행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>87918&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>61173984&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1125&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;321550&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;티움바이오&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;주식전환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>220001&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>25662498&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>7500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;355150&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;코스텍시스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>186000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>7706770&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>5000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;457190&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;이수스페셜티케미컬&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내BW행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>1059&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>     </span>5599832&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>18602&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240319&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;007280&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;한국특강&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>223713&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>60813311&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1788&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240319&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;032980&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;바이온&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>220264&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>40517904&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>908&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240319&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;064800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;젬백스링크&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>71123&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>107875617&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1406&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240319&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;073570&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;리튬포어스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>218575&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>35970918&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>4575&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240319&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;082740&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;한화엔진 주식회사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;유상증자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>   
+  </span>11903148&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>83447142&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>7520&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240319&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;174900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;앱클론&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;주식전환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>130707&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>16423321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>10079&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240319&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;367000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;플래티어&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>21000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>     </span>8388207&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>4930&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240318&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;000040&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;케이알모터스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;자본감소&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>   
+  </span>29132868&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>29132868&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240318&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;001720&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;신영증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;주식전환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>4950&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>     </span>9434532&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>16233&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240318&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;114630&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;폴라리스우노&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>506512&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>77757548&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>691&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240318&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;123840&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;뉴온&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;상호변경&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>277394122&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>   </span>277394122&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>100&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240318&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;214870&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;뉴지랩파마&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;유상증자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>   
+  </span>13670000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>46796106&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240318&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;217330&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;싸이토젠&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>3286&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>22423102&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>15290&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240318&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;311390&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;네오크레마&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;주식전환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>2922552&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>10979147&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>6159&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;035720&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;카카오&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>154263&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>445243887&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>28199&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;047920&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에이치엘비제약&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>15000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>31746701&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>5608&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;059270&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;해성티피씨&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>33000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>10797992&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>3000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;067630&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에이치엘비생명과학&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내BW행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>738038&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>107122760&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>8889&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;079160&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;씨제이씨지브이&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>          </span>50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>122432139&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>17745&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;082740&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;한화엔진 주식회사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;상호변경&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>   
+  </span>71543994&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>83447142&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;117670&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;알파홀딩스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>1645434&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>39641629&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>942&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;139670&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;키네마스터&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;주식전환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>22899&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>14118810&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>13100&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;140860&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;파크시스템스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>     </span>6970859&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>25940&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;214330&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;금호에이치티&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>2384614&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>213914131&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>650&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;261200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;덴티스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>55358&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>15809700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>9032&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;272110&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;케이엔제이보통주&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>15000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>     </span>7975395&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>3000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;282880&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;코윈테크&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>160365&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>10825983&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>24943&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;288330&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;브릿지바이오테라퓨틱스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;주식전환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>279328&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>24119154&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>7160&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;348370&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엔켐&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내BW행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2859&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tot_issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>18694319&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>78677&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;348370&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엔켐&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;주식전환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>301947&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>18694319&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>55648&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;384470&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;코어라인소프트&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>272453&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>12793664&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>5322&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;418620&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;이에이트&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>52000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>     </span>9647677&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>9761&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240314&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;052770&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;아이톡시&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;유상증자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>646825&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>43550918&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1260&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240314&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;084180&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;수성웹툰&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;상호변경&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>115499325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>115499325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240314&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;091810&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;티웨이항공&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;주식전환&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>   
+  </span>14607425&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>215378976&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1643&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240314&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;139050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;비에프랩스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>19724&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>     </span>8644551&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>10545&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240314&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;276240&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엘리비젼&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;유상증자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>2360000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>10413138&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>500&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240314&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;311060&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엘에이티&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>      
+  </span>26000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>     </span>7074134&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>2063&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240314&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;377300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;카카오페이&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;STOCKOPTION행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>  
+  </span>134470018&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>34101&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240313&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;000520&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;삼일제약&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내CB행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>46474&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>    </span>19806074&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_price&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>7531&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;20240313&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;000520&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;삼일제약&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;issue_type&quot;:
+  &quot;국내BW행사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;issue_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>1131380&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_stk_qty&quot;</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=188 style='width:141pt'></td>
+  <td width=109 style='width:82pt'></td>
+  <td width=72 style='width:54pt'></td>
+  <td width=79 style='width:59pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=55 style='width:41pt'></td>
+  <td width=71 style='width:53pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

@@ -1,0 +1,1309 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File
+href="../한국투자증권_오픈API_전체문서_20260328_030000.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕";
+	mso-generic-font-family:auto;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(268);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../한국투자증권_오픈API_전체문서_20260328_030000.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#467886" vlink="#96607D">
+
+<table border=0 cellpadding=0 cellspacing=0 width=674 style='border-collapse:
+ collapse;table-layout:fixed;width:505pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=132 style='mso-width-source:userset;mso-width-alt:4224;width:99pt'>
+ <col width=80 style='mso-width-source:userset;mso-width-alt:2560;width:60pt'>
+ <col width=79 style='mso-width-source:userset;mso-width-alt:2517;width:59pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2218;width:52pt'>
+ <col width=55 style='mso-width-source:userset;mso-width-alt:1749;width:41pt'>
+ <col width=71 style='width:53pt'>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl68 width=674 style='height:17.0pt;width:505pt'>해외주식
+  기간별권리조회</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 통신방식</td>
+  <td colspan=6 class=xl66 style='border-left:none'>REST</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>메뉴 위치</td>
+  <td colspan=6 class=xl66 style='border-left:none'>[해외주식] 시세분석</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>해외주식 기간별권리조회</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>해외주식-052</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>CTRGT011R</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>기본정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>HTTP Method</td>
+  <td colspan=6 class=xl66 style='border-left:none'>GET</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>https://openapi.koreainvestment.com:9443</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>URL 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>/uapi/overseas-price/v1/quotations/period-rights</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>개요</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>개요</td>
+  <td colspan=6 class=xl65 width=486 style='border-left:none;width:364pt'>해외주식
+  기간별권리조회 API입니다.<br />
+    <br />
+    한국투자 HTS(eFriend Plus) &amp;gt; [7520] 기간별해외증권권리조회 화면을 API로 개발한 사항으로, 해당
+  화면을 참고하시면 기능을 이해하기 쉽습니다.<br />
+    <br />
+    <br />
+    <br />
+    ※ 확정여부가 '예정'으로 표시되는 경우는 권리정보가 변경될 수 있으니 참고자료로만 활용하시기 바랍니다.</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Layout</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>구분</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Element</td>
+  <td class=xl67 style='border-top:none;border-left:none'>한글명</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Type</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Required</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Length</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Description</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=13 height=1421 class=xl67 style='height:1065.0pt;border-top:none'>Request
+  Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=427 style='height:320.0pt'>
+  <td height=427 class=xl66 style='height:320.0pt;border-top:none'>authorization</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접근토큰</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>350</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>OAuth
+  토큰이 필요한 API 경우 발급한 Access token <br />
+    <br />
+    일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) <br
+  />
+    <br />
+    법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization
+  Code Grant 절차를 준용)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appkey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>36</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appsecret</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱시크릿키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>personalseckey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객식별키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사 회원 관리를 위한 고객식별키</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>CTRGT011R</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>custtype</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객 타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>B
+  : 법인 <br />
+    <br />
+    P : 개인</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>seq_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>일련번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 001</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>mac_address</td>
+  <td class=xl66 style='border-top:none;border-left:none'>맥주소</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>법인고객
+  혹은 개인고객의 Mac address 값</td>
+ </tr>
+ <tr height=191 style='height:143.0pt'>
+  <td height=191 class=xl66 style='height:143.0pt;border-top:none'>phone_number</td>
+  <td class=xl66 style='border-top:none;border-left:none'>핸드폰번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 <br />
+    <br />
+    ex) 01011112222 (하이픈 등 구분값 제거)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>ip_addr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접속 단말 공인 IP</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 사용자(회원)의 IP Address</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=329 style='height:247.0pt'>
+  <td rowspan=8 height=554 class=xl67 style='height:414.0pt'>Request Query
+  Parameter</td>
+  <td class=xl66 style='border-top:none'>RGHT_TYPE_CD</td>
+  <td class=xl66 style='border-top:none;border-left:none'>권리유형코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>'%%(전체),
+  01(유상), 02(무상), 03(배당), 11(합병), <br />
+    <br />
+    14(액면분할), 15(액면병합), 17(감자), 54(WR청구),<br />
+    <br />
+    61(원리금상환), 71(WR소멸), 74(배당옵션), 75(특별배당), 76(ISINCODE변경), 77(실권주청약)'</td>
+ </tr>
+ <tr height=87 style='height:65.0pt'>
+  <td height=87 class=xl66 style='height:65.0pt;border-top:none'>INQR_DVSN_CD</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회구분코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>02(현지기준일),
+  03(청약시작일), 04(청약종료일)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>INQR_STRT_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회시작일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>일자
+  ~</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>INQR_END_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회종료일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>~
+  일자</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>PDNO</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>PRDT_TYPE_CD</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품유형코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>CTX_AREA_NK50</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속조회키50</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>50</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>CTX_AREA_FK50</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속조회검색조건50</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>50</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=248 class=xl67 style='height:186.0pt'>Response Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>요청한
+  tr_id</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=24 height=552 class=xl67 style='height:408.0pt'>Response Body</td>
+  <td class=xl66 style='border-top:none'>rt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>성공 실패 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답메세지</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>80</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object array</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span>array</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>bass_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>기준일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>rght_type_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>권리유형코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>pdno</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdt_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>60</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdt_type_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품유형코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>std_pdno</td>
+  <td class=xl66 style='border-top:none;border-left:none'>표준상품번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>acpl_bass_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>현지기준일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sbsc_strt_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>청약시작일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sbsc_end_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>청약종료일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>cash_alct_rt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>현금배정비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>191</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stck_alct_rt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식배정비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2012</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>crcy_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>통화코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>crcy_cd2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>통화코드2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>crcy_cd3</td>
+  <td class=xl66 style='border-top:none;border-left:none'>통화코드3</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>crcy_cd4</td>
+  <td class=xl66 style='border-top:none;border-left:none'>통화코드4</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>alct_frcr_unpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>배정외화단가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>195</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stkp_dvdn_frcr_amt2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주당배당외화금액2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>195</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stkp_dvdn_frcr_amt3</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주당배당외화금액3</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>195</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stkp_dvdn_frcr_amt4</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주당배당외화금액4</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>195</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>dfnt_yn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>확정여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Example</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Request
+  Example (Python)</td>
+  <td colspan=6 class=xl70 style='border-left:none'>RGHT_TYPE_CD:%%<br />
+    <br />
+    INQR_DVSN_CD:02<br />
+    <br />
+    INQR_STRT_DT:20240417<br />
+    <br />
+    INQR_END_DT:20240417<br />
+    <br />
+    PDNO:<br />
+    <br />
+    PRDT_TYPE_CD:<br />
+    <br />
+    CTX_AREA_NK50:<br />
+    <br />
+    CTX_AREA_FK50:</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Response
+  Example</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;ctx_area_nk50&quot;:
+  &quot;<span
+  style='mso-spacerun:yes'>                                                 
+  </span>&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;ctx_area_fk50&quot;:
+  &quot;%%!^02!^20240417!^20240417!^!^<span
+  style='mso-spacerun:yes'>                    </span>&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output&quot;: [<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bass_dt&quot;:
+  &quot;20240418&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rght_type_cd&quot;:
+  &quot;03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;000661&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;[000661]CHANGCHUN HIGH-TECH INDUSTRY (GROUP&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;552&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;std_pdno&quot;:
+  &quot;CNE0000007J8&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acpl_bass_dt&quot;:
+  &quot;20240417&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_strt_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_end_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cash_alct_rt&quot;:
+  &quot;450.0000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_alct_rt&quot;:
+  &quot;0.000000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd&quot;:
+  &quot;CNY&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd2&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd3&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd4&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;alct_frcr_unpr&quot;: &quot;4.50000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stkp_dvdn_frcr_amt2&quot;:
+  &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt3&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt4&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dfnt_yn&quot;:
+  &quot;Y&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bass_dt&quot;:
+  &quot;20240418&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rght_type_cd&quot;:
+  &quot;03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;AIR&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;AIRBUS GROUP NV&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;542&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;std_pdno&quot;:
+  &quot;NL0000235190&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acpl_bass_dt&quot;:
+  &quot;20240417&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_strt_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_end_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cash_alct_rt&quot;:
+  &quot;180.0000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_alct_rt&quot;:
+  &quot;0.000000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd&quot;:
+  &quot;EUR&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd2&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd3&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd4&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;alct_frcr_unpr&quot;: &quot;1.80000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stkp_dvdn_frcr_amt2&quot;:
+  &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt3&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt4&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dfnt_yn&quot;:
+  &quot;Y&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bass_dt&quot;:
+  &quot;20240418&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rght_type_cd&quot;:
+  &quot;03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;GYLD&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;ARROW ETF TR ARROW DOW JONES GLOBAL YIELD ETF&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;513&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;std_pdno&quot;:
+  &quot;US04273H1041&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acpl_bass_dt&quot;:
+  &quot;20240417&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_strt_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_end_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cash_alct_rt&quot;:
+  &quot;12.6000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_alct_rt&quot;:
+  &quot;0.000000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd&quot;:
+  &quot;USD&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd2&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd3&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd4&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;alct_frcr_unpr&quot;: &quot;0.12600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stkp_dvdn_frcr_amt2&quot;:
+  &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt3&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt4&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dfnt_yn&quot;:
+  &quot;Y&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bass_dt&quot;:
+  &quot;20240418&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rght_type_cd&quot;:
+  &quot;03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;NORAM&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;NORAM DRILLING&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;525&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;std_pdno&quot;:
+  &quot;NO0010360019&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acpl_bass_dt&quot;:
+  &quot;20240417&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_strt_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_end_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cash_alct_rt&quot;:
+  &quot;43.8000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_alct_rt&quot;:
+  &quot;0.000000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd&quot;:
+  &quot;NOK&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd2&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd3&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd4&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;alct_frcr_unpr&quot;: &quot;0.43800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stkp_dvdn_frcr_amt2&quot;:
+  &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt3&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt4&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dfnt_yn&quot;:
+  &quot;Y&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bass_dt&quot;:
+  &quot;20240418&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rght_type_cd&quot;:
+  &quot;15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;BENF&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;BENEFICIENT&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;512&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;std_pdno&quot;:
+  &quot;US08178Q3092&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acpl_bass_dt&quot;:
+  &quot;20240417&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_strt_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_end_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cash_alct_rt&quot;:
+  &quot;0.0000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_alct_rt&quot;:
+  &quot;1.250000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd&quot;:
+  &quot;USD&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd2&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd3&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd4&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;alct_frcr_unpr&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt2&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stkp_dvdn_frcr_amt3&quot;:
+  &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt4&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dfnt_yn&quot;:
+  &quot;Y&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bass_dt&quot;: &quot;20240418&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rght_type_cd&quot;:
+  &quot;15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;NCNA&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;NUCANA PLC SPON ADR EACH REP 25 ORD SHS(POST SPLIT)&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;512&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;std_pdno&quot;:
+  &quot;US67022C2052&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acpl_bass_dt&quot;:
+  &quot;20240417&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_strt_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_end_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cash_alct_rt&quot;:
+  &quot;0.0000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_alct_rt&quot;:
+  &quot;4.000000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd&quot;:
+  &quot;USD&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd2&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd3&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd4&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;alct_frcr_unpr&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt2&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt3&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt4&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dfnt_yn&quot;:
+  &quot;Y&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bass_dt&quot;:
+  &quot;20240415&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rght_type_cd&quot;:
+  &quot;54&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;WWRSF&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;RIVERNORTH CAPITAL AND INCM FD INC&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;513&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;std_pdno&quot;:
+  &quot;USX589013472&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acpl_bass_dt&quot;:
+  &quot;20240417&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_strt_dt&quot;:
+  &quot;20240415&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_end_dt&quot;:
+  &quot;20240417&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cash_alct_rt&quot;:
+  &quot;0.0000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_alct_rt&quot;:
+  &quot;33.333340000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd&quot;:
+  &quot;USD&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd2&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd3&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd4&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;alct_frcr_unpr&quot;: &quot;15.28000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt2&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt3&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt4&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dfnt_yn&quot;:
+  &quot;Y&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bass_dt&quot;:
+  &quot;20240411&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rght_type_cd&quot;:
+  &quot;74&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;FTF&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;FRANKLIN LIMITED DURATION INCOME TR&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;529&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;std_pdno&quot;:
+  &quot;US35472T1016&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acpl_bass_dt&quot;:
+  &quot;20240417&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_strt_dt&quot;:
+  &quot;20240411&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_end_dt&quot;:
+  &quot;20240416&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cash_alct_rt&quot;:
+  &quot;0.0000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_alct_rt&quot;:
+  &quot;0.000000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd&quot;:
+  &quot;USD&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd2&quot;:
+  &quot;USD&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd3&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd4&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;alct_frcr_unpr&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt2&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt3&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt4&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dfnt_yn&quot;:
+  &quot;Y&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bass_dt&quot;:
+  &quot;20240411&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rght_type_cd&quot;:
+  &quot;74&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;TEI&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;TEMPLETON EMERGING MARKETS INC FD&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;513&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;std_pdno&quot;:
+  &quot;US8801921094&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acpl_bass_dt&quot;:
+  &quot;20240417&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_strt_dt&quot;:
+  &quot;20240411&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_end_dt&quot;:
+  &quot;20240416&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cash_alct_rt&quot;:
+  &quot;0.0000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_alct_rt&quot;:
+  &quot;0.000000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd&quot;:
+  &quot;USD&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd2&quot;:
+  &quot;USD&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd3&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd4&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;alct_frcr_unpr&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt2&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt3&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt4&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dfnt_yn&quot;:
+  &quot;Y&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;bass_dt&quot;:
+  &quot;20240418&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;rght_type_cd&quot;:
+  &quot;75&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pdno&quot;:
+  &quot;AIR&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_name&quot;:
+  &quot;AIRBUS GROUP NV&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdt_type_cd&quot;:
+  &quot;542&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;std_pdno&quot;:
+  &quot;NL0000235190&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acpl_bass_dt&quot;:
+  &quot;20240417&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_strt_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sbsc_end_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cash_alct_rt&quot;:
+  &quot;100.0000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_alct_rt&quot;:
+  &quot;0.000000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd&quot;:
+  &quot;EUR&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd2&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd3&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;crcy_cd4&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;alct_frcr_unpr&quot;: &quot;1.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stkp_dvdn_frcr_amt2&quot;:
+  &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt3&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stkp_dvdn_frcr_amt4&quot;: &quot;0.00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dfnt_yn&quot;:
+  &quot;Y&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>}<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>],<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;rt_cd&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg_cd&quot;:
+  &quot;KIOK0460&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg1&quot;: &quot;조회 되었습니다.
+  (마지막 자료)<span
+  style='mso-spacerun:yes'>                                                 
+  </span>&quot;<br />
+    <br />
+    }</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=188 style='width:141pt'></td>
+  <td width=132 style='width:99pt'></td>
+  <td width=80 style='width:60pt'></td>
+  <td width=79 style='width:59pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=55 style='width:41pt'></td>
+  <td width=71 style='width:53pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

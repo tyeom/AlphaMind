@@ -1,0 +1,2361 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File
+href="../한국투자증권_오픈API_전체문서_20260328_030000.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕";
+	mso-generic-font-family:auto;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(118);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../한국투자증권_오픈API_전체문서_20260328_030000.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#467886" vlink="#96607D">
+
+<table border=0 cellpadding=0 cellspacing=0 width=774 style='border-collapse:
+ collapse;table-layout:fixed;width:580pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=196 style='mso-width-source:userset;mso-width-alt:6272;width:147pt'>
+ <col width=116 style='mso-width-source:userset;mso-width-alt:3712;width:87pt'>
+ <col width=79 style='mso-width-source:userset;mso-width-alt:2517;width:59pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2218;width:52pt'>
+ <col width=55 style='mso-width-source:userset;mso-width-alt:1749;width:41pt'>
+ <col width=71 style='width:53pt'>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl68 width=774 style='height:17.0pt;width:580pt'>프로그램매매
+  종합현황(일별)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 통신방식</td>
+  <td colspan=6 class=xl66 style='border-left:none'>REST</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>메뉴 위치</td>
+  <td colspan=6 class=xl66 style='border-left:none'>[국내주식] 시세분석</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>프로그램매매 종합현황(일별)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>국내주식-115</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>FHPPG04600001</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>기본정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>HTTP Method</td>
+  <td colspan=6 class=xl66 style='border-left:none'>GET</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>https://openapi.koreainvestment.com:9443</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>URL 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>/uapi/domestic-stock/v1/quotations/comp-program-trade-daily</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>개요</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>개요</td>
+  <td colspan=6 class=xl65 width=586 style='border-left:none;width:439pt'>프로그램매매
+  종합현황(일별) API입니다. <br />
+    <br />
+    한국투자 HTS(eFriend Plus) &amp;gt; [0460] 프로그램매매 종합현황 화면의 기능을 API로 개발한 사항으로,
+  해당 화면을 참고하시면 기능을 이해하기 쉽습니다.<br />
+    <br />
+    <br />
+    <br />
+    * 8개월 이상 과거 조회는 불가하며 에러메시지가 발생합니다.</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Layout</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>구분</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Element</td>
+  <td class=xl67 style='border-top:none;border-left:none'>한글명</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Type</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Required</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Length</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Description</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=13 height=1606 class=xl67 style='height:1204.0pt;border-top:none'>Request
+  Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=427 style='height:320.0pt'>
+  <td height=427 class=xl66 style='height:320.0pt;border-top:none'>authorization</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접근토큰</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>350</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>OAuth
+  토큰이 필요한 API 경우 발급한 Access token <br />
+    <br />
+    일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) <br
+  />
+    <br />
+    법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization
+  Code Grant 절차를 준용)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appkey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>36</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appsecret</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱시크릿키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>personalseckey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객식별키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사 회원 관리를 위한 고객식별키</td>
+ </tr>
+ <tr height=208 style='height:156.0pt'>
+  <td height=208 class=xl66 style='height:156.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>'※
+  구TR은 사전고지 없이 막힐 수 있으므로 반드시 신TR로 변경이용 부탁드립니다.<br />
+    <br />
+    [실전투자]<br />
+    <br />
+    (구)FHPPG04600000 → (신)FHPPG04600001'</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>custtype</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객 타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>B
+  : 법인 <br />
+    <br />
+    P : 개인</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>seq_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>일련번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 001</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>mac_address</td>
+  <td class=xl66 style='border-top:none;border-left:none'>맥주소</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>법인고객
+  혹은 개인고객의 Mac address 값</td>
+ </tr>
+ <tr height=191 style='height:143.0pt'>
+  <td height=191 class=xl66 style='height:143.0pt;border-top:none'>phone_number</td>
+  <td class=xl66 style='border-top:none;border-left:none'>핸드폰번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 <br />
+    <br />
+    ex) 01011112222 (하이픈 등 구분값 제거)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>ip_addr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접속 단말 공인 IP</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 사용자(회원)의 IP Address</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td rowspan=4 height=231 class=xl67 style='height:173.0pt'>Request Query
+  Parameter</td>
+  <td class=xl66 style='border-top:none'>FID_COND_MRKT_DIV_CODE</td>
+  <td class=xl66 style='border-top:none;border-left:none'>시장 분류 코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>J
+  : KRX, NX : NXT, UN : 통합</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>FID_MRKT_CLS_CODE</td>
+  <td class=xl66 style='border-top:none;border-left:none'>시장 구분 코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>K:코스피,
+  Q:코스닥</td>
+ </tr>
+ <tr height=121 style='height:91.0pt'>
+  <td height=121 class=xl66 style='height:91.0pt;border-top:none'>FID_INPUT_DATE_1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>검색시작일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백
+  입력, 입력 시 ~ 입력일자까지 조회됨<br />
+    <br />
+    * 8개월 이상 과거 조회 불가</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>FID_INPUT_DATE_2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>검색종료일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백
+  입력</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=248 class=xl67 style='height:186.0pt'>Response Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>요청한
+  tr_id</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=104 height=2392 class=xl67 style='height:1768.0pt'>Response Body</td>
+  <td class=xl66 style='border-top:none'>rt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>성공 실패 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답메세지</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>80</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object array</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>array</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stck_bsop_date</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식 영업 일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_entm_seln_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 위탁 매도 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_onsl_seln_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 자기 매도 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_onsl_seln_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 자기 매도 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_smtn_shnu_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 합계 매수2 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_smtn_shnu_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 합계 매수2 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_entm_ntby_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 위탁 순매수 수량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_entm_ntby_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 위탁 순매수 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_entm_seln_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 위탁 매도 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_entm_seln_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 위탁 매도 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_onsl_seln_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 자기 매도 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_onsl_seln_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 자기 매도 거래 대금 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_smtm_shun_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 합계 매수 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>72</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_smtm_shun_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 합계 매수 거래대금 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>72</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_entm_ntby_qty_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 위탁 순매수 수량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_entm_ntby_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 위탁 순매수 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_entm_seln_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 위탁 매도 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_entm_seln_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 위탁 매도 거래 대금 비</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_onsl_seln_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 자기 매도 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_smtn_seln_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 합계 매도 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_smtn_shnu_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 합계 매수2 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_entm_shnu_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 위탁 매수2 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_entm_ntby_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 위탁 순매수 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_onsl_ntby_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 자기 순매수 수량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_entm_seln_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 위탁 매도 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_onsl_seln_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 자기 매도 거래 대금 비</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_seln_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 매도 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>72</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_smtm_shun_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 합계 매수 거래대금 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>72</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_entm_shnu_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 위탁 매수 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_entm_ntby_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 위탁 순매수 거래 대금 비</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_onsl_ntby_qty_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 자기 순매수 수량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_entm_seln_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 위탁 매도 거래 대금 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_smtn_seln_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 합계 매도 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_smtn_seln_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 합계 매도 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_entm_shnu_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 위탁 매수2 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_entm_shnu_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 위탁 매수2 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_onsl_ntby_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 자기 순매수 수량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_onsl_ntby_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 자기 순매수 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_onsl_seln_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 자기 매도 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_smtm_seln_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 합계 매도 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>72</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_seln_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 매도 거래대금 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>72</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_entm_shnu_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 위탁 매수 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_entm_shnu_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 위탁 매수 거래 대금 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_onsl_ntby_qty_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 자기 순매수 수량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_onsl_ntby_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 자기 순매수 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_onsl_seln_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 자기 매도 거래 대금 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_smtn_seln_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 합계 매도 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_entm_shnu_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 위탁 매수2 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_entm_shnu_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 위탁 매수2 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_onsl_shnu_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 자기 매수2 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_onsl_ntby_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 자기 순매수 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_smtn_ntby_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 합계 순매수 수량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_onsl_seln_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 자기 매도 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_smtm_seln_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 합계 매도 거래대금 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>72</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_entm_shnu_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 위탁 매수 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_entm_shnu_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 위탁 매수 거래 대금 비</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_onsl_shnu_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 자기 매수2 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_onsl_ntby_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 자기 순매수 거래 대금 비</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_smtm_ntby_qty_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 합계 순매수 수량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>72</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_onsl_seln_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 자기 매도 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_entm_seln_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 위탁 매도 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_entm_shnu_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 위탁 매수2 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_onsl_shnu_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 자기 매수2 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_onsl_shnu_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 자기 매수 거래 대금 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_smtn_ntby_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 합계 순매수 수량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_smtn_ntby_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 합계 순매수 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_smtn_seln_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 합계 매도 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_entm_seln_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 위탁 매도 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_entm_shnu_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 위탁 매수 거래 대금 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_onsl_shnu_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 자기 매수 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_onsl_shnu_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 자기 매수 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_smtm_ntby_qty_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 합계 순매수 수량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>72</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_smtm_ntby_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 합계 순매수 거래대금 비</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>72</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_smtm_seln_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 합계 매도 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>72</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_entm_seln_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 위탁 매도 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_onsl_shnu_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 자기 매수2 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_onsl_shnu_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 자기 매수2 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_smtn_shnu_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 합계 매수2 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_smtn_ntby_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 합계 순매수 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_entm_ntby_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 위탁 순매수 수량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_smtn_seln_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 합계 매도 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_entm_seln_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 위탁 매도 거래 대금 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_onsl_shnu_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 자기 매수 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_onsl_shnu_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 자기 매수 거래 대금 비</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_shun_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 매수 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>72</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_smtm_ntby_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 합계 순매수 거래대금 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>72</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_entm_ntby_qty_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 위탁 순매수 수량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_smtm_seln_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 합계 매도 거래대금 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>72</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_onsl_seln_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 자기 매도 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_onsl_shnu_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 자기 매수2 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_smtn_shnu_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 합계 매수2 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_smtn_shnu_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 합계 매수2 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_entm_ntby_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 위탁 순매수 수량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_entm_ntby_tr_pbmn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 위탁 순매수 거래 대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_entm_seln_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 위탁 매도 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_onsl_seln_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 자기 매도 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>arbt_onsl_shnu_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>차익 자기 매수 거래 대금 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_smtm_shun_vol_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 합계 매수 거래량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>72</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>whol_shun_tr_pbmn_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전체 매수 거래대금 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>72</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nabt_entm_ntby_qty_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>비차익 위탁 순매수 수량 비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Example</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Request
+  Example (Python)</td>
+  <td colspan=6 class=xl70 style='border-left:none'>FID_COND_MRKT_DIV_CODE:UN<br
+  />
+    <br />
+    FID_MRKT_CLS_CODE:K<br />
+    <br />
+    FID_INPUT_DATE_1:<br />
+    <br />
+    FID_INPUT_DATE_2:</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Response
+  Example</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output&quot;: [<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240404&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_seln_vol&quot;: &quot;945&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_seln_vol_rate&quot;: &quot;0.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_seln_tr_pbmn&quot;: &quot;60184&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_seln_tr_pbmn_rate&quot;: &quot;0.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_seln_tr_pbmn&quot;: &quot;116742&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_seln_tr_pbmn_rate&quot;: &quot;0.97&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_seln_vol&quot;: &quot;1893&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_seln_vol_rate&quot;: &quot;0.40&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_seln_vol&quot;: &quot;2839&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_seln_vol_rate&quot;: &quot;0.59&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_seln_tr_pbmn&quot;: &quot;176926&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_seln_tr_pbmn_rate&quot;: &quot;1.48&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_seln_vol&quot;: &quot;72995&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_seln_tr_pbmn&quot;: &quot;2335987&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_seln_vol_rate&quot;: &quot;15.27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_seln_tr_pbmn_rate&quot;: &quot;19.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_seln_vol&quot;: &quot;335&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_seln_vol_rate&quot;: &quot;0.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_seln_tr_pbmn&quot;: &quot;18428&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_seln_tr_pbmn_rate&quot;: &quot;0.15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_seln_vol&quot;: &quot;73331&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_seln_vol_rate&quot;: &quot;15.34&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_seln_tr_pbmn&quot;: &quot;2354415&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_seln_tr_pbmn_rate&quot;: &quot;19.66&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_seln_vol&quot;: &quot;73940&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_seln_tr_pbmn&quot;: &quot;2396171&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_seln_vol_rate&quot;: &quot;15.47&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_seln_tr_pbmn_rate&quot;: &quot;20.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_seln_vol&quot;: &quot;2229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_seln_vol_rate&quot;: &quot;0.47&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_seln_tr_pbmn&quot;: &quot;135170&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_seln_tr_pbmn_rate&quot;: &quot;1.13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_seln_vol&quot;: &quot;76169&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_seln_vol_rate&quot;: &quot;15.94&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_seln_tr_pbmn&quot;: &quot;2531340&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_seln_tr_pbmn_rate&quot;: &quot;21.13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_shnu_vol&quot;: &quot;798&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_shnu_vol_rate&quot;: &quot;0.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_shnu_tr_pbmn&quot;: &quot;50818&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_shnu_tr_pbmn_rate&quot;: &quot;0.42&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_shnu_vol&quot;: &quot;247&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_shnu_vol_rate&quot;: &quot;0.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_shnu_tr_pbmn&quot;: &quot;15309&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_shnu_tr_pbmn_rate&quot;: &quot;0.13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_shnu_vol&quot;: &quot;1045&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_shun_vol_rate&quot;: &quot;0.22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_shnu_tr_pbmn&quot;: &quot;66127&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_shun_tr_pbmn_rate&quot;: &quot;0.55&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_shnu_vol&quot;: &quot;73441&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_shnu_vol_rate&quot;: &quot;15.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_shnu_tr_pbmn&quot;: &quot;2581806&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_shnu_tr_pbmn_rate&quot;: &quot;21.55&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_shnu_vol&quot;: &quot;250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_shnu_vol_rate&quot;: &quot;0.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_shnu_tr_pbmn&quot;: &quot;11652&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_shnu_tr_pbmn_rate&quot;: &quot;0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_shnu_vol&quot;: &quot;73691&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_shun_vol_rate&quot;: &quot;15.42&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_shnu_tr_pbmn&quot;: &quot;2593458&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_shun_tr_pbmn_rate&quot;: &quot;21.65&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_shnu_vol&quot;: &quot;74239&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_shnu_vol_rate&quot;: &quot;15.53&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_shnu_tr_pbmn&quot;: &quot;2632624&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_shnu_tr_pbmn_rate&quot;: &quot;21.98&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_shnu_vol&quot;: &quot;497&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_shnu_tr_pbmn&quot;: &quot;26961&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_shnu_tr_pbmn_rate&quot;: &quot;0.23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_shnu_vol_rate&quot;: &quot;0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_shnu_vol&quot;: &quot;74736&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_shun_vol_rate&quot;: &quot;15.64&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_shnu_tr_pbmn&quot;: &quot;2659585&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_shun_tr_pbmn_rate&quot;: &quot;22.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_ntby_qty&quot;: &quot;-147&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_ntby_qty_rate&quot;: &quot;-0.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_ntby_tr_pbmn&quot;: &quot;-9366&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_ntby_tr_pbmn_rate&quot;: &quot;-0.08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_ntby_qty&quot;: &quot;-1646&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_ntby_qty_rate&quot;: &quot;-0.34&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_ntby_tr_pbmn&quot;: &quot;-101433&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_ntby_tr_pbmn_rate&quot;: &quot;-0.85&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_ntby_qty&quot;: &quot;-1793&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_ntby_qty_rate&quot;: &quot;-0.38&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_ntby_tr_pbmn&quot;: &quot;-110799&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_ntby_tr_pbmn_rate&quot;: &quot;-0.93&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_ntby_qty&quot;: &quot;446&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_ntby_qty_rate&quot;: &quot;0.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_ntby_tr_pbmn&quot;: &quot;245819&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_ntby_tr_pbmn_rate&quot;: &quot;2.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_ntby_qty&quot;: &quot;-85&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_ntby_qty_rate&quot;: &quot;-0.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_ntby_tr_pbmn&quot;: &quot;-6776&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_ntby_tr_pbmn_rate&quot;: &quot;-0.06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_ntby_qty&quot;: &quot;361&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_ntby_qty_rate&quot;: &quot;0.08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_ntby_tr_pbmn&quot;: &quot;239043&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_ntby_tr_pbmn_rate&quot;: &quot;2.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_ntby_qty&quot;: &quot;299&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_ntby_qty_rate&quot;: &quot;0.06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_ntby_tr_pbmn&quot;: &quot;236453&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_ntby_tr_pbmn_rate&quot;: &quot;1.97&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_ntby_qty&quot;: &quot;-1732&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_ntby_qty_rate&quot;: &quot;-0.36&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_ntby_tr_pbmn&quot;: &quot;-108209&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_ntby_tr_pbmn_rate&quot;: &quot;-0.90&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_ntby_qty&quot;: &quot;-1433&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_ntby_qty_rate&quot;: &quot;-0.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_ntby_tr_pbmn&quot;: &quot;128245&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_ntby_tr_pbmn_rate&quot;: &quot;1.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;bstp_nmix_prpr&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;bstp_nmix_prdy_vrss&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240403&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_seln_vol&quot;: &quot;769&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_seln_vol_rate&quot;: &quot;0.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_seln_tr_pbmn&quot;: &quot;48480&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_seln_tr_pbmn_rate&quot;: &quot;0.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_seln_tr_pbmn&quot;: &quot;192333&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_seln_tr_pbmn_rate&quot;: &quot;1.45&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_seln_vol&quot;: &quot;3118&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_seln_vol_rate&quot;: &quot;0.49&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_seln_vol&quot;: &quot;3887&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_seln_vol_rate&quot;: &quot;0.61&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_seln_tr_pbmn&quot;: &quot;240813&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_seln_tr_pbmn_rate&quot;: &quot;1.82&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_seln_vol&quot;: &quot;94356&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_seln_tr_pbmn&quot;: &quot;3076931&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_seln_vol_rate&quot;: &quot;14.72&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_seln_tr_pbmn_rate&quot;: &quot;23.21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_seln_vol&quot;: &quot;3323&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_seln_vol_rate&quot;: &quot;0.52&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_seln_tr_pbmn&quot;: &quot;207163&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_seln_tr_pbmn_rate&quot;: &quot;1.56&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_seln_vol&quot;: &quot;97679&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_seln_vol_rate&quot;: &quot;15.24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_seln_tr_pbmn&quot;: &quot;3284094&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_seln_tr_pbmn_rate&quot;: &quot;24.77&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_seln_vol&quot;: &quot;95125&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_seln_tr_pbmn&quot;: &quot;3125411&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_seln_vol_rate&quot;: &quot;14.84&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_seln_tr_pbmn_rate&quot;: &quot;23.58&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_seln_vol&quot;: &quot;6440&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_seln_vol_rate&quot;: &quot;1.01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_seln_tr_pbmn&quot;: &quot;399496&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_seln_tr_pbmn_rate&quot;: &quot;3.01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_seln_vol&quot;: &quot;101566&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_seln_vol_rate&quot;: &quot;15.85&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_seln_tr_pbmn&quot;: &quot;3524908&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_seln_tr_pbmn_rate&quot;: &quot;26.59&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_shnu_vol&quot;: &quot;916&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_shnu_vol_rate&quot;: &quot;0.14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_shnu_tr_pbmn&quot;: &quot;57765&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_shnu_tr_pbmn_rate&quot;: &quot;0.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_shnu_vol&quot;: &quot;151&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_shnu_vol_rate&quot;: &quot;0.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_shnu_tr_pbmn&quot;: &quot;9682&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_shnu_tr_pbmn_rate&quot;: &quot;0.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_shnu_vol&quot;: &quot;1067&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_shun_vol_rate&quot;: &quot;0.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_shnu_tr_pbmn&quot;: &quot;67446&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_shun_tr_pbmn_rate&quot;: &quot;0.51&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_shnu_vol&quot;: &quot;88098&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_shnu_vol_rate&quot;: &quot;13.75&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_shnu_tr_pbmn&quot;: &quot;2576437&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_shnu_tr_pbmn_rate&quot;: &quot;19.43&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_shnu_vol&quot;: &quot;206&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_shnu_vol_rate&quot;: &quot;0.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_shnu_tr_pbmn&quot;: &quot;8168&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_shnu_tr_pbmn_rate&quot;: &quot;0.06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_shnu_vol&quot;: &quot;88304&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_shun_vol_rate&quot;: &quot;13.78&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_shnu_tr_pbmn&quot;: &quot;2584605&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_shun_tr_pbmn_rate&quot;: &quot;19.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_shnu_vol&quot;: &quot;89014&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_shnu_vol_rate&quot;: &quot;13.89&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_shnu_tr_pbmn&quot;: &quot;2634202&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_shnu_tr_pbmn_rate&quot;: &quot;19.87&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_shnu_vol&quot;: &quot;357&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_shnu_tr_pbmn&quot;: &quot;17849&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_shnu_tr_pbmn_rate&quot;: &quot;0.13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_shnu_vol_rate&quot;: &quot;0.06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_shnu_vol&quot;: &quot;89371&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_shun_vol_rate&quot;: &quot;13.95&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_shnu_tr_pbmn&quot;: &quot;2652051&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_shun_tr_pbmn_rate&quot;: &quot;20.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_ntby_qty&quot;: &quot;147&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_ntby_qty_rate&quot;: &quot;0.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_ntby_tr_pbmn&quot;: &quot;9284&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_ntby_tr_pbmn_rate&quot;: &quot;0.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_ntby_qty&quot;: &quot;-2967&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_ntby_qty_rate&quot;: &quot;-0.46&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_ntby_tr_pbmn&quot;: &quot;-182651&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_ntby_tr_pbmn_rate&quot;: &quot;-1.38&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_ntby_qty&quot;: &quot;-2819&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_ntby_qty_rate&quot;: &quot;-0.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_ntby_tr_pbmn&quot;: &quot;-173367&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_ntby_tr_pbmn_rate&quot;: &quot;-1.31&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_ntby_qty&quot;: &quot;-6259&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_ntby_qty_rate&quot;: &quot;-0.98&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_ntby_tr_pbmn&quot;: &quot;-500494&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_ntby_tr_pbmn_rate&quot;: &quot;-3.78&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_ntby_qty&quot;: &quot;-3116&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_ntby_qty_rate&quot;: &quot;-0.49&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_ntby_tr_pbmn&quot;: &quot;-198996&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_ntby_tr_pbmn_rate&quot;: &quot;-1.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_ntby_qty&quot;: &quot;-9375&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_ntby_qty_rate&quot;: &quot;-1.46&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_ntby_tr_pbmn&quot;: &quot;-699489&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_ntby_tr_pbmn_rate&quot;: &quot;-5.28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_ntby_qty&quot;: &quot;-6112&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_ntby_qty_rate&quot;: &quot;-0.95&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_ntby_tr_pbmn&quot;: &quot;-491210&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_ntby_tr_pbmn_rate&quot;: &quot;-3.71&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_ntby_qty&quot;: &quot;-6083&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_ntby_qty_rate&quot;: &quot;-0.95&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_ntby_tr_pbmn&quot;: &quot;-381647&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_ntby_tr_pbmn_rate&quot;: &quot;-2.88&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_ntby_qty&quot;: &quot;-12195&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_ntby_qty_rate&quot;: &quot;-1.90&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_ntby_tr_pbmn&quot;: &quot;-872856&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_ntby_tr_pbmn_rate&quot;: &quot;-6.58&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;bstp_nmix_prpr&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;bstp_nmix_prdy_vrss&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240402&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_seln_vol&quot;: &quot;857&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_seln_vol_rate&quot;: &quot;0.14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_seln_tr_pbmn&quot;: &quot;54673&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_seln_tr_pbmn_rate&quot;: &quot;0.42&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_seln_tr_pbmn&quot;: &quot;78907&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_seln_tr_pbmn_rate&quot;: &quot;0.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_seln_vol&quot;: &quot;1282&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_seln_vol_rate&quot;: &quot;0.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_seln_vol&quot;: &quot;2138&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_seln_vol_rate&quot;: &quot;0.34&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_seln_tr_pbmn&quot;: &quot;133579&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_seln_tr_pbmn_rate&quot;: &quot;1.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_seln_vol&quot;: &quot;78391&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_seln_tr_pbmn&quot;: &quot;2385531&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_seln_vol_rate&quot;: &quot;12.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_seln_tr_pbmn_rate&quot;: &quot;18.19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_seln_vol&quot;: &quot;893&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_seln_vol_rate&quot;: &quot;0.14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_seln_tr_pbmn&quot;: &quot;54722&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_seln_tr_pbmn_rate&quot;: &quot;0.42&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_seln_vol&quot;: &quot;79284&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_seln_vol_rate&quot;: &quot;12.58&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_seln_tr_pbmn&quot;: &quot;2440253&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_seln_tr_pbmn_rate&quot;: &quot;18.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_seln_vol&quot;: &quot;79247&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_seln_tr_pbmn&quot;: &quot;2440203&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_seln_vol_rate&quot;: &quot;12.57&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_seln_tr_pbmn_rate&quot;: &quot;18.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_seln_vol&quot;: &quot;2175&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_seln_vol_rate&quot;: &quot;0.35&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_seln_tr_pbmn&quot;: &quot;133628&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_seln_tr_pbmn_rate&quot;: &quot;1.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_seln_vol&quot;: &quot;81422&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_seln_vol_rate&quot;: &quot;12.92&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_seln_tr_pbmn&quot;: &quot;2573832&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_seln_tr_pbmn_rate&quot;: &quot;19.62&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_shnu_vol&quot;: &quot;760&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_shnu_vol_rate&quot;: &quot;0.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_shnu_tr_pbmn&quot;: &quot;48775&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_shnu_tr_pbmn_rate&quot;: &quot;0.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_shnu_vol&quot;: &quot;3&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_shnu_vol_rate&quot;: &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_shnu_tr_pbmn&quot;: &quot;657&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_shnu_tr_pbmn_rate&quot;: &quot;0.01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_shnu_vol&quot;: &quot;762&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_shun_vol_rate&quot;: &quot;0.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_shnu_tr_pbmn&quot;: &quot;49432&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_shun_tr_pbmn_rate&quot;: &quot;0.38&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_shnu_vol&quot;: &quot;74157&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_shnu_vol_rate&quot;: &quot;11.76&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_shnu_tr_pbmn&quot;: &quot;3086213&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_shnu_tr_pbmn_rate&quot;: &quot;23.53&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_shnu_vol&quot;: &quot;187&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_shnu_vol_rate&quot;: &quot;0.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_shnu_tr_pbmn&quot;: &quot;8119&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_shnu_tr_pbmn_rate&quot;: &quot;0.06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_shnu_vol&quot;: &quot;74344&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_shun_vol_rate&quot;: &quot;11.79&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_shnu_tr_pbmn&quot;: &quot;3094332&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_shun_tr_pbmn_rate&quot;: &quot;23.59&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_shnu_vol&quot;: &quot;74916&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_shnu_vol_rate&quot;: &quot;11.88&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_shnu_tr_pbmn&quot;: &quot;3134988&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_shnu_tr_pbmn_rate&quot;: &quot;23.90&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_shnu_vol&quot;: &quot;190&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_shnu_tr_pbmn&quot;: &quot;8775&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_shnu_tr_pbmn_rate&quot;: &quot;0.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_shnu_vol_rate&quot;: &quot;0.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_shnu_vol&quot;: &quot;75107&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_shun_vol_rate&quot;: &quot;11.91&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_shnu_tr_pbmn&quot;: &quot;3143764&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_shun_tr_pbmn_rate&quot;: &quot;23.97&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_ntby_qty&quot;: &quot;-97&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_ntby_qty_rate&quot;: &quot;-0.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_ntby_tr_pbmn&quot;: &quot;-5897&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_entm_ntby_tr_pbmn_rate&quot;: &quot;-0.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_ntby_qty&quot;: &quot;-1279&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_ntby_qty_rate&quot;: &quot;-0.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_ntby_tr_pbmn&quot;: &quot;-78250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_onsl_ntby_tr_pbmn_rate&quot;: &quot;-0.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_ntby_qty&quot;: &quot;-1376&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_ntby_qty_rate&quot;: &quot;-0.22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtn_ntby_tr_pbmn&quot;: &quot;-84147&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;arbt_smtm_ntby_tr_pbmn_rate&quot;: &quot;-0.64&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_ntby_qty&quot;: &quot;-4234&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_ntby_qty_rate&quot;: &quot;-0.67&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_ntby_tr_pbmn&quot;: &quot;700682&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_entm_ntby_tr_pbmn_rate&quot;: &quot;5.34&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_ntby_qty&quot;: &quot;-706&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_ntby_qty_rate&quot;: &quot;-0.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_ntby_tr_pbmn&quot;: &quot;-46603&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_onsl_ntby_tr_pbmn_rate&quot;: &quot;-0.36&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_ntby_qty&quot;: &quot;-4940&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_ntby_qty_rate&quot;: &quot;-0.78&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtn_ntby_tr_pbmn&quot;: &quot;654079&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nabt_smtm_ntby_tr_pbmn_rate&quot;: &quot;4.99&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_ntby_qty&quot;: &quot;-4331&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_ntby_qty_rate&quot;: &quot;-0.69&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_ntby_tr_pbmn&quot;: &quot;694785&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_entm_ntby_tr_pbmn_rate&quot;: &quot;5.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_ntby_qty&quot;: &quot;-1985&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_ntby_qty_rate&quot;: &quot;-0.31&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_ntby_tr_pbmn&quot;: &quot;-124853&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_onsl_ntby_tr_pbmn_rate&quot;: &quot;-0.95&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_ntby_qty&quot;: &quot;-6316&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_ntby_qty_rate&quot;: &quot;-1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_smtn_ntby_tr_pbmn&quot;: &quot;569932&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;whol_ntby_tr_pbmn_rate&quot;: &quot;4.35&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;bstp_nmix_prpr&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;bstp_nmix_prdy_vrss&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},...<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>],<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;rt_cd&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg_cd&quot;:
+  &quot;MCA00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg1&quot;: &quot;정상처리
+  되었습니다.&quot;<br />
+    <br />
+    }</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=188 style='width:141pt'></td>
+  <td width=196 style='width:147pt'></td>
+  <td width=116 style='width:87pt'></td>
+  <td width=79 style='width:59pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=55 style='width:41pt'></td>
+  <td width=71 style='width:53pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

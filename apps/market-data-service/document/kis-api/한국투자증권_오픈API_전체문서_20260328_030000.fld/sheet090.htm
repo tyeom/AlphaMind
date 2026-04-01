@@ -1,0 +1,3361 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File
+href="../한국투자증권_오픈API_전체문서_20260328_030000.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕";
+	mso-generic-font-family:auto;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(89);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../한국투자증권_오픈API_전체문서_20260328_030000.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#467886" vlink="#96607D">
+
+<table border=0 cellpadding=0 cellspacing=0 width=643 style='border-collapse:
+ collapse;table-layout:fixed;width:482pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=109 style='mso-width-source:userset;mso-width-alt:3498;width:82pt'>
+ <col width=72 style='mso-width-source:userset;mso-width-alt:2304;width:54pt'>
+ <col width=79 style='mso-width-source:userset;mso-width-alt:2517;width:59pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2218;width:52pt'>
+ <col width=55 style='mso-width-source:userset;mso-width-alt:1749;width:41pt'>
+ <col width=71 style='width:53pt'>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl68 width=643 style='height:17.0pt;width:482pt'>예탁원정보(자본감소일정)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 통신방식</td>
+  <td colspan=6 class=xl66 style='border-left:none'>REST</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>메뉴 위치</td>
+  <td colspan=6 class=xl66 style='border-left:none'>[국내주식] 종목정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>예탁원정보(자본감소일정)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>국내주식-149</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>HHKDB669106C0</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>기본정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>HTTP Method</td>
+  <td colspan=6 class=xl66 style='border-left:none'>GET</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>https://openapi.koreainvestment.com:9443</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>URL 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>/uapi/domestic-stock/v1/ksdinfo/cap-dcrs</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>개요</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>개요</td>
+  <td colspan=6 class=xl65 width=455 style='border-left:none;width:341pt'>예탁원정보(자본감소일정)
+  API입니다. <br />
+    <br />
+    한국투자 HTS(eFriend Plus) &amp;gt; [0665] 자본감소 화면의 기능을 API로 개발한 사항으로, 해당 화면을
+  참고하시면 기능을 이해하기 쉽습니다.<br />
+    <br />
+    <br />
+    <br />
+    ※ 예탁원에서 제공한 자료이므로 정보용으로만 사용하시기 바랍니다.</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Layout</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>구분</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Element</td>
+  <td class=xl67 style='border-top:none;border-left:none'>한글명</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Type</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Required</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Length</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Description</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=13 height=1433 class=xl67 style='height:1074.0pt;border-top:none'>Request
+  Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=427 style='height:320.0pt'>
+  <td height=427 class=xl66 style='height:320.0pt;border-top:none'>authorization</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접근토큰</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>350</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>OAuth
+  토큰이 필요한 API 경우 발급한 Access token <br />
+    <br />
+    일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) <br
+  />
+    <br />
+    법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization
+  Code Grant 절차를 준용)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appkey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>36</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appsecret</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱시크릿키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>personalseckey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객식별키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사 회원 관리를 위한 고객식별키</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>HHKDB669106C0</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>custtype</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객 타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>B
+  : 법인 <br />
+    <br />
+    P : 개인</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>seq_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>일련번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 001</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>mac_address</td>
+  <td class=xl66 style='border-top:none;border-left:none'>맥주소</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>법인고객
+  혹은 개인고객의 Mac address 값</td>
+ </tr>
+ <tr height=191 style='height:143.0pt'>
+  <td height=191 class=xl66 style='height:143.0pt;border-top:none'>phone_number</td>
+  <td class=xl66 style='border-top:none;border-left:none'>핸드폰번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 <br />
+    <br />
+    ex) 01011112222 (하이픈 등 구분값 제거)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>ip_addr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접속 단말 공인 IP</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 사용자(회원)의 IP Address</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=4 height=138 class=xl67 style='height:103.0pt'>Request Query
+  Parameter</td>
+  <td class=xl66 style='border-top:none'>CTS</td>
+  <td class=xl66 style='border-top:none;border-left:none'>CTS</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>17</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>F_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회일자From</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>일자
+  ~</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>T_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회일자To</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>~
+  일자</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>SHT_CD</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백:
+  전체,<span style='mso-spacerun:yes'>  </span>특정종목 조회시 : 종목코드</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=248 class=xl67 style='height:186.0pt'>Response Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>요청한
+  tr_id</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=13 height=299 class=xl67 style='height:221.0pt'>Response Body</td>
+  <td class=xl66 style='border-top:none'>rt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>성공 실패 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답메세지</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>80</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object array</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>array</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>record_date</td>
+  <td class=xl66 style='border-top:none;border-left:none'>기준일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sht_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>isin_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stk_kind</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식종류</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>reduce_cap_type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>감자구분</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>reduce_cap_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>감자배정율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>142</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>comp_way</td>
+  <td class=xl66 style='border-top:none;border-left:none'>계산방법</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>6</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>td_stop_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>매매거래정지기간</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>23</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>list_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상장/등록일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Example</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Request
+  Example (Python)</td>
+  <td colspan=6 class=xl70 style='border-left:none'>cts:<br />
+    <br />
+    f_dt:20230301<br />
+    <br />
+    t_dt:20240326<br />
+    <br />
+    sht_cd:</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Response
+  Example</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output1&quot;: [<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;067390&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;아스트&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/03/14 ~ 2024/03/31&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/04/01&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240226&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;000040&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;케이알모터스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 0.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/02/23 ~ 2024/03/17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/03/18&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240208&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;033180&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;케이에이치필룩스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/02/07 ~ 2024/02/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/02/29&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240207&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;219750&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;지티지웰니스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 4.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;나누기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240129&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;057880&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;피에이치씨&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/01/26 ~ 2024/02/20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/02/21&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240115&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;001140&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;국보&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/01/12 ~ 2024/02/01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/02/02&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240108&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;078130&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;국일제지&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2024/01/05 ~ 2024/02/21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2024/02/22&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20240102&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;013090&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;인켈&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240102&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;013095&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;인켈1우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;: &quot;우선&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240102&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;013097&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;인켈2우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;2우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231227&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;078130&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;국일제지&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/26 ~ 2024/02/20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/02/21&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231227&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;088240&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;대우조선해양건설&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231226&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;043590&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;웰킵스하이텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;: &quot;보통&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.75&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/22 ~ 2024/01/18&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/01/19&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;227420&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;도부마스크&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/01/19&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231218&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;076610&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;해성옵틱스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/15 ~ 2024/01/07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/01/08&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231218&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;217480&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에스디생명공학&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 0.70&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/15 ~ 2024/01/24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/01/25&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231215&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;321080&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;메타엠&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;유상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.43&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/14 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231214&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;299910&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;베스파&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/13 ~ 2024/01/14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2024/01/15&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20231213&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;314170&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;메디에이지&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/12 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231211&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;003560&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;아이에이치큐&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/08 ~ 2024/01/03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/01/04&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231211&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;078860&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;아이오케이컴퍼니&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/08 ~ 2023/12/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/12/27&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231208&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;088240&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;대우조선해양건설&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231208&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;08824K&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;대우조선해양건설1우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231208&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;08824L&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;대우조선해양건설2우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;2우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231208&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;08824M&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;대우조선해양건설3우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;3우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231207&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;159910&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;스킨앤스킨&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;: &quot;보통&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/06 ~ 2023/12/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/12/27&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231205&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;013090&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;인켈&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/04 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231205&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;013095&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;인켈1우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/04 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231205&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;013097&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;인켈2우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;2우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/04 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231204&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;002880&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;대유에이텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 3.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;나누기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/01 ~ 2023/12/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2023/12/20&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20231204&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;174880&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;장원테크&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/01 ~ 2023/12/20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/12/21&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231204&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;406830&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;여기어때컴퍼니&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;유상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 0.46&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/01 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231204&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;40683K&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;여기어때컴퍼니1우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;유상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.46&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/12/01 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231129&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;299910&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;베스파&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/11/28 ~ 2024/01/14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/01/15&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231127&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;412790&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;테람스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231123&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;181690&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;디엔지비&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/11/22 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231117&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;058450&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엔터파트너즈&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/11/16 ~ 2023/12/11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/12/12&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231117&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;155960&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;지디&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/11/16 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231117&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;186630&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;리치앤타임&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/11/16 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231113&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;144620&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;코오롱머티리얼&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;유상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.75&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/11/10 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231107&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;181690&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;디엔지비&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/11/06 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231106&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;148140&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;비디아이&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/11/03 ~ 2023/12/11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2023/12/12&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20231101&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;155900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;바다로19호선박투자회사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;유상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/10/31 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;197210&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;리드&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;: &quot;보통&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/10/27 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;238500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;로보쓰리에이아이앤로보틱스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/10/27 ~ 2023/11/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/11/17&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231020&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;148140&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;비디아이&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/10/19 ~ 2023/12/11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2023/12/12&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20231018&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;115390&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;락앤락&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;유상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.86&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/10/17 ~ 2023/11/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/11/06&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231012&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;326830&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;모르페우스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 0.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231010&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;005110&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;한창&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/10/06 ~ 2023/10/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2023/10/27&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20230926&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;065560&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;녹원씨엔아이&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/09/25 ~ 2023/10/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/10/23&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230925&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;447800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;브릿지벤처스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;유상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230922&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;101140&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;인바이오젠&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/09/21 ~ 2023/10/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2023/10/23&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20230922&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;101145&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;인바이오젠1우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/09/21 ~ 2023/10/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/10/23&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230919&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;06911M&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;코스온3우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;3우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 0.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/09/18 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230914&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;234760&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;고위드&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;유상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.72&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/09/13 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230912&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;069110&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;코스온&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/09/11 ~ 2023/10/10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/10/11&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230911&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;046640&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;씨디데이타&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 0.40&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230907&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;058420&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;제이웨이&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/09/06 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230907&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;05842L&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;제이웨이2우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;2우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/09/06 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230906&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;033180&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;케이에이치필룩스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/09/05 ~ 2023/10/03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/10/04&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230823&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;003560&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;아이에이치큐&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/08/22 ~ 2023/09/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2023/09/14&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20230822&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;036630&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;세종텔레콤&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;유상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.81&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/08/21 ~ 2023/09/07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/09/08&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230822&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;043420&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에코이에스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;유상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 0.73&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230822&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;220630&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;맘스터치앤컴퍼니&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;유상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/08/21 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230811&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;000360&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;삼환기업&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/08/10 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230807&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;048180&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;씨제이푸드빌&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.63&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230807&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;434840&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;니즈게임즈&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;유상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.88&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/08/04 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230725&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;111870&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;케이에이치전자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/07/24 ~ 2023/08/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/08/17&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230720&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;091090&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;세원이앤씨&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 0.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/07/19 ~ 2023/08/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/08/14&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230719&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;203810&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;국제16호선박투자회사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;유상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/07/18 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230710&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;087800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;KDB생명보험&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/07/07 ~ 2023/07/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/07/27&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230703&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;038530&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;케이바이오컴퍼니&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/06/30 ~ 2023/07/20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/07/21&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230612&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;197210&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;리드&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 0.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/06/09 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230612&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;19721K&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;리드1우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/06/09 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230608&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;139050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;시티랩스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/06/07 ~ 2023/06/27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/06/28&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230515&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;373560&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;페이투스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 0.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230509&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;351160&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;케이온네트워크&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.58&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/05/08 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230508&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;138690&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엘아이에스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/05/04 ~ 2023/06/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/06/27&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230502&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;115580&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;현대인프라코어&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 0.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/04/28 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230501&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;333830&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;티비에스머티리얼&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230428&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;113300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;세명테크&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/04/27 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230424&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;112240&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에스에프씨&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/04/21 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230420&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;050320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에스에이치엔엘&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230420&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;05032K&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에스에이치엔엘1우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230418&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;203810&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;국제16호선박투자회사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;유상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.91&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/04/17 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230418&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;391360&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;버디버디(budybudy)&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/04/17 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230417&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;141020&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;디에스앤엘&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/04/14 ~ 2023/05/08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2023/05/09&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;: &quot;20230417&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;219750&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;지티지웰니스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/04/14 ~ 2023/05/07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/05/08&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230417&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;329820&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;정금에프앤씨&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 0.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230413&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;019570&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;리더스기술투자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/04/12 ~ 2023/05/02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/05/03&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230411&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;050090&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;비케이홀딩스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_rate&quot;: &quot; 0.25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/04/10 ~ 2023/05/07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/05/08&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230403&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;362570&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;아이프리원&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;reduce_cap_type&quot;: &quot;무상감자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;reduce_cap_rate&quot;:
+  &quot; 0.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;comp_way&quot;:
+  &quot;곱하기&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;td_stop_dt&quot;:
+  &quot;2023/03/31 ~&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20230329&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;101000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=188 style='width:141pt'></td>
+  <td width=109 style='width:82pt'></td>
+  <td width=72 style='width:54pt'></td>
+  <td width=79 style='width:59pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=55 style='width:41pt'></td>
+  <td width=71 style='width:53pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

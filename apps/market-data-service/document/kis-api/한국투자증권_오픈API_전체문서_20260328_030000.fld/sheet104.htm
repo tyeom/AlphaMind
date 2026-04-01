@@ -1,0 +1,2430 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File
+href="../한국투자증권_오픈API_전체문서_20260328_030000.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕";
+	mso-generic-font-family:auto;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(103);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../한국투자증권_오픈API_전체문서_20260328_030000.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#467886" vlink="#96607D">
+
+<table border=0 cellpadding=0 cellspacing=0 width=705 style='border-collapse:
+ collapse;table-layout:fixed;width:528pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=167 style='mso-width-source:userset;mso-width-alt:5333;width:125pt'>
+ <col width=111 style='mso-width-source:userset;mso-width-alt:3541;width:83pt'>
+ <col width=44 style='mso-width-source:userset;mso-width-alt:1408;width:33pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2218;width:52pt'>
+ <col width=55 style='mso-width-source:userset;mso-width-alt:1749;width:41pt'>
+ <col width=71 style='width:53pt'>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl68 width=705 style='height:17.0pt;width:528pt'>주식기본조회</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 통신방식</td>
+  <td colspan=6 class=xl66 style='border-left:none'>REST</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>메뉴 위치</td>
+  <td colspan=6 class=xl66 style='border-left:none'>[국내주식] 종목정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>주식기본조회</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>v1_국내주식-067</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>CTPF1002R</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>기본정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>HTTP Method</td>
+  <td colspan=6 class=xl66 style='border-left:none'>GET</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>https://openapi.koreainvestment.com:9443</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>URL 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>/uapi/domestic-stock/v1/quotations/search-stock-info</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>개요</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>개요</td>
+  <td colspan=6 class=xl65 width=517 style='border-left:none;width:387pt'>주식기본조회
+  API입니다.<br />
+    <br />
+    국내주식 종목의 종목상세정보를 확인할 수 있습니다.</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Layout</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>구분</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Element</td>
+  <td class=xl67 style='border-top:none;border-left:none'>한글명</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Type</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Required</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Length</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Description</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=13 height=1421 class=xl67 style='height:1065.0pt;border-top:none'>Request
+  Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=427 style='height:320.0pt'>
+  <td height=427 class=xl66 style='height:320.0pt;border-top:none'>authorization</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접근토큰</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>350</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>OAuth
+  토큰이 필요한 API 경우 발급한 Access token <br />
+    <br />
+    일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) <br
+  />
+    <br />
+    법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization
+  Code Grant 절차를 준용)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appkey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>36</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appsecret</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱시크릿키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>personalseckey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객식별키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사 회원 관리를 위한 고객식별키</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>CTPF1002R</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>custtype</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객 타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>B
+  : 법인 <br />
+    <br />
+    P : 개인</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>seq_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>일련번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 001</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>mac_address</td>
+  <td class=xl66 style='border-top:none;border-left:none'>맥주소</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>법인고객
+  혹은 개인고객의 Mac address 값</td>
+ </tr>
+ <tr height=191 style='height:143.0pt'>
+  <td height=191 class=xl66 style='height:143.0pt;border-top:none'>phone_number</td>
+  <td class=xl66 style='border-top:none;border-left:none'>핸드폰번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 <br />
+    <br />
+    ex) 01011112222 (하이픈 등 구분값 제거)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>ip_addr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접속 단말 공인 IP</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 사용자(회원)의 IP Address</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=121 style='height:91.0pt'>
+  <td rowspan=2 height=225 class=xl67 style='height:169.0pt'>Request Query
+  Parameter</td>
+  <td class=xl66 style='border-top:none'>PRDT_TYPE_CD</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품유형코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>300:
+  주식, ETF, ETN, ELW <br />
+    <br />
+    301 : 선물옵션 <br />
+    <br />
+    302 : 채권 <br />
+    <br />
+    306 : ELS'</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>PDNO</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>종목번호
+  (6자리)<br />
+    <br />
+    ETN의 경우, Q로 시작 (EX. Q500001)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=248 class=xl67 style='height:186.0pt'>Response Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>요청한
+  tr_id</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=71 height=5265 class=xl67 style='height:3930.0pt'>Response Body</td>
+  <td class=xl66 style='border-top:none'>rt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>성공 실패 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답메세지</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>80</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>pdno</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdt_type_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품유형코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=395 style='height:296.0pt'>
+  <td height=395 class=xl66 style='height:296.0pt;border-top:none'>mket_id_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>시장ID코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>AGR.농축산물파생<br
+  />
+    <br />
+    BON.채권파생<br />
+    <br />
+    CMD.일반상품시장<br />
+    <br />
+    CUR.통화파생<br />
+    <br />
+    ENG.에너지파생<br />
+    <br />
+    EQU.주식파생<br />
+    <br />
+    ETF.ETF파생<br />
+    <br />
+    IRT.금리파생<br />
+    <br />
+    KNX.코넥스<br />
+    <br />
+    KSQ.코스닥<br />
+    <br />
+    MTL.금속파생<br />
+    <br />
+    SPI.주가지수파생<br />
+    <br />
+    STK.유가증권</td>
+ </tr>
+ <tr height=547 style='height:409.6pt'>
+  <td height=547 class=xl66 style='height:409.6pt;border-top:none'>scty_grp_id_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>증권그룹ID코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span>BC.수익증권<br />
+    <br />
+    DR.주식예탁증서<br />
+    <br />
+    EF.ETF<br />
+    <br />
+    EN.ETN<br />
+    <br />
+    EW.ELW<br />
+    <br />
+    FE.해외ETF<br />
+    <br />
+    FO.선물옵션<br />
+    <br />
+    FS.외국주권<br />
+    <br />
+    FU.선물<br />
+    <br />
+    FX.플렉스 선물<br />
+    <br />
+    GD.금현물<br />
+    <br />
+    IC.투자계약증권<br />
+    <br />
+    IF.사회간접자본투융자회사<br />
+    <br />
+    KN.코넥스주권<br />
+    <br />
+    MF.투자회사<br />
+    <br />
+    OP.옵션<br />
+    <br />
+    RT.부동산투자회사<br />
+    <br />
+    SC.선박투자회사<br />
+    <br />
+    SR.신주인수권증서<br />
+    <br />
+    ST.주권<br />
+    <br />
+    SW.신주인수권증권<br />
+    <br />
+    TC.신탁수익증권</td>
+ </tr>
+ <tr height=507 style='height:380.0pt'>
+  <td height=507 class=xl66 style='height:380.0pt;border-top:none'>excg_dvsn_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래소구분코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span>01.한국증권<br />
+    <br />
+    02.증권거래소<br />
+    <br />
+    03.코스닥<br />
+    <br />
+    04.K-OTC<br />
+    <br />
+    05.선물거래소<br />
+    <br />
+    06.CME<br />
+    <br />
+    07.EUREX<br />
+    <br />
+    21.금현물<br />
+    <br />
+    50.미국주간<br />
+    <br />
+    51.홍콩<br />
+    <br />
+    52.상해B<br />
+    <br />
+    53.심천<br />
+    <br />
+    54.홍콩거래소<br />
+    <br />
+    55.미국<br />
+    <br />
+    56.일본<br />
+    <br />
+    57.상해A<br />
+    <br />
+    58.심천A<br />
+    <br />
+    59.베트남<br />
+    <br />
+    61.장전시간외시장<br />
+    <br />
+    64.경쟁대량매매<br />
+    <br />
+    65.경매매시장<br />
+    <br />
+    81.시간외단일가시장</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>setl_mmdd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>결산월일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>4</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>lstg_stqt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상장주수</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>lstg_cptl_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상장자본금액</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>cpta</td>
+  <td class=xl66 style='border-top:none;border-left:none'>자본금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>papr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>액면가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>issu_pric</td>
+  <td class=xl66 style='border-top:none;border-left:none'>발행가격</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kospi200_item_yn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>코스피200종목여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>scts_mket_lstg_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>유가증권시장상장일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>scts_mket_lstg_abol_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>유가증권시장상장폐지일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kosdaq_mket_lstg_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>코스닥시장상장일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kosdaq_mket_lstg_abol_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>코스닥시장상장폐지일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>frbd_mket_lstg_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>프리보드시장상장일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>frbd_mket_lstg_abol_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>프리보드시장상장폐지일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>reits_kind_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>리츠종류코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>etf_dvsn_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>ETF구분코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>oilf_fund_yn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>유전펀드여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>idx_bztp_lcls_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>지수업종대분류코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>idx_bztp_mcls_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>지수업종중분류코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>idx_bztp_scls_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>지수업종소분류코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=547 style='height:409.6pt'>
+  <td height=547 class=xl66 style='height:409.6pt;border-top:none'>stck_kind_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식종류코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>3</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span>000.해당사항없음<br />
+    <br />
+    101.보통주<br />
+    <br />
+    201.우선주<br />
+    <br />
+    202.2우선주<br />
+    <br />
+    203.3우선주<br />
+    <br />
+    204.4우선주<br />
+    <br />
+    205.5우선주<br />
+    <br />
+    206.6우선주<br />
+    <br />
+    207.7우선주<br />
+    <br />
+    208.8우선주<br />
+    <br />
+    209.9우선주<br />
+    <br />
+    210.10우선주<br />
+    <br />
+    211.11우선주<br />
+    <br />
+    212.12우선주<br />
+    <br />
+    213.13우선주<br />
+    <br />
+    214.14우선주<br />
+    <br />
+    215.15우선주<br />
+    <br />
+    216.16우선주<br />
+    <br />
+    217.17우선주<br />
+    <br />
+    218.18우선주<br />
+    <br />
+    219.19우선주<br />
+    <br />
+    220.20우선주<br />
+    <br />
+    301.후배주<br />
+    <br />
+    401.혼합주</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>mfnd_opng_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>뮤추얼펀드개시일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>mfnd_end_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>뮤추얼펀드종료일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>dpsi_erlm_cncl_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>예탁등록취소일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>etf_cu_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>ETFCU수량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdt_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>60</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdt_name120</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품명120</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>120</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdt_abrv_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품약어명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>60</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>std_pdno</td>
+  <td class=xl66 style='border-top:none;border-left:none'>표준상품번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdt_eng_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품영문명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>60</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdt_eng_name120</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품영문명120</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>120</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdt_eng_abrv_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상품영문약어명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>60</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>dpsi_aptm_erlm_yn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>예탁지정등록여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>etf_txtn_type_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>ETF과세유형코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>etf_type_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>ETF유형코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>lstg_abol_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상장폐지일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nwst_odst_dvsn_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>신주구주구분코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sbst_pric</td>
+  <td class=xl66 style='border-top:none;border-left:none'>대용가격</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>thco_sbst_pric</td>
+  <td class=xl66 style='border-top:none;border-left:none'>당사대용가격</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>thco_sbst_pric_chng_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>당사대용가격변경일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_stop_yn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래정지여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>admn_item_yn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>관리종목여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>thdt_clpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>당일종가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>bfdy_clpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전일종가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>clpr_chng_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종가변경일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>std_idst_clsf_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>표준산업분류코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>6</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=547 style='height:409.6pt'>
+  <td height=547 class=xl66 style='height:409.6pt;border-top:none'>std_idst_clsf_cd_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>표준산업분류코드명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>130</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>표준산업소분류코드<br
+  />
+    <br />
+    000000	해당사항없음<span
+  style='mso-spacerun:yes'>                                     </span><br />
+    <br />
+    010101	작물 재배업<span
+  style='mso-spacerun:yes'>                                      </span><br
+  />
+    <br />
+    010102	축산업<span
+  style='mso-spacerun:yes'>                                          
+  </span><br />
+    <br />
+    010103	작물재배 및 축산 복합농업<span style='mso-spacerun:yes'>                       
+  </span><br />
+    <br />
+    010104	작물재배 및 축산 관련 서비스업<span style='mso-spacerun:yes'>                  
+  </span><br />
+    <br />
+    010105	수렵 및 관련 서비스업<span
+  style='mso-spacerun:yes'>                            </span><br />
+    <br />
+    010201	임업<span style='mso-spacerun:yes'>                                            
+  </span><br />
+    <br />
+    010301	어로 어업<span
+  style='mso-spacerun:yes'>                                        </span><br
+  />
+    <br />
+    010302	양식어업 및 어업관련 서비스업<span style='mso-spacerun:yes'>                   
+  </span><br />
+    <br />
+    020501	석탄 광업<span
+  style='mso-spacerun:yes'>                                        </span><br
+  />
+    <br />
+    020502	원유 및 천연가스 채굴업<span
+  style='mso-spacerun:yes'>                          </span><br />
+    <br />
+    020601	철 광업<span style='mso-spacerun:yes'>                                         
+  </span><br />
+    <br />
+    020602	비철금속 광업<span
+  style='mso-spacerun:yes'>                                    </span><br />
+    <br />
+    020701	토사석 광업<span
+  style='mso-spacerun:yes'>                                      </span><br
+  />
+    <br />
+    020702	기타 비금속광물 광업<span
+  style='mso-spacerun:yes'>                             </span><br />
+    <br />
+    020801	광업 지원 서비스업<span
+  style='mso-spacerun:yes'>                               </span><br />
+    <br />
+    031001	도축, 육류 가공 및 저장 처리업<span style='mso-spacerun:yes'>                  
+  </span><br />
+    <br />
+    031002	수산물 가공 및 저장 처리업<span style='mso-spacerun:yes'>                      
+  </span><br />
+    <br />
+    031003	과실, 채소 가공 및 저장 처리업<span style='mso-spacerun:yes'>                  
+  </span><br />
+    <br />
+    031004	동물성 및 식물성 유지 제조업<span style='mso-spacerun:yes'>                    
+  </span><br />
+    <br />
+    031005	낙농제품 및 식용빙과류 제조업<span style='mso-spacerun:yes'>                   
+  </span><br />
+    <br />
+    031006	곡물가공품, 전분 및 전분제품 제조업<span style='mso-spacerun:yes'>             
+  </span><br />
+    <br />
+    031007	기타 식품 제조업<span
+  style='mso-spacerun:yes'>                                 </span><br />
+    <br />
+    031008	동물용 사료 및 조제식품 제조업<span style='mso-spacerun:yes'>                  
+  </span><br />
+    <br />
+    031101	알콜음료 제조업<span
+  style='mso-spacerun:yes'>                                  </span><br />
+    <br />
+    031102	비알콜음료 및 얼음 제조업<span style='mso-spacerun:yes'>                       
+  </span><br />
+    <br />
+    031201	담배 제조업<span
+  style='mso-spacerun:yes'>                                      </span><br
+  />
+    <br />
+    031301	방적 및 가공사 제조업<span
+  style='mso-spacerun:yes'>                            </span><br />
+    <br />
+    031302	직물직조 및 직물제품 제조업<span style='mso-spacerun:yes'>                     
+  </span><br />
+    <br />
+    031303	편조원단 및 편조제품 제조업<span style='mso-spacerun:yes'>                     
+  </span><br />
+    <br />
+    031304	섬유제품 염색, 정리 및 마무리 가공업<span style='mso-spacerun:yes'>            
+  </span><br />
+    <br />
+    031309	기타 섬유제품 제조업<span
+  style='mso-spacerun:yes'>                             </span><br />
+    <br />
+    031401	봉제의복 제조업<span
+  style='mso-spacerun:yes'>                                  </span><br />
+    <br />
+    031402	모피가공 및 모피제품 제조업<span style='mso-spacerun:yes'>                     
+  </span><br />
+    <br />
+    031403	편조의복 제조업<span
+  style='mso-spacerun:yes'>                                  </span><br />
+    <br />
+    031404	의복 액세서리 제조업<span style='mso-spacerun:yes'>                            
+  </span><br />
+    <br />
+    031501	가죽, 가방 및 유사제품 제조업<span style='mso-spacerun:yes'>                   
+  </span><br />
+    <br />
+    031502	신발 및 신발부분품 제조업<span style='mso-spacerun:yes'>                       
+  </span><br />
+    <br />
+    031601	제재 및 목재 가공업<span
+  style='mso-spacerun:yes'>                              </span><br />
+    <br />
+    031602	나무제품 제조업<span
+  style='mso-spacerun:yes'>                                  </span><br />
+    <br />
+    031603	코르크 및 조물 제품 제조업<span style='mso-spacerun:yes'>                      
+  </span><br />
+    <br />
+    031701	펄프, 종이 및 판지 제조업<span
+  style='mso-spacerun:yes'>                        </span><br />
+    <br />
+    031702	골판지, 종이 상자 및 종이용기 제조업<span style='mso-spacerun:yes'>            
+  </span><br />
+    <br />
+    031709	기타 종이 및 판지 제품 제조업<span style='mso-spacerun:yes'>                   
+  </span><br />
+    <br />
+    031801	인쇄 및 인쇄관련 산업<span
+  style='mso-spacerun:yes'>                            </span><br />
+    <br />
+    031802	기록매체 복제업<span
+  style='mso-spacerun:yes'>                                  </span><br />
+    <br />
+    031901	코크스 및 연탄 제조업<span
+  style='mso-spacerun:yes'>                            </span><br />
+    <br />
+    031902	석유 정제품 제조업<span style='mso-spacerun:yes'>                              
+  </span><br />
+    <br />
+    032001	기초화학물질 제조업<span
+  style='mso-spacerun:yes'>                              </span><br />
+    <br />
+    032002	비료 및 질소화합물 제조업<span style='mso-spacerun:yes'>                       
+  </span><br />
+    <br />
+    032003	합성고무 및 플라스틱 물질 제조업<span style='mso-spacerun:yes'>                
+  </span><br />
+    <br />
+    032004	기타 화학제품 제조업<span
+  style='mso-spacerun:yes'>                             </span><br />
+    <br />
+    032005	화학섬유 제조업<span
+  style='mso-spacerun:yes'>                                  </span><br />
+    <br />
+    032101	기초 의약물질 및 생물학적 제제 제조업<span style='mso-spacerun:yes'>           
+  </span><br />
+    <br />
+    032102	의약품 제조업<span style='mso-spacerun:yes'>                                   
+  </span><br />
+    <br />
+    032103	의료용품 및 기타 의약관련제품 제조업<span style='mso-spacerun:yes'>            
+  </span><br />
+    <br />
+    032201	고무제품 제조업<span
+  style='mso-spacerun:yes'>                                  </span><br />
+    <br />
+    032202	플라스틱제품 제조업<span
+  style='mso-spacerun:yes'>                              </span><br />
+    <br />
+    032301	유리 및 유리제품 제조업<span
+  style='mso-spacerun:yes'>                          </span><br />
+    <br />
+    032302	도자기 및 기타 요업제품 제조업<span style='mso-spacerun:yes'>                  
+  </span><br />
+    <br />
+    032303	시멘트, 석회, 플라스터 및 그 제품 제조업<span style='mso-spacerun:yes'>        
+  </span><br />
+    <br />
+    032309	기타 비금속 광물제품 제조업<span style='mso-spacerun:yes'>                     
+  </span><br />
+    <br />
+    032401	1차 철강 제조업<span
+  style='mso-spacerun:yes'>                                  </span><br />
+    <br />
+    032402	1차 비철금속 제조업<span
+  style='mso-spacerun:yes'>                              </span><br />
+    <br />
+    032403	금속 주조업<span
+  style='mso-spacerun:yes'>                                      </span><br
+  />
+    <br />
+    032501	구조용 금속제품, 탱크 및 증기발생기 제조업<span style='mso-spacerun:yes'>      
+  </span><br />
+    <br />
+    032502	무기 및 총포탄 제조업<span style='mso-spacerun:yes'>                           
+  </span><br />
+    <br />
+    032509	기타 금속가공제품 제조업<span style='mso-spacerun:yes'>                        
+  </span><br />
+    <br />
+    032601	반도체 제조업<span
+  style='mso-spacerun:yes'>                                    </span><br />
+    <br />
+    032602	전자부품 제조업<span
+  style='mso-spacerun:yes'>                                  </span><br />
+    <br />
+    032603	컴퓨터 및 주변장치 제조업<span style='mso-spacerun:yes'>                       
+  </span><br />
+    <br />
+    032604	통신 및 방송 장비 제조업<span
+  style='mso-spacerun:yes'>                         </span><br />
+    <br />
+    032605	영상 및 음향기기 제조업<span
+  style='mso-spacerun:yes'>                          </span><br />
+    <br />
+    032606	마그네틱 및 광학 매체 제조업<span style='mso-spacerun:yes'>                    
+  </span><br />
+    <br />
+    032701	의료용 기기 제조업<span
+  style='mso-spacerun:yes'>                               </span><br />
+    <br />
+    032702	측정, 시험, 항해, 제어 및 기타 정밀기기 제조업; ?<br />
+    <br />
+    032703	안경, 사진장비 및 기타 광학기기 제조업<span style='mso-spacerun:yes'>          
+  </span><br />
+    <br />
+    032704	시계 및 시계부품 제조업<span
+  style='mso-spacerun:yes'>                          </span><br />
+    <br />
+    032801	전동기, 발전기 및 전기 변환 · 공급 · 제어 장치 <br />
+    <br />
+    032802	일차전지 및 축전지 제조업<span style='mso-spacerun:yes'>                       
+  </span><br />
+    <br />
+    032803	절연선 및 케이블 제조업<span
+  style='mso-spacerun:yes'>                          </span><br />
+    <br />
+    032804	전구 및 조명장치 제조업<span style='mso-spacerun:yes'>                         
+  </span><br />
+    <br />
+    032805	가정용 기기 제조업<span
+  style='mso-spacerun:yes'>                               </span><br />
+    <br />
+    032809	기타 전기장비 제조업<span
+  style='mso-spacerun:yes'>                             </span><br />
+    <br />
+    032901	일반 목적용 기계 제조업<span
+  style='mso-spacerun:yes'>                          </span><br />
+    <br />
+    032902	특수 목적용 기계 제조업<span
+  style='mso-spacerun:yes'>                          </span><br />
+    <br />
+    033001	자동차용 엔진 및 자동차 제조업<span style='mso-spacerun:yes'>                  
+  </span><br />
+    <br />
+    033002	자동차 차체 및 트레일러 제조업<span style='mso-spacerun:yes'>                  
+  </span><br />
+    <br />
+    033003	자동차 부품 제조업<span
+  style='mso-spacerun:yes'>                               </span><br />
+    <br />
+    033101	선박 및 보트 건조업<span
+  style='mso-spacerun:yes'>                              </span><br />
+    <br />
+    033102	철도장비 제조업<span
+  style='mso-spacerun:yes'>                                  </span><br />
+    <br />
+    033103	항공기,우주선 및 부품 제조업<span style='mso-spacerun:yes'>                    
+  </span><br />
+    <br />
+    033109	그외 기타 운송장비 제조업<span style='mso-spacerun:yes'>                       
+  </span><br />
+    <br />
+    033201	가구 제조업<span style='mso-spacerun:yes'>                                     
+  </span><br />
+    <br />
+    033301	귀금속 및 장신용품 제조업<span style='mso-spacerun:yes'>                       
+  </span><br />
+    <br />
+    033302	악기 제조업<span
+  style='mso-spacerun:yes'>                                      </span><br
+  />
+    <br />
+    033303	운동 및 경기용구 제조업<span
+  style='mso-spacerun:yes'>                          </span><br />
+    <br />
+    033304	인형,장난감 및 오락용품 제조업<span style='mso-spacerun:yes'>                  
+  </span><br />
+    <br />
+    033309	그외 기타 제품 제조업<span
+  style='mso-spacerun:yes'>                            </span><br />
+    <br />
+    043501	전기업<span
+  style='mso-spacerun:yes'>                                          
+  </span><br />
+    <br />
+    043502	가스 제조 및 배관공급업<span style='mso-spacerun:yes'>                         
+  </span><br />
+    <br />
+    043503	증기, 냉온수 및 공기조절 공급업<span style='mso-spacerun:yes'>                 
+  </span><br />
+    <br />
+    043601	수도사업<span
+  style='mso-spacerun:yes'>                                         </span><br
+  />
+    <br />
+    053701	하수, 폐수 및 분뇨 처리업<span
+  style='mso-spacerun:yes'>                        </span><br />
+    <br />
+    053801	폐기물 수집운반업<span
+  style='mso-spacerun:yes'>                                </span><br />
+    <br />
+    053802	폐기물 처리업<span
+  style='mso-spacerun:yes'>                                    </span><br />
+    <br />
+    053803	금속 및 비금속 원료 재생업<span style='mso-spacerun:yes'>                      
+  </span><br />
+    <br />
+    053901	환경 정화 및 복원업<span style='mso-spacerun:yes'>                             
+  </span><br />
+    <br />
+    064101	건물 건설업<span
+  style='mso-spacerun:yes'>                                      </span><br
+  />
+    <br />
+    064102	토목 건설업<span
+  style='mso-spacerun:yes'>                                      </span><br
+  />
+    <br />
+    064201	기반조성 및 시설물 축조관련 전문공사업<span style='mso-spacerun:yes'>          
+  </span><br />
+    <br />
+    064202	건물설비 설치 공사업<span
+  style='mso-spacerun:yes'>                             </span><br />
+    <br />
+    064203	전기 및 통신 공사업<span
+  style='mso-spacerun:yes'>                              </span><br />
+    <br />
+    064204	실내건축 및 건축 마무리 공사업<span style='mso-spacerun:yes'>                  
+  </span><br />
+    <br />
+    064205	건설장비 운영업<span style='mso-spacerun:yes'>                                 
+  </span><br />
+    <br />
+    074501	자동차 판매업<span
+  style='mso-spacerun:yes'>                                    </span><br />
+    <br />
+    074502	자동차 부품 및 내장품 판매업<span style='mso-spacerun:yes'>                    
+  </span><br />
+    <br />
+    074503	모터사이클 및 부품 판매업<span style='mso-spacerun:yes'>                       
+  </span><br />
+    <br />
+    074601	상품 중개업<span
+  style='mso-spacerun:yes'>                                      </span><br
+  />
+    <br />
+    074602	산업용 농축산물 및 산동물 도매업<span style='mso-spacerun:yes'>                
+  </span><br />
+    <br />
+    074603	음·식료품 및 담배 도매업<span style='mso-spacerun:yes'>                       
+  </span><br />
+    <br />
+    074604	가정용품 도매업<span
+  style='mso-spacerun:yes'>                                  </span><br />
+    <br />
+    074605	기계장비 및 관련 물품 도매업<span style='mso-spacerun:yes'>                    
+  </span><br />
+    <br />
+    074606	건축자재, 철물 및 난방장치 도매업<span style='mso-spacerun:yes'>               
+  </span><br />
+    <br />
+    074607	기타 전문 도매업<span
+  style='mso-spacerun:yes'>                                 </span><br />
+    <br />
+    074608	상품 종합 도매업<span
+  style='mso-spacerun:yes'>                                 </span><br />
+    <br />
+    074701	종합 소매업<span style='mso-spacerun:yes'>                                     
+  </span><br />
+    <br />
+    074702	음·식료품 및 담배 소매업<span style='mso-spacerun:yes'>                       
+  </span><br />
+    <br />
+    074703	정보통신장비 소매업<span
+  style='mso-spacerun:yes'>                              </span><br />
+    <br />
+    074704	섬유, 의복, 신발 및 가죽제품 소매업<span style='mso-spacerun:yes'>             
+  </span><br />
+    <br />
+    074705	기타 가정용품 소매업<span
+  style='mso-spacerun:yes'>                             </span><br />
+    <br />
+    074706	문화, 오락 및 여가 용품 소매업<span style='mso-spacerun:yes'>                  
+  </span><br />
+    <br />
+    074707	연료 소매업<span
+  style='mso-spacerun:yes'>                                      </span><br
+  />
+    <br />
+    074708	기타 상품 전문 소매업<span style='mso-spacerun:yes'>                           
+  </span><br />
+    <br />
+    074709	무점포 소매업<span
+  style='mso-spacerun:yes'>                                    </span><br />
+    <br />
+    084901	철도운송업<span
+  style='mso-spacerun:yes'>                                       </span><br
+  />
+    <br />
+    084902	육상 여객 운송업<span
+  style='mso-spacerun:yes'>                                 </span><br />
+    <br />
+    084903	도로 화물 운송업<span
+  style='mso-spacerun:yes'>                                 </span><br />
+    <br />
+    084904	소화물 전문 운송업<span
+  style='mso-spacerun:yes'>                               </span><br />
+    <br />
+    084905	파이프라인 운송업<span
+  style='mso-spacerun:yes'>                                </span><br />
+    <br />
+    085001	해상 운송업<span style='mso-spacerun:yes'>                                     
+  </span><br />
+    <br />
+    085002	내륙 수상 및 항만내 운송업<span style='mso-spacerun:yes'>                      
+  </span><br />
+    <br />
+    085101	정기 항공 운송업<span
+  style='mso-spacerun:yes'>                                 </span><br />
+    <br />
+    085102	부정기 항공 운송업<span
+  style='mso-spacerun:yes'>                               </span><br />
+    <br />
+    085201	보관 및 창고업<span
+  style='mso-spacerun:yes'>                                   </span><br />
+    <br />
+    085209	기타 운송관련 서비스업<span
+  style='mso-spacerun:yes'>                           </span><br />
+    <br />
+    095501	숙박시설 운영업<span
+  style='mso-spacerun:yes'>                                  </span><br />
+    <br />
+    095509	기타 숙박업<span style='mso-spacerun:yes'>                                     
+  </span><br />
+    <br />
+    095601	음식점업<span
+  style='mso-spacerun:yes'>                                         </span><br
+  />
+    <br />
+    095602	주점 및 비알콜음료점업<span
+  style='mso-spacerun:yes'>                           </span><br />
+    <br />
+    105801	서적, 잡지 및 기타 인쇄물 출판업<span style='mso-spacerun:yes'>                
+  </span><br />
+    <br />
+    105802	소프트웨어 개발 및 공급업<span style='mso-spacerun:yes'>                       
+  </span><br />
+    <br />
+    105901	영화, 비디오물, 방송프로그램 제작 및 배급업<span style='mso-spacerun:yes'>     
+  </span><br />
+    <br />
+    105902	오디오물 출판 및 원판 녹음업<span style='mso-spacerun:yes'>                    
+  </span><br />
+    <br />
+    106001	라디오 방송업<span
+  style='mso-spacerun:yes'>                                    </span><br />
+    <br />
+    106002	텔레비전 방송업<span
+  style='mso-spacerun:yes'>                                  </span><br />
+    <br />
+    106101	우편업<span
+  style='mso-spacerun:yes'>                                          
+  </span><br />
+    <br />
+    106102	전기통신업<span
+  style='mso-spacerun:yes'>                                       </span><br
+  />
+    <br />
+    106201	컴퓨터 프로그래밍, 시스템 통합 및 관리업<span style='mso-spacerun:yes'>        
+  </span><br />
+    <br />
+    106301	자료처리, 호스팅, 포털 및 기타 인터넷 정보매개서?<br />
+    <br />
+    106309	기타 정보 서비스업<span
+  style='mso-spacerun:yes'>                               </span><br />
+    <br />
+    116401	은행 및 저축기관<span
+  style='mso-spacerun:yes'>                                 </span><br />
+    <br />
+    116402	투자기관<span style='mso-spacerun:yes'>                                        
+  </span><br />
+    <br />
+    116409	기타 금융업<span
+  style='mso-spacerun:yes'>                                      </span><br
+  />
+    <br />
+    116501	보험업<span
+  style='mso-spacerun:yes'>                                          
+  </span><br />
+    <br />
+    116502	재 보험업<span
+  style='mso-spacerun:yes'>                                        </span><br
+  />
+    <br />
+    116503	연금 및 공제업<span
+  style='mso-spacerun:yes'>                                   </span><br />
+    <br />
+    116601	금융지원 서비스업<span
+  style='mso-spacerun:yes'>                                </span><br />
+    <br />
+    116602	보험 및 연금관련 서비스업<span style='mso-spacerun:yes'>                       
+  </span><br />
+    <br />
+    126801	부동산 임대 및 공급업<span
+  style='mso-spacerun:yes'>                            </span><br />
+    <br />
+    126802	부동산 관련 서비스업<span
+  style='mso-spacerun:yes'>                             </span><br />
+    <br />
+    126901	운송장비 임대업<span style='mso-spacerun:yes'>                                 
+  </span><br />
+    <br />
+    126902	개인 및 가정용품 임대업<span
+  style='mso-spacerun:yes'>                          </span><br />
+    <br />
+    126903	산업용 기계 및 장비 임대업<span style='mso-spacerun:yes'>                      
+  </span><br />
+    <br />
+    126904	무형재산권 임대업<span
+  style='mso-spacerun:yes'>                                </span><br />
+    <br />
+    137001	자연과학 및 공학 연구개발업<span style='mso-spacerun:yes'>                     
+  </span><br />
+    <br />
+    137002	인문 및 사회과학 연구개발업<span style='mso-spacerun:yes'>                     
+  </span><br />
+    <br />
+    137101	법무관련 서비스업<span
+  style='mso-spacerun:yes'>                                </span><br />
+    <br />
+    137102	회계 및 세무관련 서비스업<span style='mso-spacerun:yes'>                       
+  </span><br />
+    <br />
+    137103	광고업<span
+  style='mso-spacerun:yes'>                                          
+  </span><br />
+    <br />
+    137104	시장조사 및 여론조사업<span
+  style='mso-spacerun:yes'>                           </span><br />
+    <br />
+    137105	회사본부, 지주회사 및 경영컨설팅 서비스업<span style='mso-spacerun:yes'>       
+  </span><br />
+    <br />
+    137201	건축기술, 엔지니어링 및 관련기술 서비스업<span style='mso-spacerun:yes'>       
+  </span><br />
+    <br />
+    137209	기타 과학기술 서비스업<span style='mso-spacerun:yes'>                          
+  </span><br />
+    <br />
+    137301	수의업<span
+  style='mso-spacerun:yes'>                                          
+  </span><br />
+    <br />
+    137302	전문디자인업<span
+  style='mso-spacerun:yes'>                                     </span><br />
+    <br />
+    137303	사진 촬영 및 처리업<span
+  style='mso-spacerun:yes'>                              </span><br />
+    <br />
+    137309	그외 기타 전문, 과학 및 기술 서비스업<span style='mso-spacerun:yes'>           
+  </span><br />
+    <br />
+    147401	사업시설 유지관리 서비스업<span style='mso-spacerun:yes'>                      
+  </span><br />
+    <br />
+    147402	건물·산업설비 청소 및 방제 서비스업<span style='mso-spacerun:yes'>            
+  </span><br />
+    <br />
+    147403	조경 관리 및 유지 서비스업<span style='mso-spacerun:yes'>                      
+  </span><br />
+    <br />
+    147501	인력공급 및 고용알선업<span
+  style='mso-spacerun:yes'>                           </span><br />
+    <br />
+    147502	여행사 및 기타 여행보조 서비스업<span style='mso-spacerun:yes'>                
+  </span><br />
+    <br />
+    147503	경비, 경호 및 탐정업<span
+  style='mso-spacerun:yes'>                             </span><br />
+    <br />
+    147509	기타 사업지원 서비스업<span
+  style='mso-spacerun:yes'>                           </span><br />
+    <br />
+    158401	입법 및 일반 정부 행정<span style='mso-spacerun:yes'>                          
+  </span><br />
+    <br />
+    158402	사회 및 산업정책 행정<span
+  style='mso-spacerun:yes'>                            </span><br />
+    <br />
+    158403	외무 및 국방 행정<span
+  style='mso-spacerun:yes'>                                </span><br />
+    <br />
+    158404	사법 및 공공질서 행정<span
+  style='mso-spacerun:yes'>                            </span><br />
+    <br />
+    158405	사회보장 행정<span
+  style='mso-spacerun:yes'>                                    </span><br />
+    <br />
+    168501	초등 교육기관<span
+  style='mso-spacerun:yes'>                                    </span><br />
+    <br />
+    168502	중등 교육기관<span
+  style='mso-spacerun:yes'>                                    </span><br />
+    <br />
+    168503	고등 교육기관<span style='mso-spacerun:yes'>                                   
+  </span><br />
+    <br />
+    168504	특수학교, 외국인학교 및 대안학교<span style='mso-spacerun:yes'>                
+  </span><br />
+    <br />
+    168505	일반 교습 학원<span
+  style='mso-spacerun:yes'>                                   </span><br />
+    <br />
+    168506	기타 교육기관<span
+  style='mso-spacerun:yes'>                                    </span><br />
+    <br />
+    168507	교육지원 서비스업<span
+  style='mso-spacerun:yes'>                                </span><br />
+    <br />
+    178601	병원<span
+  style='mso-spacerun:yes'>                                            
+  </span><br />
+    <br />
+    178602	의원<span
+  style='mso-spacerun:yes'>                                            
+  </span><br />
+    <br />
+    178603	공중 보건 의료업<span
+  style='mso-spacerun:yes'>                                 </span><br />
+    <br />
+    178609	기타 보건업<span
+  style='mso-spacerun:yes'>                                      </span><br
+  />
+    <br />
+    178701	거주 복지시설 운영업<span style='mso-spacerun:yes'>                            
+  </span><br />
+    <br />
+    178702	비거주 복지시설 운영업<span
+  style='mso-spacerun:yes'>                           </span><br />
+    <br />
+    189001	창작 및 예술관련 서비스업<span style='mso-spacerun:yes'>                       
+  </span><br />
+    <br />
+    189002	도서관, 사적지 및 유사 여가관련 서비스업<span style='mso-spacerun:yes'>        
+  </span><br />
+    <br />
+    189101	스포츠 서비스업<span
+  style='mso-spacerun:yes'>                                  </span><br />
+    <br />
+    189102	유원지 및 기타 오락관련 서비스업<span style='mso-spacerun:yes'>                
+  </span><br />
+    <br />
+    199401	산업 및 전문가 단체<span
+  style='mso-spacerun:yes'>                              </span><br />
+    <br />
+    199402	노동조합<span style='mso-spacerun:yes'>                                        
+  </span><br />
+    <br />
+    199409	기타 협회 및 단체<span
+  style='mso-spacerun:yes'>                                </span><br />
+    <br />
+    199501	기계 및 장비 수리업<span
+  style='mso-spacerun:yes'>                              </span><br />
+    <br />
+    199502	자동차 및 모터사이클 수리업<span style='mso-spacerun:yes'>                     
+  </span><br />
+    <br />
+    199503	개인 및 가정용품 수리업<span
+  style='mso-spacerun:yes'>                          </span><br />
+    <br />
+    199601	미용, 욕탕 및 유사 서비스업<span style='mso-spacerun:yes'>                     
+  </span><br />
+    <br />
+    199609	그외 기타 개인 서비스업<span
+  style='mso-spacerun:yes'>                          </span><br />
+    <br />
+    209701	가구내 고용활동<span style='mso-spacerun:yes'>                                 
+  </span><br />
+    <br />
+    209801	자가 소비를 위한 가사 생산 활동<span style='mso-spacerun:yes'>                 
+  </span><br />
+    <br />
+    209802	자가 소비를 위한 가사 서비스 활동<span style='mso-spacerun:yes'>               
+  </span><br />
+    <br />
+    219901	국제 및 외국기관<span style='mso-spacerun:yes'>  </span></td>
+ </tr>
+ <tr height=547 style='height:409.6pt'>
+  <td height=547 class=xl66 style='height:409.6pt;border-top:none'>idx_bztp_lcls_cd_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>지수업종대분류코드명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>60</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span>표준산업대분류코드<br />
+    <br />
+    00	해당사항없음<span
+  style='mso-spacerun:yes'>                                                           
+  </span><br />
+    <br />
+    01	농업, 임업 및 어업<span style='mso-spacerun:yes'>                                                     
+  </span><br />
+    <br />
+    02	광업<span
+  style='mso-spacerun:yes'>                                                                   
+  </span><br />
+    <br />
+    03	제조업<span style='mso-spacerun:yes'>                                                                 
+  </span><br />
+    <br />
+    04	전기, 가스, 증기 및 수도사업<span
+  style='mso-spacerun:yes'>                                           
+  </span><br />
+    <br />
+    05	하수-폐기물 처리, 원료재생 및환경복원업<span style='mso-spacerun:yes'>                                
+  </span><br />
+    <br />
+    06	건설업<span
+  style='mso-spacerun:yes'>                                                                 
+  </span><br />
+    <br />
+    07	도매 및 소매업<span style='mso-spacerun:yes'>                                                         
+  </span><br />
+    <br />
+    08	운수업<span
+  style='mso-spacerun:yes'>                                                                 
+  </span><br />
+    <br />
+    09	숙박 및 음식점업<span style='mso-spacerun:yes'>                                                       
+  </span><br />
+    <br />
+    10	출판, 영상, 방송통신 및 정보서비스업<span
+  style='mso-spacerun:yes'>                                    </span><br />
+    <br />
+    11	금융 및 보험업<span style='mso-spacerun:yes'>                                                         
+  </span><br />
+    <br />
+    12	부동산업 및 임대업<span
+  style='mso-spacerun:yes'>                                                     
+  </span><br />
+    <br />
+    13	전문, 과학 및 기술 서비스업<span style='mso-spacerun:yes'>                                            
+  </span><br />
+    <br />
+    14	사업시설관리 및 사업지원서비스업<span
+  style='mso-spacerun:yes'>                                        </span><br
+  />
+    <br />
+    15	공공행정, 국방 및 사회보장 행정<span
+  style='mso-spacerun:yes'>                                         </span><br
+  />
+    <br />
+    16	교육 서비스업<span
+  style='mso-spacerun:yes'>                                                          
+  </span><br />
+    <br />
+    17	보건업 및 사회복지 서비스업<span
+  style='mso-spacerun:yes'>                                            
+  </span><br />
+    <br />
+    18	예술, 스포츠 및 여가관련 서비스업<span
+  style='mso-spacerun:yes'>                                       </span><br
+  />
+    <br />
+    19	협회 및 단체, 수리 및 기타 개인 서비스업<span
+  style='mso-spacerun:yes'>                                </span><br />
+    <br />
+    20	가구내 고용활동 및 달리 분류되지 않은 자가소비생산활동<span
+  style='mso-spacerun:yes'>                  </span><br />
+    <br />
+    21	국제 및 외국기관<span style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=547 style='height:409.6pt'>
+  <td height=547 class=xl66 style='height:409.6pt;border-top:none'>idx_bztp_mcls_cd_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>지수업종중분류코드명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>60</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span>표준산업중분류코드<span
+  style='mso-spacerun:yes'>                                                  
+  </span><br />
+    <br />
+    0000	해당사항없음<span
+  style='mso-spacerun:yes'>                                                           
+  </span><br />
+    <br />
+    0101	농업<span
+  style='mso-spacerun:yes'>                                                                   
+  </span><br />
+    <br />
+    0102	임업<span
+  style='mso-spacerun:yes'>                                                                   
+  </span><br />
+    <br />
+    0103	어업<span
+  style='mso-spacerun:yes'>                                                                   
+  </span><br />
+    <br />
+    0205	석탄, 원유 및 천연가스 광업<span
+  style='mso-spacerun:yes'>                                            
+  </span><br />
+    <br />
+    0206	금속 광업<span
+  style='mso-spacerun:yes'>                                                              
+  </span><br />
+    <br />
+    0207	비금속광물 광업; 연료용 제외<span
+  style='mso-spacerun:yes'>                                           
+  </span><br />
+    <br />
+    0208	광업 지원 서비스업<span
+  style='mso-spacerun:yes'>                                                     
+  </span><br />
+    <br />
+    0310	식료품 제조업<span
+  style='mso-spacerun:yes'>                                                          
+  </span><br />
+    <br />
+    0311	음료 제조업<span
+  style='mso-spacerun:yes'>                                                            
+  </span><br />
+    <br />
+    0312	담배 제조업<span style='mso-spacerun:yes'>                                                            
+  </span><br />
+    <br />
+    0313	섬유제품 제조업; 의복제외<span
+  style='mso-spacerun:yes'>                                              
+  </span><br />
+    <br />
+    0314	의복, 의복액세서리 및 모피제품제조업<span style='mso-spacerun:yes'>                                   
+  </span><br />
+    <br />
+    0315	가죽, 가방 및 신발 제조업<span
+  style='mso-spacerun:yes'>                                              
+  </span><br />
+    <br />
+    0316	목재 및 나무제품 제조업;가구제외<span
+  style='mso-spacerun:yes'>                                        </span><br
+  />
+    <br />
+    0317	펄프, 종이 및 종이제품 제조업<span
+  style='mso-spacerun:yes'>                                          
+  </span><br />
+    <br />
+    0318	인쇄 및 기록매체 복제업<span
+  style='mso-spacerun:yes'>                                                
+  </span><br />
+    <br />
+    0319	코크스, 연탄 및 석유정제품 제조업<span
+  style='mso-spacerun:yes'>                                       </span><br
+  />
+    <br />
+    0320	화학물질 및 화학제품 제조업;의약품 제외<span
+  style='mso-spacerun:yes'>                                 </span><br />
+    <br />
+    0321	의료용 물질 및 의약품 제조업<span
+  style='mso-spacerun:yes'>                                           
+  </span><br />
+    <br />
+    0322	고무제품 및 플라스틱제품 제조업<span
+  style='mso-spacerun:yes'>                                         </span><br
+  />
+    <br />
+    0323	비금속 광물제품 제조업<span
+  style='mso-spacerun:yes'>                                                 
+  </span><br />
+    <br />
+    0324	1차 금속 제조업<span
+  style='mso-spacerun:yes'>                                                        
+  </span><br />
+    <br />
+    0325	금속가공제품 제조업;기계 및가구 제외<span
+  style='mso-spacerun:yes'>                                    </span><br />
+    <br />
+    0326	전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업<span
+  style='mso-spacerun:yes'>                         </span><br />
+    <br />
+    0327	의료, 정밀, 광학기기 및 시계 제조업<span
+  style='mso-spacerun:yes'>                                     </span><br />
+    <br />
+    0328	전기장비 제조업<span
+  style='mso-spacerun:yes'>                                                        
+  </span><br />
+    <br />
+    0329	기타 기계 및 장비 제조업<span
+  style='mso-spacerun:yes'>                                               
+  </span><br />
+    <br />
+    0330	자동차 및 트레일러 제조업<span
+  style='mso-spacerun:yes'>                                              
+  </span><br />
+    <br />
+    0331	기타 운송장비 제조업<span
+  style='mso-spacerun:yes'>                                                   
+  </span><br />
+    <br />
+    0332	가구 제조업<span
+  style='mso-spacerun:yes'>                                                            
+  </span><br />
+    <br />
+    0333	기타 제품 제조업<span
+  style='mso-spacerun:yes'>                                                       
+  </span><br />
+    <br />
+    0435	전기, 가스, 증기 및 공기조절 공급업<span
+  style='mso-spacerun:yes'>                                     </span><br />
+    <br />
+    0436	수도사업<span
+  style='mso-spacerun:yes'>                                                               
+  </span><br />
+    <br />
+    0537	하수, 폐수 및 분뇨 처리업<span
+  style='mso-spacerun:yes'>                                              
+  </span><br />
+    <br />
+    0538	폐기물 수집운반, 처리 및 원료재생업<span
+  style='mso-spacerun:yes'>                                     </span><br />
+    <br />
+    0539	환경 정화 및 복원업<span
+  style='mso-spacerun:yes'>                                                    
+  </span><br />
+    <br />
+    0641	종합 건설업<span
+  style='mso-spacerun:yes'>                                                            
+  </span><br />
+    <br />
+    0642	전문직별 공사업<span
+  style='mso-spacerun:yes'>                                                        
+  </span><br />
+    <br />
+    0745	자동차 및 부품 판매업<span
+  style='mso-spacerun:yes'>                                                  
+  </span><br />
+    <br />
+    0746	도매 및 상품중개업<span
+  style='mso-spacerun:yes'>                                                     
+  </span><br />
+    <br />
+    0747	소매업; 자동차 제외<span
+  style='mso-spacerun:yes'>                                                    
+  </span><br />
+    <br />
+    0849	육상운송 및 파이프라인 운송업<span
+  style='mso-spacerun:yes'>                                          
+  </span><br />
+    <br />
+    0850	수상 운송업<span
+  style='mso-spacerun:yes'>                                                            
+  </span><br />
+    <br />
+    0851	항공 운송업<span
+  style='mso-spacerun:yes'>                                                            
+  </span><br />
+    <br />
+    0852	창고 및 운송관련 서비스업<span
+  style='mso-spacerun:yes'>                                              
+  </span><br />
+    <br />
+    0955	숙박업<span
+  style='mso-spacerun:yes'>                                                                 
+  </span><br />
+    <br />
+    0956	음식점 및 주점업<span
+  style='mso-spacerun:yes'>                                                       
+  </span><br />
+    <br />
+    1058	출판업<span
+  style='mso-spacerun:yes'>                                                                 
+  </span><br />
+    <br />
+    1059	영상·오디오 기록물 제작 및 배급업<span
+  style='mso-spacerun:yes'>                                      </span><br
+  />
+    <br />
+    1060	방송업<span
+  style='mso-spacerun:yes'>                                                                 
+  </span><br />
+    <br />
+    1061	통신업<span
+  style='mso-spacerun:yes'>                                                                 
+  </span><br />
+    <br />
+    1062	컴퓨터 프로그래밍, 시스템 통합및 관리업<span
+  style='mso-spacerun:yes'>                                 </span><br />
+    <br />
+    1063	정보서비스업<span
+  style='mso-spacerun:yes'>                                                           
+  </span><br />
+    <br />
+    1164	금융업<span
+  style='mso-spacerun:yes'>                                                                 
+  </span><br />
+    <br />
+    1165	보험 및 연금업<span
+  style='mso-spacerun:yes'>                                                         
+  </span><br />
+    <br />
+    1166	금융 및 보험 관련 서비스업<span
+  style='mso-spacerun:yes'>                                             
+  </span><br />
+    <br />
+    1268	부동산업<span
+  style='mso-spacerun:yes'>                                                               
+  </span><br />
+    <br />
+    1269	임대업;부동산 제외<span
+  style='mso-spacerun:yes'>                                                     
+  </span><br />
+    <br />
+    1370	연구개발업<span
+  style='mso-spacerun:yes'>                                                             
+  </span><br />
+    <br />
+    1371	전문서비스업<span
+  style='mso-spacerun:yes'>                                                           
+  </span><br />
+    <br />
+    1372	건축기술, 엔지니어링 및 기타과학기술 서비스업<span
+  style='mso-spacerun:yes'>                           </span><br />
+    <br />
+    1373	기타 전문, 과학 및 기술 서비스업<span
+  style='mso-spacerun:yes'>                                        </span><br
+  />
+    <br />
+    1474	사업시설 관리 및 조경 서비스업<span
+  style='mso-spacerun:yes'>                                          </span><br
+  />
+    <br />
+    1475	사업지원 서비스업<span
+  style='mso-spacerun:yes'>                                                      
+  </span><br />
+    <br />
+    1584	공공행정, 국방 및 사회보장 행정<span
+  style='mso-spacerun:yes'>                                         </span><br
+  />
+    <br />
+    1685	교육 서비스업<span
+  style='mso-spacerun:yes'>                                                          
+  </span><br />
+    <br />
+    1786	보건업<span
+  style='mso-spacerun:yes'>                                                                 
+  </span><br />
+    <br />
+    1787	사회복지 서비스업<span
+  style='mso-spacerun:yes'>                                                      
+  </span><br />
+    <br />
+    1890	창작, 예술 및 여가관련 서비스업<span
+  style='mso-spacerun:yes'>                                         </span><br
+  />
+    <br />
+    1891	스포츠 및 오락관련 서비스업<span
+  style='mso-spacerun:yes'>                                             </span><br
+  />
+    <br />
+    1994	협회 및 단체<span
+  style='mso-spacerun:yes'>                                                           
+  </span><br />
+    <br />
+    1995	수리업<span
+  style='mso-spacerun:yes'>                                                                 
+  </span><br />
+    <br />
+    1996	기타 개인 서비스업<span
+  style='mso-spacerun:yes'>                                                     
+  </span><br />
+    <br />
+    2097	가구내 고용활동<span
+  style='mso-spacerun:yes'>                                                        
+  </span><br />
+    <br />
+    2098	달리 분류되지 않은 자가소비를 위한가구의 재화 및 서비스 생산활동<span
+  style='mso-spacerun:yes'>        </span><br />
+    <br />
+    2199	국제 및 외국기관<span style='mso-spacerun:yes'>     </span></td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>idx_bztp_scls_cd_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>지수업종소분류코드명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>60</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span>표준산업소분류코드 참조</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>ocr_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>OCR번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>4</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>crfd_item_yn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>크라우드펀딩종목여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>elec_scty_yn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전자증권여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>issu_istt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>발행기관코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>5</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>etf_chas_erng_rt_dbnb</td>
+  <td class=xl66 style='border-top:none;border-left:none'>ETF추적수익율배수</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>19</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>etf_etn_ivst_heed_item_yn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>ETFETN투자유의종목여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stln_int_rt_dvsn_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>대주이자율구분코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>frnr_psnl_lmt_rt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>외국인개인한도비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>24</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>lstg_rqsr_issu_istt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상장신청인발행기관코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>5</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>lstg_rqsr_item_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상장신청인종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>trst_istt_issu_istt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>신탁기관발행기관코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>5</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>cptt_trad_tr_psbl_yn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>NXT 거래종목여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>NXT
+  거래가능한 종목은 Y, 그 외 종목은 N</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>nxt_tr_stop_yn</td>
+  <td class=xl66 style='border-top:none;border-left:none'>NXT 거래정지여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>NXT
+  거래종목 중 거래정지가 된 종목은 Y, 그 외 모든 종목은 N</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Example</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Request
+  Example (Python)</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    &quot;PDNO&quot;:&quot;000660&quot;,<br />
+    <br />
+    &quot;PRDT_TYPE_CD&quot;:&quot;300&quot;<br />
+    <br />
+    }</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Response
+  Example</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output&quot;: {<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;pdno&quot;:
+  &quot;00000A000660&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;prdt_type_cd&quot;:
+  &quot;300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;mket_id_cd&quot;:
+  &quot;STK&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;scty_grp_id_cd&quot;: &quot;ST&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;excg_dvsn_cd&quot;:
+  &quot;02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;setl_mmdd&quot;:
+  &quot;12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;lstg_stqt&quot;:
+  &quot;728002365&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;lstg_cptl_amt&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;cpta&quot;:
+  &quot;3657652050000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;papr&quot;:
+  &quot;5000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;issu_pric&quot;:
+  &quot;5000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;kospi200_item_yn&quot;:
+  &quot;Y&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;scts_mket_lstg_dt&quot;: &quot;19961226&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;scts_mket_lstg_abol_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;kosdaq_mket_lstg_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;kosdaq_mket_lstg_abol_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;frbd_mket_lstg_dt&quot;: &quot;19961226&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;frbd_mket_lstg_abol_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;reits_kind_cd&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;etf_dvsn_cd&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;oilf_fund_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;idx_bztp_lcls_cd&quot;:
+  &quot;002&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;idx_bztp_mcls_cd&quot;:
+  &quot;013&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;idx_bztp_scls_cd&quot;:
+  &quot;013&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;stck_kind_cd&quot;:
+  &quot;101&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;mfnd_opng_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;mfnd_end_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;dpsi_erlm_cncl_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;etf_cu_qty&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;prdt_name&quot;:
+  &quot;에스케이하이닉스보통주&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;prdt_name120&quot;: &quot;에스케이하이닉스보통주&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;prdt_abrv_name&quot;:
+  &quot;SK하이닉스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;std_pdno&quot;:
+  &quot;KR7000660001&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;prdt_eng_name&quot;:
+  &quot;SK hynix&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;prdt_eng_name120&quot;:
+  &quot;SK hynix&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;prdt_eng_abrv_name&quot;: &quot;SK hynix&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;dpsi_aptm_erlm_yn&quot;: &quot;Y&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;etf_txtn_type_cd&quot;:
+  &quot;00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;etf_type_cd&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;lstg_abol_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;nwst_odst_dvsn_cd&quot;: &quot;1&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;sbst_pric&quot;:
+  &quot;115980&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;thco_sbst_pric&quot;:
+  &quot;115980&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;thco_sbst_pric_chng_dt&quot;: &quot;20240215&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;tr_stop_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;admn_item_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;thdt_clpr&quot;:
+  &quot;146800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;bfdy_clpr&quot;:
+  &quot;148700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;clpr_chng_dt&quot;:
+  &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;std_idst_clsf_cd&quot;:
+  &quot;032601&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;std_idst_clsf_cd_name&quot;:
+  &quot;반도체 제조업&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;idx_bztp_lcls_cd_name&quot;: &quot;시가총액규모대&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;idx_bztp_mcls_cd_name&quot;:
+  &quot;전기,전자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;idx_bztp_scls_cd_name&quot;: &quot;전기,전자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;ocr_no&quot;:
+  &quot;1147&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;crfd_item_yn&quot;:
+  &quot;N&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;elec_scty_yn&quot;:
+  &quot;Y&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;rt_cd&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg_cd&quot;:
+  &quot;KIOK0530&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg1&quot;:
+  &quot;조회되었습니다<span
+  style='mso-spacerun:yes'>                                                                 
+  </span>&quot;<br />
+    <br />
+    }</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=188 style='width:141pt'></td>
+  <td width=167 style='width:125pt'></td>
+  <td width=111 style='width:83pt'></td>
+  <td width=44 style='width:33pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=55 style='width:41pt'></td>
+  <td width=71 style='width:53pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

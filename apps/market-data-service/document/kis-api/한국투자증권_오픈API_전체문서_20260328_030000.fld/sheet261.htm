@@ -1,0 +1,3193 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File
+href="../한국투자증권_오픈API_전체문서_20260328_030000.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕";
+	mso-generic-font-family:auto;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(260);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../한국투자증권_오픈API_전체문서_20260328_030000.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#467886" vlink="#96607D">
+
+<table border=0 cellpadding=0 cellspacing=0 width=721 style='border-collapse:
+ collapse;table-layout:fixed;width:540pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=176 style='mso-width-source:userset;mso-width-alt:5632;width:132pt'>
+ <col width=83 style='mso-width-source:userset;mso-width-alt:2645;width:62pt'>
+ <col width=79 style='mso-width-source:userset;mso-width-alt:2517;width:59pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2218;width:52pt'>
+ <col width=55 style='mso-width-source:userset;mso-width-alt:1749;width:41pt'>
+ <col width=71 style='width:53pt'>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl68 width=721 style='height:17.0pt;width:540pt'>해외지수분봉조회</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 통신방식</td>
+  <td colspan=6 class=xl66 style='border-left:none'>REST</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>메뉴 위치</td>
+  <td colspan=6 class=xl66 style='border-left:none'>[해외주식] 기본시세</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>해외지수분봉조회</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>v1_해외주식-031</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>FHKST03030200</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>기본정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>HTTP Method</td>
+  <td colspan=6 class=xl66 style='border-left:none'>GET</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>https://openapi.koreainvestment.com:9443</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>URL 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>/uapi/overseas-price/v1/quotations/inquire-time-indexchartprice</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>개요</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>개요</td>
+  <td colspan=6 class=xl65 width=533 style='border-left:none;width:399pt'>해외지수분봉조회
+  API입니다.<br />
+    <br />
+    실전계좌의 경우, 최근 102건까지 확인 가능합니다.</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Layout</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>구분</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Element</td>
+  <td class=xl67 style='border-top:none;border-left:none'>한글명</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Type</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Required</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Length</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Description</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=13 height=1433 class=xl67 style='height:1074.0pt;border-top:none'>Request
+  Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=427 style='height:320.0pt'>
+  <td height=427 class=xl66 style='height:320.0pt;border-top:none'>authorization</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접근토큰</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>350</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>OAuth
+  토큰이 필요한 API 경우 발급한 Access token <br />
+    <br />
+    일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) <br
+  />
+    <br />
+    법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization
+  Code Grant 절차를 준용)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appkey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>36</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appsecret</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱시크릿키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>personalseckey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객식별키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사 회원 관리를 위한 고객식별키</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>FHKST03030200</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>custtype</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객 타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>B
+  : 법인 <br />
+    <br />
+    P : 개인</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>seq_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>일련번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 001</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>mac_address</td>
+  <td class=xl66 style='border-top:none;border-left:none'>맥주소</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>법인고객
+  혹은 개인고객의 Mac address 값</td>
+ </tr>
+ <tr height=191 style='height:143.0pt'>
+  <td height=191 class=xl66 style='height:143.0pt;border-top:none'>phone_number</td>
+  <td class=xl66 style='border-top:none;border-left:none'>핸드폰번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 <br />
+    <br />
+    ex) 01011112222 (하이픈 등 구분값 제거)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>ip_addr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접속 단말 공인 IP</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 사용자(회원)의 IP Address</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td rowspan=4 height=145 class=xl67 style='height:108.0pt'>Request Query
+  Parameter</td>
+  <td class=xl66 style='border-top:none'>FID_COND_MRKT_DIV_CODE</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조건 시장 분류 코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>N
+  해외지수<br />
+    <br />
+    X 환율<br />
+    <br />
+    KX 원화환율</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>FID_INPUT_ISCD</td>
+  <td class=xl66 style='border-top:none;border-left:none'>입력 종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>종목번호(ex.
+  TSLA)</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>FID_HOUR_CLS_CODE</td>
+  <td class=xl66 style='border-top:none;border-left:none'>시간 구분 코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>5</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>0:
+  정규장, 1: 시간외</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>FID_PW_DATA_INCU_YN</td>
+  <td class=xl66 style='border-top:none;border-left:none'>과거 데이터 포함 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>Y/N</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=248 class=xl67 style='height:186.0pt'>Response Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>요청한
+  tr_id</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=23 height=529 class=xl67 style='height:391.0pt'>Response Body</td>
+  <td class=xl66 style='border-top:none'>rt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>성공 실패 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답메세지</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>80</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>ovrs_nmix_prdy_vrss</td>
+  <td class=xl66 style='border-top:none;border-left:none'>해외 지수 전일 대비</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>114</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdy_vrss_sign</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전일 대비 부호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>hts_kor_isnm</td>
+  <td class=xl66 style='border-top:none;border-left:none'>HTS 한글 종목명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdy_ctrt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전일 대비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>ovrs_nmix_prdy_clpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>해외 지수 전일 종가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>114</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>acml_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>누적 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>ovrs_nmix_prpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>해외 지수 현재가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>114</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stck_shrn_iscd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식 단축 종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>ovrs_prod_oprc</td>
+  <td class=xl66 style='border-top:none;border-left:none'>해외 상품 시가2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>114</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span>시가</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>ovrs_prod_hgpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>해외 상품 최고가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>114</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span>최고가</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>ovrs_prod_lwpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>해외 상품 최저가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>114</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span>최저가</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object array</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>array</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stck_bsop_date</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식 영업 일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span>영업 일자</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stck_cntg_hour</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식 체결 시간</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>6</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span>체결 시간</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>optn_prpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>옵션 현재가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>112</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span>현재가</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>optn_oprc</td>
+  <td class=xl66 style='border-top:none;border-left:none'>옵션 시가2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>112</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span>시가</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>optn_hgpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>옵션 최고가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>112</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span>최고가</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>optn_lwpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>옵션 최저가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>112</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span>최저가</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>cntg_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>체결 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Example</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Request
+  Example (Python)</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    &quot;FID_COND_MRKT_DIV_CODE&quot;:&quot;N&quot;,<br />
+    <br />
+    &quot;FID_INPUT_ISCD&quot;:&quot;SPX&quot;,<br />
+    <br />
+    &quot;FID_HOUR_CLS_CODE&quot;:&quot;0&quot;,<br />
+    <br />
+    &quot;FID_PW_DATA_INCU_YN&quot;:&quot;Y&quot;<br />
+    <br />
+    }</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Response
+  Example</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output1&quot;: {<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;ovrs_nmix_prdy_vrss&quot;: &quot;105.23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;prdy_vrss_sign&quot;:
+  &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;prdy_ctrt&quot;:
+  &quot;2.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>       
+  </span>&quot;ovrs_nmix_prdy_clpr&quot;: &quot;4981.80&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;acml_vol&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;hts_kor_isnm&quot;:
+  &quot;S&amp;P500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;ovrs_nmix_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;stck_shrn_iscd&quot;:
+  &quot;SPX&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;ovrs_prod_oprc&quot;:
+  &quot;5038.83&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;ovrs_prod_hgpr&quot;:
+  &quot;5094.39&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;ovrs_prod_lwpr&quot;:
+  &quot;5038.83&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output2&quot;: [<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_cntg_hour&quot;:
+  &quot;170600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;162000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;161900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;161800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;161700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;161600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;161500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;161400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;161300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;161200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;161100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;161000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;160900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;160800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;160700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;160600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;160500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;160400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;160300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;160200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;160100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;160000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5086.46&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5086.46&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;155900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5086.19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5086.73&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.67&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5085.72&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;155800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5086.62&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5088.75&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5088.75&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5085.99&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;155700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5088.55&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5090.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5090.40&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.35&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;155600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5090.28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5089.28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5090.28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5088.76&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;155500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5089.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.89&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5092.58&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.89&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;155400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.82&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5089.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5089.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5086.64&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;155300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5089.13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.97&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5089.33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.53&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;155200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.93&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5086.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5088.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5086.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;155100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5086.19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.40&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.40&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5085.22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;155000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.42&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5086.76&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5088.79&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5086.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;154900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5086.81&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5086.47&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5086.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;154800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5086.39&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5086.93&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5086.34&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;154700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5086.85&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.45&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.91&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5086.78&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;154600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.49&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.78&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5088.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;154500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.71&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.73&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.83&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5086.98&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;154400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.87&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5089.52&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5090.29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.87&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;154300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5089.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5092.13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5092.29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5089.41&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;154200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5092.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5091.81&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5092.86&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5091.61&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;154100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5091.82&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5091.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5091.93&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5090.69&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;154000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5091.08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5090.41&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5091.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5090.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;153900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5090.27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5089.71&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5090.39&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5089.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;153800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5089.42&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5089.06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5090.42&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5089.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;153700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5089.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5088.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5089.14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5088.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;153600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5088.15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.72&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5088.24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;153500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.69&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5085.66&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.78&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5085.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;153400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5085.75&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5085.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5086.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5084.40&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;153300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5085.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5084.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5085.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5083.99&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;153200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5083.97&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5084.93&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5085.65&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5083.85&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;153100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5085.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5085.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;153000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.39&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.74&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5086.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;152900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5089.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5089.87&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;152800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5089.29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5090.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5090.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5089.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;152700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5090.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5089.97&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5090.36&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5089.24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;152600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5089.92&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5089.77&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5090.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5089.28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;152500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5089.68&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5089.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5089.73&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5088.87&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;152400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5088.91&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5089.75&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5089.75&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5088.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;152300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5089.78&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5089.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5089.85&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5088.89&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;152200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5089.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.83&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5089.39&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.82&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;152100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.72&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5088.23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;152000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.46&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5088.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5088.51&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;151900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5088.08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.59&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5088.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;151800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5086.13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.79&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5086.13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;151700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5086.13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5086.15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5086.75&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5085.64&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;151600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5086.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5085.59&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5086.77&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5085.57&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;151500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5085.52&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5085.34&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5086.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5085.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;151400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5085.35&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5085.13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5085.38&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5084.35&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;151300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5085.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5084.68&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5086.24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5084.65&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;151200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5084.67&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5084.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5084.72&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5083.81&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;151100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5084.39&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5084.85&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5084.85&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5084.26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;151000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5084.80&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5083.57&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5084.80&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5082.58&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;150900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5083.58&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5084.67&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5084.67&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5083.33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;150800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5084.65&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5084.90&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5085.29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5084.16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;150700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5084.71&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5086.41&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5086.64&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5084.15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;150600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5086.59&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5086.16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.41&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5086.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;150500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5086.16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5086.06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5086.48&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5085.66&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;150400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5086.21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5085.47&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5086.24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5085.36&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;150300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5085.34&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5083.47&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5085.45&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5083.47&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;150200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5083.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5081.88&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5084.21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5081.87&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;150100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5081.85&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5082.40&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5082.40&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5081.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;150000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5082.43&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5081.86&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5082.59&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5081.22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;145900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5081.86&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5081.31&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5082.59&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5081.26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;145800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5081.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5079.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5081.97&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5079.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;145700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5079.46&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5080.86&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5081.53&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5079.36&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;145600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5080.99&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5085.84&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5085.86&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5080.99&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;145500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5085.87&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5085.68&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5086.25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5085.52&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;145400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5085.65&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5085.31&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5085.65&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5084.91&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;145300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5085.31&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5085.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5085.33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5084.55&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;145200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5084.97&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5085.08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5085.53&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5084.95&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;145100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5085.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5083.58&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5085.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5083.58&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;145000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5083.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5085.14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5085.16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5083.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;144900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5085.18&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5085.61&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5086.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5084.90&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;144800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5085.58&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5085.85&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5085.97&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5085.27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;144700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5085.82&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5086.21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5086.22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5084.99&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;144600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5086.21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5088.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5088.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5085.95&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;144500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5088.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.92&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5088.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.88&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;144400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.87&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5088.13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5087.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;144300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5087.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5086.53&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5086.29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;144200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5086.53&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5085.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5086.61&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5085.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;144100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5085.53&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5086.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5086.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5085.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_cntg_hour&quot;: &quot;144000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_prpr&quot;:
+  &quot;5086.34&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_oprc&quot;:
+  &quot;5087.80&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_hgpr&quot;:
+  &quot;5087.80&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;optn_lwpr&quot;:
+  &quot;5086.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>}<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>],<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;rt_cd&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg_cd&quot;:
+  &quot;MCA00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg1&quot;: &quot;정상처리
+  되었습니다.&quot;<br />
+    <br />
+    }</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=188 style='width:141pt'></td>
+  <td width=176 style='width:132pt'></td>
+  <td width=83 style='width:62pt'></td>
+  <td width=79 style='width:59pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=55 style='width:41pt'></td>
+  <td width=71 style='width:53pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

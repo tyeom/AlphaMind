@@ -1,0 +1,925 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File
+href="../한국투자증권_오픈API_전체문서_20260328_030000.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕";
+	mso-generic-font-family:auto;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(100);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../한국투자증권_오픈API_전체문서_20260328_030000.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#467886" vlink="#96607D">
+
+<table border=0 cellpadding=0 cellspacing=0 width=705 style='border-collapse:
+ collapse;table-layout:fixed;width:528pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=143 style='mso-width-source:userset;mso-width-alt:4565;width:107pt'>
+ <col width=100 style='mso-width-source:userset;mso-width-alt:3200;width:75pt'>
+ <col width=79 style='mso-width-source:userset;mso-width-alt:2517;width:59pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2218;width:52pt'>
+ <col width=55 style='mso-width-source:userset;mso-width-alt:1749;width:41pt'>
+ <col width=71 style='width:53pt'>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl68 width=705 style='height:17.0pt;width:528pt'>예탁원정보(의무예치일정)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 통신방식</td>
+  <td colspan=6 class=xl66 style='border-left:none'>REST</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>메뉴 위치</td>
+  <td colspan=6 class=xl66 style='border-left:none'>[국내주식] 종목정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>예탁원정보(의무예치일정)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>국내주식-153</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>HHKDB669110C0</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>기본정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>HTTP Method</td>
+  <td colspan=6 class=xl66 style='border-left:none'>GET</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>https://openapi.koreainvestment.com:9443</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>URL 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>/uapi/domestic-stock/v1/ksdinfo/mand-deposit</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>개요</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>개요</td>
+  <td colspan=6 class=xl65 width=517 style='border-left:none;width:387pt'>예탁원정보(의무예치일정)
+  API입니다. <br />
+    <br />
+    한국투자 HTS(eFriend Plus) &amp;gt; [0758] 의무예치 화면의 기능을 API로 개발한 사항으로, 해당 화면을
+  참고하시면 기능을 이해하기 쉽습니다.<br />
+    <br />
+    <br />
+    <br />
+    ※ 예탁원에서 제공한 자료이므로 정보용으로만 사용하시기 바랍니다.</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Layout</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>구분</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Element</td>
+  <td class=xl67 style='border-top:none;border-left:none'>한글명</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Type</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Required</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Length</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Description</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=13 height=1433 class=xl67 style='height:1074.0pt;border-top:none'>Request
+  Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=427 style='height:320.0pt'>
+  <td height=427 class=xl66 style='height:320.0pt;border-top:none'>authorization</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접근토큰</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>350</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>OAuth
+  토큰이 필요한 API 경우 발급한 Access token <br />
+    <br />
+    일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) <br
+  />
+    <br />
+    법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization
+  Code Grant 절차를 준용)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appkey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>36</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appsecret</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱시크릿키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>personalseckey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객식별키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사 회원 관리를 위한 고객식별키</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>HHKDB669110C0</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>custtype</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객 타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>B
+  : 법인 <br />
+    <br />
+    P : 개인</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>seq_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>일련번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 001</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>mac_address</td>
+  <td class=xl66 style='border-top:none;border-left:none'>맥주소</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>법인고객
+  혹은 개인고객의 Mac address 값</td>
+ </tr>
+ <tr height=191 style='height:143.0pt'>
+  <td height=191 class=xl66 style='height:143.0pt;border-top:none'>phone_number</td>
+  <td class=xl66 style='border-top:none;border-left:none'>핸드폰번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 <br />
+    <br />
+    ex) 01011112222 (하이픈 등 구분값 제거)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>ip_addr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접속 단말 공인 IP</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 사용자(회원)의 IP Address</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=4 height=138 class=xl67 style='height:103.0pt'>Request Query
+  Parameter</td>
+  <td class=xl66 style='border-top:none'>T_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회일자To</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>~
+  일자</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>SHT_CD</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백:
+  전체,<span style='mso-spacerun:yes'>  </span>특정종목 조회시 : 종목코드</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>F_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회일자From</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>일자
+  ~</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>CTS</td>
+  <td class=xl66 style='border-top:none;border-left:none'>CTS</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>17</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=248 class=xl67 style='height:186.0pt'>Response Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>요청한
+  tr_id</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=10 height=230 class=xl67 style='height:170.0pt'>Response Body</td>
+  <td class=xl66 style='border-top:none'>rt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>성공 실패 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답메세지</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>80</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object array</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>array</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sht_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>isin_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stk_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식수</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>depo_date</td>
+  <td class=xl66 style='border-top:none;border-left:none'>예치일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>23</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>depo_reason</td>
+  <td class=xl66 style='border-top:none;border-left:none'>사유</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tot_issue_qty_per_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>총발행주식수대비비율(%)</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>52</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Example</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Request
+  Example (Python)</td>
+  <td colspan=6 class=xl70 style='border-left:none'>cts:<br />
+    <br />
+    f_dt:20230301<br />
+    <br />
+    t_dt:20240326<br />
+    <br />
+    sht_cd:</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Response
+  Example</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output1&quot;: [<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;27322R&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;뷰텔7우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>68966&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/26 ~ 2025/03/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;모집매출&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;10000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;455900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엔젤로보틱스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>48000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/26 ~ 2024/06/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;-&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;33.51&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;455900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엔젤로보틱스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>4224840&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/26 ~ 2027/03/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;최대주주&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;3014.&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;455900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엔젤로보틱스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>307036&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/26 ~ 2024/04/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;최대주주&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;214.3&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;45590S&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엔젤로보틱스 8우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>65128&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/26 ~ 2024/04/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;벤처금융&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;700.0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;45590S&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엔젤로보틱스 8우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>865277&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/26 ~ 2024/04/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;최대주주&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;9300.&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;119650&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;케이씨코트렐&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>12733857&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/25 ~ 2025/03/25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;모집매출&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;2000.&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;123840&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;뉴온&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>62516803&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/25 ~ 2024/09/25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;-&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;2253.&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;420570&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;제이투케이바이오&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>         </span>951&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/25 ~ 2024/09/25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;-&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot; 1.71&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;019570&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;리더스기술투자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>8905532&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/22 ~ 2025/03/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;-&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;1697.&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;036180&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;지더블유바이텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>28911564&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/22 ~ 2025/03/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;모집매출&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;3160.&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;069110&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;코스온&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>4000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/22 ~ 2025/03/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;모집매출&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;1107.&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;440110&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;파두&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>270200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/22 ~ 2024/08/07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;-&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;55.06&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;222080&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;씨아이에스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>42636&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/21 ~ 2024/09/21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;-&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot; 5.97&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;245620&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;이원다이애그노믹스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>17633408&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/21 ~ 2025/03/21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;모집매출&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;1273.&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;437730&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;삼현&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>33333&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/21 ~ 2024/06/21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;-&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;31.54&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;437730&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;삼현&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>390320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/21 ~ 2024/04/21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;벤처금융&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;369.3&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;476180&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;마이공사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>100000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/20 ~ 2024/09/20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;-&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;2000.&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;082740&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;한화엔진 주식회사&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>11903148&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/19 ~ 2025/03/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;모집매출&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;1426.&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;214870&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;뉴지랩파마&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>13670000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_date&quot;:
+  &quot;2024/03/18 ~ 2025/03/18&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;depo_reason&quot;:
+  &quot;모집매출&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;tot_issue_qty_per_rate&quot;: &quot;2921.&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>}<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>],<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;rt_cd&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg_cd&quot;:
+  &quot;MCA00000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;msg1&quot;: &quot;정상처리
+  되었습니다.&quot;<br />
+    <br />
+    }</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=188 style='width:141pt'></td>
+  <td width=143 style='width:107pt'></td>
+  <td width=100 style='width:75pt'></td>
+  <td width=79 style='width:59pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=55 style='width:41pt'></td>
+  <td width=71 style='width:53pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

@@ -1,0 +1,3167 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File
+href="../한국투자증권_오픈API_전체문서_20260328_030000.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕";
+	mso-generic-font-family:auto;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(87);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../한국투자증권_오픈API_전체문서_20260328_030000.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#467886" vlink="#96607D">
+
+<table border=0 cellpadding=0 cellspacing=0 width=634 style='border-collapse:
+ collapse;table-layout:fixed;width:475pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=100 style='mso-width-source:userset;mso-width-alt:3200;width:75pt'>
+ <col width=72 style='mso-width-source:userset;mso-width-alt:2304;width:54pt'>
+ <col width=79 style='mso-width-source:userset;mso-width-alt:2517;width:59pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2218;width:52pt'>
+ <col width=55 style='mso-width-source:userset;mso-width-alt:1749;width:41pt'>
+ <col width=71 style='width:53pt'>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl68 width=634 style='height:17.0pt;width:475pt'>예탁원정보(공모주청약일정)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 통신방식</td>
+  <td colspan=6 class=xl66 style='border-left:none'>REST</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>메뉴 위치</td>
+  <td colspan=6 class=xl66 style='border-left:none'>[국내주식] 종목정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>예탁원정보(공모주청약일정)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>국내주식-151</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>HHKDB669108C0</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>기본정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>HTTP Method</td>
+  <td colspan=6 class=xl66 style='border-left:none'>GET</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>https://openapi.koreainvestment.com:9443</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>URL 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>/uapi/domestic-stock/v1/ksdinfo/pub-offer</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>개요</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>개요</td>
+  <td colspan=6 class=xl65 width=446 style='border-left:none;width:334pt'>예탁원정보(공모주청약일정)
+  API입니다. <br />
+    <br />
+    한국투자 HTS(eFriend Plus) &amp;gt; [0667] 공모주청약 화면의 기능을 API로 개발한 사항으로, 해당 화면을
+  참고하시면 기능을 이해하기 쉽습니다.<br />
+    <br />
+    <br />
+    <br />
+    ※ 예탁원에서 제공한 자료이므로 정보용으로만 사용하시기 바랍니다.</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Layout</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>구분</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Element</td>
+  <td class=xl67 style='border-top:none;border-left:none'>한글명</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Type</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Required</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Length</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Description</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=13 height=1433 class=xl67 style='height:1074.0pt;border-top:none'>Request
+  Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=427 style='height:320.0pt'>
+  <td height=427 class=xl66 style='height:320.0pt;border-top:none'>authorization</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접근토큰</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>350</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>OAuth
+  토큰이 필요한 API 경우 발급한 Access token <br />
+    <br />
+    일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) <br
+  />
+    <br />
+    법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization
+  Code Grant 절차를 준용)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appkey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>36</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appsecret</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱시크릿키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>personalseckey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객식별키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사 회원 관리를 위한 고객식별키</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>HHKDB669108C0</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>custtype</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객 타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>B
+  : 법인 <br />
+    <br />
+    P : 개인</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>seq_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>일련번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 001</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>mac_address</td>
+  <td class=xl66 style='border-top:none;border-left:none'>맥주소</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>법인고객
+  혹은 개인고객의 Mac address 값</td>
+ </tr>
+ <tr height=191 style='height:143.0pt'>
+  <td height=191 class=xl66 style='height:143.0pt;border-top:none'>phone_number</td>
+  <td class=xl66 style='border-top:none;border-left:none'>핸드폰번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 <br />
+    <br />
+    ex) 01011112222 (하이픈 등 구분값 제거)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>ip_addr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접속 단말 공인 IP</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 사용자(회원)의 IP Address</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=138 class=xl67 style='height:103.0pt'>Request Query
+  Parameter</td>
+  <td class=xl66 style='border-top:none'>SHT_CD</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백:
+  전체,<span style='mso-spacerun:yes'>  </span>특정종목 조회시 : 종목코드</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>CTS</td>
+  <td class=xl66 style='border-top:none;border-left:none'>CTS</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>17</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>F_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회일자From</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>일자
+  ~</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>T_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회일자To</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>~
+  일자</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=248 class=xl67 style='height:186.0pt'>Response Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>요청한
+  tr_id</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=17 height=391 class=xl67 style='height:289.0pt'>Response Body</td>
+  <td class=xl66 style='border-top:none'>rt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>성공 실패 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답메세지</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>80</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object array</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>array</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>record_date</td>
+  <td class=xl66 style='border-top:none;border-left:none'>기준일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sht_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>isin_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>fix_subscr_pri</td>
+  <td class=xl66 style='border-top:none;border-left:none'>공모가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>face_value</td>
+  <td class=xl66 style='border-top:none;border-left:none'>액면가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>subscr_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>청약기간</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>23</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>pay_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>납입일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>refund_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>환불일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>list_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>상장/등록일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>lead_mgr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주간사</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>41</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>pub_bf_cap</td>
+  <td class=xl66 style='border-top:none;border-left:none'>공모전자본금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>pub_af_cap</td>
+  <td class=xl66 style='border-top:none;border-left:none'>공모후자본금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>assign_stk_qty</td>
+  <td class=xl66 style='border-top:none;border-left:none'>당사배정물량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Example</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Request
+  Example (Python)</td>
+  <td colspan=6 class=xl70 style='border-left:none'>cts:<br />
+    <br />
+    f_dt:20230301<br />
+    <br />
+    t_dt:20240326<br />
+    <br />
+    sht_cd:</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Response
+  Example</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output1&quot;: [<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;461030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;아이엠비디엑스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>13000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/03/25 ~ 2024/03/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/03/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/03/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;미래에셋증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1141762&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>62500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240318&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;475240&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;하나32호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/03/18 ~ 2024/03/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/03/21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/03/21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2024/03/27&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;하나증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>20000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>75000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240314&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;455900&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엔젤로보틱스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>20000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/03/14 ~ 2024/03/15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/03/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;: &quot;2024/03/19&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/03/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;NH투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>6648690&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;: &quot;<span
+  style='mso-spacerun:yes'>      </span>240000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240312&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;437730&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;삼현&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>30000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/03/12 ~ 2024/03/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/03/15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/03/15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/03/21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;한국투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>4267928&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>250000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>500000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240304&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;036220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;오상헬스케어&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>20000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/03/04 ~ 2024/03/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/03/07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/03/07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;NH투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>6542358&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>123750&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240226&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;199430&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;케이엔알시스템&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>13500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/02/26 ~ 2024/02/27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/02/29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;: &quot;2024/02/29&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/03/07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;DB금융투자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>870059&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>52600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;469900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;하나31호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/02/22 ~ 2024/02/23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/02/27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/02/27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/03/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;하나증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>60500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>125000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;472230&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에스케이증권제11호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/02/20 ~ 2024/02/21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/02/23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/02/23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/03/04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;SK증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>15500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>100000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;473050&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;유안타제15호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/02/20 ~ 2024/02/21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/02/23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;: &quot;2024/02/23&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/02/29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;유안타증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>51000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;: &quot;<span
+  style='mso-spacerun:yes'>      </span>162500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240219&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;468760&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;유진기업인수목적10호&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/02/19 ~ 2024/02/20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/02/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/02/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/02/29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;유진투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>24000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>100000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240219&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;473370&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;비엔케이제2호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/02/19 ~ 2024/02/20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/02/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/02/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/03/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;비엔케이투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>21000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>100000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240214&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;278470&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에이피알&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>250000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/02/14 ~ 2024/02/15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/02/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;: &quot;2024/02/19&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/02/27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;신한투자증권, 하나증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>3637689&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>56850&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240213&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;068100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;케이웨더&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>7000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/02/13 ~ 2024/02/14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/02/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/02/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/02/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;NH투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>4454807&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>125000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240213&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;360350&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;코셈&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>16000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/02/13 ~ 2024/02/14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/02/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/02/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/02/23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;키움증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>2521985&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>75000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;assign_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240213&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;418620&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;이에이트&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>20000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/02/13 ~ 2024/02/14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/02/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/02/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/02/23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;한화투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>4205888&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>141250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240125&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;415380&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;스튜디오삼익&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>18000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/01/25 ~ 2024/01/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/01/30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/01/30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/02/06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;DB금융투자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1674999&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>106250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240125&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;472220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;신영해피투모로우제10호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/01/25 ~ 2024/01/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/01/30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/01/30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/02/06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;신영증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>11500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>114375&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240123&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;452400&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;이닉스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>14000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/01/23 ~ 2024/01/24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/01/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;: &quot;2024/01/26&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/02/01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;삼성증권㈜&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>3000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;: &quot;<span
+  style='mso-spacerun:yes'>      </span>375000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240123&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;469480&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;아이비케이에스제24호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/01/23 ~ 2024/01/24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/01/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/01/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;아이비케이투자증권㈜&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>23000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>100000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240117&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;105760&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;포스뱅크&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>18000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/01/17 ~ 2024/01/18&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/01/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/01/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2024/01/29&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;하나증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>3905242&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>187500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240117&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;460930&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;현대힘스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>7300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/01/17 ~ 2024/01/18&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/01/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;: &quot;2024/01/24&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/01/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;미래에셋증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>14800000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;: &quot;<span
+  style='mso-spacerun:yes'>     </span>1306050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240116&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;440290&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에이치비인베스트먼트&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>3400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/01/16 ~ 2024/01/17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/01/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/01/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/01/25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;NH투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>10000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>833375&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240116&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;457550&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;우진엔텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>5300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/01/16 ~ 2024/01/17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/01/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2024/01/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2024/01/24&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;KB증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>3574770&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>257500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240115&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;471050&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;대신밸런스제17호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2024/01/15 ~ 2024/01/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2024/01/18&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;: &quot;2024/01/18&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2024/01/24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;대신증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>56000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;: &quot;<span
+  style='mso-spacerun:yes'>      </span>137500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231214&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;017860&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;디에스단석&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>100000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/12/14 ~ 2023/12/15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/12/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/12/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;KB증권,NH투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>2530702&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>152500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231213&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;469880&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;하나30호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/12/13 ~ 2023/12/14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/12/18&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/12/18&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2023/12/22&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;하나증권㈜&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>30500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>175000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231212&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;467930&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;아이비케이에스제23호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/12/12 ~ 2023/12/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/12/15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;: &quot;2023/12/15&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/12/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;아이비케이투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>23000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;: &quot;<span
+  style='mso-spacerun:yes'>      </span>100000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231204&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;439580&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;블루엠텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>19000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/12/04 ~ 2023/12/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/12/07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/12/07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/12/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;하나증권,키움증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>920819&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>35000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231201&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;417200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엘에스머트리얼즈&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>6000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/12/01 ~ 2023/12/04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/12/06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/12/06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2023/12/12&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;키움증권,KB증권,이베스트투자증권,하이투&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>29438830&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1828125&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231127&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;432470&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;케이엔에스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>23000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/27 ~ 2023/11/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;: &quot;2023/11/30&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/12/06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;신영증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>311106&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>18750&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231123&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;338840&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;와이바이오로직스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>9000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/23 ~ 2023/11/24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/11/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/12/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;유안타증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>6639074&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>750000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231123&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;465320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;교보15호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/23 ~ 2023/11/24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/11/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;교보증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>31000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>350000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;assign_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231123&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;468510&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;삼성기업인수목적9호&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/23 ~ 2023/11/24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/11/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/12/04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;삼성증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>105000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231121&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;355690&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에이텀&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>18000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/21 ~ 2023/11/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/11/24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/12/01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;하나증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>2337840&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>81250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231121&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;466910&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엔에이치기업인수목적30호&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/21 ~ 2023/11/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/11/24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/12/01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;NH투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>110000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>200000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231116&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;453860&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에이에스텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>28000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/16 ~ 2023/11/17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;: &quot;2023/11/21&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/11/28&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;미래에셋증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>2388750&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;: &quot;<span
+  style='mso-spacerun:yes'>      </span>175875&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231113&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;402490&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;그린리소스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>17000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/13 ~ 2023/11/14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/11/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/11/24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;NH투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>3247372&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>205000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231113&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;452280&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;한선엔지니어링&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>7000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/13 ~ 2023/11/14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/11/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2023/11/24&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;대신증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>6312500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>531250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231110&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;448280&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에코아이&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>34700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/10 ~ 2023/11/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;: &quot;2023/11/15&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/11/21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;KB증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>3884612&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;: &quot;<span
+  style='mso-spacerun:yes'>      </span>259875&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231109&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;111380&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;동인기연&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>30000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/09 ~ 2023/11/10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/11/14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/11/21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;NH투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>500000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>44112&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231109&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;352090&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;스톰테크&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>11000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/09 ~ 2023/11/10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/11/14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2023/11/20&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;하이투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>999559&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>83750&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231108&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;450080&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에코프로머티리얼즈&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>36200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/08 ~ 2023/11/09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;: &quot;2023/11/13&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/11/17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;미래에셋증권, NH투자증권, 하이투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>28951079&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1737120&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231106&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;452300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;캡스톤파트너스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>4000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/06 ~ 2023/11/07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/11/09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/11/15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;NH투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>2340500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>79800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231102&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;445090&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에이직랜드&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>25000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/02 ~ 2023/11/03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/11/07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2023/11/13&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;삼성증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>3954495&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>329542&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231101&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;365330&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에스와이스틸텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>1800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/01 ~ 2023/11/02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;: &quot;2023/11/06&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/11/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;KB증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>11700000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;: &quot;<span
+  style='mso-spacerun:yes'>      </span>875000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231101&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;464440&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;한국제13호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/11/01 ~ 2023/11/02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/11/06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/11/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;한국투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>32000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>100000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>    
+  </span>1000000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231031&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;372320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;큐로셀&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>20000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/10/31 ~ 2023/11/01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/11/03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;2023/11/09&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;삼성증권,미래에셋증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>5982368&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>200000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231031&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;413640&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;비아이매트릭스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>13000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/10/31 ~ 2023/11/01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;: &quot;2023/11/03&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/11/09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;아이비케이투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>2985470&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;: &quot;<span
+  style='mso-spacerun:yes'>      </span>150000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231031&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;446540&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;메가터치&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>4800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/10/31 ~ 2023/11/01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/11/03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/11/09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;NH투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>7707500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>650000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231031&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;451760&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;컨텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>22500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/10/31 ~ 2023/11/01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/11/03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/11/03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/11/09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;대신증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>6169890&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>257500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;assign_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231026&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;088280&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;쏘닉스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>7500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000001000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/10/26 ~ 2023/10/27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/10/31&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/10/31&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/11/07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;KB증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>    </span>13598490&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>900000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231024&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;464680&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;케이비제27호기업인수목적&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/10/24 ~ 2023/10/25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/10/27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/10/27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/11/03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;KB증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>40500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>312500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231023&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;221800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;유투바이오&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>4400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/10/23 ~ 2023/10/24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/10/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/10/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;: &quot;&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;신한투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>5051020&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>141090&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231023&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;240600&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;유진테크놀로지&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>17000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/10/23 ~ 2023/10/24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/10/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;: &quot;2023/10/26&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/11/02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;NH투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>2642734&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;: &quot;<span
+  style='mso-spacerun:yes'>      </span>131186&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231018&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;432720&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;퀄리타스반도체&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>17000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/10/18 ~ 2023/10/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/10/23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/10/23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/10/27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;한국투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>4476920&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>225000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span style='mso-spacerun:yes'>     
+  </span>450000&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231016&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;396470&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;워트&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>6500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/10/16 ~ 2023/10/17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/10/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/10/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/10/26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;키움증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>1200000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>100000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;assign_stk_qty&quot;:
+  &quot;<span style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231010&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;246250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에스엘에스바이오&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>        </span>7000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/10/10 ~ 2023/10/11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/10/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/10/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/10/20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;하나증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>3432802&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>       </span>96250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231010&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;416180&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;신성에스티&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>26000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/10/10 ~ 2023/10/11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/10/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refund_dt&quot;:
+  &quot;2023/10/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;list_dt&quot;:
+  &quot;2023/10/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;lead_mgr&quot;:
+  &quot;미래에셋증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_bf_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>     </span>3500658&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pub_af_cap&quot;:
+  &quot;<span style='mso-spacerun:yes'>      </span>250000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;assign_stk_qty&quot;: &quot;<span
+  style='mso-spacerun:yes'>           </span>0&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20231005&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;445180&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;퓨릿&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;fix_subscr_pri&quot;: &quot;<span
+  style='mso-spacerun:yes'>       </span>10700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_value&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;subscr_dt&quot;:
+  &quot;2023/10/05 ~ 2023/10/06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;pay_dt&quot;:
+  &quot;2023/10/11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;refu</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=188 style='width:141pt'></td>
+  <td width=100 style='width:75pt'></td>
+  <td width=72 style='width:54pt'></td>
+  <td width=79 style='width:59pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=55 style='width:41pt'></td>
+  <td width=71 style='width:53pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

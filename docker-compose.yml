@@ -1,0 +1,76 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: alpha-mind-db
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: alpha
+      POSTGRES_PASSWORD: alpha1234
+      POSTGRES_DB: alpha_mind
+      TZ: Asia/Seoul
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    container_name: alpha-mind-backend
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    env_file:
+      - apps/backend/.env
+    environment:
+      DB_HOST: postgres
+      RMQ_URL: amqp://alpha:alpha1234@rabbitmq:5672
+      TZ: Asia/Seoul
+    volumes:
+      - backend_logs:/app/apps/backend/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: alpha-mind-rabbitmq
+    restart: unless-stopped
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      RABBITMQ_DEFAULT_USER: alpha
+      RABBITMQ_DEFAULT_PASS: alpha1234
+      TZ: Asia/Seoul
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', '-q', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+    container_name: alpha-mind-frontend
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  backend_logs:
+  rabbitmq_data:

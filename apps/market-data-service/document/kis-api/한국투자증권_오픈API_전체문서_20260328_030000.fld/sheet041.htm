@@ -1,0 +1,3393 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File
+href="../한국투자증권_오픈API_전체문서_20260328_030000.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕";
+	mso-generic-font-family:auto;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(40);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../한국투자증권_오픈API_전체문서_20260328_030000.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#467886" vlink="#96607D">
+
+<table border=0 cellpadding=0 cellspacing=0 width=713 style='border-collapse:
+ collapse;table-layout:fixed;width:534pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=151 style='mso-width-source:userset;mso-width-alt:4821;width:113pt'>
+ <col width=100 style='mso-width-source:userset;mso-width-alt:3200;width:75pt'>
+ <col width=79 style='mso-width-source:userset;mso-width-alt:2517;width:59pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2218;width:52pt'>
+ <col width=55 style='mso-width-source:userset;mso-width-alt:1749;width:41pt'>
+ <col width=71 style='width:53pt'>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl68 width=713 style='height:17.0pt;width:534pt'>NAV
+  비교추이(일)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 통신방식</td>
+  <td colspan=6 class=xl66 style='border-left:none'>REST</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>메뉴 위치</td>
+  <td colspan=6 class=xl66 style='border-left:none'>[국내주식] 기본시세</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>NAV 비교추이(일)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>v1_국내주식-071</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>FHPST02440200</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>기본정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>HTTP Method</td>
+  <td colspan=6 class=xl66 style='border-left:none'>GET</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>　</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>　</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>URL 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>/uapi/etfetn/v1/quotations/nav-comparison-daily-trend</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>개요</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>개요</td>
+  <td colspan=6 class=xl65 width=525 style='border-left:none;width:393pt'>NAV
+  비교추이(일) API입니다.<br />
+    <br />
+    한국투자 HTS(eFriend Plus) &amp;gt; [0244] ETF/ETN 비교추이(NAV/IIV) 좌측 화면
+  &quot;일별&quot; 비교추이 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.<br />
+    <br />
+    실전계좌의 경우, 한 번의 호출에 최대 100건까지 확인 가능합니다.</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Layout</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>구분</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Element</td>
+  <td class=xl67 style='border-top:none;border-left:none'>한글명</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Type</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Required</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Length</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Description</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=13 height=1433 class=xl67 style='height:1074.0pt;border-top:none'>Request
+  Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=427 style='height:320.0pt'>
+  <td height=427 class=xl66 style='height:320.0pt;border-top:none'>authorization</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접근토큰</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>350</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>OAuth
+  토큰이 필요한 API 경우 발급한 Access token <br />
+    <br />
+    일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) <br
+  />
+    <br />
+    법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization
+  Code Grant 절차를 준용)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appkey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>36</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appsecret</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱시크릿키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>personalseckey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객식별키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사 회원 관리를 위한 고객식별키</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>FHPST02440200</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>custtype</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객 타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>B
+  : 법인 <br />
+    <br />
+    P : 개인</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>seq_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>일련번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 001</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>mac_address</td>
+  <td class=xl66 style='border-top:none;border-left:none'>맥주소</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>법인고객
+  혹은 개인고객의 Mac address 값</td>
+ </tr>
+ <tr height=191 style='height:143.0pt'>
+  <td height=191 class=xl66 style='height:143.0pt;border-top:none'>phone_number</td>
+  <td class=xl66 style='border-top:none;border-left:none'>핸드폰번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 <br />
+    <br />
+    ex) 01011112222 (하이픈 등 구분값 제거)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>ip_addr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접속 단말 공인 IP</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 사용자(회원)의 IP Address</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=4 height=162 class=xl67 style='height:121.0pt'>Request Query
+  Parameter</td>
+  <td class=xl66 style='border-top:none'>fid_cond_mrkt_div_code</td>
+  <td class=xl66 style='border-top:none;border-left:none'>FID 조건 시장 분류 코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>J
+  입력</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>fid_input_iscd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>FID 입력 종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>종목코드
+  (6자리)</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>fid_input_date_1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>FID 입력 날짜1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>조회
+  시작일자 (ex. 20240101)</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>fid_input_date_2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>FID 입력 날짜2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>조회
+  종료일자 (ex. 20240220)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=248 class=xl67 style='height:186.0pt'>Response Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>요청한
+  tr_id</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=17 height=391 class=xl67 style='height:289.0pt'>Response Body</td>
+  <td class=xl66 style='border-top:none'>rt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>성공 실패 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답메세지</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>80</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object array</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>array</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stck_bsop_date</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식 영업 일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stck_clpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식 종가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdy_vrss</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전일 대비</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdy_vrss_sign</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전일 대비 부호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>prdy_ctrt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전일 대비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>acml_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>누적 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>cntg_vol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>체결 거래량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>18</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>dprt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>괴리율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>82</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nav_vrss_prpr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>NAV 대비 현재가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>112</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nav</td>
+  <td class=xl66 style='border-top:none;border-left:none'>NAV</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>112</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nav_prdy_vrss_sign</td>
+  <td class=xl66 style='border-top:none;border-left:none'>NAV 전일 대비 부호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nav_prdy_vrss</td>
+  <td class=xl66 style='border-top:none;border-left:none'>NAV 전일 대비</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>112</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nav_prdy_ctrt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>NAV 전일 대비율</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>84</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Example</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Request
+  Example (Python)</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    &quot;fid_cond_mrkt_div_code&quot;:&quot;J&quot;,<br />
+    <br />
+    &quot;fid_input_iscd&quot;:&quot;069500&quot;,<br />
+    <br />
+    &quot;fid_input_date_1&quot;:&quot;20240101&quot;,<br />
+    <br />
+    &quot;fid_input_date_2&quot;:&quot;20240220&quot;<br />
+    <br />
+    }</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Response
+  Example</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output&quot;: [<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;35875&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-425&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-1.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;6441149&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-77.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;: &quot;35952.09&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-400.32&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-1.10&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240219&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;36300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;560&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.57&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;6673013&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-52.41&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;36352.41&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;536.42&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;1.50&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240216&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;35740&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;355&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;7035777&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-75.99&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35815.99&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;432.75&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;1.22&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240215&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;35385&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;6137814&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;1.76&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35383.24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-147.98&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.42&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240214&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;35435&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-490&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-1.36&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;7163970&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-96.22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35531.22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-468.25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-1.30&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240213&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;35925&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;435&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;6108254&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-74.47&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35999.47&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;407.86&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;1.15&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240208&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;35490&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;40&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;6259742&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-101.61&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35591.61&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;109.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.31&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240207&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;35450&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;495&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.42&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;7548365&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-32.51&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35482.51&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;447.69&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;1.28&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240206&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;34955&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-135&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.38&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;9454374&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-79.82&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35034.82&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-140.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.40&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240205&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;35090&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-430&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-1.21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;11378063&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-85.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35175.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-427.65&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-1.20&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240202&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;35520&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;1110&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;3.23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;11476191&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.23&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-82.67&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35602.67&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;1106.53&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;3.21&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240201&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;34410&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;580&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.71&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;7021653&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-86.14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;34496.14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;608.63&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;1.80&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240131&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33830&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-165&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.49&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;8485416&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-57.51&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33887.51&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-124.46&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.37&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240130&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33995&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.18&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;7939707&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-16.97&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;34011.97&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-38.87&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.11&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240129&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;34054&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;398&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;4283579&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;0.29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;3.16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;34050.84&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;267.74&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.79&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240126&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33656&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;59&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.18&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;4543490&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-127.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33783.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;42.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.13&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240125&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33596&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;39&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;7370595&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-144.80&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33740.80&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;52.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.16&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240124&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33556&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-129&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.38&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;5469085&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-132.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33688.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-167.19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.49&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240123&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33686&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;174&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.52&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;4518601&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-169.49&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33855.49&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;232.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.69&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240122&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33511&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;34&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;6779930&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-111.99&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33622.99&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-33.56&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.10&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240119&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33476&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;493&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;8228124&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-180.55&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33656.55&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;585.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;1.77&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240118&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;32982&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;154&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.47&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;13010124&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;0.01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-89.48&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33071.48&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;102.06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.31&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240117&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;32828&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-822&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-2.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;13805092&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-141.42&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;32969.42&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-864.88&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-2.56&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240116&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33651&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-468&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-1.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;6009593&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-183.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33834.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-452.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-1.32&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240115&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;34119&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;144&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.43&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;6335725&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-167.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;34286.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;102.68&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.30&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240112&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33975&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-329&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.96&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;8112877&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-208.92&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;34183.92&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-209.94&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.61&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240111&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;34304&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;54&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;5419064&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;0.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-89.86&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;34393.86&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-36.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.10&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240110&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;34249&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-378&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-1.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;4018306&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-180.89&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;34429.89&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-317.89&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.91&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240109&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;34628&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-129&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;7533350&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-119.78&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;34747.78&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-174.39&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.50&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240108&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;34758&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-114&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;5377681&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-164.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;34922.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-164.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.47&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240105&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;34872&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-99&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;6681806&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-214.34&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35086.34&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-85.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.24&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240104&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;34972&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-309&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.88&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;8904699&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-199.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35171.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-315.36&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.89&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240103&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;35281&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-1007&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-2.78&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;8122576&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-205.80&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35486.80&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-936.81&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-2.57&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20240102&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;36288&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;219&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.61&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;7440266&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-135.61&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;36423.61&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;253.99&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.70&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231228&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;36069&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;583&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.64&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;10612352&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-100.62&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;36169.62&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;557.43&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;1.57&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231227&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;35486&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;388&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;10990385&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-126.19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35612.19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;443.80&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;1.26&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231226&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;35097&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;144&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.41&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;2674516&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;0.08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-71.39&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35168.39&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;126.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.36&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;34952&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;109&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.31&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;3164234&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;0.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-90.32&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35042.32&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;37.36&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.11&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231221&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;34842&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.65&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;6328185&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-162.96&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35004.96&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-132.38&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.38&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;35072&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;663&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.93&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;9429470&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;0.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-65.34&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;35137.34&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;618.66&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;1.79&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231219&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;34409&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;5026536&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-109.68&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;34518.68&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;44.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.13&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231218&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;34379&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;109&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.32&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;4144760&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-95.58&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;34474.58&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-48.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.14&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231215&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;34269&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;194&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.57&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;6278790&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.46&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-253.62&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;34522.62&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;267.35&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.78&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231214&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;34074&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;408&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.21&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;8817261&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-181.27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;34255.27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;463.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;1.37&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231213&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33666&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-329&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.97&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;3999100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-125.77&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33791.77&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-309.47&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.91&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231212&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33995&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;139&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.41&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;11182364&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-106.24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;34101.24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;186.45&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.55&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231211&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33855&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;114&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.34&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;7051429&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-59.79&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33914.79&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;133.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.39&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231208&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33740&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;483&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.45&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;8622554&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;0.16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-41.75&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33781.75&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;393.25&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;1.18&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231207&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33257&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-129&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.39&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;9708274&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-131.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33388.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-80.08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.24&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231206&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33386&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;109&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.33&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;7842575&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;0.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-82.58&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33468.58&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;60.53&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.18&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231205&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33277&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-368&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-1.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;4362025&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-131.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33408.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-331.44&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.98&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231204&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33646&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;169&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.51&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;6753956&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-93.49&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33739.49&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;134.45&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.40&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231201&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33476&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-383&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-1.13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;5002078&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-129.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33605.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-363.63&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-1.07&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231130&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33860&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;194&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.58&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;6853984&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.04&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-108.67&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33968.67&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;181.26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.54&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231129&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33666&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-109&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.32&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;3321521&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-121.41&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33787.41&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-90.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.27&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231128&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33775&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;383&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;4282814&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-102.41&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33877.41&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;385.31&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;1.15&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231127&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33391&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-39&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;4330338&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.02&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-101.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33492.10&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-33.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.10&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231124&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33431&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-264&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.78&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;4927288&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-94.47&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33525.47&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-292.15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.86&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231123&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33695&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;4&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;4829299&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-122.62&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33817.62&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;10.88&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.03&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231122&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33691&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;59&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.18&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;5625954&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.06&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-115.74&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33806.74&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;23.43&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.07&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231121&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33631&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;159&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.48&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;7282929&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-152.31&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33783.31&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;235.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.70&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231120&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33471&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;264&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;0.80&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;7447159&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;0.05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-77.26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33548.26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;216.76&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.65&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231117&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33207&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-169&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.51&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;6027534&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-124.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33331.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;-225.76&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;-0.67&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231116&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33376&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;-0.07&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;5482070&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-181.26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33557.26&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;35.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;0.10&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231115&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;33401&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;708&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;2.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;9706175&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;-0.08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-121.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;33522.09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;739.73&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;2.26&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231114&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;32693&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;334&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_ctrt&quot;:
+  &quot;1.03&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;acml_vol&quot;:
+  &quot;4723626&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;cntg_vol&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;dprt&quot;:
+  &quot;0.01&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_vrss_prpr&quot;: &quot;-89.36&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;nav&quot;:
+  &quot;32782.36&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss_sign&quot;: &quot;2&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_vrss&quot;: &quot;327.59&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;nav_prdy_ctrt&quot;: &quot;1.01&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stck_bsop_date&quot;: &quot;20231113&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stck_clpr&quot;:
+  &quot;32359&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;prdy_vrss&quot;:
+  &quot;-24&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;prdy_vrss_sign&quot;: &quot;5&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>  </span></td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=188 style='width:141pt'></td>
+  <td width=151 style='width:113pt'></td>
+  <td width=100 style='width:75pt'></td>
+  <td width=79 style='width:59pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=55 style='width:41pt'></td>
+  <td width=71 style='width:53pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

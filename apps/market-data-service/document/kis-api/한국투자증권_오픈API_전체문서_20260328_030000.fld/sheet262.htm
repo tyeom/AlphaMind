@@ -1,0 +1,3953 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File
+href="../한국투자증권_오픈API_전체문서_20260328_030000.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕";
+	mso-generic-font-family:auto;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(261);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../한국투자증권_오픈API_전체문서_20260328_030000.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#467886" vlink="#96607D">
+
+<table border=0 cellpadding=0 cellspacing=0 width=662 style='border-collapse:
+ collapse;table-layout:fixed;width:496pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=100 span=2 style='mso-width-source:userset;mso-width-alt:3200;
+ width:75pt'>
+ <col width=79 style='mso-width-source:userset;mso-width-alt:2517;width:59pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2218;width:52pt'>
+ <col width=55 style='mso-width-source:userset;mso-width-alt:1749;width:41pt'>
+ <col width=71 style='width:53pt'>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl68 width=662 style='height:17.0pt;width:496pt'>해외주식분봉조회</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 통신방식</td>
+  <td colspan=6 class=xl66 style='border-left:none'>REST</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>메뉴 위치</td>
+  <td colspan=6 class=xl66 style='border-left:none'>[해외주식] 기본시세</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>해외주식분봉조회</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>v1_해외주식-030</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>HHDFS76950200</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>기본정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>HTTP Method</td>
+  <td colspan=6 class=xl66 style='border-left:none'>GET</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>https://openapi.koreainvestment.com:9443</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>URL 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>/uapi/overseas-price/v1/quotations/inquire-time-itemchartprice</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>개요</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>개요</td>
+  <td colspan=6 class=xl65 width=474 style='border-left:none;width:355pt'>해외주식분봉조회
+  API입니다. 실전계좌의 경우, 한 번의 호출에 최근 120건까지 확인 가능합니다.<br />
+    <br />
+    NEXT 및 KEYB 값을 사용하여 데이터를 계속해서 다음 조회할 수 있으며, 최대 다음조회 가능 기간은 약 1개월입니다. <br
+  />
+    <br />
+    <br />
+    <br />
+    ※ 해외주식분봉조회 조회 방법<br />
+    <br />
+    params<br />
+    <br />
+    . 초기 조회: <br />
+    <br />
+    <span style='mso-spacerun:yes'> </span>- PINC: &quot;1&quot; 입력<br />
+    <br />
+    <span style='mso-spacerun:yes'> </span>- NEXT: 처음 조회 시, &quot;&quot; 공백
+  입력<br />
+    <br />
+    <span style='mso-spacerun:yes'> </span>- KEYB: 처음 조회 시, &quot;&quot; 공백
+  입력<br />
+    <br />
+    . 다음 조회:<br />
+    <br />
+    <span style='mso-spacerun:yes'> </span>- PINC: &quot;1&quot; 입력<br />
+    <br />
+    <span style='mso-spacerun:yes'> </span>- NEXT: &quot;1&quot; 입력<br />
+    <br />
+    <span style='mso-spacerun:yes'> </span>- KEYB: 이전 조회 결과의 마지막 분봉 데이터를 이용하여,
+  1분 전 혹은 n분 전의 시간을 입력 (형식: YYYYMMDDHHMMSS, ex. 20241014140100)<br />
+    <br />
+    <br />
+    <br />
+    * 따라서 분봉데이터를 기간별로 수집하고자 하실 경우 NEXT, KEYB 값을 이용하시면서 다음조회하시면 됩니다.<br />
+    <br />
+    * 한국투자 Github에서 해외주식 분봉 다음조회 파이썬 샘플코드 참고하실 수 있습니다. (아래 링크 참고)<br />
+    <br />
+    <span style='mso-spacerun:yes'> 
+  </span>https://github.com/koreainvestment/open-trading-api/blob/main/rest/get_ovsstk_chart_price.py<br
+  />
+    <br />
+    <br />
+    <br />
+    ※ 해외주식 분봉은 정규장만 과거조회 가능합니다.<br />
+    <br />
+    미국주식 주간거래( EXCD: BAY, BAQ, BAA )의 경우 본 API로 최대 1일치 분봉만 조회가 가능합니다.<br />
+    <br />
+    <br />
+    <br />
+    ※ 지연시세 지연시간 : 미국 - 실시간무료(0분지연) / 홍콩, 베트남, 중국, 일본 - 15분지연<br />
+    <br />
+    <span style='mso-spacerun:yes'>   </span>미국의 경우 0분지연시세로 제공되나, 장중 당일 시가는 상이할
+  수 있으며, 익일 정정 표시됩니다.<br />
+    <br />
+    <br />
+    <br />
+    해외주식 시세는 무료시세(지연시세)만이 제공되며, API로는 유료시세(실시간시세)를 받아보실 수 없습니다.<br />
+    <br />
+    <br />
+    <br />
+    ※ 지연시세 지연시간 : 미국 - 실시간무료(0분 지연, 나스닥 마켓센터에서 거래되는 호가 및 호가 잔량 정보)<br />
+    <br />
+    <span style='mso-spacerun:yes'>                                </span>홍콩,
+  베트남, 중국, 일본 - 15분지연<br />
+    <br />
+    <span style='mso-spacerun:yes'>   </span>미국의 경우 0분 지연 시세로 제공되나, 장중 당일 시가는
+  상이할 수 있으며, 익일 정정 표시됩니다.<br />
+    <br />
+    <br />
+    <br />
+    [미국주식시세 이용시 유의사항]<br />
+    <br />
+    ■ 무료 실시간 시세(나스닥 토탈뷰)를 별도 신청없이 제공하고 있으며, 유료 시세 서비스를 신청하시더라도 OpenAPI의 경우 무료
+  시세로만 제공하고있습니다.<br />
+    <br />
+    ※ 무료(매수/매도 각 10호가) : 나스닥 마켓센터에서 거래되는 호가 및 호가 잔량 정보<br />
+    <br />
+    ※ 유료(매수/매도 각 1호가) : OpenAPI 서비스 미제공<br />
+    <br />
+    ■ 무료 실시간 시세 서비스는 유료 실시간 시세 서비스 대비 평균 50% 수준에 해당하는 정보이므로 현재가/호가/순간체결량/차트 등에서
+  일시적·부분적 차이가 있을 수 있습니다. <br />
+    <br />
+    ■ 무료 실시간 시세 서비스의 시가, 저가, 고가, 종가는 타 매체의 유료 실시간 시세 서비스와 다를 수 있으며, 이로 인해 발생하는
+  손실에 대해서 당사가 책임지지 않습니다.<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>이용에 유의 부탁드립니다.</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Layout</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>구분</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Element</td>
+  <td class=xl67 style='border-top:none;border-left:none'>한글명</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Type</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Required</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Length</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Description</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=13 height=1433 class=xl67 style='height:1074.0pt;border-top:none'>Request
+  Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=427 style='height:320.0pt'>
+  <td height=427 class=xl66 style='height:320.0pt;border-top:none'>authorization</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접근토큰</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>350</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>OAuth
+  토큰이 필요한 API 경우 발급한 Access token <br />
+    <br />
+    일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) <br
+  />
+    <br />
+    법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization
+  Code Grant 절차를 준용)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appkey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>36</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appsecret</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱시크릿키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>personalseckey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객식별키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사 회원 관리를 위한 고객식별키</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>HHDFS76950200</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>custtype</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객 타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>B
+  : 법인 <br />
+    <br />
+    P : 개인</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>seq_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>일련번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 001</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>mac_address</td>
+  <td class=xl66 style='border-top:none;border-left:none'>맥주소</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>법인고객
+  혹은 개인고객의 Mac address 값</td>
+ </tr>
+ <tr height=191 style='height:143.0pt'>
+  <td height=191 class=xl66 style='height:143.0pt;border-top:none'>phone_number</td>
+  <td class=xl66 style='border-top:none;border-left:none'>핸드폰번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 <br />
+    <br />
+    ex) 01011112222 (하이픈 등 구분값 제거)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>ip_addr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접속 단말 공인 IP</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 사용자(회원)의 IP Address</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td rowspan=9 height=1074 class=xl67 style='height:804.0pt'>Request Query
+  Parameter</td>
+  <td class=xl66 style='border-top:none'>AUTH</td>
+  <td class=xl66 style='border-top:none;border-left:none'>사용자권한정보</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>&quot;&quot;
+  공백으로 입력</td>
+ </tr>
+ <tr height=379 style='height:284.0pt'>
+  <td height=379 class=xl66 style='height:284.0pt;border-top:none'>EXCD</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래소코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>4</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>NYS
+  : 뉴욕<br />
+    <br />
+    NAS : 나스닥<br />
+    <br />
+    AMS : 아멕스 <br />
+    <br />
+    HKS : 홍콩<br />
+    <br />
+    SHS : 상해 <br />
+    <br />
+    SZS : 심천<br />
+    <br />
+    HSX : 호치민<br />
+    <br />
+    HNX : 하노이<br />
+    <br />
+    TSE : 도쿄 <br />
+    <br />
+    <br />
+    <br />
+    ※ 주간거래는 최대 1일치 분봉만 조회 가능<br />
+    <br />
+    BAY : 뉴욕(주간)<br />
+    <br />
+    BAQ : 나스닥(주간)<br />
+    <br />
+    BAA : 아멕스(주간)<span style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>SYMB</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>16</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>종목코드(ex.
+  TSLA)</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>NMIN</td>
+  <td class=xl66 style='border-top:none;border-left:none'>분갭</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>4</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>분단위(1:
+  1분봉, 2: 2분봉, ...)</td>
+ </tr>
+ <tr height=87 style='height:65.0pt'>
+  <td height=87 class=xl66 style='height:65.0pt;border-top:none'>PINC</td>
+  <td class=xl66 style='border-top:none;border-left:none'>전일포함여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>0:당일
+  1:전일포함<br />
+    <br />
+    ※ 다음조회 시 반드시 &quot;1&quot;로 입력</td>
+ </tr>
+ <tr height=87 style='height:65.0pt'>
+  <td height=87 class=xl66 style='height:65.0pt;border-top:none'>NEXT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>다음여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>처음조회
+  시, &quot;&quot; 공백 입력<br />
+    <br />
+    다음조회 시, &quot;1&quot; 입력</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>NREC</td>
+  <td class=xl66 style='border-top:none;border-left:none'>요청갯수</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>4</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>레코드요청갯수
+  (최대 120)</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>FILL</td>
+  <td class=xl66 style='border-top:none;border-left:none'>미체결채움구분</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>&quot;&quot;
+  공백으로 입력</td>
+ </tr>
+ <tr height=312 style='height:234.0pt'>
+  <td height=312 class=xl66 style='height:234.0pt;border-top:none'>KEYB</td>
+  <td class=xl66 style='border-top:none;border-left:none'>NEXT KEY BUFF</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>처음
+  조회 시, &quot;&quot; 공백 입력<br />
+    <br />
+    다음 조회 시, 이전 조회 결과의 마지막 분봉 데이터를 이용하여, 1분 전 혹은 n분 전의 시간을 입력 <br />
+    <br />
+    (형식: YYYYMMDDHHMMSS, ex. 20241014140100)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=248 class=xl67 style='height:186.0pt'>Response Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>요청한
+  tr_id</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=25 height=575 class=xl67 style='height:425.0pt'>Response Body</td>
+  <td class=xl66 style='border-top:none'>rt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>성공 실패 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답메세지</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>80</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object array</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>rsym</td>
+  <td class=xl66 style='border-top:none;border-left:none'>실시간종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>16</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>zdiv</td>
+  <td class=xl66 style='border-top:none;border-left:none'>소수점자리수</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stim</td>
+  <td class=xl66 style='border-top:none;border-left:none'>장시작현지시간</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>6</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>etim</td>
+  <td class=xl66 style='border-top:none;border-left:none'>장종료현지시간</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>6</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sktm</td>
+  <td class=xl66 style='border-top:none;border-left:none'>장시작한국시간</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>6</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>ektm</td>
+  <td class=xl66 style='border-top:none;border-left:none'>장종료한국시간</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>6</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>next</td>
+  <td class=xl66 style='border-top:none;border-left:none'>다음가능여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>more</td>
+  <td class=xl66 style='border-top:none;border-left:none'>추가데이타여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>nrec</td>
+  <td class=xl66 style='border-top:none;border-left:none'>레코드갯수</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>4</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세2</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>array</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tymd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>현지영업일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>xymd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>현지기준일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>xhms</td>
+  <td class=xl66 style='border-top:none;border-left:none'>현지기준시간</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>6</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>kymd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국기준일자</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>khms</td>
+  <td class=xl66 style='border-top:none;border-left:none'>한국기준시간</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>6</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>open</td>
+  <td class=xl66 style='border-top:none;border-left:none'>시가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>high</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>low</td>
+  <td class=xl66 style='border-top:none;border-left:none'>저가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>last</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>evol</td>
+  <td class=xl66 style='border-top:none;border-left:none'>체결량</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>eamt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>체결대금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>14</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Example</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Request
+  Example (Python)</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    &quot;AUTH&quot;:&quot;&quot;,<br />
+    <br />
+    &quot;EXCD&quot;:&quot;NAS&quot;,<br />
+    <br />
+    &quot;SYMB&quot;:&quot;TSLA&quot;,<br />
+    <br />
+    &quot;NMIN&quot;:&quot;5&quot;,<br />
+    <br />
+    &quot;PINC&quot;:&quot;1&quot;,<br />
+    <br />
+    &quot;NEXT&quot;:&quot;1&quot;,<br />
+    <br />
+    &quot;NREC&quot;:&quot;120&quot;,<br />
+    <br />
+    &quot;FILL&quot;:&quot;&quot;,<br />
+    <br />
+    &quot;KEYB&quot;:&quot;&quot;<br />
+    <br />
+    }</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Response
+  Example</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output1&quot;: {<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;rsym&quot;:
+  &quot;DNASTSLA&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;zdiv&quot;:
+  &quot;4&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;stim&quot;:
+  &quot;093000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;etim&quot;:
+  &quot;160000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;sktm&quot;:
+  &quot;233000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;ektm&quot;:
+  &quot;060000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;next&quot;:
+  &quot;1&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;more&quot;:
+  &quot;0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>&quot;nrec&quot;:
+  &quot;120&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output2&quot;: [<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;160000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;060000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.3400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.4100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;197.2800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.4100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;5695&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;1123799&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;155500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;055500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.7200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.9900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;197.1700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.3800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1810184&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;: &quot;357462976&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;155000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;055000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.3800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.8200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;: &quot;197.3400&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.7320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1063296&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;210158482&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;154500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;: &quot;054500&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.8572&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.8800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;197.3000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.3800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;924730&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;182753296&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;154000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;054000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;198.1258&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;198.3200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;197.7200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;: &quot;197.8572&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1057656&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;209470055&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;153500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;053500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.6900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;198.1500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;197.6600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;198.1258&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1139444&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;225542973&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;153000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;053000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.6600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.8600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;197.4300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.6900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;: &quot;761441&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;150467794&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;152500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;052500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.8660&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.9900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;197.6121&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.6600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;819504&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;162136366&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;152000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;052000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.5600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.9800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;197.5068&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.8660&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;782871&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;: &quot;154797120&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;151500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;051500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.1000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.5900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;: &quot;196.9900&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.5600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;867446&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;171222685&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;151000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;: &quot;051000&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;196.7074&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.1800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.6400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.1000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;569977&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;112253777&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;150500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;050500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.3599&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.4343&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.6700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;: &quot;196.7074&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;849967&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;167469928&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;150000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;050000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.0850&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.4300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.8300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.3500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;659810&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;130081018&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;145500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;045500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.1479&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.2500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.7101&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.0850&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;: &quot;619793&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;122098483&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;145000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;045000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;196.8100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.1900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.5000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.1479&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;873328&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;171928260&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;144500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;044500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;196.9101&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.0800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.7700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;196.8100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;581293&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;: &quot;114481341&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;144000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;044000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;196.9500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;196.9700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;: &quot;196.7800&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;196.9101&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;445301&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;87672935&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;143500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;: &quot;043500&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;196.9000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.1000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.7300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;196.9700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;668604&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;131649303&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;143000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;043000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.5350&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.5800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.8600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;: &quot;196.9000&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;632781&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;124810145&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;142500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;042500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.4899&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.5500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;197.2101&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.5350&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;467904&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;92355303&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;142000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;042000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.2050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.5100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;197.2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.4899&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;: &quot;569973&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;112499816&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;141500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;041500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.3400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.5300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;197.1400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;649456&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;128189425&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;141000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;041000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.1300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.3900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.8100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.3400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;782988&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;: &quot;154313193&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;140500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;040500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;196.9650&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.3500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;: &quot;196.8300&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.1300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;656325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;129386566&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;140000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;: &quot;040000&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;196.9000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.1500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.8100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;196.9650&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;615130&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;121166181&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;135500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;035500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.1420&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.2250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.7000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;: &quot;196.9000&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;866814&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;170720320&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;135000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;035000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.4801&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.6000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.8900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.1420&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1022321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;201612257&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;134500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;034500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.6611&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.6900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;197.2700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.4900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;: &quot;760553&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;150216953&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;134000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;034000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.6105&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.8600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;197.4580&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.6611&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;919295&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;181745095&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;133500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;033500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.2399&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.6800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;197.2200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.6105&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;879318&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;: &quot;173669092&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;133000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;033000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.2800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.4500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;: &quot;197.1936&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.2400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;678779&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;133936325&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;132500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;: &quot;032500&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.1400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.4000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.9000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.2850&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1368950&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;269897694&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;132000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;032000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;197.1871&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.2600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;197.0000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;: &quot;197.1415&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;614010&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;121048703&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;131500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;031500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;196.7600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;197.3899&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.7600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;197.1989&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1205848&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;237706856&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;131000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;031000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;196.6600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;196.7700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.2500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;196.7600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;: &quot;817284&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;160599464&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;130500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;030500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;196.7329&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;196.8700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.5000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;196.6600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;773879&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;152168496&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;130000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;030000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;196.4700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;196.8400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;196.4000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;196.7329&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;997013&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;: &quot;196017987&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;125500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;025500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;196.1565&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;196.5000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;: &quot;196.0000&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;196.4700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1402472&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;275108172&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;125000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;: &quot;025000&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;195.7900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;196.2400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;195.7900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;196.1500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;724616&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;142057985&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;124500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;024500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;195.9650&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;196.1200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;195.6300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;: &quot;195.7900&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;731597&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;143315155&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;124000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;024000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;196.1800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;196.2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;195.3300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;195.9650&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1650897&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;323200735&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;123500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;023500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;195.7994&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;196.4700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;195.7709&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;196.1986&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;: &quot;1077671&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;211388949&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;123000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;023000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;195.9050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;196.0500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;195.6600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;195.7994&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1466167&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;287231878&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;122500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;022500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;196.0824&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;196.1200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;195.8300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;195.9050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;694628&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;: &quot;136126676&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;122000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;022000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;195.7950&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;196.1800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;: &quot;195.6100&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;196.0824&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1088972&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;213363586&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;121500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;: &quot;021500&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;195.3500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;195.8299&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;195.1100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;195.7950&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;862850&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;168642290&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;121000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;021000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;195.7939&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;195.8500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;195.1451&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;: &quot;195.3500&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;945068&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;184752544&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;120500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;020500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;194.8500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;195.9100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;194.8100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;195.7939&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1211841&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;236762153&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;120000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;020000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;194.5600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;195.0500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;194.3700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;194.8500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;: &quot;773910&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;150724507&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;115500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;015500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;194.2200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.7300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;194.1700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;194.5600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;718495&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;139761181&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;115000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;015000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;194.4200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.4700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;194.1700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;194.2200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;579935&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;: &quot;112701458&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;114500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;014500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;195.0000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;195.0400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;: &quot;194.0601&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;194.3900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1160400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;225686790&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;114000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;: &quot;014000&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;194.8100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;195.0500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;194.5701&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;195.0000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;920600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;179353816&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;113500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;013500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;194.6650&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.8400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;194.2800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;: &quot;194.8100&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1325692&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;257999048&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;113000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;013000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;193.9000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.7100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;193.8901&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;194.6650&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1088470&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;211605921&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;112500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;012500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;193.9000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.2700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;193.8000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;193.9000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;: &quot;943018&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;183000343&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;112000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;012000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;193.5700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.1100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;193.2650&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;193.9000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1000913&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;193911350&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;111500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;011500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;193.6272&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;193.7500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;193.4000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;193.5700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;828731&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;: &quot;160451259&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;111000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;011000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;193.3900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;193.6500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;: &quot;193.2000&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;193.6272&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;857727&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;165875323&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;110500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;: &quot;010500&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;192.9700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;193.5000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;192.8400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;193.3900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1059410&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;204686966&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;110000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;010000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;193.2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;193.2500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;192.7300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;: &quot;192.9700&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;947701&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;182878463&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;105500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;005500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;192.7500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;193.2100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;192.6500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;193.2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1068442&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;206104973&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;105000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;192.5100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;192.8800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;192.4700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;192.7500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;: &quot;1270027&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;244704237&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;104500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;004500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;192.0301&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;192.5400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;191.3900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;192.5100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;2212812&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;424463260&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;104000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;004000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;192.5250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;192.8700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;191.9700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;192.0300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1679593&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;: &quot;323107778&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;103500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;003500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;192.9499&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;193.1800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;: &quot;192.4900&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;192.5250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1503653&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;289911663&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;103000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;: &quot;003000&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;193.2250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;193.3999&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;192.5900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;192.9499&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1667872&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;321710100&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;102500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;002500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;193.5550&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;193.7500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;192.9601&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;: &quot;193.2250&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1348645&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;260572277&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;102000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;002000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;194.2120&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.2120&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;193.3706&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;193.5550&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1495301&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;289774601&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;101500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;001500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;194.7200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;195.3700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;194.1100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;194.2120&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;: &quot;1768809&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;344578091&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;101000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;001000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;194.5134&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.8300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;193.9700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;194.7200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1402838&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;272825843&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;100500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;194.1109&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.7200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;193.9200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;194.5134&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1538510&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;: &quot;298949025&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;100000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240223&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;192.9500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.1800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;: &quot;192.1000&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;194.1000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;2128350&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;411408371&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;095500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;: &quot;235500&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;193.3050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;193.9900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;192.8800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;192.9200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1313537&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;254115390&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;095000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;235000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;193.8900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.2500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;192.6800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;: &quot;193.3050&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1883937&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;364537424&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;094500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;234500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;193.1280&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.1400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;192.7700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;193.8900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1908198&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;368889083&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;094000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;234000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;192.3000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;193.8300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;192.2940&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;193.1280&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;: &quot;2095911&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;404757381&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;093500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;233500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;191.4772&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;193.2700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;191.3600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;192.3000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;2795070&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;537882973&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;093000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;233000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;194.0000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.3000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;191.3801&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;191.4772&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;3537695&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;: &quot;682410049&quot;<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240221&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240221&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;160000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;060000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;194.8400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.8400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;: &quot;194.7700&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;194.7700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;31421&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;6119886&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240221&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240221&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;155500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;: &quot;055500&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;194.2100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.8800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;194.2100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;194.8799&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1848035&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;359756004&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240221&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240221&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;155000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;055000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;194.2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.4300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;193.9500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;: &quot;194.2100&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1120789&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;217632045&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240221&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240221&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;154500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;054500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;194.4650&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.4800&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;194.0350&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;194.2000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;985171&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;191345989&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240221&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240221&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;154000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;054000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;194.5231&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.6700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;194.2600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;194.4650&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;: &quot;967078&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;188061926&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;tymd&quot;:
+  &quot;20240221&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xymd&quot;:
+  &quot;20240221&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;xhms&quot;:
+  &quot;153500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;kymd&quot;:
+  &quot;20240222&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;khms&quot;:
+  &quot;053500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;open&quot;:
+  &quot;193.7400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high&quot;:
+  &quot;194.5500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;low&quot;:
+  &quot;193.7200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;last&quot;:
+  &quot;194.5231&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;evol&quot;:
+  &quot;1176735&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;eamt&quot;:
+  &quot;228544</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=188 style='width:141pt'></td>
+  <td width=100 style='width:75pt'></td>
+  <td width=100 style='width:75pt'></td>
+  <td width=79 style='width:59pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=55 style='width:41pt'></td>
+  <td width=71 style='width:53pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

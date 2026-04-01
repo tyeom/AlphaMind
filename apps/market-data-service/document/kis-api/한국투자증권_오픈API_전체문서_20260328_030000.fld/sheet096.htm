@@ -1,0 +1,3406 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File
+href="../한국투자증권_오픈API_전체문서_20260328_030000.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .7in .75in .7in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕";
+	mso-generic-font-family:auto;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(95);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../한국투자증권_오픈API_전체문서_20260328_030000.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#467886" vlink="#96607D">
+
+<table border=0 cellpadding=0 cellspacing=0 width=642 style='border-collapse:
+ collapse;table-layout:fixed;width:481pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=108 style='mso-width-source:userset;mso-width-alt:3456;width:81pt'>
+ <col width=72 style='mso-width-source:userset;mso-width-alt:2304;width:54pt'>
+ <col width=79 style='mso-width-source:userset;mso-width-alt:2517;width:59pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2218;width:52pt'>
+ <col width=55 style='mso-width-source:userset;mso-width-alt:1749;width:41pt'>
+ <col width=71 style='width:53pt'>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl68 width=642 style='height:17.0pt;width:481pt'>예탁원정보(배당일정)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 통신방식</td>
+  <td colspan=6 class=xl66 style='border-left:none'>REST</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>메뉴 위치</td>
+  <td colspan=6 class=xl66 style='border-left:none'>[국내주식] 종목정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>예탁원정보(배당일정)</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>API ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>국내주식-145</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>HHKDB669102C0</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 TR_ID</td>
+  <td colspan=6 class=xl66 style='border-left:none'>모의투자 미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>기본정보</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>HTTP Method</td>
+  <td colspan=6 class=xl66 style='border-left:none'>GET</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>실전 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>https://openapi.koreainvestment.com:9443</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>모의 Domain</td>
+  <td colspan=6 class=xl66 style='border-left:none'>미지원</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>URL 명</td>
+  <td colspan=6 class=xl66 style='border-left:none'>/uapi/domestic-stock/v1/ksdinfo/dividend</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>개요</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>개요</td>
+  <td colspan=6 class=xl65 width=454 style='border-left:none;width:340pt'>예탁원정보(배당일정)
+  API입니다. <br />
+    <br />
+    한국투자 HTS(eFriend Plus) &amp;gt; [0658] 배당 화면의 기능을 API로 개발한 사항으로, 해당 화면을
+  참고하시면 기능을 이해하기 쉽습니다.<br />
+    <br />
+    <br />
+    <br />
+    ※ 예탁원에서 제공한 자료이므로 정보용으로만 사용하시기 바랍니다.<br />
+    <br />
+    '주식배당지급일'은 배당주식의 주식교부일자를 말합니다. 배당주식의 계좌입고는 배당주식 상장일인데 일반적으로 주권교부일의 익영업일입니다.</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Layout</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl67 style='height:17.0pt;border-top:none'>구분</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Element</td>
+  <td class=xl67 style='border-top:none;border-left:none'>한글명</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Type</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Required</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Length</td>
+  <td class=xl67 style='border-top:none;border-left:none'>Description</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=13 height=1433 class=xl67 style='height:1074.0pt;border-top:none'>Request
+  Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=427 style='height:320.0pt'>
+  <td height=427 class=xl66 style='height:320.0pt;border-top:none'>authorization</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접근토큰</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>350</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>OAuth
+  토큰이 필요한 API 경우 발급한 Access token <br />
+    <br />
+    일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) <br
+  />
+    <br />
+    법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization
+  Code Grant 절차를 준용)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appkey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>36</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=139 style='height:104.0pt'>
+  <td height=139 class=xl66 style='height:104.0pt;border-top:none'>appsecret</td>
+  <td class=xl66 style='border-top:none;border-left:none'>앱시크릿키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>한국투자증권
+  홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>personalseckey</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객식별키</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>180</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사 회원 관리를 위한 고객식별키</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>HHKDB669102C0</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>custtype</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고객 타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>B
+  : 법인 <br />
+    <br />
+    P : 개인</td>
+ </tr>
+ <tr height=35 style='height:26.0pt'>
+  <td height=35 class=xl66 style='height:26.0pt;border-top:none'>seq_no</td>
+  <td class=xl66 style='border-top:none;border-left:none'>일련번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>2</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 001</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>mac_address</td>
+  <td class=xl66 style='border-top:none;border-left:none'>맥주소</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>법인고객
+  혹은 개인고객의 Mac address 값</td>
+ </tr>
+ <tr height=191 style='height:143.0pt'>
+  <td height=191 class=xl66 style='height:143.0pt;border-top:none'>phone_number</td>
+  <td class=xl66 style='border-top:none;border-left:none'>핸드폰번호</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 <br />
+    <br />
+    ex) 01011112222 (하이픈 등 구분값 제거)</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>ip_addr</td>
+  <td class=xl66 style='border-top:none;border-left:none'>접속 단말 공인 IP</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  필수] 사용자(회원)의 IP Address</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=6 height=213 class=xl67 style='height:159.0pt'>Request Query
+  Parameter</td>
+  <td class=xl66 style='border-top:none'>CTS</td>
+  <td class=xl66 style='border-top:none;border-left:none'>CTS</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>17</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>GB1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회구분</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>0:배당전체,
+  1:결산배당, 2:중간배당</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>F_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회일자From</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>일자
+  ~</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>T_DT</td>
+  <td class=xl66 style='border-top:none;border-left:none'>조회일자To</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>~
+  일자</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td height=69 class=xl66 style='height:52.0pt;border-top:none'>SHT_CD</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백:
+  전체,<span style='mso-spacerun:yes'>  </span>특정종목 조회시 : 종목코드</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>HIGH_GB</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고배당여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>공백</td>
+ </tr>
+ <tr height=69 style='height:52.0pt'>
+  <td rowspan=4 height=248 class=xl67 style='height:186.0pt'>Response Header</td>
+  <td class=xl66 style='border-top:none'>content-type</td>
+  <td class=xl66 style='border-top:none;border-left:none'>컨텐츠타입</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>application/json;
+  charset=utf-8</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>tr_id</td>
+  <td class=xl66 style='border-top:none;border-left:none'>거래ID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>13</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>요청한
+  tr_id</td>
+ </tr>
+ <tr height=52 style='height:39.0pt'>
+  <td height=52 class=xl66 style='height:39.0pt;border-top:none'>tr_cont</td>
+  <td class=xl66 style='border-top:none;border-left:none'>연속 거래 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>tr_cont를
+  이용한 다음조회 불가 API</td>
+ </tr>
+ <tr height=104 style='height:78.0pt'>
+  <td height=104 class=xl66 style='height:78.0pt;border-top:none'>gt_uid</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Global UID</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>N</td>
+  <td class=xl66 style='border-top:none;border-left:none'>32</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>[법인
+  전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td rowspan=17 height=391 class=xl67 style='height:289.0pt'>Response Body</td>
+  <td class=xl66 style='border-top:none'>rt_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>성공 실패 여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>msg1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답메세지</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>80</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>output1</td>
+  <td class=xl66 style='border-top:none;border-left:none'>응답상세</td>
+  <td class=xl66 style='border-top:none;border-left:none'>object array</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'><span
+  style='mso-spacerun:yes'> </span></td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'>array</td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>record_date</td>
+  <td class=xl66 style='border-top:none;border-left:none'>기준일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>sht_cd</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목코드</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>isin_name</td>
+  <td class=xl66 style='border-top:none;border-left:none'>종목명</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>40</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>divi_kind</td>
+  <td class=xl66 style='border-top:none;border-left:none'>배당종류</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>8</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>face_val</td>
+  <td class=xl66 style='border-top:none;border-left:none'>액면가</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>9</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>per_sto_divi_amt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>현금배당금</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>12</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>divi_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>현금배당률(%)</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>62</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stk_divi_rate</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식배당률(%)</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>152</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>divi_pay_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>배당금지급일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stk_div_pay_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식배당지급일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>odd_pay_dt</td>
+  <td class=xl66 style='border-top:none;border-left:none'>단주대금지급일</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>stk_kind</td>
+  <td class=xl66 style='border-top:none;border-left:none'>주식종류</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>10</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td height=23 class=xl66 style='height:17.0pt;border-top:none'>high_divi_gb</td>
+  <td class=xl66 style='border-top:none;border-left:none'>고배당종목여부</td>
+  <td class=xl66 style='border-top:none;border-left:none'>string</td>
+  <td class=xl66 style='border-top:none;border-left:none'>Y</td>
+  <td class=xl66 style='border-top:none;border-left:none'>1</td>
+  <td class=xl65 width=71 style='border-top:none;border-left:none;width:53pt'><span
+  style='mso-spacerun:yes'> </span></td>
+ </tr>
+ <tr height=23 style='height:17.0pt'>
+  <td colspan=7 height=23 class=xl69 style='height:17.0pt'>Example</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Request
+  Example (Python)</td>
+  <td colspan=6 class=xl70 style='border-left:none'>cts:<br />
+    <br />
+    gb1:0<br />
+    <br />
+    f_dt:20230301<br />
+    <br />
+    t_dt:20240326<br />
+    <br />
+    sht_cd:<br />
+    <br />
+    high_gb:0</td>
+ </tr>
+ <tr height=107 style='mso-height-source:userset;height:80.0pt'>
+  <td height=107 class=xl67 style='height:80.0pt;border-top:none'>Response
+  Example</td>
+  <td colspan=6 class=xl70 style='border-left:none'>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>    </span>&quot;output1&quot;: [<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;000720&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;현대건설&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 12.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;000725&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;현대건설1우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000650&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 13.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;003540&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;대신증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000001200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 24.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;003545&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;대신증권1우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000001250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 25.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;003547&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;대신증권2우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000001200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 24.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;2우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;012510&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;더존비즈온&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;: &quot;결산&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000217&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 43.40&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240326&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;01251K&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;더존비즈온2우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000004861&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;972.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;2우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;012330&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;현대모비스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000003500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 70.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240325&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;012335&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;현대모비스1우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;: &quot;결산&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000003550&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 71.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;030210&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;다올투자증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000150&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>3.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;03021K&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;다올투자증권3우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000356&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>7.14&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;3우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240322&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;03021L&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;다올투자증권4우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000295&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>5.91&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;4우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;006840&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에이케이홀딩스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;: &quot;결산&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>4.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_div_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;014680&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;한솔케미칼&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000002100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 42.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/08&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240321&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;380440&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엔에이치기업인수목적19호&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;000270&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;기아&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;: &quot;결산&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000005600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;112.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240320&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;276970&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;삼성KODEX 미국S&amp;P500배당귀족커버드콜증권&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000130&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>1.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/22&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_div_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;012690&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;모나리자&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 10.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240315&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;474220&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;미래에셋TIGER미국테크TOP10+10%프리미엄증&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000092&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.92&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240311&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;028100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;동아지질&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;: &quot;결산&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;100.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240311&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;267790&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;배럴&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 10.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240311&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;26779L&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;배럴 2우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000112&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 22.40&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;2우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240308&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;114100&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;KB KBSTAR 국고채3년 증권 상장지수 투자신&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000720&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.70&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_div_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240308&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;114460&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;한국투자ACE국고채증권상장지수투자신탁(채&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000580&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.56&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_div_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240308&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;114470&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;키움 KOSEF 국고채 상장지수증권투자신탁[&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000580&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.57&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_div_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240308&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;114820&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;미래에셋TIGER국채3증권상장지수투자신탁(&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000518&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.50&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_div_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240308&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;346000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;NH-Amundi HANARO KAP 초장기국고채 증권 &quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000354&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.71&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_div_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240308&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;385560&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;KB KBSTAR KIS국고채30년Enhanced 증권 상&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000001570&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>1.57&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_div_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240308&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;464230&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;키움히어로즈24-09회사채(AA-이상)액티브증&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_div_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240308&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;464240&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;키움히어로즈26-09회사채(AA-이상)액티브증&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000300&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_div_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240308&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;467620&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;키움히어로즈25-09미국달러채권(AA-이상)액&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000200&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.40&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/13&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_div_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240307&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;042700&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;한미반도체&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000420&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;420.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/29&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240306&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;004310&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;현대약품&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000035&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>7.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/27&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240305&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;152550&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;한국투자ANKOR유전해외자원개발특별자산투&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_div_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240305&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;377630&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;삼성기업인수목적4호&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;2079.0&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240301&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;002900&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;티와이엠&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000002500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000110&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>4.40&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;: &quot;2024/04/19&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240301&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;084870&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;티비에이치글로벌&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 10.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;002380&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;케이씨씨&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000007000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;140.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;005380&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;현대자동차&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000008400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;168.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;005385&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;현대자동차1우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000008450&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;169.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;005387&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;현대자동차2우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000008500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;170.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;2우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;005389&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;현대자동차3우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;: &quot;결산&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000008450&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;169.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;3우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;005490&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;포스코홀딩스&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000002500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 50.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;007340&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;디엔오토모티브&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000002500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;500.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;: &quot;035720&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;카카오&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000061&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 61.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;092870&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;엑시콘&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 20.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/16&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;097950&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;씨제이제일제당&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;: &quot;결산&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000002500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 50.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;097955&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;씨제이제일제당1우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000002550&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 51.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;105560&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;KB금융지주&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000001530&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 30.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/11&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;136340&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;KB KBSTAR 중기우량회사채 증권 상장지수 &quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000370&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.37&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;: &quot;보통&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;138930&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;BNK금융지주&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000410&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>8.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;139130&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;DGB금융지주&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000550&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 11.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;148150&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;세경하이테크&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;: &quot;결산&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 20.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;14815K&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;세경하이테크1우&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000180&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 36.17&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/12&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;우선&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;166400&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;미래에셋 TIGER 200커버드콜5%OTM 증권상장&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000060&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.60&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;175330&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;JB금융지주&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000735&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 14.70&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;182480&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;미래에셋TIGERMSCIUS리츠부동산상장지수투&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000040&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.40&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;: &quot;보통&quot;,<br
+  />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;245340&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;미래에셋TIGER미국다우존스30증권상장지수&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000020&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.20&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_div_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;246250&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;에스엘에스바이오&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000050&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 10.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/15&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;251600&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;한화ARIRANG고배당주채권혼합증권상장지수&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.30&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;271830&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;팸텍&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000100&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000030&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 30.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/19&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;282690&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;동아타이어공업(신설)&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000500&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000001000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;200.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_div_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;289480&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;미래에셋TIGER200커버드콜ATM증권상장지수&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000062&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.62&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_div_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;290080&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;KB KBSTAR 200 고배당 커버드콜 ATM 증권 &quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000000000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000053&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot;<span style='mso-spacerun:yes'>  </span>0.53&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/03/05&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_div_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;odd_pay_dt&quot;:
+  &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;stk_kind&quot;:
+  &quot;보통&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;high_divi_gb&quot;:
+  &quot;&quot;<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>},<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span>{<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;record_date&quot;:
+  &quot;20240229&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;sht_cd&quot;:
+  &quot;316140&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;isin_name&quot;:
+  &quot;우리금융지주&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_kind&quot;:
+  &quot;결산&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;face_val&quot;:
+  &quot;000005000&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;per_sto_divi_amt&quot;: &quot;000000000640&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_rate&quot;:
+  &quot; 12.80&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_divi_rate&quot;: &quot;<span style='mso-spacerun:yes'> 
+  </span>0.00&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>            </span>&quot;divi_pay_dt&quot;:
+  &quot;2024/04/09&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>           
+  </span>&quot;stk_div_pay_dt&quot;: &quot;&quot;,<br />
+    <br />
+    <span style='mso-spacerun:yes'>        </span></td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=188 style='width:141pt'></td>
+  <td width=108 style='width:81pt'></td>
+  <td width=72 style='width:54pt'></td>
+  <td width=79 style='width:59pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=55 style='width:41pt'></td>
+  <td width=71 style='width:53pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>
