@@ -1337,6 +1337,75 @@ h3 {
   color: var(--text-secondary);
 }
 
+/* 잔고 자동/수동 구분 배지 & 필터 */
+.balance-source-filter {
+  display: flex;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.source-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  min-width: 36px;
+  text-align: center;
+}
+
+.source-auto {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.source-manual {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+}
+
+/* 진입 모드 선택 (모니터링 / 즉시 매수) */
+.entry-mode-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+}
+
+.entry-mode-selector .entry-mode-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.entry-mode-selector .entry-mode-options {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.entry-mode-selector label {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.entry-mode-selector label input[type='radio'] {
+  margin-top: 3px;
+}
+
+.entry-mode-selector .entry-mode-hint {
+  color: var(--text-secondary);
+  font-size: 11px;
+  display: block;
+  margin-top: 2px;
+}
+
 .session-actions {
   display: flex;
   gap: 6px;

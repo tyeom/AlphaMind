@@ -239,37 +239,47 @@ export class KisController {
     const totalEval = Number(summary.evlu_amt_smtl_amt) || 0;
     const totalProfitLoss = Number(summary.evlu_pfls_smtl_amt) || 0;
 
+    const filtered = items.filter((i) => Number(i.hldg_qty) > 0);
+    const mapped = filtered.map((i) => {
+      const session = sessionByStock.get(i.pdno);
+      // auto_trading_sessions 에 활성 세션이 있으면 '자동 매매', 아니면 '수동'
+      const source: 'auto' | 'manual' = session ? 'auto' : 'manual';
+      return {
+        stockCode: i.pdno,
+        stockName: i.prdt_name,
+        holdingQty: Number(i.hldg_qty),
+        avgBuyPrice: Number(i.pchs_avg_pric),
+        currentPrice: Number(i.prpr),
+        evalAmount: Number(i.evlu_amt),
+        profitLoss: Number(i.evlu_pfls_amt),
+        profitLossRate: Number(i.evlu_pfls_rt),
+        source,
+        autoTrading: session
+          ? {
+              sessionId: session.id,
+              strategyId: session.strategyId,
+              variant: session.variant,
+              takeProfitPct: session.takeProfitPct,
+              stopLossPct: session.stopLossPct,
+            }
+          : null,
+      };
+    });
+
+    // 자동/수동 집계도 함께 제공하여 프론트에서 별도 계산 불필요
+    const autoCount = mapped.filter((i) => i.source === 'auto').length;
+    const manualCount = mapped.length - autoCount;
+
     return {
-      items: items
-        .filter((i) => Number(i.hldg_qty) > 0)
-        .map((i) => {
-          const session = sessionByStock.get(i.pdno);
-          return {
-            stockCode: i.pdno,
-            stockName: i.prdt_name,
-            holdingQty: Number(i.hldg_qty),
-            avgBuyPrice: Number(i.pchs_avg_pric),
-            currentPrice: Number(i.prpr),
-            evalAmount: Number(i.evlu_amt),
-            profitLoss: Number(i.evlu_pfls_amt),
-            profitLossRate: Number(i.evlu_pfls_rt),
-            autoTrading: session
-              ? {
-                  sessionId: session.id,
-                  strategyId: session.strategyId,
-                  variant: session.variant,
-                  takeProfitPct: session.takeProfitPct,
-                  stopLossPct: session.stopLossPct,
-                }
-              : null,
-          };
-        }),
+      items: mapped,
       totalEvalAmount: totalEval,
       totalPurchaseAmount: totalPurchase,
       totalProfitLoss,
       totalProfitLossRate:
         totalPurchase > 0 ? (totalProfitLoss / totalPurchase) * 100 : 0,
       cashBalance: Number(summary.dnca_tot_amt) || 0,
+      autoTradingCount: autoCount,
+      manualCount,
     };
   }
 

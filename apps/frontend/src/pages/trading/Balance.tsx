@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { getBalance } from '../../api/kis';
-import type { BalanceResponse } from '../../types/kis';
+import type { BalanceItem, BalanceItemSource, BalanceResponse } from '../../types/kis';
 
 function formatNumber(n: number): string {
   return n.toLocaleString('ko-KR');
@@ -17,10 +17,13 @@ const STRATEGY_NAMES: Record<string, string> = {
   'candle-pattern': '캔들 패턴',
 };
 
+type SourceFilter = 'all' | BalanceItemSource;
+
 export function Balance() {
   const [balance, setBalance] = useState<BalanceResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [sourceFilter, setSourceFilter] = useState<SourceFilter>('all');
 
   const fetchBalance = () => {
     setLoading(true);
@@ -34,6 +37,12 @@ export function Balance() {
   useEffect(() => {
     fetchBalance();
   }, []);
+
+  const visibleItems: BalanceItem[] = useMemo(() => {
+    if (!balance) return [];
+    if (sourceFilter === 'all') return balance.items;
+    return balance.items.filter((i) => i.source === sourceFilter);
+  }, [balance, sourceFilter]);
 
   if (loading) return <div className="page-loading">로딩 중...</div>;
 
@@ -80,10 +89,36 @@ export function Balance() {
             </div>
           </div>
 
+          {/* 자동/수동 구분 필터 */}
+          <div className="balance-source-filter">
+            <button
+              type="button"
+              className={`btn btn-sm ${sourceFilter === 'all' ? 'btn-primary' : ''}`}
+              onClick={() => setSourceFilter('all')}
+            >
+              전체 ({balance.items.length})
+            </button>
+            <button
+              type="button"
+              className={`btn btn-sm ${sourceFilter === 'auto' ? 'btn-primary' : ''}`}
+              onClick={() => setSourceFilter('auto')}
+            >
+              자동매매 ({balance.autoTradingCount})
+            </button>
+            <button
+              type="button"
+              className={`btn btn-sm ${sourceFilter === 'manual' ? 'btn-primary' : ''}`}
+              onClick={() => setSourceFilter('manual')}
+            >
+              수동 ({balance.manualCount})
+            </button>
+          </div>
+
           <div className="table-container">
             <table className="data-table">
               <thead>
                 <tr>
+                  <th>구분</th>
                   <th>종목코드</th>
                   <th>종목명</th>
                   <th className="text-right">보유수량</th>
@@ -98,17 +133,30 @@ export function Balance() {
                 </tr>
               </thead>
               <tbody>
-                {balance.items.length === 0 ? (
+                {visibleItems.length === 0 ? (
                   <tr>
-                    <td colSpan={11} className="text-center">
-                      보유 종목이 없습니다.
+                    <td colSpan={12} className="text-center">
+                      {balance.items.length === 0
+                        ? '보유 종목이 없습니다.'
+                        : '선택한 구분에 해당하는 종목이 없습니다.'}
                     </td>
                   </tr>
                 ) : (
-                  balance.items.map((item) => {
+                  visibleItems.map((item) => {
                     const at = item.autoTrading;
+                    const isAuto = item.source === 'auto';
                     return (
-                      <tr key={item.stockCode}>
+                      <tr
+                        key={item.stockCode}
+                        className={isAuto ? 'row-auto' : 'row-manual'}
+                      >
+                        <td>
+                          <span
+                            className={`source-badge source-${item.source}`}
+                          >
+                            {isAuto ? '자동' : '수동'}
+                          </span>
+                        </td>
                         <td>{item.stockCode}</td>
                         <td>{item.stockName}</td>
                         <td className="text-right">{formatNumber(item.holdingQty)}</td>

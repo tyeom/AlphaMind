@@ -1,6 +1,13 @@
 /** 활성 세션이 이미 있을 때의 처리 방식 */
 export type SessionConflictAction = 'update' | 'skip';
 
+/**
+ * 세션 진입 방식
+ * - 'monitor': 매수 신호 감지 시까지 대기 (기본)
+ * - 'immediate': 세션 생성 즉시 시장가 매수 후 운용
+ */
+export type SessionEntryMode = 'monitor' | 'immediate';
+
 export interface StartSessionDto {
   stockCode: string;
   stockName: string;
@@ -20,10 +27,21 @@ export interface StartSessionDto {
    * - 미지정: 409 Conflict 응답
    */
   onConflict?: SessionConflictAction;
+  /**
+   * 세션 진입 방식
+   * - 'monitor' (기본): 전략 매수 신호 대기
+   * - 'immediate': 세션 생성 직후 시장가로 즉시 매수하고 운용 진입
+   */
+  entryMode?: SessionEntryMode;
 }
 
 export interface StartSessionsDto {
   sessions: StartSessionDto[];
+  /**
+   * 일괄 적용할 세션 진입 방식 — 각 세션의 entryMode 보다 우선순위 낮음.
+   * 지정 시 sessions[].entryMode 가 비어있는 항목에만 적용된다.
+   */
+  entryMode?: SessionEntryMode;
 }
 
 /** 활성/일시정지 상태의 세션 설정 수정 DTO */

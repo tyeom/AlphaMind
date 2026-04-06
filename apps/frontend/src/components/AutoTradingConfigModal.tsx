@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { SessionEntryMode } from '../types/auto-trading';
 
 export interface TradingConfigItem {
   stockCode: string;
@@ -13,13 +14,21 @@ export interface TradingConfigItem {
 interface Props {
   items: TradingConfigItem[];
   onCancel: () => void;
-  onConfirm: (items: TradingConfigItem[]) => void;
+  /**
+   * 확정 콜백 — 두 번째 인자로 사용자가 선택한 진입 방식이 전달된다.
+   * 수정 모드 등에서 entryMode가 불필요한 경우 무시 가능.
+   */
+  onConfirm: (items: TradingConfigItem[], entryMode: SessionEntryMode) => void;
   /** 모달 헤더 — 기본 "자동 매매 설정" */
   title?: string;
   /** 상단 안내 문구 — 기본: 신규 매매 시작 안내 */
   description?: string;
   /** 확정 버튼 레이블 — 기본 "매매 시작" */
   confirmLabel?: string;
+  /** 진입 방식 선택 UI 노출 여부 — 기본 true (새 세션 생성 시). 수정 모드에서는 false 권장 */
+  showEntryMode?: boolean;
+  /** 초기 진입 방식 — 기본 'monitor' */
+  initialEntryMode?: SessionEntryMode;
 }
 
 const STRATEGY_OPTIONS: { id: string; name: string }[] = [
@@ -36,8 +45,12 @@ export function AutoTradingConfigModal({
   title,
   description,
   confirmLabel,
+  showEntryMode = true,
+  initialEntryMode = 'monitor',
 }: Props) {
   const [configs, setConfigs] = useState<TradingConfigItem[]>(items);
+  const [entryMode, setEntryMode] =
+    useState<SessionEntryMode>(initialEntryMode);
 
   const updateItem = (index: number, patch: Partial<TradingConfigItem>) => {
     setConfigs((prev) =>
@@ -51,7 +64,7 @@ export function AutoTradingConfigModal({
 
   const handleConfirm = () => {
     // 유효성: takeProfit > 0, stopLoss < 0 권장이지만 강제하진 않음
-    onConfirm(configs);
+    onConfirm(configs, entryMode);
   };
 
   return (
@@ -71,6 +84,44 @@ export function AutoTradingConfigModal({
             {description ??
               '각 종목별로 사용할 전략과 목표 수익/손절 기준을 설정하세요. 기본값은 백테스트 기반 추천 전략 및 +5% / -3% 입니다.'}
           </p>
+
+          {showEntryMode && (
+            <div className="entry-mode-selector">
+              <span className="entry-mode-title">진입 방식</span>
+              <div className="entry-mode-options">
+                <label>
+                  <input
+                    type="radio"
+                    name="entry-mode"
+                    value="monitor"
+                    checked={entryMode === 'monitor'}
+                    onChange={() => setEntryMode('monitor')}
+                  />
+                  <span>
+                    모니터링
+                    <small className="entry-mode-hint">
+                      전략 매수 신호가 발생할 때까지 대기 후 매수
+                    </small>
+                  </span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="entry-mode"
+                    value="immediate"
+                    checked={entryMode === 'immediate'}
+                    onChange={() => setEntryMode('immediate')}
+                  />
+                  <span>
+                    바로 매수 후 운용
+                    <small className="entry-mode-hint">
+                      세션 생성 직후 시장가로 전액 매수, 이후 익절/손절 자동 운용
+                    </small>
+                  </span>
+                </label>
+              </div>
+            </div>
+          )}
 
           {configs.length > 1 && (
           <div className="bulk-apply-row">

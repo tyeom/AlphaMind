@@ -32,6 +32,9 @@ export interface BalanceAutoTradingInfo {
   stopLossPct: number;
 }
 
+/** 잔고 항목의 진입 경로 — 'auto': 자동매매 세션으로 추가, 'manual': 수동 매수 */
+export type BalanceItemSource = 'auto' | 'manual';
+
 export interface BalanceItem {
   stockCode: string;
   stockName: string;
@@ -41,6 +44,8 @@ export interface BalanceItem {
   evalAmount: number;
   profitLoss: number;
   profitLossRate: number;
+  /** auto_trading_sessions 활성 세션 매칭 여부 기반 구분 */
+  source: BalanceItemSource;
   autoTrading: BalanceAutoTradingInfo | null;
 }
 
@@ -51,6 +56,10 @@ export interface BalanceResponse {
   totalProfitLoss: number;
   totalProfitLossRate: number;
   cashBalance: number;
+  /** 자동매매 세션이 연결된 종목 개수 */
+  autoTradingCount: number;
+  /** 수동 매수 종목 개수 */
+  manualCount: number;
 }
 
 export interface StockPrice {

@@ -87,6 +87,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
    * 복수 세션 일괄 시작
    * - 사전 검사: 활성 세션이 있는 종목에 onConflict가 지정되지 않으면 409로 충돌 정보 반환
    * - 충돌이 없거나 모두 해결된 경우에만 실제 생성/업데이트 진행 (부분 생성 방지)
+   * - entryMode='immediate' 이면 세션 생성 직후 시장가 매수 실행
    */
   async startSessions(
     userId: number,
@@ -140,7 +141,12 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     // 2. 실제 생성/업데이트
     const results: AutoTradingSessionEntity[] = [];
     for (const sessionDto of dto.sessions) {
-      const session = await this.startSession(userId, sessionDto);
+      // 일괄 entryMode 는 개별 entryMode 가 비어있을 때만 적용
+      const effectiveDto: StartSessionDto = {
+        ...sessionDto,
+        entryMode: sessionDto.entryMode ?? dto.entryMode,
+      };
+      const session = await this.startSession(userId, effectiveDto);
       results.push(session);
     }
     return results;
@@ -225,10 +231,17 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     await this.em.persistAndFlush(session);
     this.logger.log(
       `자동매매 시작: ${dto.stockName}(${dto.stockCode}) - ${strategyId} ` +
-        `(목표 ${session.takeProfitPct}%, 손절 ${session.stopLossPct}%)`,
+        `(목표 ${session.takeProfitPct}%, 손절 ${session.stopLossPct}%, ` +
+        `진입 ${dto.entryMode ?? 'monitor'})`,
     );
 
     this.subscribeStock(dto.stockCode);
+
+    // 즉시 매수 모드: 시장가로 투자금액 전체를 매수
+    if (dto.entryMode === 'immediate') {
+      await this.executeImmediateBuy(session);
+    }
+
     return session;
   }
 
@@ -524,6 +537,61 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       await this.em.flush();
     } catch (err: any) {
       this.logger.error(`매수 실패: ${session.stockCode} - ${err.message}`);
+    }
+  }
+
+  /**
+   * 즉시 매수 실행 — 세션 생성 직후 시장가로 투자금액 전체를 매수.
+   * 현재가는 실시간 캐시가 아직 없을 가능성이 높으므로 REST 현재가 조회로 확정.
+   */
+  private async executeImmediateBuy(session: AutoTradingSessionEntity) {
+    try {
+      const priceRaw = await this.kisQuotationService.getCurrentPrice(
+        session.stockCode,
+      );
+      const price = Number(priceRaw.stck_prpr);
+      if (!Number.isFinite(price) || price <= 0) {
+        this.logger.warn(
+          `즉시 매수 건너뜀: ${session.stockCode} - 현재가 조회 실패`,
+        );
+        return;
+      }
+
+      const qty = Math.floor(session.investmentAmount / price);
+      if (qty <= 0) {
+        this.logger.warn(
+          `즉시 매수 건너뜀: ${session.stockCode} - 투자금액(${session.investmentAmount}) 대비 ` +
+            `현재가(${price})가 커서 1주도 매수 불가`,
+        );
+        return;
+      }
+
+      this.logger.log(
+        `즉시 매수 실행: ${session.stockCode} ${qty}주 @ ${price} ` +
+          `(투자금 ${session.investmentAmount})`,
+      );
+
+      await this.kisOrderService.orderCash({
+        stockCode: session.stockCode,
+        orderType: 'buy',
+        orderDvsn: '01', // 시장가
+        quantity: qty,
+        price: 0,
+        userId: session.user.id,
+      });
+
+      // 즉시 매수 결과를 세션에 반영 (가중평균 매입가 계산)
+      const totalCost = session.avgBuyPrice * session.holdingQty + price * qty;
+      session.holdingQty += qty;
+      session.avgBuyPrice = totalCost / session.holdingQty;
+      session.totalBuys += 1;
+      this.latestPrices.set(session.stockCode, price);
+      await this.em.flush();
+    } catch (err: any) {
+      // 즉시 매수 실패는 세션 자체를 롤백하지 않고 로깅만 — 이후 전략 신호로 진입 가능
+      this.logger.error(
+        `즉시 매수 실패: ${session.stockCode} - ${err.message ?? err}`,
+      );
     }
   }
 

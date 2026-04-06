@@ -11,6 +11,7 @@ import type {
   SessionConflictAction,
   SessionConflictError,
   SessionConflictItem,
+  SessionEntryMode,
   StartSessionRequest,
 } from '../types/auto-trading';
 import {
@@ -99,6 +100,7 @@ export function AiScanner() {
   const [conflictState, setConflictState] = useState<{
     conflicts: SessionConflictItem[];
     pendingDtos: StartSessionRequest[];
+    entryMode: SessionEntryMode;
   } | null>(null);
 
   const { connected, on } = useAutoTradingWebSocket();
@@ -224,37 +226,27 @@ export function AiScanner() {
       return;
     }
 
-    // 복수 종목이면 설정 팝업을 열어 각 종목별 전략/목표수익/손절 편집
-    if (selectedResults.length >= 2) {
-      const items: TradingConfigItem[] = selectedResults.map((r) => ({
-        stockCode: r.stockCode,
-        stockName: r.stockName,
-        strategyId: r.bestStrategy.strategyId,
-        variant: r.bestStrategy.variant,
-        takeProfitPct: 5,
-        stopLossPct: -3,
-      }));
-      setConfigModalItems(items);
-      return;
-    }
-
-    // 단일 종목은 기본 추천 전략/기본값으로 바로 시작
-    const r = selectedResults[0];
-    void startSessionsWithConfigs([
-      {
-        stockCode: r.stockCode,
-        stockName: r.stockName,
-        strategyId: r.bestStrategy.strategyId,
-        variant: r.bestStrategy.variant,
-        takeProfitPct: 5,
-        stopLossPct: -3,
-      },
-    ]);
+    // 단일/복수 모두 설정 팝업을 열어 진입 방식(모니터링/즉시매수) 및 설정을 확정
+    const items: TradingConfigItem[] = selectedResults.map((r) => ({
+      stockCode: r.stockCode,
+      stockName: r.stockName,
+      strategyId: r.bestStrategy.strategyId,
+      variant: r.bestStrategy.variant,
+      takeProfitPct: 5,
+      stopLossPct: -3,
+    }));
+    setConfigModalItems(items);
   };
 
-  const submitSessions = async (sessionDtos: StartSessionRequest[]) => {
+  const submitSessions = async (
+    sessionDtos: StartSessionRequest[],
+    entryMode: SessionEntryMode,
+  ) => {
     try {
-      const newSessions = await startSessionsBatch({ sessions: sessionDtos });
+      const newSessions = await startSessionsBatch({
+        sessions: sessionDtos,
+        entryMode,
+      });
       setSessions(newSessions);
       setStep('trading');
       setConfigModalItems(null);
@@ -273,6 +265,7 @@ export function AiScanner() {
         setConflictState({
           conflicts: conflictBody.conflicts,
           pendingDtos: sessionDtos,
+          entryMode,
         });
         return;
       }
@@ -280,7 +273,10 @@ export function AiScanner() {
     }
   };
 
-  const startSessionsWithConfigs = async (items: TradingConfigItem[]) => {
+  const startSessionsWithConfigs = async (
+    items: TradingConfigItem[],
+    entryMode: SessionEntryMode,
+  ) => {
     const sessionDtos: StartSessionRequest[] = items.map((item) => ({
       stockCode: item.stockCode,
       stockName: item.stockName,
@@ -291,7 +287,7 @@ export function AiScanner() {
       stopLossPct: item.stopLossPct,
       aiScore: aiScores.get(item.stockCode)?.score,
     }));
-    await submitSessions(sessionDtos);
+    await submitSessions(sessionDtos, entryMode);
   };
 
   const handleConflictConfirm = async (
@@ -305,7 +301,7 @@ export function AiScanner() {
       if (!action) return dto;
       return { ...dto, onConflict: action };
     });
-    await submitSessions(resolved);
+    await submitSessions(resolved, conflictState.entryMode);
   };
 
   const handleConflictCancel = () => {
@@ -375,7 +371,9 @@ export function AiScanner() {
         <AutoTradingConfigModal
           items={configModalItems}
           onCancel={() => setConfigModalItems(null)}
-          onConfirm={(items) => void startSessionsWithConfigs(items)}
+          onConfirm={(items, entryMode) =>
+            void startSessionsWithConfigs(items, entryMode)
+          }
         />
       )}
 
@@ -392,6 +390,7 @@ export function AiScanner() {
           title="자동 매매 설정 수정"
           description="전략과 목표 수익/손절 기준을 변경할 수 있습니다. 변경사항은 즉시 모니터링에 반영됩니다."
           confirmLabel="수정 저장"
+          showEntryMode={false}
           items={[
             {
               stockCode: editSession.stockCode,

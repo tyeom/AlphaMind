@@ -24,6 +24,13 @@ export interface AutoTradingSession {
 /** 활성 세션이 이미 있을 때의 처리 방식 */
 export type SessionConflictAction = 'update' | 'skip';
 
+/**
+ * 세션 진입 방식
+ * - 'monitor': 전략 매수 신호 대기 (기본)
+ * - 'immediate': 세션 생성 직후 시장가 전액 매수 후 운용
+ */
+export type SessionEntryMode = 'monitor' | 'immediate';
+
 export interface StartSessionRequest {
   stockCode: string;
   stockName: string;
@@ -43,10 +50,14 @@ export interface StartSessionRequest {
    * - 미지정: 409 Conflict 응답
    */
   onConflict?: SessionConflictAction;
+  /** 진입 방식 — 미지정시 'monitor' */
+  entryMode?: SessionEntryMode;
 }
 
 export interface StartSessionsBatchRequest {
   sessions: StartSessionRequest[];
+  /** 일괄 적용할 진입 방식 — 개별 세션에 entryMode 가 없을 때만 적용 */
+  entryMode?: SessionEntryMode;
 }
 
 /** 활성/일시정지 세션 설정 수정 요청 */
