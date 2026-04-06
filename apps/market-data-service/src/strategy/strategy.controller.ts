@@ -139,6 +139,25 @@ export class StrategyController {
     );
   }
 
+  /** 단일 종목 추천 전략 (RMQ) — 4개 전략 백테스트 후 최고 수익률 전략 반환 */
+  @MessagePattern('strategy.recommend')
+  recommendStrategyRmq(
+    @Payload()
+    body: {
+      stockCode: string;
+      investmentAmount?: number;
+      tradeRatioPct?: number;
+      commissionPct?: number;
+    },
+  ) {
+    return this.backtestService.recommendStrategy(
+      body.stockCode,
+      body.investmentAmount,
+      body.tradeRatioPct,
+      body.commissionPct,
+    );
+  }
+
   /** 백테스팅 */
   @Get(':code/backtest')
   runBacktest(

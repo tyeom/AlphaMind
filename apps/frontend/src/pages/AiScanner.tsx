@@ -1,11 +1,23 @@
 import { useState, useEffect } from 'react';
 import { scanStocks, streamAiScores } from '../api/scanner';
 import type { SseProgress } from '../api/scanner';
-import { startSessionsBatch, getSessions, pauseSession, resumeSession, stopSession } from '../api/auto-trading';
+import { startSessionsBatch, getSessions, pauseSession, resumeSession, stopSession, updateSession } from '../api/auto-trading';
 import { getBalance } from '../api/kis';
+import { ApiError } from '../api/client';
 import { useAutoTradingWebSocket, type PriceUpdate } from '../hooks/useAutoTradingWebSocket';
 import type { ScanResult, AiStockScore, ExpertOpinion, NewsItem } from '../types/scanner';
-import type { AutoTradingSession } from '../types/auto-trading';
+import type {
+  AutoTradingSession,
+  SessionConflictAction,
+  SessionConflictError,
+  SessionConflictItem,
+  StartSessionRequest,
+} from '../types/auto-trading';
+import {
+  AutoTradingConfigModal,
+  type TradingConfigItem,
+} from '../components/AutoTradingConfigModal';
+import { SessionConflictModal } from '../components/SessionConflictModal';
 
 type Step = 'idle' | 'scanning' | 'scanned' | 'scoring' | 'scored' | 'trading';
 
@@ -82,6 +94,12 @@ export function AiScanner() {
   const [scoringElapsed, setScoringElapsed] = useState(0);
   const [expandedDetail, setExpandedDetail] = useState<string | null>(null);
   const [abortScoring, setAbortScoring] = useState<(() => void) | null>(null);
+  const [configModalItems, setConfigModalItems] = useState<TradingConfigItem[] | null>(null);
+  const [editSession, setEditSession] = useState<AutoTradingSession | null>(null);
+  const [conflictState, setConflictState] = useState<{
+    conflicts: SessionConflictItem[];
+    pendingDtos: StartSessionRequest[];
+  } | null>(null);
 
   const { connected, on } = useAutoTradingWebSocket();
 
@@ -198,7 +216,7 @@ export function AiScanner() {
     });
   };
 
-  const handleStartTrading = async () => {
+  const handleStartTrading = () => {
     setError('');
     const selectedResults = scanResults.filter((r) => selected.has(r.stockCode));
     if (selectedResults.length === 0) {
@@ -206,22 +224,92 @@ export function AiScanner() {
       return;
     }
 
-    try {
-      const sessionDtos = selectedResults.map((r) => ({
+    // 복수 종목이면 설정 팝업을 열어 각 종목별 전략/목표수익/손절 편집
+    if (selectedResults.length >= 2) {
+      const items: TradingConfigItem[] = selectedResults.map((r) => ({
         stockCode: r.stockCode,
         stockName: r.stockName,
         strategyId: r.bestStrategy.strategyId,
         variant: r.bestStrategy.variant,
-        investmentAmount: Number(investmentAmount),
-        aiScore: aiScores.get(r.stockCode)?.score,
+        takeProfitPct: 5,
+        stopLossPct: -3,
       }));
+      setConfigModalItems(items);
+      return;
+    }
 
+    // 단일 종목은 기본 추천 전략/기본값으로 바로 시작
+    const r = selectedResults[0];
+    void startSessionsWithConfigs([
+      {
+        stockCode: r.stockCode,
+        stockName: r.stockName,
+        strategyId: r.bestStrategy.strategyId,
+        variant: r.bestStrategy.variant,
+        takeProfitPct: 5,
+        stopLossPct: -3,
+      },
+    ]);
+  };
+
+  const submitSessions = async (sessionDtos: StartSessionRequest[]) => {
+    try {
       const newSessions = await startSessionsBatch({ sessions: sessionDtos });
       setSessions(newSessions);
       setStep('trading');
+      setConfigModalItems(null);
+      setConflictState(null);
     } catch (err: any) {
+      // 409 Conflict: 이미 활성 세션이 있는 종목 → 충돌 해결 모달 표시
+      if (
+        err instanceof ApiError &&
+        err.status === 409 &&
+        err.body &&
+        typeof err.body === 'object' &&
+        err.body.code === 'SESSION_CONFLICT' &&
+        Array.isArray(err.body.conflicts)
+      ) {
+        const conflictBody = err.body as SessionConflictError;
+        setConflictState({
+          conflicts: conflictBody.conflicts,
+          pendingDtos: sessionDtos,
+        });
+        return;
+      }
       setError(err.message || '자동 매매 시작에 실패했습니다.');
     }
+  };
+
+  const startSessionsWithConfigs = async (items: TradingConfigItem[]) => {
+    const sessionDtos: StartSessionRequest[] = items.map((item) => ({
+      stockCode: item.stockCode,
+      stockName: item.stockName,
+      strategyId: item.strategyId,
+      variant: item.variant,
+      investmentAmount: Number(investmentAmount),
+      takeProfitPct: item.takeProfitPct,
+      stopLossPct: item.stopLossPct,
+      aiScore: aiScores.get(item.stockCode)?.score,
+    }));
+    await submitSessions(sessionDtos);
+  };
+
+  const handleConflictConfirm = async (
+    actions: Record<string, SessionConflictAction>,
+  ) => {
+    if (!conflictState) return;
+    // 각 DTO에 사용자가 선택한 onConflict 값 주입. skip 선택 종목은 제외해도 무방하지만
+    // 서버에서 skip을 받아도 기존 세션을 반환하므로 그대로 전송.
+    const resolved = conflictState.pendingDtos.map((dto) => {
+      const action = actions[dto.stockCode];
+      if (!action) return dto;
+      return { ...dto, onConflict: action };
+    });
+    await submitSessions(resolved);
+  };
+
+  const handleConflictCancel = () => {
+    setConflictState(null);
   };
 
   const toggleSelect = (code: string) => {
@@ -253,6 +341,23 @@ export function AiScanner() {
     setSessions((prev) => prev.map((s) => (s.id === id ? updated : s)));
   };
 
+  const handleEditConfirm = async (items: TradingConfigItem[]) => {
+    if (!editSession || items.length === 0) return;
+    const item = items[0];
+    try {
+      const updated = await updateSession(editSession.id, {
+        strategyId: item.strategyId,
+        variant: item.variant,
+        takeProfitPct: item.takeProfitPct,
+        stopLossPct: item.stopLossPct,
+      });
+      setSessions((prev) => prev.map((s) => (s.id === updated.id ? updated : s)));
+      setEditSession(null);
+    } catch (err: any) {
+      setError(err.message || '세션 수정에 실패했습니다.');
+    }
+  };
+
   const STRATEGY_NAMES: Record<string, string> = {
     'day-trading': '일간 모멘텀',
     'mean-reversion': '평균회귀',
@@ -265,6 +370,42 @@ export function AiScanner() {
       <h1>AI 종목 추천 & 자동 매매</h1>
 
       {error && <div className="alert alert-error">{error}</div>}
+
+      {configModalItems && (
+        <AutoTradingConfigModal
+          items={configModalItems}
+          onCancel={() => setConfigModalItems(null)}
+          onConfirm={(items) => void startSessionsWithConfigs(items)}
+        />
+      )}
+
+      {conflictState && (
+        <SessionConflictModal
+          conflicts={conflictState.conflicts}
+          onCancel={handleConflictCancel}
+          onConfirm={(actions) => void handleConflictConfirm(actions)}
+        />
+      )}
+
+      {editSession && (
+        <AutoTradingConfigModal
+          title="자동 매매 설정 수정"
+          description="전략과 목표 수익/손절 기준을 변경할 수 있습니다. 변경사항은 즉시 모니터링에 반영됩니다."
+          confirmLabel="수정 저장"
+          items={[
+            {
+              stockCode: editSession.stockCode,
+              stockName: editSession.stockName,
+              strategyId: editSession.strategyId,
+              variant: editSession.variant,
+              takeProfitPct: editSession.takeProfitPct,
+              stopLossPct: editSession.stopLossPct,
+            },
+          ]}
+          onCancel={() => setEditSession(null)}
+          onConfirm={(items) => void handleEditConfirm(items)}
+        />
+      )}
 
       {/* ── Step 1: 스캔 설정 ── */}
       {(step === 'idle' || step === 'scanning') && (
@@ -613,7 +754,7 @@ export function AiScanner() {
           <table className="data-table">
             <thead>
               <tr>
-                <th>종목</th><th>전략</th><th>상태</th><th>보유수량</th><th>평균단가</th>
+                <th>종목</th><th>전략</th><th>목표/손절</th><th>상태</th><th>보유수량</th><th>평균단가</th>
                 <th>현재가</th><th>평가 손익</th><th>실현 손익</th><th>AI</th><th>관리</th>
               </tr>
             </thead>
@@ -625,6 +766,11 @@ export function AiScanner() {
                   <tr key={s.id} className={`session-${s.status}`}>
                     <td><strong>{s.stockName}</strong><br /><small className="text-muted">{s.stockCode}</small></td>
                     <td>{STRATEGY_NAMES[s.strategyId] || s.strategyId}{s.variant && <small className="text-muted"> ({s.variant})</small>}</td>
+                    <td>
+                      <span className="text-profit">+{s.takeProfitPct}%</span>
+                      <small className="text-muted"> / </small>
+                      <span className="text-loss">{s.stopLossPct}%</span>
+                    </td>
                     <td><span className={`status-badge status-${s.status}`}>
                       {s.status === 'active' ? '활성' : s.status === 'paused' ? '일시정지' : '종료'}
                     </span></td>
@@ -637,12 +783,14 @@ export function AiScanner() {
                     <td className="session-actions">
                       {s.status === 'active' && (
                         <>
+                          <button className="btn btn-sm" onClick={() => setEditSession(s)}>수정</button>
                           <button className="btn btn-sm btn-warning" onClick={() => handlePause(s.id)}>일시정지</button>
                           <button className="btn btn-sm btn-danger" onClick={() => handleStop(s.id)}>종료</button>
                         </>
                       )}
                       {s.status === 'paused' && (
                         <>
+                          <button className="btn btn-sm" onClick={() => setEditSession(s)}>수정</button>
                           <button className="btn btn-sm btn-primary" onClick={() => handleResume(s.id)}>재개</button>
                           <button className="btn btn-sm btn-danger" onClick={() => handleStop(s.id)}>종료</button>
                         </>

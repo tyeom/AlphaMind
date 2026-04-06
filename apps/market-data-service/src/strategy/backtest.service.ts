@@ -318,6 +318,67 @@ export class BacktestService {
     };
   }
 
+  /**
+   * 특정 종목에 대한 추천 전략 산출
+   * - 4가지 전략 모두 백테스팅 후 최고 수익률 전략 반환
+   * - 자동매매 세션 시작 시 디폴트 전략 결정에 사용
+   */
+  async recommendStrategy(
+    code: string,
+    investmentAmount = 10_000_000,
+    tradeRatioPct = 10,
+    commissionPct = 0.015,
+  ): Promise<{
+    stockCode: string;
+    stockName: string;
+    strategyId: string;
+    strategyName: string;
+    variant?: string;
+    totalReturnPct: number;
+    winRate: number;
+    maxDrawdownPct: number;
+    totalTrades: number;
+  } | null> {
+    const stock = await this.em.findOne(Stock, { code });
+    if (!stock) {
+      throw new NotFoundException(`종목 코드 ${code}를 찾을 수 없습니다.`);
+    }
+
+    const threeMonthsAgo = new Date();
+    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+
+    const prices = await this.em.find(
+      StockDailyPrice,
+      { stock, date: { $gte: threeMonthsAgo } },
+      { orderBy: { date: 'ASC' } },
+    );
+
+    const pricesByStockId = new Map<number, StockDailyPrice[]>();
+    pricesByStockId.set(stock.id, prices);
+
+    const result = await this.scanSingleStock(
+      stock,
+      pricesByStockId,
+      investmentAmount,
+      tradeRatioPct,
+      commissionPct,
+    );
+
+    if (!result) return null;
+
+    return {
+      stockCode: result.stockCode,
+      stockName: result.stockName,
+      strategyId: result.bestStrategy.strategyId,
+      strategyName: result.bestStrategy.strategyName,
+      variant: result.bestStrategy.variant,
+      totalReturnPct: result.totalReturnPct,
+      winRate: result.winRate,
+      maxDrawdownPct: result.maxDrawdownPct,
+      totalTrades: result.totalTrades,
+    };
+  }
+
   /** 단일 종목에 대해 4가지 전략 백테스트 → 최고 수익률 전략 선택 */
   private async scanSingleStock(
     stock: Stock,

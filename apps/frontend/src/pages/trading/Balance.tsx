@@ -10,6 +10,13 @@ function formatPercent(n: number): string {
   return `${n >= 0 ? '+' : ''}${n.toFixed(2)}%`;
 }
 
+const STRATEGY_NAMES: Record<string, string> = {
+  'day-trading': '일간 모멘텀',
+  'mean-reversion': '평균회귀',
+  'infinity-bot': '무한매수봇',
+  'candle-pattern': '캔들 패턴',
+};
+
 export function Balance() {
   const [balance, setBalance] = useState<BalanceResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -85,36 +92,68 @@ export function Balance() {
                   <th className="text-right">평가금액</th>
                   <th className="text-right">평가손익</th>
                   <th className="text-right">수익률</th>
+                  <th>자동매매 전략</th>
+                  <th className="text-right">목표수익</th>
+                  <th className="text-right">손절</th>
                 </tr>
               </thead>
               <tbody>
                 {balance.items.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="text-center">
+                    <td colSpan={11} className="text-center">
                       보유 종목이 없습니다.
                     </td>
                   </tr>
                 ) : (
-                  balance.items.map((item) => (
-                    <tr key={item.stockCode}>
-                      <td>{item.stockCode}</td>
-                      <td>{item.stockName}</td>
-                      <td className="text-right">{formatNumber(item.holdingQty)}</td>
-                      <td className="text-right">{formatNumber(item.avgBuyPrice)}</td>
-                      <td className="text-right">{formatNumber(item.currentPrice)}</td>
-                      <td className="text-right">{formatNumber(item.evalAmount)}</td>
-                      <td
-                        className={`text-right ${item.profitLoss >= 0 ? 'text-profit' : 'text-loss'}`}
-                      >
-                        {formatNumber(item.profitLoss)}
-                      </td>
-                      <td
-                        className={`text-right ${item.profitLossRate >= 0 ? 'text-profit' : 'text-loss'}`}
-                      >
-                        {formatPercent(item.profitLossRate)}
-                      </td>
-                    </tr>
-                  ))
+                  balance.items.map((item) => {
+                    const at = item.autoTrading;
+                    return (
+                      <tr key={item.stockCode}>
+                        <td>{item.stockCode}</td>
+                        <td>{item.stockName}</td>
+                        <td className="text-right">{formatNumber(item.holdingQty)}</td>
+                        <td className="text-right">{formatNumber(item.avgBuyPrice)}</td>
+                        <td className="text-right">{formatNumber(item.currentPrice)}</td>
+                        <td className="text-right">{formatNumber(item.evalAmount)}</td>
+                        <td
+                          className={`text-right ${item.profitLoss >= 0 ? 'text-profit' : 'text-loss'}`}
+                        >
+                          {formatNumber(item.profitLoss)}
+                        </td>
+                        <td
+                          className={`text-right ${item.profitLossRate >= 0 ? 'text-profit' : 'text-loss'}`}
+                        >
+                          {formatPercent(item.profitLossRate)}
+                        </td>
+                        <td>
+                          {at ? (
+                            <>
+                              {STRATEGY_NAMES[at.strategyId] || at.strategyId}
+                              {at.variant && (
+                                <small className="text-muted"> ({at.variant})</small>
+                              )}
+                            </>
+                          ) : (
+                            <span className="text-muted">-</span>
+                          )}
+                        </td>
+                        <td className="text-right">
+                          {at ? (
+                            <span className="text-profit">+{at.takeProfitPct}%</span>
+                          ) : (
+                            <span className="text-muted">-</span>
+                          )}
+                        </td>
+                        <td className="text-right">
+                          {at ? (
+                            <span className="text-loss">{at.stopLossPct}%</span>
+                          ) : (
+                            <span className="text-muted">-</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })
                 )}
               </tbody>
             </table>

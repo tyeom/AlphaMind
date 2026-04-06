@@ -26,6 +26,8 @@ export class AutoTradingSessionEntity {
     | 'totalBuys'
     | 'totalSells'
     | 'status'
+    | 'takeProfitPct'
+    | 'stopLossPct'
     | 'createdAt';
 
   @PrimaryKey()
@@ -50,6 +52,14 @@ export class AutoTradingSessionEntity {
 
   @Property({ type: 'decimal', precision: 15, scale: 0 })
   investmentAmount!: number;
+
+  /** 목표 수익률 (%) — 자동 익절 기준 */
+  @Property({ type: 'float', default: 5 })
+  takeProfitPct: number = 5;
+
+  /** 손절 기준 (%) — 음수값, 자동 손절 기준 */
+  @Property({ type: 'float', default: -3 })
+  stopLossPct: number = -3;
 
   @Property({ type: 'decimal', precision: 15, scale: 0, default: 0 })
   realizedPnl: number = 0;

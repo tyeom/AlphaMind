@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, BadRequestException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { firstValueFrom } from 'rxjs';
@@ -31,6 +31,21 @@ export class KisOrderService {
     price: number;
     userId: number;
   }): Promise<KisApiResponse<KisOrderOutput>> {
+    // 입력 검증 — undefined/NaN가 그대로 KIS로 전송되어 500을 받는 것을 방지
+    const quantity = Number(params.quantity);
+    const price = Number(params.price ?? 0);
+    if (!params.stockCode || !Number.isFinite(quantity) || quantity <= 0) {
+      throw new BadRequestException(
+        '주문 수량이 올바르지 않습니다. (stockCode, quantity 필수)',
+      );
+    }
+    if (!Number.isFinite(price) || price < 0) {
+      throw new BadRequestException('주문 단가가 올바르지 않습니다.');
+    }
+    if (params.orderDvsn !== '01' && price <= 0) {
+      throw new BadRequestException('지정가 주문은 단가가 필요합니다.');
+    }
+
     const trId = this.kisService.getTrId(
       params.orderType === 'buy' ? 'TTTC0012U' : 'TTTC0011U',
       params.orderType === 'buy' ? 'VTTC0012U' : 'VTTC0011U',
@@ -41,8 +56,8 @@ export class KisOrderService {
       ACNT_PRDT_CD: this.kisService.accountProdCd,
       PDNO: params.stockCode,
       ORD_DVSN: params.orderDvsn,
-      ORD_QTY: String(params.quantity),
-      ORD_UNPR: String(params.price),
+      ORD_QTY: String(quantity),
+      ORD_UNPR: String(price),
     };
 
     const headers = await this.kisService.getAuthHeaders(trId);
@@ -59,16 +74,26 @@ export class KisOrderService {
       );
       data = res.data;
     } catch (err: any) {
+      // KIS 응답 바디에 에러 메시지가 담겨 오는 경우가 많음 — 함께 로깅/저장
+      const kisBody = err?.response?.data;
+      const detailedMessage =
+        (kisBody && (kisBody.msg1 || kisBody.error_description || JSON.stringify(kisBody))) ||
+        err.message ||
+        'KIS 주문 요청 실패';
+      this.logger.error(
+        `KIS 주문 요청 실패: ${params.stockCode} ${quantity}주 @ ${price} — ${detailedMessage}`,
+      );
       await this.saveHistory({
         userId: params.userId,
         action: TradeAction.ORDER,
         tradeType: params.orderType === 'buy' ? TradeType.BUY : TradeType.SELL,
         stockCode: params.stockCode,
         orderDvsn: params.orderDvsn,
-        quantity: params.quantity,
-        price: params.price,
+        quantity,
+        price,
         status: TradeStatus.FAILED,
-        errorMessage: err.message,
+        errorMessage: detailedMessage,
+        rawResponse: kisBody,
       });
       throw err;
     }
@@ -79,8 +104,8 @@ export class KisOrderService {
       tradeType: params.orderType === 'buy' ? TradeType.BUY : TradeType.SELL,
       stockCode: params.stockCode,
       orderDvsn: params.orderDvsn,
-      quantity: params.quantity,
-      price: params.price,
+      quantity,
+      price,
       status: data.rt_cd === '0' ? TradeStatus.SUCCESS : TradeStatus.FAILED,
       kisOrderNo: data.output?.ODNO,
       errorMessage: data.rt_cd !== '0' ? data.msg1 : undefined,
@@ -241,14 +266,22 @@ export class KisOrderService {
     rawResponse?: Record<string, any>;
   }): Promise<void> {
     try {
+      // quantity/price는 엔티티에서 non-null — 상위 호출자가 undefined를 넘기더라도
+      // 실패 로그가 소실되지 않도록 0으로 기본값 처리
+      const quantity = Number.isFinite(Number(params.quantity))
+        ? Number(params.quantity)
+        : 0;
+      const price = Number.isFinite(Number(params.price))
+        ? Number(params.price)
+        : 0;
       const history = this.em.create(TradeHistoryEntity, {
         user: this.em.getReference(UserEntity, params.userId),
         action: params.action,
         tradeType: params.tradeType,
-        stockCode: params.stockCode,
-        orderDvsn: params.orderDvsn,
-        quantity: params.quantity,
-        price: params.price,
+        stockCode: params.stockCode || '',
+        orderDvsn: params.orderDvsn || '',
+        quantity,
+        price,
         kisOrderNo: params.kisOrderNo,
         kisOrgOrderNo: params.kisOrgOrderNo,
         status: params.status,

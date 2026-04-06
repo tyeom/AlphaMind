@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { buy, sell, getBuyable, getCurrentPrice } from '../../api/kis';
-import type { StockPrice, BuyableResponse } from '../../types/kis';
+import type { StockPrice, BuyableResponse, OrderDivision } from '../../types/kis';
 
 function formatNumber(n: number): string {
   return n.toLocaleString('ko-KR');
@@ -65,10 +65,9 @@ export function Order() {
     try {
       const dto = {
         stockCode: stockCode.trim(),
-        qty: Number(qty),
-        ...(priceType === 'limit'
-          ? { price: Number(price), orderDvsn: '00' as const }
-          : { orderDvsn: '01' as const }),
+        quantity: Number(qty),
+        price: priceType === 'limit' ? Number(price) : 0,
+        orderDvsn: (priceType === 'limit' ? '00' : '01') as OrderDivision,
       };
 
       if (orderType === 'buy') {

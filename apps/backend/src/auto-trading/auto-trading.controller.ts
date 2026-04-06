@@ -7,11 +7,14 @@ import {
   Param,
   Body,
   ParseIntPipe,
-  Req,
 } from '@nestjs/common';
 import { AutoTradingService } from './auto-trading.service';
-import { StartSessionDto, StartSessionsDto } from './dto/start-session.dto';
-import { AutoTradingSessionEntity } from './entities/auto-trading-session.entity';
+import {
+  StartSessionDto,
+  StartSessionsDto,
+  UpdateSessionDto,
+} from './dto/start-session.dto';
+import { User } from '../decorator/user.decorator';
 
 @Controller('auto-trading')
 export class AutoTradingController {
@@ -19,51 +22,53 @@ export class AutoTradingController {
 
   /** 단일 세션 시작 */
   @Post('sessions')
-  startSession(@Req() req: any, @Body() dto: StartSessionDto) {
-    return this.autoTradingService.startSession(req.user.userId, dto);
+  startSession(@User() user: any, @Body() dto: StartSessionDto) {
+    return this.autoTradingService.startSession(user.sub, dto);
   }
 
   /** 복수 세션 일괄 시작 */
   @Post('sessions/batch')
-  async startSessions(@Req() req: any, @Body() dto: StartSessionsDto) {
-    const results: AutoTradingSessionEntity[] = [];
-    for (const sessionDto of dto.sessions) {
-      const session = await this.autoTradingService.startSession(
-        req.user.userId,
-        sessionDto,
-      );
-      results.push(session);
-    }
-    return results;
+  startSessions(@User() user: any, @Body() dto: StartSessionsDto) {
+    return this.autoTradingService.startSessions(user.sub, dto);
   }
 
   /** 세션 목록 */
   @Get('sessions')
-  getSessions(@Req() req: any) {
-    return this.autoTradingService.getSessions(req.user.userId);
+  getSessions(@User() user: any) {
+    return this.autoTradingService.getSessions(user.sub);
   }
 
   /** 세션 상세 */
   @Get('sessions/:id')
-  getSession(@Req() req: any, @Param('id', ParseIntPipe) id: number) {
-    return this.autoTradingService.getSession(id, req.user.userId);
+  getSession(@User() user: any, @Param('id', ParseIntPipe) id: number) {
+    return this.autoTradingService.getSession(id, user.sub);
   }
 
   /** 일시정지 */
   @Patch('sessions/:id/pause')
-  pauseSession(@Req() req: any, @Param('id', ParseIntPipe) id: number) {
-    return this.autoTradingService.pauseSession(id, req.user.userId);
+  pauseSession(@User() user: any, @Param('id', ParseIntPipe) id: number) {
+    return this.autoTradingService.pauseSession(id, user.sub);
   }
 
   /** 재개 */
   @Patch('sessions/:id/resume')
-  resumeSession(@Req() req: any, @Param('id', ParseIntPipe) id: number) {
-    return this.autoTradingService.resumeSession(id, req.user.userId);
+  resumeSession(@User() user: any, @Param('id', ParseIntPipe) id: number) {
+    return this.autoTradingService.resumeSession(id, user.sub);
+  }
+
+  /** 설정 수정 — 전략/목표수익/손절 변경 */
+  @Patch('sessions/:id')
+  updateSession(
+    @User() user: any,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateSessionDto,
+  ) {
+    return this.autoTradingService.updateSession(id, user.sub, dto);
   }
 
   /** 종료 */
   @Delete('sessions/:id')
-  stopSession(@Req() req: any, @Param('id', ParseIntPipe) id: number) {
-    return this.autoTradingService.stopSession(id, req.user.userId);
+  stopSession(@User() user: any, @Param('id', ParseIntPipe) id: number) {
+    return this.autoTradingService.stopSession(id, user.sub);
   }
 }

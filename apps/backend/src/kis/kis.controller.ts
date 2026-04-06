@@ -5,6 +5,7 @@ import {
   ApiBearerAuth,
   ApiQuery,
 } from '@nestjs/swagger';
+import { EntityManager } from '@mikro-orm/postgresql';
 import { KisOrderService } from './kis-order.service';
 import { KisInquiryService } from './kis-inquiry.service';
 import { KisQuotationService } from './kis-quotation.service';
@@ -13,6 +14,10 @@ import { OrderCashDto } from './dto/order-cash.dto';
 import { OrderModifyDto } from './dto/order-modify.dto';
 import { OrderCancelDto } from './dto/order-cancel.dto';
 import { User } from '../decorator/user.decorator';
+import {
+  AutoTradingSessionEntity,
+  SessionStatus,
+} from '../auto-trading/entities/auto-trading-session.entity';
 import {
   KisBalanceItem,
   KisBalanceSummary,
@@ -30,6 +35,7 @@ export class KisController {
     private readonly inquiryService: KisInquiryService,
     private readonly quotationService: KisQuotationService,
     private readonly journalService: KisJournalService,
+    private readonly em: EntityManager,
   ) {}
 
   // ── 주문 ──
@@ -70,9 +76,21 @@ export class KisController {
 
   @Get('balance')
   @ApiOperation({ summary: '주식 잔고 조회' })
-  async getBalance() {
-    const raw = await this.inquiryService.getBalance();
-    return this.mapBalance(raw.items, raw.summary);
+  async getBalance(@User() user: any) {
+    const [raw, activeSessions] = await Promise.all([
+      this.inquiryService.getBalance(),
+      this.em.find(AutoTradingSessionEntity, {
+        user: user.sub,
+        status: SessionStatus.ACTIVE,
+      }),
+    ]);
+
+    const sessionByStock = new Map<string, AutoTradingSessionEntity>();
+    for (const s of activeSessions) {
+      sessionByStock.set(s.stockCode, s);
+    }
+
+    return this.mapBalance(raw.items, raw.summary, sessionByStock);
   }
 
   @Get('buyable')
@@ -212,7 +230,11 @@ export class KisController {
 
   // ── 매핑 helpers ──
 
-  private mapBalance(items: KisBalanceItem[], summary: KisBalanceSummary) {
+  private mapBalance(
+    items: KisBalanceItem[],
+    summary: KisBalanceSummary,
+    sessionByStock: Map<string, AutoTradingSessionEntity> = new Map(),
+  ) {
     const totalPurchase = Number(summary.pchs_amt_smtl_amt) || 0;
     const totalEval = Number(summary.evlu_amt_smtl_amt) || 0;
     const totalProfitLoss = Number(summary.evlu_pfls_smtl_amt) || 0;
@@ -220,16 +242,28 @@ export class KisController {
     return {
       items: items
         .filter((i) => Number(i.hldg_qty) > 0)
-        .map((i) => ({
-          stockCode: i.pdno,
-          stockName: i.prdt_name,
-          holdingQty: Number(i.hldg_qty),
-          avgBuyPrice: Number(i.pchs_avg_pric),
-          currentPrice: Number(i.prpr),
-          evalAmount: Number(i.evlu_amt),
-          profitLoss: Number(i.evlu_pfls_amt),
-          profitLossRate: Number(i.evlu_pfls_rt),
-        })),
+        .map((i) => {
+          const session = sessionByStock.get(i.pdno);
+          return {
+            stockCode: i.pdno,
+            stockName: i.prdt_name,
+            holdingQty: Number(i.hldg_qty),
+            avgBuyPrice: Number(i.pchs_avg_pric),
+            currentPrice: Number(i.prpr),
+            evalAmount: Number(i.evlu_amt),
+            profitLoss: Number(i.evlu_pfls_amt),
+            profitLossRate: Number(i.evlu_pfls_rt),
+            autoTrading: session
+              ? {
+                  sessionId: session.id,
+                  strategyId: session.strategyId,
+                  variant: session.variant,
+                  takeProfitPct: session.takeProfitPct,
+                  stopLossPct: session.stopLossPct,
+                }
+              : null,
+          };
+        }),
       totalEvalAmount: totalEval,
       totalPurchaseAmount: totalPurchase,
       totalProfitLoss,

@@ -11,13 +11,18 @@ import { KisWebSocketGateway } from './kis-websocket.gateway';
 import { KisController } from './kis.controller';
 import { TradeHistoryEntity } from './entities/trade-history.entity';
 import { TradeDailySummaryEntity } from './entities/trade-daily-summary.entity';
+import { AutoTradingSessionEntity } from '../auto-trading/entities/auto-trading-session.entity';
 
 @Module({
   imports: [
     HttpModule.register({
       timeout: 10000,
     }),
-    MikroOrmModule.forFeature([TradeHistoryEntity, TradeDailySummaryEntity]),
+    MikroOrmModule.forFeature([
+      TradeHistoryEntity,
+      TradeDailySummaryEntity,
+      AutoTradingSessionEntity,
+    ]),
   ],
   controllers: [KisController],
   providers: [

@@ -4,6 +4,7 @@ export class ApiError extends Error {
   constructor(
     public status: number,
     message: string,
+    public body?: any,
   ) {
     super(message);
     this.name = 'ApiError';
@@ -43,13 +44,22 @@ async function request<T>(
 
   if (!res.ok) {
     let message = res.statusText;
+    let body: any = undefined;
     try {
-      const body = await res.json();
-      message = body.message || message;
+      body = await res.json();
+      // NestJS error responses nest the payload under `message` when it is a string,
+      // but when throwing with an object the whole object becomes the response body.
+      if (body && typeof body === 'object') {
+        if (typeof body.message === 'string') {
+          message = body.message;
+        } else if (body.message && typeof body.message === 'object' && typeof body.message.message === 'string') {
+          message = body.message.message;
+        }
+      }
     } catch {
       // ignore
     }
-    throw new ApiError(res.status, message);
+    throw new ApiError(res.status, message, body);
   }
 
   if (res.status === 204) return undefined as T;

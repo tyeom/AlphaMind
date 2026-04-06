@@ -3,6 +3,7 @@ import type {
   AutoTradingSession,
   StartSessionRequest,
   StartSessionsBatchRequest,
+  UpdateSessionRequest,
 } from '../types/auto-trading';
 
 export async function startSession(dto: StartSessionRequest): Promise<AutoTradingSession> {
@@ -29,6 +30,13 @@ export async function pauseSession(id: number): Promise<AutoTradingSession> {
 
 export async function resumeSession(id: number): Promise<AutoTradingSession> {
   return api.patch<AutoTradingSession>(`/auto-trading/sessions/${id}/resume`);
+}
+
+export async function updateSession(
+  id: number,
+  dto: UpdateSessionRequest,
+): Promise<AutoTradingSession> {
+  return api.patch<AutoTradingSession>(`/auto-trading/sessions/${id}`, dto);
 }
 
 export async function stopSession(id: number): Promise<AutoTradingSession> {

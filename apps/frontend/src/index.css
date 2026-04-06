@@ -2153,3 +2153,202 @@ h3 {
 .news-source a:hover {
   text-decoration: underline;
 }
+
+/* ── Auto-Trading Config Modal ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: modal-fade-in 0.15s ease-out;
+}
+
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: modal-slide-in 0.2s ease-out;
+}
+
+@keyframes modal-slide-in {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.modal-close {
+  font-size: 20px;
+  line-height: 1;
+  padding: 4px 10px;
+}
+
+.modal-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal-description {
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.bulk-apply-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.bulk-apply-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding-bottom: 8px;
+}
+
+.bulk-apply-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  flex: 1;
+  min-width: 120px;
+}
+
+.bulk-apply-row select,
+.bulk-apply-row input {
+  padding: 6px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 13px;
+}
+
+.modal-table-container {
+  max-height: 50vh;
+  overflow-y: auto;
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+}
+
+.modal-table {
+  margin: 0;
+}
+
+/* .data-table의 전역 nth-child 너비 오버라이드 (스캐너 테이블 기준 40px 고정 방지) */
+.modal-table th,
+.modal-table td {
+  width: auto;
+  text-align: left;
+}
+
+.modal-table th:nth-child(1),
+.modal-table td:nth-child(1) {
+  width: auto;
+  min-width: 140px;
+  text-align: left;
+}
+
+.modal-table th:nth-child(2),
+.modal-table td:nth-child(2) {
+  width: auto;
+  min-width: 180px;
+  text-align: left;
+}
+
+.modal-table th:nth-child(3),
+.modal-table td:nth-child(3),
+.modal-table th:nth-child(4),
+.modal-table td:nth-child(4) {
+  width: 120px;
+  text-align: right;
+}
+
+.modal-table select,
+.modal-table input {
+  padding: 6px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 13px;
+  width: 100%;
+}
+
+.config-num-input {
+  max-width: 90px;
+  text-align: right;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-color);
+}
+
+.conflict-action-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.conflict-action-option {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.conflict-action-option input[type='radio'] {
+  width: auto;
+  margin: 0;
+}

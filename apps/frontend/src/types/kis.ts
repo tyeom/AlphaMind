@@ -2,9 +2,10 @@ export type OrderDivision = '00' | '01';
 
 export interface OrderCashRequest {
   stockCode: string;
-  qty: number;
-  price?: number;
-  orderDvsn?: OrderDivision;
+  quantity: number;
+  /** 주문 단가 — 시장가 주문은 0 */
+  price: number;
+  orderDvsn: OrderDivision;
 }
 
 export interface OrderModifyRequest {
@@ -23,6 +24,14 @@ export interface OrderCancelRequest {
   isAll?: boolean;
 }
 
+export interface BalanceAutoTradingInfo {
+  sessionId: number;
+  strategyId: string;
+  variant?: string;
+  takeProfitPct: number;
+  stopLossPct: number;
+}
+
 export interface BalanceItem {
   stockCode: string;
   stockName: string;
@@ -32,6 +41,7 @@ export interface BalanceItem {
   evalAmount: number;
   profitLoss: number;
   profitLossRate: number;
+  autoTrading: BalanceAutoTradingInfo | null;
 }
 
 export interface BalanceResponse {
