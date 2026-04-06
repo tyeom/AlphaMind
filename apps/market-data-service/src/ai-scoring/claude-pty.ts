@@ -1,23 +1,45 @@
 import { Logger } from '@nestjs/common';
 import { spawn, ChildProcess } from 'child_process';
-import { dirname } from 'path';
+import { resolve } from 'path';
+import { existsSync, readFileSync } from 'fs';
 
 const logger = new Logger('ClaudeAgent');
+
+export const TOKEN_LIMIT_MSG = '토큰 한도가 100%로 꽉 찼습니다.';
+const RATE_LIMIT_PATTERN = "You've hit your limit";
 
 function getClaudePath(): string {
   return process.env.CLAUDE_CLI_PATH || 'claude';
 }
 
-function getNodePath(): string {
-  return process.execPath;
+interface AgentConfigFile {
+  authMode?: string;
+  anthropicApiKey?: string;
+  oauthAccessToken?: string;
 }
 
-function buildFullPath(): string {
-  const claudePath = getClaudePath();
-  const claudeDir = dirname(claudePath);
-  const nodeDir = dirname(getNodePath());
-  const existing = process.env.PATH || '';
-  return [claudeDir, nodeDir, existing].filter(Boolean).join(':');
+function readAgentConfig(): AgentConfigFile {
+  const configDir = process.env.AGENTS_CONFIG_DIR
+    || resolve(process.cwd(), '../../.agents');
+  const configPath = resolve(configDir, 'config.json');
+  try {
+    if (existsSync(configPath)) {
+      return JSON.parse(readFileSync(configPath, 'utf-8'));
+    }
+  } catch {
+    // ignore
+  }
+  return {};
+}
+
+function getAnthropicApiKey(): string | undefined {
+  const config = readAgentConfig();
+  // 구독 모드면 API 키 대신 OAuth 토큰 사용
+  if (config.authMode === 'subscription') return undefined;
+  // 1) 환경변수 우선
+  if (process.env.ANTHROPIC_API_KEY) return process.env.ANTHROPIC_API_KEY;
+  // 2) config.json에서 읽기
+  return config.anthropicApiKey || undefined;
 }
 
 export interface PtyProgress {
@@ -52,20 +74,26 @@ export function spawnClaude(
     let settled = false;
 
     const claudePath = getClaudePath();
-    const nodePath = getNodePath();
-    logger.log(`Spawn: ${nodePath} ${claudePath} -p [prompt ${prompt.length}자]`);
+    logger.log(`Spawn: ${claudePath} -p [prompt ${prompt.length}자]`);
 
-    const proc: ChildProcess = spawn(nodePath, [
-      claudePath,
+    const apiKey = getAnthropicApiKey();
+    const env: Record<string, string | undefined> = {
+      ...process.env,
+    };
+    if (apiKey) {
+      env.ANTHROPIC_API_KEY = apiKey;
+    }
+    // 구독 모드: CLI가 ~/.claude/.credentials.json에서 OAuth 토큰을 읽음
+    // ANTHROPIC_AUTH_TOKEN으로 직접 전달하면 API가 거부하므로 설정하지 않음
+
+    // claude를 직접 실행 (shell 래퍼/심링크 모두 지원)
+    const proc: ChildProcess = spawn(claudePath, [
       '-p', prompt,
+      '--model', 'sonnet',
       '--output-format', 'text',
       '--allowedTools', 'WebSearch,WebFetch,Read,Glob,Grep',
     ], {
-      env: {
-        ...process.env,
-        PATH: buildFullPath(),
-        // CLAUDE_CONFIG_DIR 미설정 → 기본 ~/.claude/ 인증 사용
-      },
+      env,
       stdio: ['pipe', 'pipe', 'pipe'],
     });
 
@@ -78,13 +106,25 @@ export function spawnClaude(
       }
     }, timeoutMs);
 
+    const killWithTokenLimit = () => {
+      if (!settled) {
+        settled = true;
+        clearTimeout(timer);
+        proc.kill('SIGTERM');
+        logger.error(TOKEN_LIMIT_MSG);
+        reject(new Error(TOKEN_LIMIT_MSG));
+      }
+    };
+
     proc.stdout?.on('data', (data: Buffer) => {
       stdout += data.toString();
+      if (stdout.includes(RATE_LIMIT_PATTERN)) return killWithTokenLimit();
       onProgress?.({ output: stdout, done: false });
     });
 
     proc.stderr?.on('data', (data: Buffer) => {
       stderr += data.toString();
+      if (stderr.includes(RATE_LIMIT_PATTERN)) return killWithTokenLimit();
     });
 
     proc.on('error', (err) => {
@@ -143,6 +183,7 @@ export async function spawnParallelAgents(
       results.set(agent.name, result);
       logger.log(`에이전트 완료: [${agent.name}] (exit: ${result.exitCode}, output: ${result.output.length}자)`);
     } catch (err: any) {
+      if (err.message === TOKEN_LIMIT_MSG) throw err;
       logger.error(`에이전트 실패: [${agent.name}] - ${err.message}`);
       results.set(agent.name, { output: '', exitCode: 1 });
     }

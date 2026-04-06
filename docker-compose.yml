@@ -59,6 +59,31 @@ services:
       timeout: 5s
       retries: 5
 
+  market-data:
+    build:
+      context: .
+      dockerfile: apps/market-data-service/Dockerfile
+    container_name: alpha-mind-market-data
+    restart: unless-stopped
+    ports:
+      - '3001:3001'
+    env_file:
+      - apps/market-data-service/.env
+    environment:
+      DB_HOST: postgres
+      RMQ_URL: amqp://alpha:alpha1234@rabbitmq:5672
+      AGENTS_CONFIG_DIR: /app/.agents
+      TZ: Asia/Seoul
+    volumes:
+      - agents_data:/app/.agents
+      - claude_credentials:/root/.claude
+      - market_data_logs:/app/apps/market-data-service/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
   frontend:
     build:
       context: .
@@ -69,8 +94,12 @@ services:
       - '80:80'
     depends_on:
       - backend
+      - market-data
 
 volumes:
   postgres_data:
   backend_logs:
   rabbitmq_data:
+  agents_data:
+  claude_credentials:
+  market_data_logs:

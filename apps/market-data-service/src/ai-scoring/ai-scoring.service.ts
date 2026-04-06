@@ -2,7 +2,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Stock } from '../stock/entities/stock.entity';
 import { StockDailyPrice } from '../stock/entities/stock-daily-price.entity';
-import { spawnClaude, spawnParallelAgents } from './claude-pty';
+import { spawnClaude, spawnParallelAgents, TOKEN_LIMIT_MSG } from './claude-pty';
+import { AgentConfigService } from '../agent-config/agent-config.service';
 import {
   AiScoreRequestItem,
   AiStockScore,
@@ -12,6 +13,8 @@ import {
   ExpertOpinion,
   MeetingConclusion,
 } from './types/ai-scoring.types';
+
+export const OAUTH_EXPIRED_MSG = 'Claude OAuth 토큰이 만료되었습니다. 재로그인이 필요합니다.';
 
 /**
  * 3단계 멀티 에이전트 회의 시스템
@@ -31,11 +34,29 @@ import {
 export class AiScoringService {
   private readonly logger = new Logger(AiScoringService.name);
 
-  constructor(private readonly em: EntityManager) {}
+  constructor(
+    private readonly em: EntityManager,
+    private readonly agentConfig: AgentConfigService,
+  ) {}
+
+  /** Claude 호출 전 OAuth 토큰 유효성 확인 및 자동 갱신 (외부에서 호출 가능) */
+  async ensureAuth(): Promise<void> {
+    const valid = await this.agentConfig.ensureValidOAuthToken();
+    if (!valid) {
+      throw new Error(OAUTH_EXPIRED_MSG);
+    }
+  }
 
   async scoreStocks(stocks: AiScoreRequestItem[]): Promise<AiScoreResponse> {
     const startTime = Date.now();
     const scores: AiStockScore[] = [];
+
+    try {
+      await this.ensureAuth();
+    } catch (err: any) {
+      this.logger.error(err.message);
+      return { scores: stocks.map((s) => this.fallbackScore(s, err.message)), elapsedMs: Date.now() - startTime };
+    }
 
     for (const stock of stocks) {
       try {
@@ -44,6 +65,11 @@ export class AiScoringService {
         scores.push(score);
         this.logger.log(`=== ${stock.stockName} 최종 점수: ${score.score} ===`);
       } catch (err: any) {
+        if (err.message === TOKEN_LIMIT_MSG) {
+          this.logger.error(`${TOKEN_LIMIT_MSG} 분석을 종료합니다.`);
+          scores.push(this.fallbackScore(stock, TOKEN_LIMIT_MSG));
+          break;
+        }
         this.logger.error(`분석 실패: ${stock.stockCode} - ${err.message}`);
         scores.push(this.fallbackScore(stock, err.message));
       }
@@ -58,12 +84,17 @@ export class AiScoringService {
     onPhase?: (phase: string) => void,
   ): Promise<AiStockScore> {
     try {
+      await this.ensureAuth();
       this.logger.log(`=== ${item.stockName}(${item.stockCode}) 멀티 에이전트 분석 시작 ===`);
       const score = await this.analyzeStock(item, onPhase);
       this.logger.log(`=== ${item.stockName} 최종 점수: ${score.score} ===`);
       return score;
     } catch (err: any) {
-      this.logger.error(`분석 실패: ${item.stockCode} - ${err.message}`);
+      if (err.message === TOKEN_LIMIT_MSG) {
+        this.logger.error(`${TOKEN_LIMIT_MSG} 분석을 종료합니다.`);
+      } else {
+        this.logger.error(`분석 실패: ${item.stockCode} - ${err.message}`);
+      }
       return this.fallbackScore(item, err.message);
     }
   }
@@ -490,7 +521,7 @@ ${newsData.newsHighlights.map((n, i) => `  ${i + 1}. ${n}`).join('\n')}
       }
       const parsed = JSON.parse(jsonMatch[0]);
       this.logger.debug(`safeParseJson: 파싱 성공 — keys: ${Object.keys(parsed).join(', ')}`);
-      return parsed;
+      return { ...fallback, ...parsed };
     } catch (err: any) {
       this.logger.warn(`safeParseJson: JSON 파싱 실패 — ${err.message}. 출력 미리보기: ${output.slice(0, 200)}`);
       return fallback;

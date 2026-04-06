@@ -2,14 +2,24 @@ export interface ScanResult {
   stockCode: string;
   stockName: string;
   bestStrategy: {
-    id: string;
-    name: string;
+    strategyId: string;
+    strategyName: string;
     variant?: string;
   };
   totalReturnPct: number;
   winRate: number;
   maxDrawdownPct: number;
   totalTrades: number;
+  /** 추천 근거 요약 */
+  summary: string;
+  /** 최신 신호 */
+  currentSignal: {
+    direction: string;
+    strength: number;
+    reason: string;
+  };
+  /** 전략별 핵심 지표 */
+  indicators: Record<string, unknown>;
 }
 
 export interface ScanResponse {

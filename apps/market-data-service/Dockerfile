@@ -23,6 +23,11 @@ RUN pnpm --filter @alpha-mind/market-data-service run build
 # Production
 FROM base AS production
 WORKDIR /app
+
+# Claude Code CLI 설치
+RUN npm install -g @anthropic-ai/claude-code \
+    && mkdir -p /root/.claude
+
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
 COPY apps/market-data-service/package.json ./apps/market-data-service/package.json
 COPY libs/common/package.json ./libs/common/package.json
@@ -33,6 +38,14 @@ COPY --from=build /app/libs/common/dist ./libs/common/dist
 COPY --from=build /app/libs/strategies/dist ./libs/strategies/dist
 COPY apps/market-data-service/data ./apps/market-data-service/data
 
+# .agents 디렉토리 (볼륨 마운트 대상)
+RUN mkdir -p /app/.agents
+
 WORKDIR /app/apps/market-data-service
+
+ENV CLAUDE_CLI_PATH=/usr/local/bin/claude
+ENV AGENTS_CONFIG_DIR=/app/.agents
+ENV CLAUDE_CONFIG_DIR=/root/.claude
+
 EXPOSE 3001
 CMD ["sh", "-c", "node -e \"const c = require('./dist/config/mikro-orm.config').default; const { MikroORM } = require('@mikro-orm/core'); MikroORM.init(c).then(orm => orm.getMigrator().up().then(() => orm.close()))\" && node dist/main.js"]

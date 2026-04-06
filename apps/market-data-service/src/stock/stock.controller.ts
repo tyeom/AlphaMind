@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
+import { Public } from '@alpha-mind/common';
 import { StockDailyPrice } from './entities/stock-daily-price.entity';
 import { StockService } from './stock.service';
 
@@ -9,6 +10,12 @@ export class StockController {
     private readonly em: EntityManager,
     private readonly stockService: StockService,
   ) {}
+
+  @Public()
+  @Get('collection-status')
+  getCollectionStatus() {
+    return this.stockService.getCollectionStatus();
+  }
 
   @Get()
   async findAll() {

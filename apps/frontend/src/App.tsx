@@ -15,6 +15,7 @@ import { Order } from './pages/trading/Order';
 import { Journal } from './pages/trading/Journal';
 import { Backtest } from './pages/Backtest';
 import { AiScanner } from './pages/AiScanner';
+import { AgentSettings } from './pages/AgentSettings';
 
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
                 <Route path="/trading/journal" element={<Journal />} />
                 <Route path="/backtest" element={<Backtest />} />
                 <Route path="/ai-scanner" element={<AiScanner />} />
+                <Route path="/agent-settings" element={<AgentSettings />} />
 
                 <Route element={<AdminRoute />}>
                   <Route path="/admin/users" element={<UserList />} />

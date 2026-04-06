@@ -350,6 +350,7 @@ export class BacktestService {
       maxDrawdownPct: number;
       totalTrades: number;
       finalValue: number;
+      analysis: StrategyAnalysisResult;
     } | null = null;
 
     for (const [strategyId, strategy] of Object.entries(STRATEGY_MAP)) {
@@ -381,6 +382,7 @@ export class BacktestService {
             maxDrawdownPct: result.maxDrawdownPct,
             totalTrades: result.totalTrades,
             finalValue: result.finalValue,
+            analysis,
           };
         }
       } catch {
@@ -389,6 +391,8 @@ export class BacktestService {
     }
 
     if (!bestResult || bestResult.totalTrades === 0) return null;
+
+    const { analysis } = bestResult;
 
     return {
       stockCode: stock.code,
@@ -404,6 +408,13 @@ export class BacktestService {
       totalTrades: bestResult.totalTrades,
       finalValue: bestResult.finalValue,
       investmentAmount,
+      summary: analysis.summary,
+      currentSignal: {
+        direction: analysis.currentSignal.direction,
+        strength: analysis.currentSignal.strength,
+        reason: analysis.currentSignal.reason,
+      },
+      indicators: analysis.indicators,
     };
   }
 

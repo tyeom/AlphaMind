@@ -164,8 +164,8 @@ export function AiScanner() {
         stockCode: r.stockCode,
         stockName: r.stockName,
         totalReturnPct: r.totalReturnPct,
-        strategyId: r.bestStrategy.id,
-        strategyName: r.bestStrategy.name,
+        strategyId: r.bestStrategy.strategyId,
+        strategyName: r.bestStrategy.strategyName,
       }));
 
     const abort = streamAiScores(stocks, {
@@ -210,7 +210,7 @@ export function AiScanner() {
       const sessionDtos = selectedResults.map((r) => ({
         stockCode: r.stockCode,
         stockName: r.stockName,
-        strategyId: r.bestStrategy.id,
+        strategyId: r.bestStrategy.strategyId,
         variant: r.bestStrategy.variant,
         investmentAmount: Number(investmentAmount),
         aiScore: aiScores.get(r.stockCode)?.score,
@@ -382,7 +382,7 @@ export function AiScanner() {
                         <small className="text-muted">{r.stockCode}</small>
                       </td>
                       <td>
-                        {STRATEGY_NAMES[r.bestStrategy.id] || r.bestStrategy.id}
+                        {STRATEGY_NAMES[r.bestStrategy.strategyId] || r.bestStrategy.strategyId}
                         {r.bestStrategy.variant && <small className="text-muted"> ({r.bestStrategy.variant})</small>}
                       </td>
                       <td className={pctClass(r.totalReturnPct)}>{r.totalReturnPct.toFixed(2)}%</td>
@@ -410,6 +410,19 @@ export function AiScanner() {
                         ) : (
                           <span className="text-muted">-</span>
                         )}
+                      </td>
+                    </tr>
+                    {/* 전략 분석 근거 요약 */}
+                    <tr key={`${r.stockCode}-strategy`} className="strategy-summary-row">
+                      <td colSpan={9}>
+                        <div className="strategy-summary">
+                          <span className={`signal-badge signal-${r.currentSignal.direction.toLowerCase()}`}>
+                            {r.currentSignal.direction === 'BUY' ? '매수' : r.currentSignal.direction === 'SELL' ? '매도' : '중립'}
+                            <small>{(r.currentSignal.strength * 100).toFixed(0)}%</small>
+                          </span>
+                          <span className="strategy-reason">{r.currentSignal.reason}</span>
+                          <span className="strategy-detail">{r.summary}</span>
+                        </div>
                       </td>
                     </tr>
                     {/* 점수 근거 요약 (점수 완료된 종목) */}

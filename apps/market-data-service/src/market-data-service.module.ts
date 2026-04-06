@@ -14,6 +14,7 @@ import { YahooFinanceModule } from './yahoo-finance/yahoo-finance.module';
 import { StockModule } from './stock/stock.module';
 import { HealthModule } from './health/health.module';
 import { StrategyModule } from './strategy/strategy.module';
+import { AgentConfigModule } from './agent-config/agent-config.module';
 import { AiScoringModule } from './ai-scoring/ai-scoring.module';
 import { validationSchema } from './config/validation.schema';
 import { Stock } from './stock/entities/stock.entity';
@@ -66,6 +67,7 @@ import { StockCollectionSavepoint } from './stock/entities/stock-collection-save
     YahooFinanceModule,
     StockModule,
     StrategyModule,
+    AgentConfigModule,
     AiScoringModule,
     HealthModule,
   ],

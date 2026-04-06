@@ -37,6 +37,9 @@ export class AiScoringController {
     };
 
     try {
+      // OAuth 토큰 사전 검증 (만료 시 자동 갱신 시도)
+      await this.aiScoringService.ensureAuth();
+
       const startTime = Date.now();
 
       for (let i = 0; i < body.stocks.length; i++) {
