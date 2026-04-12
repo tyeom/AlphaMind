@@ -56,7 +56,8 @@ export class KisJournalService {
     // 오늘 날짜이고 장 마감 후(16:10)인 경우 실시간으로 생성
     const now = new Date();
     const isToday = targetDate === this.getTodayString();
-    const isAfterMarketClose = now.getHours() > 16 || (now.getHours() === 16 && now.getMinutes() >= 10);
+    const isAfterMarketClose =
+      now.getHours() > 16 || (now.getHours() === 16 && now.getMinutes() >= 10);
 
     if (isToday && isAfterMarketClose) {
       return this.generateAndSaveJournal(userId, targetDate);
@@ -118,15 +119,21 @@ export class KisJournalService {
         balanceData.summary,
       );
 
-      const totalBuyAmount = stockSummaries.reduce((s, i) => s + i.buyAmount, 0);
-      const totalSellAmount = stockSummaries.reduce((s, i) => s + i.sellAmount, 0);
+      const totalBuyAmount = stockSummaries.reduce(
+        (s, i) => s + i.buyAmount,
+        0,
+      );
+      const totalSellAmount = stockSummaries.reduce(
+        (s, i) => s + i.sellAmount,
+        0,
+      );
       const realizedProfitLoss = totalSellAmount - totalBuyAmount;
       const totalEval = Number(balanceData.summary.evlu_amt_smtl_amt) || 0;
       const totalPurchase = Number(balanceData.summary.pchs_amt_smtl_amt) || 0;
-      const totalEvalProfitLoss = Number(balanceData.summary.evlu_pfls_smtl_amt) || 0;
-      const totalProfitLossRate = totalPurchase > 0
-        ? (totalEvalProfitLoss / totalPurchase) * 100
-        : 0;
+      const totalEvalProfitLoss =
+        Number(balanceData.summary.evlu_pfls_smtl_amt) || 0;
+      const totalProfitLossRate =
+        totalPurchase > 0 ? (totalEvalProfitLoss / totalPurchase) * 100 : 0;
       const cashBalance = Number(balanceData.summary.dnca_tot_amt) || 0;
 
       // DB에 저장 (upsert)
@@ -177,13 +184,16 @@ export class KisJournalService {
     _summary: KisBalanceSummary,
   ): StockSummary[] {
     // 체결 내역에서 종목별 매수/매도 집계
-    const stockMap = new Map<string, {
-      stockName: string;
-      buyQty: number;
-      buyAmount: number;
-      sellQty: number;
-      sellAmount: number;
-    }>();
+    const stockMap = new Map<
+      string,
+      {
+        stockName: string;
+        buyQty: number;
+        buyAmount: number;
+        sellQty: number;
+        sellAmount: number;
+      }
+    >();
 
     for (const order of orders) {
       const code = order.pdno || order.PDNO || '';
@@ -222,9 +232,7 @@ export class KisJournalService {
     // 오늘 체결된 종목 + 보유 종목 결합
     const allCodes = new Set([
       ...stockMap.keys(),
-      ...balanceItems
-        .filter((i) => Number(i.hldg_qty) > 0)
-        .map((i) => i.pdno),
+      ...balanceItems.filter((i) => Number(i.hldg_qty) > 0).map((i) => i.pdno),
     ]);
 
     const summaries: StockSummary[] = [];
@@ -299,9 +307,8 @@ export class KisJournalService {
         totalEvalAmount: Number(prevDay.totalEvalAmount),
         totalProfitLossRate: Number(prevDay.totalProfitLossRate),
       };
-      response.dayOverDayChange = prevEval > 0
-        ? ((todayEval - prevEval) / prevEval) * 100
-        : 0;
+      response.dayOverDayChange =
+        prevEval > 0 ? ((todayEval - prevEval) / prevEval) * 100 : 0;
     }
 
     return response;
