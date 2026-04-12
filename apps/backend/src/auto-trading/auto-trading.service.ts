@@ -20,6 +20,7 @@ import {
   StrategyAnalysisResult,
 } from '@alpha-mind/strategies';
 import {
+  AddOnBuyMode,
   AutoTradingSessionEntity,
   SessionStatus,
 } from './entities/auto-trading-session.entity';
@@ -27,10 +28,12 @@ import {
   StartSessionDto,
   StartSessionsDto,
   UpdateSessionDto,
+  ManualOrderDto,
 } from './dto/start-session.dto';
 import { KisOrderService } from '../kis/kis-order.service';
 import { KisWebSocketService } from '../kis/kis-websocket.service';
 import { KisQuotationService } from '../kis/kis-quotation.service';
+import { KisInquiryService } from '../kis/kis-inquiry.service';
 import { UserEntity } from '../user/entities/user.entity';
 import { MARKET_DATA_SERVICE } from '../rmq/rmq.module';
 
@@ -59,12 +62,19 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   private latestPrices = new Map<string, number>();
   /** 모니터링 인터벌 */
   private monitorInterval?: ReturnType<typeof setInterval>;
+  /**
+   * 활성(ACTIVE) 세션이 존재하는 종목코드 집합.
+   * 현재가 브로드캐스트/구독 판단의 단일 기준 —
+   * 세션 상태가 바뀔 때마다 syncStockActivity 로 갱신한다.
+   */
+  private activeStockCodes = new Set<string>();
 
   constructor(
     private readonly em: EntityManager,
     private readonly kisOrderService: KisOrderService,
     private readonly kisWsService: KisWebSocketService,
     private readonly kisQuotationService: KisQuotationService,
+    private readonly kisInquiryService: KisInquiryService,
     @Inject(MARKET_DATA_SERVICE) private readonly marketDataClient: ClientProxy,
   ) {}
 
@@ -73,6 +83,10 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     const activeSessions = await this.em.find(AutoTradingSessionEntity, {
       status: SessionStatus.ACTIVE,
     });
+    // 활성 종목 캐시 복원 — gateway 의 브로드캐스트 필터링 기준이 된다
+    for (const s of activeSessions) {
+      this.activeStockCodes.add(s.stockCode);
+    }
     if (activeSessions.length > 0) {
       this.logger.log(`활성 자동매매 세션 ${activeSessions.length}개 복원`);
       this.startMonitoring(activeSessions);
@@ -183,13 +197,16 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         existing.investmentAmount = dto.investmentAmount;
         existing.takeProfitPct = dto.takeProfitPct ?? existing.takeProfitPct;
         existing.stopLossPct = dto.stopLossPct ?? existing.stopLossPct;
+        if (dto.addOnBuyMode !== undefined) {
+          existing.addOnBuyMode = dto.addOnBuyMode as AddOnBuyMode;
+        }
         if (dto.aiScore !== undefined) existing.aiScore = dto.aiScore;
         await this.em.flush();
         this.logger.log(
           `자동매매 업데이트: ${dto.stockName}(${dto.stockCode}) - ${strategyId} ` +
             `(목표 ${existing.takeProfitPct}%, 손절 ${existing.stopLossPct}%)`,
         );
-        this.subscribeStock(dto.stockCode);
+        await this.syncStockActivity(dto.stockCode);
         return existing;
       }
 
@@ -224,6 +241,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       investmentAmount: dto.investmentAmount,
       takeProfitPct: dto.takeProfitPct ?? DEFAULT_TAKE_PROFIT_PCT,
       stopLossPct: dto.stopLossPct ?? DEFAULT_STOP_LOSS_PCT,
+      addOnBuyMode:
+        (dto.addOnBuyMode as AddOnBuyMode | undefined) ?? AddOnBuyMode.SKIP,
       aiScore: dto.aiScore,
       status: SessionStatus.ACTIVE,
     });
@@ -235,7 +254,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         `진입 ${dto.entryMode ?? 'monitor'})`,
     );
 
-    this.subscribeStock(dto.stockCode);
+    // 새 ACTIVE 세션 — 구독/활성 종목 집합 갱신
+    await this.syncStockActivity(dto.stockCode);
 
     // 즉시 매수 모드: 시장가로 투자금액 전체를 매수
     if (dto.entryMode === 'immediate') {
@@ -346,6 +366,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     const session = await this.getSession(sessionId, userId);
     session.status = SessionStatus.PAUSED;
     await this.em.flush();
+    // 동일 종목의 다른 활성 세션이 없으면 구독 해제 / 활성 집합에서 제거
+    await this.syncStockActivity(session.stockCode);
     return session;
   }
 
@@ -357,7 +379,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     const session = await this.getSession(sessionId, userId);
     session.status = SessionStatus.ACTIVE;
     await this.em.flush();
-    this.subscribeStock(session.stockCode);
+    await this.syncStockActivity(session.stockCode);
     return session;
   }
 
@@ -377,13 +399,23 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
 
     if (dto.strategyId !== undefined) {
-      session.strategyId = dto.strategyId;
-      // 전략을 변경하면 기존 variant는 사용자가 별도 지정하지 않는 한 무효화
-      if (dto.variant === undefined) {
-        session.variant = undefined;
+      // 빈값('') 이면 추천 전략 자동 산출 — startSession 과 동일 흐름
+      if (!dto.strategyId) {
+        const { strategyId, variant } = await this.resolveStrategy({
+          stockCode: session.stockCode,
+          stockName: session.stockName,
+          investmentAmount: Number(session.investmentAmount),
+          variant: dto.variant,
+        });
+        session.strategyId = strategyId;
+        session.variant = variant;
+      } else {
+        session.strategyId = dto.strategyId;
+        // 전략을 변경하면 기존 variant는 사용자가 같이 지정하지 않는 한 무효화
+        session.variant = dto.variant || undefined;
       }
-    }
-    if (dto.variant !== undefined) {
+    } else if (dto.variant !== undefined) {
+      // strategyId 변경 없이 variant 만 갱신
       session.variant = dto.variant || undefined;
     }
     if (dto.takeProfitPct !== undefined) {
@@ -391,6 +423,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
     if (dto.stopLossPct !== undefined) {
       session.stopLossPct = dto.stopLossPct;
+    }
+    if (dto.addOnBuyMode !== undefined) {
+      session.addOnBuyMode = dto.addOnBuyMode as AddOnBuyMode;
     }
 
     await this.em.flush();
@@ -413,6 +448,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     this.logger.log(
       `자동매매 종료: ${session.stockName}(${session.stockCode})`,
     );
+    // 동일 종목의 다른 활성 세션이 없으면 구독 해제 / 활성 집합에서 제거
+    await this.syncStockActivity(session.stockCode);
     return session;
   }
 
@@ -459,6 +496,15 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           // 미보유 시: 매수 신호 확인
           const shouldBuy = await this.shouldBuyByStrategy(session);
           if (shouldBuy) {
+            await this.executeBuy(session, price);
+          }
+        } else if (session.addOnBuyMode === AddOnBuyMode.ADD) {
+          // 보유 중 + 추가 매수 허용: 매수 신호 발생 시 추가 매수
+          const shouldBuy = await this.shouldBuyByStrategy(session);
+          if (shouldBuy) {
+            this.logger.log(
+              `추가 매수 신호: ${session.stockCode} (보유 ${session.holdingQty}주, 평단 ${Math.round(session.avgBuyPrice)})`,
+            );
             await this.executeBuy(session, price);
           }
         }
@@ -512,21 +558,21 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-  /** 매수 실행 */
+  /** 매수 실행 — 신호 발생 시점의 현재가로 지정가 매수 */
   private async executeBuy(session: AutoTradingSessionEntity, price: number) {
     const tradeAmount = session.investmentAmount * (TRADE_RATIO_PCT / 100);
     const qty = Math.floor(tradeAmount / price);
     if (qty <= 0) return;
 
-    this.logger.log(`매수 실행: ${session.stockCode} ${qty}주 @ ${price}`);
+    this.logger.log(`매수 실행(지정가): ${session.stockCode} ${qty}주 @ ${price}`);
 
     try {
       await this.kisOrderService.orderCash({
         stockCode: session.stockCode,
         orderType: 'buy',
-        orderDvsn: '01', // 시장가
+        orderDvsn: '00', // 지정가
         quantity: qty,
-        price: 0,
+        price,
         userId: session.user.id,
       });
 
@@ -626,6 +672,49 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       await this.em.flush();
     } catch (err: any) {
       this.logger.error(`매도 실패: ${session.stockCode} - ${err.message}`);
+      return;
+    }
+
+    // 매도 성공 후 KIS 실잔고를 확인해 보유 종목이 아니면 세션을 완전 삭제하여
+    // 모니터링 목록에서 제거한다 — 다음 사이클에서 동일 종목을 자동 재진입하는 것을 방지.
+    await this.removeSessionIfNotHeld(session);
+  }
+
+  /**
+   * 매도 직후 KIS 실제 잔고를 조회해, 해당 종목이 더 이상 보유 중이 아니라면
+   * 세션을 DB 에서 완전 삭제하고 구독/활성 종목 캐시도 정리한다.
+   *
+   * - 시장가 체결 → 잔고 반영까지 약간의 지연이 있을 수 있어 짧게 대기 후 조회
+   * - 잔고 조회 실패 또는 여전히 보유중이면 세션은 그대로 둔다 (다음 사이클에서 정리 가능)
+   */
+  private async removeSessionIfNotHeld(session: AutoTradingSessionEntity) {
+    try {
+      // 체결 → 잔고 반영까지 짧은 대기
+      await new Promise((resolve) => setTimeout(resolve, 2_000));
+
+      const { items } = await this.kisInquiryService.getBalance();
+      const stillHeld = items.some(
+        (item) =>
+          item.pdno?.trim() === session.stockCode &&
+          Number(item.hldg_qty) > 0,
+      );
+
+      if (stillHeld) {
+        this.logger.log(
+          `매도 후 잔고 확인: ${session.stockCode} 아직 보유중 — 세션 유지`,
+        );
+        return;
+      }
+
+      const stockCode = session.stockCode;
+      const label = `${session.stockName}(${stockCode})`;
+      await this.em.removeAndFlush(session);
+      await this.syncStockActivity(stockCode);
+      this.logger.log(`매도 후 세션 완전 삭제: ${label} (실보유 없음)`);
+    } catch (err: any) {
+      this.logger.warn(
+        `매도 후 잔고 확인 실패: ${session.stockCode} - ${err.message ?? err}`,
+      );
     }
   }
 
@@ -660,5 +749,149 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     } catch (err: any) {
       this.logger.warn(`WebSocket 구독 실패: ${stockCode} - ${err.message}`);
     }
+  }
+
+  private unsubscribeStock(stockCode: string) {
+    try {
+      this.kisWsService.unsubscribe('H0STCNT0', stockCode);
+    } catch (err: any) {
+      this.logger.warn(
+        `WebSocket 구독 해제 실패: ${stockCode} - ${err.message}`,
+      );
+    }
+  }
+
+  /**
+   * 특정 종목에 활성(ACTIVE) 세션이 남아있는지에 맞춰
+   * KIS 실시간 구독 / 활성 종목 캐시를 동기화한다.
+   *
+   * - DB 에서 해당 종목의 ACTIVE 세션 존재 여부를 확인 (모든 사용자 기준)
+   *   하나라도 있으면: 구독 유지 + activeStockCodes 에 포함
+   *   하나도 없으면: 구독 해제 + activeStockCodes 에서 제거 + 가격 캐시 정리
+   *
+   * 세션 상태가 변경되는 모든 지점(start/resume/pause/stop)에서 flush 이후 호출한다.
+   */
+  private async syncStockActivity(stockCode: string) {
+    const active = await this.em.findOne(AutoTradingSessionEntity, {
+      stockCode,
+      status: SessionStatus.ACTIVE,
+    });
+    if (active) {
+      this.activeStockCodes.add(stockCode);
+      this.subscribeStock(stockCode);
+    } else {
+      this.activeStockCodes.delete(stockCode);
+      this.latestPrices.delete(stockCode);
+      this.unsubscribeStock(stockCode);
+    }
+  }
+
+  /**
+   * Gateway 브로드캐스트 필터링용 — 해당 종목에 활성 세션이 있을 때만 true.
+   * 실시간 체결 스트림은 초당 수십건까지 들어올 수 있으므로 in-memory 집합만 사용한다.
+   */
+  isStockActive(stockCode: string): boolean {
+    return this.activeStockCodes.has(stockCode);
+  }
+
+  /** 수동 매수/매도 주문 실행 */
+  async executeManualOrder(
+    sessionId: number,
+    userId: number,
+    dto: ManualOrderDto,
+  ): Promise<AutoTradingSessionEntity> {
+    const session = await this.getSession(sessionId, userId);
+
+    if (session.status === SessionStatus.STOPPED) {
+      throw new ConflictException({
+        message: '종료된 세션에서는 주문할 수 없습니다.',
+        code: 'SESSION_STOPPED',
+      });
+    }
+
+    if (dto.orderType === 'sell' && session.holdingQty <= 0) {
+      throw new ConflictException({
+        message: '보유 수량이 없어 매도할 수 없습니다.',
+        code: 'NO_HOLDINGS',
+      });
+    }
+
+    if (dto.orderType === 'sell' && dto.quantity > session.holdingQty) {
+      throw new ConflictException({
+        message: `보유 수량(${session.holdingQty})보다 많은 수량은 매도할 수 없습니다.`,
+        code: 'EXCEED_HOLDINGS',
+      });
+    }
+
+    const price = dto.orderDvsn === '01' ? 0 : (dto.price ?? 0);
+
+    this.logger.log(
+      `수동 ${dto.orderType === 'buy' ? '매수' : '매도'}: ${session.stockCode} ` +
+        `${dto.quantity}주 @ ${dto.orderDvsn === '01' ? '시장가' : price} (세션 ${sessionId})`,
+    );
+
+    await this.kisOrderService.orderCash({
+      stockCode: session.stockCode,
+      orderType: dto.orderType,
+      orderDvsn: dto.orderDvsn,
+      quantity: dto.quantity,
+      price,
+      userId: session.user.id,
+    });
+
+    // 주문 성공 시 세션 상태 갱신
+    if (dto.orderType === 'buy') {
+      const estimatedPrice =
+        dto.orderDvsn === '01'
+          ? (this.latestPrices.get(session.stockCode) ?? session.avgBuyPrice)
+          : price;
+      const totalCost =
+        session.avgBuyPrice * session.holdingQty +
+        estimatedPrice * dto.quantity;
+      session.holdingQty += dto.quantity;
+      session.avgBuyPrice =
+        session.holdingQty > 0 ? totalCost / session.holdingQty : 0;
+      session.totalBuys += 1;
+    } else {
+      const sellPrice =
+        dto.orderDvsn === '01'
+          ? (this.latestPrices.get(session.stockCode) ?? session.avgBuyPrice)
+          : price;
+      const pnl = (sellPrice - session.avgBuyPrice) * dto.quantity;
+      session.realizedPnl = Number(session.realizedPnl) + Math.round(pnl);
+      session.holdingQty -= dto.quantity;
+      if (session.holdingQty <= 0) {
+        session.holdingQty = 0;
+        session.avgBuyPrice = 0;
+        session.unrealizedPnl = 0;
+      }
+      session.totalSells += 1;
+    }
+
+    await this.em.flush();
+    return session;
+  }
+
+  /**
+   * 종료(STOPPED) 세션을 완전 삭제한다.
+   * - ACTIVE / PAUSED 상태는 거부 (운용 중인 세션 보호)
+   * - 성공 시 DB 에서 레코드 제거 후 `{ id }` 반환
+   */
+  async deleteSession(
+    sessionId: number,
+    userId: number,
+  ): Promise<{ id: number }> {
+    const session = await this.getSession(sessionId, userId);
+    if (session.status !== SessionStatus.STOPPED) {
+      throw new ConflictException({
+        message: '비활성(종료) 상태의 세션만 완전 삭제할 수 있습니다.',
+        code: 'SESSION_NOT_STOPPED',
+      });
+    }
+    const deletedId = session.id;
+    const label = `${session.stockName}(${session.stockCode})`;
+    await this.em.removeAndFlush(session);
+    this.logger.log(`자동매매 세션 완전 삭제: ${label}`);
+    return { id: deletedId };
   }
 }

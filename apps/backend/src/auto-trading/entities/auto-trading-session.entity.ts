@@ -15,6 +15,28 @@ export enum SessionStatus {
   STOPPED = 'stopped',
 }
 
+/**
+ * 세션 내 실제 포지션 상태
+ * - 'holding': 실제 보유 중 (holdingQty > 0) — 익절/손절 감시 대상
+ * - 'waiting': 아직 매수 전 (holdingQty === 0) — 전략 매수 신호 대기 중
+ *
+ * 세션 라이프사이클(status) 과는 독립적이며, holdingQty 에서 파생된다.
+ */
+export enum PositionStatus {
+  HOLDING = 'holding',
+  WAITING = 'waiting',
+}
+
+/**
+ * 보유 종목에서 매수 신호가 추가로 발생했을 때의 처리 방식
+ * - 'add': 추가 매수 (분할 매수 / 피라미딩)
+ * - 'skip': 이미 보유 중이므로 매수 신호를 무시
+ */
+export enum AddOnBuyMode {
+  ADD = 'add',
+  SKIP = 'skip',
+}
+
 @Entity({ tableName: 'auto_trading_sessions' })
 export class AutoTradingSessionEntity {
   [OptionalProps]?:
@@ -28,6 +50,8 @@ export class AutoTradingSessionEntity {
     | 'status'
     | 'takeProfitPct'
     | 'stopLossPct'
+    | 'addOnBuyMode'
+    | 'positionStatus'
     | 'createdAt';
 
   @PrimaryKey()
@@ -47,6 +71,20 @@ export class AutoTradingSessionEntity {
   @Property({ length: 30 })
   strategyId!: string;
 
+  /** 전략별 변형
+   * "day-trading", "mean-reversion" 전략만 해당
+   *
+   * day-trading 전략 variant
+   * - Breakout
+   * - Crossover
+   * - VolumeSurge
+   *
+   * mean-reversion 전략 variant
+   * - RSI
+   * - Bollinger
+   * - Grid
+   * - MagicSplit
+   * */
   @Property({ length: 30, nullable: true })
   variant?: string;
 
@@ -60,6 +98,13 @@ export class AutoTradingSessionEntity {
   /** 손절 기준 (%) — 음수값, 자동 손절 기준 */
   @Property({ type: 'float', default: -3 })
   stopLossPct: number = -3;
+
+  /**
+   * 보유 종목에서 매수 신호가 추가로 발생했을 때의 처리 방식.
+   * 기본 'skip' — 기존 동작 유지(보유 중이면 추가 매수 안 함).
+   */
+  @Enum({ items: () => AddOnBuyMode, default: AddOnBuyMode.SKIP })
+  addOnBuyMode: AddOnBuyMode = AddOnBuyMode.SKIP;
 
   @Property({ type: 'decimal', precision: 15, scale: 0, default: 0 })
   realizedPnl: number = 0;
@@ -90,4 +135,10 @@ export class AutoTradingSessionEntity {
 
   @Property({ nullable: true })
   stoppedAt?: Date;
+
+  /** 실보유/매수대기 상태 — holdingQty 에서 파생, API 응답에만 포함 (DB 컬럼 없음) */
+  @Property({ persist: false })
+  get positionStatus(): PositionStatus {
+    return this.holdingQty > 0 ? PositionStatus.HOLDING : PositionStatus.WAITING;
+  }
 }

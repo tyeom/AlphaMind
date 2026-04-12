@@ -13,6 +13,7 @@ import {
   StartSessionDto,
   StartSessionsDto,
   UpdateSessionDto,
+  ManualOrderDto,
 } from './dto/start-session.dto';
 import { User } from '../decorator/user.decorator';
 
@@ -66,9 +67,25 @@ export class AutoTradingController {
     return this.autoTradingService.updateSession(id, user.sub, dto);
   }
 
+  /** 수동 매수/매도 */
+  @Post('sessions/:id/order')
+  manualOrder(
+    @User() user: any,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: ManualOrderDto,
+  ) {
+    return this.autoTradingService.executeManualOrder(id, user.sub, dto);
+  }
+
   /** 종료 */
   @Delete('sessions/:id')
   stopSession(@User() user: any, @Param('id', ParseIntPipe) id: number) {
     return this.autoTradingService.stopSession(id, user.sub);
+  }
+
+  /** 완전 삭제 — 종료(STOPPED) 상태 세션만 가능 */
+  @Delete('sessions/:id/permanent')
+  deleteSession(@User() user: any, @Param('id', ParseIntPipe) id: number) {
+    return this.autoTradingService.deleteSession(id, user.sub);
   }
 }

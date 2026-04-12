@@ -1,5 +1,19 @@
 export type SessionStatus = 'active' | 'paused' | 'stopped';
 
+/**
+ * 세션 내 실제 포지션 상태
+ * - 'holding': 실제 보유 중 (holdingQty > 0) — 익절/손절 감시 대상
+ * - 'waiting': 아직 매수 전 (holdingQty === 0) — 전략 매수 신호 대기 중
+ */
+export type PositionStatus = 'holding' | 'waiting';
+
+/**
+ * 보유 종목에서 매수 신호가 추가로 발생했을 때의 처리 방식
+ * - 'add': 추가 매수 (분할 매수 / 피라미딩)
+ * - 'skip': 매수 신호 무시 (기본)
+ */
+export type AddOnBuyMode = 'add' | 'skip';
+
 export interface AutoTradingSession {
   id: number;
   stockCode: string;
@@ -9,6 +23,7 @@ export interface AutoTradingSession {
   investmentAmount: number;
   takeProfitPct: number;
   stopLossPct: number;
+  addOnBuyMode: AddOnBuyMode;
   realizedPnl: number;
   unrealizedPnl: number;
   holdingQty: number;
@@ -16,6 +31,8 @@ export interface AutoTradingSession {
   totalBuys: number;
   totalSells: number;
   status: SessionStatus;
+  /** 실보유/대기 상태 — 백엔드에서 holdingQty 기반으로 계산 */
+  positionStatus: PositionStatus;
   aiScore?: number;
   createdAt: string;
   stoppedAt?: string;
@@ -43,6 +60,8 @@ export interface StartSessionRequest {
   takeProfitPct?: number;
   /** 손절 기준 (%) — 음수값, 미지정시 백엔드 기본값 -3 */
   stopLossPct?: number;
+  /** 보유 종목에 추가 매수 신호 발생 시 동작 — 미지정시 'skip' */
+  addOnBuyMode?: AddOnBuyMode;
   /**
    * 동일 종목에 이미 활성 세션이 있을 때의 처리
    * - 'update': 기존 세션을 새 설정으로 덮어씀
@@ -66,6 +85,17 @@ export interface UpdateSessionRequest {
   variant?: string;
   takeProfitPct?: number;
   stopLossPct?: number;
+  addOnBuyMode?: AddOnBuyMode;
+}
+
+/** 수동 매수/매도 주문 요청 */
+export interface ManualOrderRequest {
+  orderType: 'buy' | 'sell';
+  /** '00' = 지정가, '01' = 시장가 */
+  orderDvsn: '00' | '01';
+  quantity: number;
+  /** 지정가 주문 시 주문 단가 — 시장가일 때 생략 */
+  price?: number;
 }
 
 /** 409 Conflict 응답 바디 */

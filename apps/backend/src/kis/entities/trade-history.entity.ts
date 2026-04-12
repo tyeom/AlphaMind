@@ -49,6 +49,19 @@ export class TradeHistoryEntity {
   @Property({ nullable: true })
   stockName?: string;
 
+  /** 주문 구분
+   * [SOR]
+   * 00 : 지정가
+   * 01 : 시장가
+   * 03 : 최유리지정가
+   * 04 : 최우선지정가
+   * 11 : IOC지정가 (즉시체결,잔량취소)
+   * 12 : FOK지정가 (즉시체결,전량취소)
+   * 13 : IOC시장가 (즉시체결,잔량취소)
+   * 14 : FOK시장가 (즉시체결,전량취소)
+   * 15 : IOC최유리 (즉시체결,잔량취소)
+   * 16 : FOK최유리 (즉시체결,전량취소)
+   * */
   @Property()
   orderDvsn!: string;
 

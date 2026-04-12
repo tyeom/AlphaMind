@@ -8,6 +8,13 @@ export type SessionConflictAction = 'update' | 'skip';
  */
 export type SessionEntryMode = 'monitor' | 'immediate';
 
+/**
+ * 보유 종목에서 매수 신호가 추가로 발생했을 때의 처리 방식
+ * - 'add': 추가 매수 (분할 매수 / 피라미딩)
+ * - 'skip': 매수 신호 무시 (기본)
+ */
+export type AddOnBuyMode = 'add' | 'skip';
+
 export interface StartSessionDto {
   stockCode: string;
   stockName: string;
@@ -20,6 +27,10 @@ export interface StartSessionDto {
   takeProfitPct?: number;
   /** 손절 기준 (%) — 음수값, 기본 -3 */
   stopLossPct?: number;
+  /**
+   * 보유 종목에 추가 매수 신호 발생 시 동작 — 미지정시 'skip'
+   */
+  addOnBuyMode?: AddOnBuyMode;
   /**
    * 동일 종목에 이미 활성 세션이 있을 때의 처리
    * - 'update': 기존 세션을 새 설정으로 덮어씀
@@ -50,4 +61,15 @@ export interface UpdateSessionDto {
   variant?: string;
   takeProfitPct?: number;
   stopLossPct?: number;
+  addOnBuyMode?: AddOnBuyMode;
+}
+
+/** 수동 매수/매도 주문 DTO */
+export interface ManualOrderDto {
+  orderType: 'buy' | 'sell';
+  /** '00' = 지정가, '01' = 시장가 */
+  orderDvsn: '00' | '01';
+  quantity: number;
+  /** 지정가 주문 시 주문 단가 — 시장가일 때 0 */
+  price?: number;
 }

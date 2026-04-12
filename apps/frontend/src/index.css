@@ -254,6 +254,27 @@ a:hover {
 .collection-dot.idle {
   background: var(--text-muted);
 }
+.collection-trigger-btn {
+  margin-left: 8px;
+  padding: 2px 8px;
+  font-size: 10px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.collection-trigger-btn:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+.collection-trigger-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 /* User Menu / Auth */
 .user-menu {
@@ -1335,6 +1356,48 @@ h3 {
 .status-stopped {
   background: var(--bg-tertiary);
   color: var(--text-secondary);
+}
+
+/* 보유 중 매수 신호 처리 배지 (추가매수/스킵) */
+.add-on-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.add-on-add {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.add-on-skip {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+}
+
+/* 포지션 상태 배지 (실보유중 / 매수 대기) */
+.position-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.position-holding {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success);
+}
+
+.position-waiting {
+  background: #fff3bf;
+  color: #e67700;
+  border: 1px dashed #e67700;
 }
 
 /* 잔고 자동/수동 구분 배지 & 필터 */
@@ -2420,4 +2483,115 @@ h3 {
 .conflict-action-option input[type='radio'] {
   width: auto;
   margin: 0;
+}
+
+/* ── Manual Order Modal ── */
+.btn-order {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn-order:hover {
+  opacity: 0.9;
+}
+
+.manual-order-modal {
+  max-width: 440px;
+  padding: 24px;
+}
+.manual-order-modal h3 {
+  margin: 0 0 16px;
+  font-size: 16px;
+}
+
+.order-info {
+  background: var(--bg-main);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+.order-info .info-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 3px 0;
+}
+.order-info .info-row label {
+  color: var(--text-muted);
+}
+
+.order-type-toggle,
+.order-dvsn-toggle {
+  display: flex;
+  gap: 0;
+  margin-bottom: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.toggle-btn {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  background: var(--bg-main);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.toggle-btn:not(:last-child) {
+  border-right: 1px solid var(--border-color);
+}
+.toggle-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+.toggle-buy.active {
+  background: var(--profit);
+}
+.toggle-sell.active {
+  background: var(--error);
+}
+.toggle-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.order-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.order-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.order-fields input {
+  padding: 8px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-size: 14px;
+}
+
+.order-estimate {
+  font-size: 13px;
+  padding: 10px 0;
+  border-top: 1px solid var(--border-color);
+  margin-bottom: 12px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
 }

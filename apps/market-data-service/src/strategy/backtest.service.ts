@@ -4,6 +4,8 @@ import { Stock } from '../stock/entities/stock.entity';
 import { StockDailyPrice } from '../stock/entities/stock-daily-price.entity';
 import {
   CandleData,
+  DayTradingVariant,
+  MeanReversionVariant,
   Signal,
   SignalDirection,
   StrategyAnalysisResult,
@@ -34,6 +36,26 @@ const STRATEGY_MAP: Record<string, { name: string; analyze: (candles: CandleData
   'mean-reversion': { name: '평균회귀 전략', analyze: analyzeMeanReversion },
   'infinity-bot': { name: '무한매수봇', analyze: analyzeInfinityBot },
   'candle-pattern': { name: '캔들 패턴 인식', analyze: analyzeCandlePattern },
+};
+
+/**
+ * 전략별 평가 대상 variant 목록.
+ * variant 가 없는 전략은 [undefined] 단일 항목으로 처리해 루프를 일관되게 유지한다.
+ */
+const STRATEGY_VARIANTS: Record<string, (string | undefined)[]> = {
+  'day-trading': [
+    DayTradingVariant.Breakout,
+    DayTradingVariant.Crossover,
+    DayTradingVariant.VolumeSurge,
+  ],
+  'mean-reversion': [
+    MeanReversionVariant.RSI,
+    MeanReversionVariant.Bollinger,
+    MeanReversionVariant.Grid,
+    MeanReversionVariant.MagicSplit,
+  ],
+  'infinity-bot': [undefined],
+  'candle-pattern': [undefined],
 };
 
 @Injectable()
@@ -406,6 +428,7 @@ export class BacktestService {
     let bestResult: {
       strategyId: string;
       strategyName: string;
+      variant?: string;
       totalReturnPct: number;
       winRate: number;
       maxDrawdownPct: number;
@@ -415,39 +438,46 @@ export class BacktestService {
     } | null = null;
 
     for (const [strategyId, strategy] of Object.entries(STRATEGY_MAP)) {
-      try {
-        const analysis = strategy.analyze(candles);
-        const signals = analysis.signals;
-        const hasSellSignals = signals.some((s) => s.direction === SignalDirection.Sell);
+      const variants = STRATEGY_VARIANTS[strategyId] ?? [undefined];
 
-        const signalByDate = new Map<string, Signal>();
-        for (const signal of signals) {
-          signalByDate.set(toDateKey(signal.date), signal);
-        }
+      for (const variant of variants) {
+        try {
+          const analyzeConfig = variant ? { variant } : {};
+          const analysis = strategy.analyze(candles, analyzeConfig);
+          const signals = analysis.signals;
+          const hasSellSignals = signals.some((s) => s.direction === SignalDirection.Sell);
 
-        const config: BacktestConfig = {
-          strategyId,
-          investmentAmount,
-          tradeRatioPct,
-          commissionPct,
-        };
+          const signalByDate = new Map<string, Signal>();
+          for (const signal of signals) {
+            signalByDate.set(toDateKey(signal.date), signal);
+          }
 
-        const result = this.simulate(stock, candles, signalByDate, config, strategy.name, hasSellSignals);
-
-        if (!bestResult || result.totalReturnPct > bestResult.totalReturnPct) {
-          bestResult = {
+          const config: BacktestConfig = {
             strategyId,
-            strategyName: strategy.name,
-            totalReturnPct: result.totalReturnPct,
-            winRate: result.winRate,
-            maxDrawdownPct: result.maxDrawdownPct,
-            totalTrades: result.totalTrades,
-            finalValue: result.finalValue,
-            analysis,
+            variant,
+            investmentAmount,
+            tradeRatioPct,
+            commissionPct,
           };
+
+          const result = this.simulate(stock, candles, signalByDate, config, strategy.name, hasSellSignals);
+
+          if (!bestResult || result.totalReturnPct > bestResult.totalReturnPct) {
+            bestResult = {
+              strategyId,
+              strategyName: strategy.name,
+              variant,
+              totalReturnPct: result.totalReturnPct,
+              winRate: result.winRate,
+              maxDrawdownPct: result.maxDrawdownPct,
+              totalTrades: result.totalTrades,
+              finalValue: result.finalValue,
+              analysis,
+            };
+          }
+        } catch {
+          // 전략/변형 분석 실패 시 건너뛰기
         }
-      } catch {
-        // 전략 분석 실패 시 건너뛰기
       }
     }
 
@@ -462,6 +492,7 @@ export class BacktestService {
       bestStrategy: {
         strategyId: bestResult.strategyId,
         strategyName: bestResult.strategyName,
+        variant: bestResult.variant,
       },
       totalReturnPct: bestResult.totalReturnPct,
       winRate: bestResult.winRate,

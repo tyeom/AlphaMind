@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { SessionEntryMode } from '../types/auto-trading';
+import type { AddOnBuyMode, SessionEntryMode } from '../types/auto-trading';
 
 export interface TradingConfigItem {
   stockCode: string;
@@ -9,6 +9,8 @@ export interface TradingConfigItem {
   variant?: string;
   takeProfitPct: number;
   stopLossPct: number;
+  /** 보유 종목에 추가 매수 신호 발생 시 동작 — 기본 'skip' */
+  addOnBuyMode: AddOnBuyMode;
 }
 
 interface Props {
@@ -32,6 +34,7 @@ interface Props {
 }
 
 const STRATEGY_OPTIONS: { id: string; name: string }[] = [
+  { id: '', name: '추천 (자동)' },
   { id: 'day-trading', name: '일간 모멘텀' },
   { id: 'mean-reversion', name: '평균회귀' },
   { id: 'infinity-bot', name: '무한매수봇' },
@@ -129,15 +132,18 @@ export function AutoTradingConfigModal({
             <label>
               전략
               <select
-                defaultValue=""
+                defaultValue="__none__"
                 onChange={(e) => {
-                  if (e.target.value) applyToAll({ strategyId: e.target.value });
-                  e.target.value = '';
+                  if (e.target.value !== '__none__') {
+                    // 전략 변경 시 stale variant 방지를 위해 함께 비움
+                    applyToAll({ strategyId: e.target.value, variant: undefined });
+                  }
+                  e.target.value = '__none__';
                 }}
               >
-                <option value="">선택</option>
+                <option value="__none__">선택</option>
                 {STRATEGY_OPTIONS.map((s) => (
-                  <option key={s.id} value={s.id}>
+                  <option key={s.id || '__auto__'} value={s.id}>
                     {s.name}
                   </option>
                 ))}
@@ -169,6 +175,24 @@ export function AutoTradingConfigModal({
                 }}
               />
             </label>
+            <label>
+              추가매수
+              <select
+                defaultValue="__none__"
+                onChange={(e) => {
+                  if (e.target.value !== '__none__') {
+                    applyToAll({
+                      addOnBuyMode: e.target.value as AddOnBuyMode,
+                    });
+                  }
+                  e.target.value = '__none__';
+                }}
+              >
+                <option value="__none__">선택</option>
+                <option value="skip">스킵</option>
+                <option value="add">추가매수</option>
+              </select>
+            </label>
           </div>
           )}
 
@@ -180,6 +204,7 @@ export function AutoTradingConfigModal({
                   <th>전략</th>
                   <th className="text-right">목표수익(%)</th>
                   <th className="text-right">손절(%)</th>
+                  <th>보유 시 매수신호</th>
                 </tr>
               </thead>
               <tbody>
@@ -194,11 +219,15 @@ export function AutoTradingConfigModal({
                       <select
                         value={item.strategyId}
                         onChange={(e) =>
-                          updateItem(i, { strategyId: e.target.value })
+                          // 전략 변경 시 stale variant 방지를 위해 함께 비움
+                          updateItem(i, {
+                            strategyId: e.target.value,
+                            variant: undefined,
+                          })
                         }
                       >
                         {STRATEGY_OPTIONS.map((s) => (
-                          <option key={s.id} value={s.id}>
+                          <option key={s.id || '__auto__'} value={s.id}>
                             {s.name}
                           </option>
                         ))}
@@ -229,6 +258,20 @@ export function AutoTradingConfigModal({
                           })
                         }
                       />
+                    </td>
+                    <td>
+                      <select
+                        value={item.addOnBuyMode}
+                        onChange={(e) =>
+                          updateItem(i, {
+                            addOnBuyMode: e.target.value as AddOnBuyMode,
+                          })
+                        }
+                        title="보유 중인 종목에 매수 신호가 추가로 발생했을 때의 처리"
+                      >
+                        <option value="skip">스킵</option>
+                        <option value="add">추가 매수</option>
+                      </select>
                     </td>
                   </tr>
                 ))}

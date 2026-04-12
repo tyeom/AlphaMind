@@ -4,6 +4,7 @@ import type {
   StartSessionRequest,
   StartSessionsBatchRequest,
   UpdateSessionRequest,
+  ManualOrderRequest,
 } from '../types/auto-trading';
 
 export async function startSession(dto: StartSessionRequest): Promise<AutoTradingSession> {
@@ -41,4 +42,22 @@ export async function updateSession(
 
 export async function stopSession(id: number): Promise<AutoTradingSession> {
   return api.delete<AutoTradingSession>(`/auto-trading/sessions/${id}`);
+}
+
+/** 수동 매수/매도 주문 */
+export async function manualOrder(
+  sessionId: number,
+  dto: ManualOrderRequest,
+): Promise<AutoTradingSession> {
+  return api.post<AutoTradingSession>(
+    `/auto-trading/sessions/${sessionId}/order`,
+    dto,
+  );
+}
+
+/** 완전 삭제 — 종료(STOPPED) 상태의 세션만 삭제 가능 */
+export async function deleteSessionPermanent(
+  id: number,
+): Promise<{ id: number }> {
+  return api.delete<{ id: number }>(`/auto-trading/sessions/${id}/permanent`);
 }

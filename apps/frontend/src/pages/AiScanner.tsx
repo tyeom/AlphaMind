@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { scanStocks, streamAiScores } from '../api/scanner';
 import type { SseProgress } from '../api/scanner';
-import { startSessionsBatch, getSessions, pauseSession, resumeSession, stopSession, updateSession } from '../api/auto-trading';
+import { startSessionsBatch, getSessions, pauseSession, resumeSession, stopSession, updateSession, deleteSessionPermanent, manualOrder } from '../api/auto-trading';
 import { getBalance } from '../api/kis';
 import { ApiError } from '../api/client';
 import { useAutoTradingWebSocket, type PriceUpdate } from '../hooks/useAutoTradingWebSocket';
 import type { ScanResult, AiStockScore, ExpertOpinion, NewsItem } from '../types/scanner';
 import type {
   AutoTradingSession,
+  ManualOrderRequest,
   SessionConflictAction,
   SessionConflictError,
   SessionConflictItem,
@@ -80,6 +81,143 @@ function ExpertCard({ title, role, opinion }: { title: string; role: string; opi
   );
 }
 
+function ManualOrderModal({
+  session,
+  currentPrice,
+  onCancel,
+  onConfirm,
+}: {
+  session: AutoTradingSession;
+  currentPrice?: number;
+  onCancel: () => void;
+  onConfirm: (dto: ManualOrderRequest) => void;
+}) {
+  const [orderType, setOrderType] = useState<'buy' | 'sell'>('buy');
+  const [orderDvsn, setOrderDvsn] = useState<'00' | '01'>('01');
+  const [quantity, setQuantity] = useState('');
+  const [price, setPrice] = useState('');
+
+  const isSellDisabled = session.holdingQty <= 0;
+
+  const handleSubmit = () => {
+    const qty = Number(quantity);
+    if (!qty || qty <= 0) return;
+    if (orderDvsn === '00' && (!Number(price) || Number(price) <= 0)) return;
+
+    onConfirm({
+      orderType,
+      orderDvsn,
+      quantity: qty,
+      price: orderDvsn === '00' ? Number(price) : undefined,
+    });
+  };
+
+  return (
+    <div className="modal-overlay" onClick={onCancel}>
+      <div className="modal-content manual-order-modal" onClick={(e) => e.stopPropagation()}>
+        <h3>수동 주문 — {session.stockName} ({session.stockCode})</h3>
+
+        <div className="order-info">
+          {currentPrice && <div className="info-row"><label>현재가</label><span>{fmt(currentPrice)}원</span></div>}
+          <div className="info-row"><label>보유 수량</label><span>{fmt(session.holdingQty)}주</span></div>
+          {session.holdingQty > 0 && (
+            <div className="info-row"><label>평균 단가</label><span>{fmt(Math.round(session.avgBuyPrice))}원</span></div>
+          )}
+        </div>
+
+        <div className="order-type-toggle">
+          <button
+            className={`toggle-btn toggle-buy ${orderType === 'buy' ? 'active' : ''}`}
+            onClick={() => setOrderType('buy')}
+          >
+            매수
+          </button>
+          <button
+            className={`toggle-btn toggle-sell ${orderType === 'sell' ? 'active' : ''}`}
+            onClick={() => setOrderType('sell')}
+            disabled={isSellDisabled}
+            title={isSellDisabled ? '보유 수량이 없습니다' : undefined}
+          >
+            매도
+          </button>
+        </div>
+
+        <div className="order-dvsn-toggle">
+          <button
+            className={`toggle-btn ${orderDvsn === '01' ? 'active' : ''}`}
+            onClick={() => setOrderDvsn('01')}
+          >
+            시장가
+          </button>
+          <button
+            className={`toggle-btn ${orderDvsn === '00' ? 'active' : ''}`}
+            onClick={() => setOrderDvsn('00')}
+          >
+            지정가
+          </button>
+        </div>
+
+        <div className="order-fields">
+          <label>
+            주문 수량
+            <input
+              type="number"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+              min="1"
+              max={orderType === 'sell' ? session.holdingQty : undefined}
+              placeholder={orderType === 'sell' ? `최대 ${session.holdingQty}주` : '수량 입력'}
+            />
+          </label>
+          {orderType === 'sell' && session.holdingQty > 0 && (
+            <button
+              className="btn btn-sm btn-text"
+              onClick={() => setQuantity(String(session.holdingQty))}
+            >
+              전량
+            </button>
+          )}
+
+          {orderDvsn === '00' && (
+            <label>
+              주문 단가
+              <input
+                type="number"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                min="1"
+                placeholder={currentPrice ? `현재가 ${fmt(currentPrice)}` : '단가 입력'}
+              />
+            </label>
+          )}
+        </div>
+
+        {quantity && Number(quantity) > 0 && (
+          <div className="order-estimate">
+            예상 금액: <strong>
+              {fmt(Math.round(
+                Number(quantity) * (orderDvsn === '00' && Number(price) > 0 ? Number(price) : (currentPrice ?? 0)),
+              ))}원
+            </strong>
+            {orderDvsn === '01' && <small className="text-muted"> (시장가 — 실제 체결가와 다를 수 있음)</small>}
+          </div>
+        )}
+
+        <div className="modal-actions">
+          <button className="btn btn-text" onClick={onCancel}>취소</button>
+          <button
+            className={`btn ${orderType === 'buy' ? 'btn-primary' : 'btn-danger'}`}
+            onClick={handleSubmit}
+            disabled={!quantity || Number(quantity) <= 0 || (orderDvsn === '00' && (!price || Number(price) <= 0))}
+          >
+            {orderType === 'buy' ? '매수 주문' : '매도 주문'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function AiScanner() {
   const [step, setStep] = useState<Step>('idle');
   const [scanResults, setScanResults] = useState<ScanResult[]>([]);
@@ -97,6 +235,7 @@ export function AiScanner() {
   const [abortScoring, setAbortScoring] = useState<(() => void) | null>(null);
   const [configModalItems, setConfigModalItems] = useState<TradingConfigItem[] | null>(null);
   const [editSession, setEditSession] = useState<AutoTradingSession | null>(null);
+  const [orderSession, setOrderSession] = useState<AutoTradingSession | null>(null);
   const [conflictState, setConflictState] = useState<{
     conflicts: SessionConflictItem[];
     pendingDtos: StartSessionRequest[];
@@ -234,6 +373,7 @@ export function AiScanner() {
       variant: r.bestStrategy.variant,
       takeProfitPct: 5,
       stopLossPct: -3,
+      addOnBuyMode: 'skip',
     }));
     setConfigModalItems(items);
   };
@@ -285,6 +425,7 @@ export function AiScanner() {
       investmentAmount: Number(investmentAmount),
       takeProfitPct: item.takeProfitPct,
       stopLossPct: item.stopLossPct,
+      addOnBuyMode: item.addOnBuyMode,
       aiScore: aiScores.get(item.stockCode)?.score,
     }));
     await submitSessions(sessionDtos, entryMode);
@@ -325,6 +466,12 @@ export function AiScanner() {
   const handlePause = async (id: number) => {
     const updated = await pauseSession(id);
     setSessions((prev) => prev.map((s) => (s.id === id ? updated : s)));
+    // 일시정지 시 캐시된 실시간 가격 제거 — 재개 후 stale 값 표시 방지
+    setPrices((prev) => {
+      const next = new Map(prev);
+      next.delete(updated.stockCode);
+      return next;
+    });
   };
 
   const handleResume = async (id: number) => {
@@ -335,6 +482,28 @@ export function AiScanner() {
   const handleStop = async (id: number) => {
     const updated = await stopSession(id);
     setSessions((prev) => prev.map((s) => (s.id === id ? updated : s)));
+    // 종료 시 캐시된 실시간 가격 제거
+    setPrices((prev) => {
+      const next = new Map(prev);
+      next.delete(updated.stockCode);
+      return next;
+    });
+  };
+
+  const handleDeletePermanent = async (id: number, stockName: string) => {
+    if (
+      !window.confirm(
+        `'${stockName}' 세션을 완전 삭제합니다.\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?`,
+      )
+    ) {
+      return;
+    }
+    try {
+      await deleteSessionPermanent(id);
+      setSessions((prev) => prev.filter((s) => s.id !== id));
+    } catch (err: any) {
+      setError(err.message || '세션 삭제에 실패했습니다.');
+    }
   };
 
   const handleEditConfirm = async (items: TradingConfigItem[]) => {
@@ -346,11 +515,24 @@ export function AiScanner() {
         variant: item.variant,
         takeProfitPct: item.takeProfitPct,
         stopLossPct: item.stopLossPct,
+        addOnBuyMode: item.addOnBuyMode,
       });
       setSessions((prev) => prev.map((s) => (s.id === updated.id ? updated : s)));
       setEditSession(null);
     } catch (err: any) {
       setError(err.message || '세션 수정에 실패했습니다.');
+    }
+  };
+
+  const handleManualOrder = async (dto: ManualOrderRequest) => {
+    if (!orderSession) return;
+    try {
+      const updated = await manualOrder(orderSession.id, dto);
+      setSessions((prev) => prev.map((s) => (s.id === updated.id ? updated : s)));
+      setOrderSession(null);
+    } catch (err: any) {
+      setError(err.message || '주문에 실패했습니다.');
+      setOrderSession(null);
     }
   };
 
@@ -385,6 +567,15 @@ export function AiScanner() {
         />
       )}
 
+      {orderSession && (
+        <ManualOrderModal
+          session={orderSession}
+          currentPrice={prices.get(orderSession.stockCode)}
+          onCancel={() => setOrderSession(null)}
+          onConfirm={(dto) => void handleManualOrder(dto)}
+        />
+      )}
+
       {editSession && (
         <AutoTradingConfigModal
           title="자동 매매 설정 수정"
@@ -399,6 +590,7 @@ export function AiScanner() {
               variant: editSession.variant,
               takeProfitPct: editSession.takeProfitPct,
               stopLossPct: editSession.stopLossPct,
+              addOnBuyMode: editSession.addOnBuyMode,
             },
           ]}
           onCancel={() => setEditSession(null)}
@@ -737,6 +929,18 @@ export function AiScanner() {
               <span>{sessions.filter((s) => s.status === 'active').length}</span>
             </div>
             <div className="stat-card">
+              <label>보유중 / 대기중</label>
+              <span>
+                <span className="text-profit">
+                  {sessions.filter((s) => s.status === 'active' && s.holdingQty > 0).length}
+                </span>
+                <small className="text-muted"> / </small>
+                <span style={{ color: '#e67700' }}>
+                  {sessions.filter((s) => s.status === 'active' && s.holdingQty === 0).length}
+                </span>
+              </span>
+            </div>
+            <div className="stat-card">
               <label>총 실현 손익</label>
               <span className={pctClass(sessions.reduce((a, s) => a + Number(s.realizedPnl), 0))}>
                 {fmt(sessions.reduce((a, s) => a + Number(s.realizedPnl), 0))}원
@@ -753,14 +957,17 @@ export function AiScanner() {
           <table className="data-table">
             <thead>
               <tr>
-                <th>종목</th><th>전략</th><th>목표/손절</th><th>상태</th><th>보유수량</th><th>평균단가</th>
+                <th>종목</th><th>전략</th><th>목표/손절</th><th>보유 시<br />매수신호</th><th>상태</th><th>포지션</th><th>보유수량</th><th>평균단가</th>
                 <th>현재가</th><th>평가 손익</th><th>실현 손익</th><th>AI</th><th>관리</th>
               </tr>
             </thead>
             <tbody>
               {sessions.map((s) => {
-                const cp = prices.get(s.stockCode);
+                // 활성 세션만 실시간 현재가 표시 — 비활성(일시정지/종료)은 DB 저장 값으로 폴백
+                const cp = s.status === 'active' ? prices.get(s.stockCode) : undefined;
                 const unr = cp && s.holdingQty > 0 ? (cp - s.avgBuyPrice) * s.holdingQty : Number(s.unrealizedPnl);
+                // 백엔드 계산값이 있으면 사용, 없으면 holdingQty 로 폴백 (구버전 API 호환)
+                const positionStatus = s.positionStatus ?? (s.holdingQty > 0 ? 'holding' : 'waiting');
                 return (
                   <tr key={s.id} className={`session-${s.status}`}>
                     <td><strong>{s.stockName}</strong><br /><small className="text-muted">{s.stockCode}</small></td>
@@ -770,9 +977,29 @@ export function AiScanner() {
                       <small className="text-muted"> / </small>
                       <span className="text-loss">{s.stopLossPct}%</span>
                     </td>
+                    <td>
+                      <span
+                        className={`add-on-badge add-on-${s.addOnBuyMode}`}
+                        title="보유 중 매수 신호가 발생했을 때의 처리"
+                      >
+                        {s.addOnBuyMode === 'add' ? '추가매수' : '스킵'}
+                      </span>
+                    </td>
                     <td><span className={`status-badge status-${s.status}`}>
                       {s.status === 'active' ? '활성' : s.status === 'paused' ? '일시정지' : '종료'}
                     </span></td>
+                    <td>
+                      <span
+                        className={`position-badge position-${positionStatus}`}
+                        title={
+                          positionStatus === 'holding'
+                            ? '실제 매수되어 보유 중 (익절/손절 감시)'
+                            : '아직 매수 전 — 전략 매수 신호 대기 중'
+                        }
+                      >
+                        {positionStatus === 'holding' ? '보유중' : '대기중'}
+                      </span>
+                    </td>
                     <td>{fmt(s.holdingQty)}</td>
                     <td>{fmt(Math.round(s.avgBuyPrice))}</td>
                     <td>{cp ? fmt(cp) : '-'}</td>
@@ -782,20 +1009,52 @@ export function AiScanner() {
                     <td className="session-actions">
                       {s.status === 'active' && (
                         <>
+                          <button className="btn btn-sm btn-order" onClick={() => setOrderSession(s)}>주문</button>
                           <button className="btn btn-sm" onClick={() => setEditSession(s)}>수정</button>
-                          <button className="btn btn-sm btn-warning" onClick={() => handlePause(s.id)}>일시정지</button>
-                          <button className="btn btn-sm btn-danger" onClick={() => handleStop(s.id)}>종료</button>
+                          <button
+                            className="btn btn-sm btn-warning"
+                            onClick={() => handlePause(s.id)}
+                            disabled={positionStatus === 'holding'}
+                            title={positionStatus === 'holding' ? '보유 중인 종목은 일시정지할 수 없습니다 (먼저 매도 필요)' : undefined}
+                          >
+                            일시정지
+                          </button>
+                          <button
+                            className="btn btn-sm btn-danger"
+                            onClick={() => handleStop(s.id)}
+                            disabled={positionStatus === 'holding'}
+                            title={positionStatus === 'holding' ? '보유 중인 종목은 종료할 수 없습니다 (먼저 매도 필요)' : undefined}
+                          >
+                            종료
+                          </button>
                         </>
                       )}
                       {s.status === 'paused' && (
                         <>
+                          <button className="btn btn-sm btn-order" onClick={() => setOrderSession(s)}>주문</button>
                           <button className="btn btn-sm" onClick={() => setEditSession(s)}>수정</button>
                           <button className="btn btn-sm btn-primary" onClick={() => handleResume(s.id)}>재개</button>
-                          <button className="btn btn-sm btn-danger" onClick={() => handleStop(s.id)}>종료</button>
+                          <button
+                            className="btn btn-sm btn-danger"
+                            onClick={() => handleStop(s.id)}
+                            disabled={positionStatus === 'holding'}
+                            title={positionStatus === 'holding' ? '보유 중인 종목은 종료할 수 없습니다 (먼저 매도 필요)' : undefined}
+                          >
+                            종료
+                          </button>
                         </>
                       )}
                       {s.status === 'stopped' && (
-                        <span className="text-muted">{s.stoppedAt ? new Date(s.stoppedAt).toLocaleDateString('ko-KR') : '종료됨'}</span>
+                        <>
+                          <span className="text-muted">{s.stoppedAt ? new Date(s.stoppedAt).toLocaleDateString('ko-KR') : '종료됨'}</span>
+                          <button
+                            className="btn btn-sm btn-danger"
+                            onClick={() => handleDeletePermanent(s.id, s.stockName)}
+                            title="비활성 세션 완전 삭제 (되돌릴 수 없음)"
+                          >
+                            완전 삭제
+                          </button>
+                        </>
                       )}
                     </td>
                   </tr>

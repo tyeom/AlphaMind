@@ -33,8 +33,12 @@ export class AutoTradingGateway
   afterInit() {
     this.logger.log('AutoTrading WebSocket Gateway 초기화 (path: /ws/auto-trading)');
 
-    // 실시간 체결 데이터를 연결된 모든 클라이언트에 브로드캐스트
+    // 실시간 체결 데이터 — 활성(ACTIVE) 자동매매 세션이 있는 종목만 브로드캐스트
+    // (일시정지/종료 세션의 종목은 구독/현재가 수신 대상에서 제외)
     this.executionSub = this.kisWsService.execution$.subscribe((data) => {
+      if (!this.autoTradingService.isStockActive(data.stockCode)) {
+        return;
+      }
       this.broadcast('price-update', {
         stockCode: data.stockCode,
         price: Number(data.price),
