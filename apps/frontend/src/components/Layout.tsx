@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { ConnectionIndicator } from './ConnectionIndicator';
 import { CollectionStatus } from './CollectionStatus';
+import { NotificationBell } from './NotificationBell';
 
 export function Layout() {
   const { user, isAdmin, logout } = useAuth();
@@ -58,6 +59,7 @@ export function Layout() {
           <CollectionStatus />
         </div>
         <div className="topbar-right">
+          {user && <NotificationBell />}
           <ConnectionIndicator />
           <button
             className="btn-icon"

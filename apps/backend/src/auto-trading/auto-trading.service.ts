@@ -35,6 +35,8 @@ import { KisWebSocketService } from '../kis/kis-websocket.service';
 import { KisQuotationService } from '../kis/kis-quotation.service';
 import { KisInquiryService } from '../kis/kis-inquiry.service';
 import { UserEntity } from '../user/entities/user.entity';
+import { NotificationService } from '../notification/notification.service';
+import { NotificationType } from '../notification/entities/notification.entity';
 import { MARKET_DATA_SERVICE } from '../rmq/rmq.module';
 
 const STRATEGY_MAP: Record<
@@ -69,14 +71,21 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
    */
   private activeStockCodes = new Set<string>();
 
+  private gateway?: import('./auto-trading.gateway').AutoTradingGateway;
+
   constructor(
     private readonly em: EntityManager,
     private readonly kisOrderService: KisOrderService,
     private readonly kisWsService: KisWebSocketService,
     private readonly kisQuotationService: KisQuotationService,
     private readonly kisInquiryService: KisInquiryService,
+    private readonly notificationService: NotificationService,
     @Inject(MARKET_DATA_SERVICE) private readonly marketDataClient: ClientProxy,
   ) {}
+
+  setGateway(gw: import('./auto-trading.gateway').AutoTradingGateway) {
+    this.gateway = gw;
+  }
 
   async onModuleInit() {
     // 서버 재시작 시 활성 세션이 있으면 모니터링 시작
@@ -329,11 +338,72 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
   /** 세션 목록 */
   async getSessions(userId: number): Promise<AutoTradingSessionEntity[]> {
-    return this.em.find(
+    const sessions = await this.em.find(
       AutoTradingSessionEntity,
       { user: userId },
       { orderBy: { createdAt: 'DESC' } },
     );
+
+    // KIS 실잔고와 동기화 — 포지션 상태를 정확하게 반영
+    await this.syncSessionsWithBalance(sessions);
+
+    return sessions;
+  }
+
+  /**
+   * KIS 실잔고를 조회하여 세션의 holdingQty / avgBuyPrice 를 실제 보유 현황과 동기화.
+   * 잔고 조회 실패 시 기존 DB 값을 그대로 유지한다.
+   */
+  private async syncSessionsWithBalance(
+    sessions: AutoTradingSessionEntity[],
+  ): Promise<void> {
+    if (sessions.length === 0) return;
+
+    let balanceItems: import('../kis/kis.types').KisBalanceItem[];
+    try {
+      const { items } = await this.kisInquiryService.getBalance();
+      balanceItems = items;
+    } catch {
+      return; // 잔고 조회 실패 시 DB 값 유지
+    }
+
+    // 종목코드 → 잔고 매핑
+    const balanceMap = new Map<string, { qty: number; avgPrice: number }>();
+    for (const item of balanceItems) {
+      const code = item.pdno?.trim();
+      if (code) {
+        balanceMap.set(code, {
+          qty: Number(item.hldg_qty) || 0,
+          avgPrice: Number(item.pchs_avg_pric) || 0,
+        });
+      }
+    }
+
+    let changed = false;
+    for (const session of sessions) {
+      if (session.status === SessionStatus.STOPPED) continue;
+
+      const real = balanceMap.get(session.stockCode);
+      const realQty = real?.qty ?? 0;
+      const realAvg = real?.avgPrice ?? 0;
+
+      if (session.holdingQty !== realQty) {
+        this.logger.log(
+          `잔고 동기화: ${session.stockCode} holdingQty ${session.holdingQty} → ${realQty}`,
+        );
+        session.holdingQty = realQty;
+        session.avgBuyPrice = realAvg;
+        if (realQty <= 0) {
+          session.avgBuyPrice = 0;
+          session.unrealizedPnl = 0;
+        }
+        changed = true;
+      }
+    }
+
+    if (changed) {
+      await this.em.flush();
+    }
   }
 
   /** 세션 상세 */
@@ -567,7 +637,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     this.logger.log(`매수 실행(지정가): ${session.stockCode} ${qty}주 @ ${price}`);
 
     try {
-      await this.kisOrderService.orderCash({
+      const result = await this.kisOrderService.orderCash({
         stockCode: session.stockCode,
         orderType: 'buy',
         orderDvsn: '00', // 지정가
@@ -576,11 +646,18 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         userId: session.user.id,
       });
 
+      if (result.rt_cd !== '0') {
+        this.logger.error(`매수 주문 거부: ${session.stockCode} - ${result.msg1}`);
+        return;
+      }
+
       const totalCost = session.avgBuyPrice * session.holdingQty + price * qty;
       session.holdingQty += qty;
       session.avgBuyPrice = totalCost / session.holdingQty;
       session.totalBuys += 1;
       await this.em.flush();
+
+      this.createSignalNotification(session, 'buy', price, qty);
     } catch (err: any) {
       this.logger.error(`매수 실패: ${session.stockCode} - ${err.message}`);
     }
@@ -617,7 +694,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           `(투자금 ${session.investmentAmount})`,
       );
 
-      await this.kisOrderService.orderCash({
+      const result = await this.kisOrderService.orderCash({
         stockCode: session.stockCode,
         orderType: 'buy',
         orderDvsn: '01', // 시장가
@@ -625,6 +702,13 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         price: 0,
         userId: session.user.id,
       });
+
+      if (result.rt_cd !== '0') {
+        this.logger.error(
+          `즉시 매수 주문 거부: ${session.stockCode} - ${result.msg1}`,
+        );
+        return;
+      }
 
       // 즉시 매수 결과를 세션에 반영 (가중평균 매입가 계산)
       const totalCost = session.avgBuyPrice * session.holdingQty + price * qty;
@@ -654,7 +738,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     );
 
     try {
-      await this.kisOrderService.orderCash({
+      const result = await this.kisOrderService.orderCash({
         stockCode: session.stockCode,
         orderType: 'sell',
         orderDvsn: '01', // 시장가
@@ -663,13 +747,21 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         userId: session.user.id,
       });
 
+      if (result.rt_cd !== '0') {
+        this.logger.error(`매도 주문 거부: ${session.stockCode} - ${result.msg1}`);
+        return;
+      }
+
       const pnl = (price - session.avgBuyPrice) * session.holdingQty;
+      const sellQty = session.holdingQty;
       session.realizedPnl = Number(session.realizedPnl) + Math.round(pnl);
       session.unrealizedPnl = 0;
       session.holdingQty = 0;
       session.avgBuyPrice = 0;
       session.totalSells += 1;
       await this.em.flush();
+
+      this.createSignalNotification(session, 'sell', price, sellQty, reason, Math.round(pnl));
     } catch (err: any) {
       this.logger.error(`매도 실패: ${session.stockCode} - ${err.message}`);
       return;
@@ -716,6 +808,40 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         `매도 후 잔고 확인 실패: ${session.stockCode} - ${err.message ?? err}`,
       );
     }
+  }
+
+  private createSignalNotification(
+    session: AutoTradingSessionEntity,
+    action: 'buy' | 'sell',
+    price: number,
+    qty: number,
+    reason?: string,
+    pnl?: number,
+  ) {
+    const isBuy = action === 'buy';
+    const type = isBuy ? NotificationType.BUY_SIGNAL : NotificationType.SELL_SIGNAL;
+    const title = isBuy
+      ? `${session.stockName} 매수 체결`
+      : `${session.stockName} 매도 체결`;
+    const message = isBuy
+      ? `${session.stockName}(${session.stockCode}) ${qty}주 @ ${price.toLocaleString()}원 매수`
+      : `${session.stockName}(${session.stockCode}) ${qty}주 @ ${price.toLocaleString()}원 매도${reason ? ` (${reason})` : ''}${pnl !== undefined ? ` / 손익 ${pnl.toLocaleString()}원` : ''}`;
+
+    this.notificationService
+      .create(session.user.id, type, title, message, {
+        stockCode: session.stockCode,
+        stockName: session.stockName,
+        action,
+        price,
+        quantity: qty,
+        reason,
+        pnl,
+        sessionId: session.id,
+      })
+      .then((n) => this.gateway?.broadcastNotification(n))
+      .catch((err) =>
+        this.logger.warn(`알림 생성 실패: ${err.message}`),
+      );
   }
 
   /** 실시간 가격 모니터링 시작 */
@@ -830,7 +956,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         `${dto.quantity}주 @ ${dto.orderDvsn === '01' ? '시장가' : price} (세션 ${sessionId})`,
     );
 
-    await this.kisOrderService.orderCash({
+    const orderResult = await this.kisOrderService.orderCash({
       stockCode: session.stockCode,
       orderType: dto.orderType,
       orderDvsn: dto.orderDvsn,
@@ -838,6 +964,14 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       price,
       userId: session.user.id,
     });
+
+    // KIS 주문 실패 시 세션 상태를 변경하지 않고 에러 반환
+    if (orderResult.rt_cd !== '0') {
+      throw new ConflictException({
+        message: orderResult.msg1 || 'KIS 주문이 실패했습니다.',
+        code: 'ORDER_FAILED',
+      });
+    }
 
     // 주문 성공 시 세션 상태 갱신
     if (dto.orderType === 'buy') {

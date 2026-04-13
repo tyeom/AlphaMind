@@ -11,6 +11,8 @@ import { UserModule } from './user/user.module';
 import { KisModule } from './kis/kis.module';
 import { HealthModule } from './health/health.module';
 import { AutoTradingModule } from './auto-trading/auto-trading.module';
+import { NotificationModule } from './notification/notification.module';
+import { AiMeetingResultModule } from './ai-meeting-result/ai-meeting-result.module';
 import { RmqModule } from './rmq/rmq.module';
 import { AuthGuard, RbacGuard, AllExceptionFilter } from '@alpha-mind/common';
 
@@ -46,6 +48,8 @@ import { AuthGuard, RbacGuard, AllExceptionFilter } from '@alpha-mind/common';
     KisModule,
     HealthModule,
     AutoTradingModule,
+    NotificationModule,
+    AiMeetingResultModule,
     RmqModule,
   ],
   controllers: [AppController],

@@ -32,6 +32,7 @@ export class AutoTradingGateway
 
   afterInit() {
     this.logger.log('AutoTrading WebSocket Gateway 초기화 (path: /ws/auto-trading)');
+    this.autoTradingService.setGateway(this);
 
     // 실시간 체결 데이터 — 활성(ACTIVE) 자동매매 세션이 있는 종목만 브로드캐스트
     // (일시정지/종료 세션의 종목은 구독/현재가 수신 대상에서 제외)
@@ -89,6 +90,11 @@ export class AutoTradingGateway
   /** 신호 감지 알림 */
   broadcastSignalDetected(signal: any) {
     this.broadcast('signal-detected', signal);
+  }
+
+  /** 알림 브로드캐스트 */
+  broadcastNotification(notification: any) {
+    this.broadcast('notification', notification);
   }
 
   private broadcast(event: string, data: any) {

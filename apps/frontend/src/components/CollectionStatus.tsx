@@ -31,7 +31,7 @@ export function CollectionStatus() {
     };
 
     poll();
-    const id = setInterval(poll, 5000);
+    const id = setInterval(poll, 10_000);
     return () => {
       active = false;
       clearInterval(id);

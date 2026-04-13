@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
-import { scanStocks, streamAiScores } from '../api/scanner';
+import { useState, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { scanStocks, startAiSession, getActiveAiSession, streamAiSession, cancelAiSession } from '../api/scanner';
 import type { SseProgress } from '../api/scanner';
+import { api } from '../api/client';
 import { startSessionsBatch, getSessions, pauseSession, resumeSession, stopSession, updateSession, deleteSessionPermanent, manualOrder } from '../api/auto-trading';
 import { getBalance } from '../api/kis';
 import { ApiError } from '../api/client';
@@ -20,6 +22,7 @@ import {
   type TradingConfigItem,
 } from '../components/AutoTradingConfigModal';
 import { SessionConflictModal } from '../components/SessionConflictModal';
+import { saveAiMeetingResults, getAiMeetingResults, getAiMeetingResult, type AiMeetingResult } from '../api/ai-meeting-result';
 
 type Step = 'idle' | 'scanning' | 'scanned' | 'scoring' | 'scored' | 'trading';
 
@@ -76,6 +79,119 @@ function ExpertCard({ title, role, opinion }: { title: string; role: string; opi
       )}
       <div className="expert-target">
         목표 수익률: <strong className={pctClass(opinion.targetReturnPct)}>{opinion.targetReturnPct}%</strong>
+      </div>
+    </div>
+  );
+}
+
+function AiMeetingResultModal({
+  result,
+  onClose,
+}: {
+  result: AiMeetingResult;
+  onClose: () => void;
+}) {
+  const score: AiStockScore = result.data;
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content ai-meeting-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="detail-header">
+          <h3>AI 전문가 회의 결과 - {result.stockName} ({result.stockCode})</h3>
+          <button className="btn btn-sm btn-text" onClick={onClose}>닫기</button>
+        </div>
+        <div className="meeting-meta">
+          <small className="text-muted">
+            분석일시: {new Date(result.updatedAt).toLocaleString('ko-KR')}
+          </small>
+        </div>
+
+        <div className="final-score-banner">
+          <div className={`final-score ${score.score >= 7 ? 'score-high' : score.score >= 4 ? 'score-mid' : 'score-low'}`}>
+            {score.score.toFixed(2)}
+          </div>
+          <div className="final-reasoning">
+            <p><strong>{score.expertDetail?.conclusion.finalRecommendation || '분석 완료'}</strong></p>
+            <p>{score.reasoning}</p>
+          </div>
+        </div>
+
+        <div className="data-summary">
+          <div className="data-block">
+            <small className="section-label">뉴스 수집 결과</small>
+            {score.newsItems && score.newsItems.length > 0 ? (
+              <ul className="news-list">
+                {score.newsItems.map((item: NewsItem, j: number) => (
+                  <li key={j} className={`news-item news-${item.impact}`}>
+                    <div className="news-title">
+                      {item.url ? (
+                        <a href={item.url} target="_blank" rel="noopener noreferrer">{item.title}</a>
+                      ) : (
+                        <span>{item.title}</span>
+                      )}
+                      <span className={`news-impact impact-${item.impact}`}>
+                        {item.impact === 'positive' ? '호재' : item.impact === 'negative' ? '악재' : '중립'}
+                      </span>
+                    </div>
+                    <p className="news-summary">{item.summary}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : score.newsHighlights && score.newsHighlights.length > 0 ? (
+              <ul>{score.newsHighlights.map((n, j) => <li key={j}>{n}</li>)}</ul>
+            ) : (
+              <p className="text-muted">수집된 뉴스 없음</p>
+            )}
+          </div>
+          {score.chartAnalysis && (
+            <div className="data-block">
+              <small className="section-label">차트 분석</small>
+              <p>{score.chartAnalysis}</p>
+            </div>
+          )}
+        </div>
+
+        {score.expertDetail && (
+          <>
+            <div className="expert-cards">
+              <ExpertCard
+                title="주식 전문가 트레이더"
+                role="단기 매매 / 기술적 분석"
+                opinion={score.expertDetail.traderOpinion}
+              />
+              <ExpertCard
+                title="경제 전문 분석가"
+                role="거시경제 / 펀더멘탈 분석"
+                opinion={score.expertDetail.economistOpinion}
+              />
+            </div>
+
+            <div className="meeting-conclusion">
+              <h4>회의 결론</h4>
+              <p className="conclusion-rec">{score.expertDetail.conclusion.finalRecommendation}</p>
+              <p className="conclusion-reasoning">{score.expertDetail.conclusion.reasoning}</p>
+
+              {score.expertDetail.conclusion.consensusPoints.length > 0 && (
+                <div className="conclusion-section">
+                  <small className="section-label">합의점</small>
+                  <ul>{score.expertDetail.conclusion.consensusPoints.map((p, j) => <li key={j}>{p}</li>)}</ul>
+                </div>
+              )}
+              {score.expertDetail.conclusion.disagreements.length > 0 && (
+                <div className="conclusion-section">
+                  <small className="section-label">이견</small>
+                  <ul>{score.expertDetail.conclusion.disagreements.map((d, j) => <li key={j}>{d}</li>)}</ul>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+
+        {score.riskFactors && score.riskFactors.length > 0 && (
+          <div className="conclusion-section">
+            <small className="section-label text-loss">리스크 요인</small>
+            <ul>{score.riskFactors.map((rf, j) => <li key={j}>{rf}</li>)}</ul>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -219,6 +335,7 @@ function ManualOrderModal({
 }
 
 export function AiScanner() {
+  const [searchParams] = useSearchParams();
   const [step, setStep] = useState<Step>('idle');
   const [scanResults, setScanResults] = useState<ScanResult[]>([]);
   const [aiScores, setAiScores] = useState<Map<string, AiStockScore>>(new Map());
@@ -242,6 +359,11 @@ export function AiScanner() {
     entryMode: SessionEntryMode;
   } | null>(null);
 
+  const [meetingResultModal, setMeetingResultModal] = useState<AiMeetingResult | null>(null);
+  const [meetingResultCache, setMeetingResultCache] = useState<Map<string, AiMeetingResult>>(new Map());
+
+  const [, setAiSessionId] = useState<string | null>(null);
+
   const { connected, on } = useAutoTradingWebSocket();
 
   useEffect(() => {
@@ -258,16 +380,189 @@ export function AiScanner() {
     return off;
   }, [on]);
 
-  useEffect(() => {
-    getSessions()
-      .then((list) => {
-        if (list.length > 0) {
-          setSessions(list);
-          setStep('trading');
+  const connectToAiSession = useCallback((sessionId: string, existingScores?: AiStockScore[]) => {
+    setAiSessionId(sessionId);
+    setStep('scoring');
+    setScoringProgress(null);
+
+    // closure 변수로 점수를 수집 — React 상태에 의존하지 않음
+    const collected = new Map<string, AiStockScore>();
+
+    if (existingScores && existingScores.length > 0) {
+      const map = new Map<string, AiStockScore>();
+      for (const s of existingScores) {
+        map.set(s.stockCode, s);
+        collected.set(s.stockCode, s);
+      }
+      setAiScores(map);
+    }
+
+    const startTime = Date.now();
+    const elapsedTimer = setInterval(() => {
+      setScoringElapsed(Math.floor((Date.now() - startTime) / 1000));
+    }, 1000);
+
+    const abort = streamAiSession(sessionId, {
+      onProgress: (progress) => setScoringProgress(progress),
+      onScore: (score) => {
+        collected.set(score.stockCode, score);
+        setAiScores((prev) => new Map(prev).set(score.stockCode, score));
+      },
+      onDone: () => {
+        clearInterval(elapsedTimer);
+        setScoringProgress(null);
+        setAbortScoring(null);
+        setAiSessionId(null);
+        setStep('scored');
+        createMeetingNotification('completed');
+        const allScores = Array.from(collected.values());
+        if (allScores.length > 0) {
+          saveAiMeetingResults(allScores).catch(() => {});
         }
-      })
-      .catch(() => {});
+      },
+      onCancelled: () => {
+        clearInterval(elapsedTimer);
+        setScoringProgress(null);
+        setAbortScoring(null);
+        setAiSessionId(null);
+        setStep('scanned');
+      },
+      onError: (message) => {
+        clearInterval(elapsedTimer);
+        const errorMsg = message || 'AI 점수 측정에 실패했습니다.';
+        setError(errorMsg);
+        setScoringProgress(null);
+        setAbortScoring(null);
+        setAiSessionId(null);
+        setStep('scanned');
+        createMeetingNotification('error', errorMsg);
+      },
+    });
+
+    setAbortScoring(() => () => {
+      // 서버에 취소 요청 후 SSE 스트림 종료
+      cancelAiSession(sessionId)
+        .then(() => createMeetingNotification('cancelled'))
+        .catch(() => {});
+      abort();
+      clearInterval(elapsedTimer);
+      setScoringProgress(null);
+      setAbortScoring(null);
+      setAiSessionId(null);
+      setStep('scanned');
+    });
   }, []);
+
+  const createMeetingNotification = useCallback(async (type: 'started' | 'completed' | 'cancelled' | 'error', errorMessage?: string) => {
+    try {
+      const notifTypes: Record<string, string> = {
+        started: 'ai_meeting_started',
+        completed: 'ai_meeting_completed',
+        cancelled: 'ai_meeting_started', // 같은 타입으로 기존 "시작" 알림을 대체
+        error: 'ai_meeting_error',
+      };
+      const titles: Record<string, string> = {
+        started: 'AI 전문가 회의 시작',
+        completed: 'AI 전문가 회의 완료',
+        cancelled: 'AI 전문가 회의 중단',
+        error: 'AI 전문가 회의 오류',
+      };
+      const messages: Record<string, string> = {
+        started: 'AI 전문가 회의가 시작되었습니다.',
+        completed: 'AI 전문가 회의가 완료되었습니다. 결과를 확인하세요.',
+        cancelled: 'AI 전문가 회의가 사용자에 의해 중단되었습니다.',
+        error: errorMessage || 'AI 전문가 회의 중 오류가 발생했습니다.',
+      };
+      await api.post('/notifications/create', {
+        type: notifTypes[type],
+        title: titles[type],
+        message: messages[type],
+      });
+    } catch { /* 실패해도 무시 */ }
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function init() {
+      const viewParam = searchParams.get('view');
+
+      // 진행 중인 AI 세션이 있는지 확인
+      try {
+        const { active, session: activeSession } = await getActiveAiSession();
+        if (!cancelled && active && activeSession && activeSession.status === 'running') {
+          // 기존 세션의 종목 정보를 scanResults에 설정
+          const fakeResults: ScanResult[] = activeSession.stocks.map((s: any) => ({
+            stockCode: s.stockCode,
+            stockName: s.stockName,
+            bestStrategy: { strategyId: s.strategyId || '', strategyName: s.strategyName || '', variant: '' },
+            totalReturnPct: s.totalReturnPct || 0,
+            winRate: 0,
+            maxDrawdownPct: 0,
+            totalTrades: 0,
+            summary: '',
+            currentSignal: { direction: 'NEUTRAL', strength: 0, reason: '' },
+            indicators: {},
+          }));
+          setScanResults(fakeResults);
+          setSelected(new Set(fakeResults.map((r) => r.stockCode)));
+          setScanInfo({ scanned: 0, eligible: 0, elapsed: 0 });
+
+          connectToAiSession(activeSession.id, activeSession.scores);
+          return;
+        }
+      } catch { /* ignore */ }
+
+      // ?view=results — 저장된 AI 회의 결과 표시
+      if (!cancelled && viewParam === 'results') {
+        try {
+          const results = await getAiMeetingResults();
+          if (!cancelled && results.length > 0) {
+            const scoreMap = new Map<string, AiStockScore>();
+            const fakeResults: ScanResult[] = results.map((r) => {
+              scoreMap.set(r.stockCode, r.data as AiStockScore);
+              return {
+                stockCode: r.stockCode,
+                stockName: r.stockName,
+                bestStrategy: { strategyId: '', strategyName: '', variant: '' },
+                totalReturnPct: 0,
+                winRate: 0,
+                maxDrawdownPct: 0,
+                totalTrades: 0,
+                summary: '',
+                currentSignal: { direction: 'NEUTRAL', strength: 0, reason: '' },
+                indicators: {},
+              };
+            });
+            setScanResults(fakeResults);
+            setAiScores(scoreMap);
+            setSelected(new Set(fakeResults.map((r) => r.stockCode)));
+            setScanInfo({ scanned: 0, eligible: 0, elapsed: 0 });
+            setStep('scored');
+            // URL 파라미터 제거 (뒤로가기 시 재진입 방지)
+            // window.history 사용 — setSearchParams는 searchParams를 변경하여
+            // useEffect가 재실행되고 step이 'trading'으로 덮어씌워지는 버그를 유발
+            window.history.replaceState(null, '', window.location.pathname);
+            return;
+          }
+        } catch { /* ignore */ }
+      }
+
+      // 기존 자동매매 세션 확인
+      if (!cancelled) {
+        try {
+          const list = await getSessions();
+          if (!cancelled && list.length > 0) {
+            setSessions(list);
+            setStep('trading');
+          }
+        } catch { /* ignore */ }
+      }
+    }
+
+    init();
+    return () => { cancelled = true; };
+  }, [connectToAiSession, searchParams]);
 
   const handleScan = async () => {
     setError('');
@@ -305,17 +600,10 @@ export function AiScanner() {
     }
   };
 
-  const handleAiScore = () => {
+  const handleAiScore = async () => {
     setError('');
-    setStep('scoring');
-    setScoringProgress(null);
     setScoringElapsed(0);
     setAiScores(new Map());
-
-    const startTime = Date.now();
-    const elapsedTimer = setInterval(() => {
-      setScoringElapsed(Math.floor((Date.now() - startTime) / 1000));
-    }, 1000);
 
     const stocks = scanResults
       .filter((r) => selected.has(r.stockCode))
@@ -327,34 +615,13 @@ export function AiScanner() {
         strategyName: r.bestStrategy.strategyName,
       }));
 
-    const abort = streamAiScores(stocks, {
-      onProgress: (progress) => {
-        setScoringProgress(progress);
-      },
-      onScore: (score) => {
-        setAiScores((prev) => new Map(prev).set(score.stockCode, score));
-      },
-      onDone: () => {
-        clearInterval(elapsedTimer);
-        setScoringProgress(null);
-        setAbortScoring(null);
-        setStep('scored');
-      },
-      onError: (message) => {
-        clearInterval(elapsedTimer);
-        setError(message || 'AI 점수 측정에 실패했습니다.');
-        setScoringProgress(null);
-        setAbortScoring(null);
-        setStep('scanned');
-      },
-    });
-
-    setAbortScoring(() => () => {
-      abort();
-      clearInterval(elapsedTimer);
-      setScoringProgress(null);
-      setStep('scanned');
-    });
+    try {
+      const { sessionId } = await startAiSession(stocks);
+      createMeetingNotification('started');
+      connectToAiSession(sessionId);
+    } catch (err: any) {
+      setError(err.message || 'AI 세션 시작에 실패했습니다.');
+    }
   };
 
   const handleStartTrading = () => {
@@ -564,6 +831,13 @@ export function AiScanner() {
           conflicts={conflictState.conflicts}
           onCancel={handleConflictCancel}
           onConfirm={(actions) => void handleConflictConfirm(actions)}
+        />
+      )}
+
+      {meetingResultModal && (
+        <AiMeetingResultModal
+          result={meetingResultModal}
+          onClose={() => setMeetingResultModal(null)}
         />
       )}
 
@@ -1005,7 +1279,29 @@ export function AiScanner() {
                     <td>{cp ? fmt(cp) : '-'}</td>
                     <td className={pctClass(unr)}>{fmt(Math.round(unr))}원</td>
                     <td className={pctClass(Number(s.realizedPnl))}>{fmt(Number(s.realizedPnl))}원</td>
-                    <td>{s.aiScore ? s.aiScore.toFixed(1) : '-'}</td>
+                    <td>
+                      {s.aiScore ? (
+                        <button
+                          className={`ai-score-btn ${s.aiScore >= 7 ? 'score-high' : s.aiScore >= 4 ? 'score-mid' : 'score-low'}`}
+                          title="AI 전문가 회의 결과 보기"
+                          onClick={() => {
+                            const cached = meetingResultCache.get(s.stockCode);
+                            if (cached) {
+                              setMeetingResultModal(cached);
+                            } else {
+                              getAiMeetingResult(s.stockCode).then((r) => {
+                                if (r) {
+                                  setMeetingResultCache((prev) => new Map(prev).set(s.stockCode, r));
+                                  setMeetingResultModal(r);
+                                }
+                              }).catch(() => {});
+                            }
+                          }}
+                        >
+                          {s.aiScore.toFixed(1)}
+                        </button>
+                      ) : '-'}
+                    </td>
                     <td className="session-actions">
                       {s.status === 'active' && (
                         <>

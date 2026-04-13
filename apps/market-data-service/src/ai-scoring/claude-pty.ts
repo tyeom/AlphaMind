@@ -6,6 +6,7 @@ import { existsSync, readFileSync } from 'fs';
 const logger = new Logger('ClaudeAgent');
 
 export const TOKEN_LIMIT_MSG = '토큰 한도가 100%로 꽉 찼습니다.';
+export const ABORT_MSG = 'AI 분석이 사용자에 의해 중단되었습니다.';
 const RATE_LIMIT_PATTERN = "You've hit your limit";
 
 function getClaudePath(): string {
@@ -64,11 +65,18 @@ export function spawnClaude(
   options: {
     timeoutMs?: number;
     onProgress?: (progress: PtyProgress) => void;
+    signal?: AbortSignal;
   } = {},
 ): Promise<PtyResult> {
-  const { timeoutMs = 240_000, onProgress } = options;
+  const { timeoutMs = 240_000, onProgress, signal } = options;
 
   return new Promise((resolve, reject) => {
+    // 이미 abort된 signal이면 즉시 거부
+    if (signal?.aborted) {
+      reject(new Error(ABORT_MSG));
+      return;
+    }
+
     let stdout = '';
     let stderr = '';
     let settled = false;
@@ -116,6 +124,18 @@ export function spawnClaude(
       }
     };
 
+    // AbortSignal 리스너: 중단 요청 시 즉시 프로세스 종료
+    const onAbort = () => {
+      if (!settled) {
+        settled = true;
+        clearTimeout(timer);
+        proc.kill('SIGTERM');
+        logger.log(`사용자 중단 요청으로 Claude 프로세스 종료 (pid: ${proc.pid})`);
+        reject(new Error(ABORT_MSG));
+      }
+    };
+    signal?.addEventListener('abort', onAbort, { once: true });
+
     proc.stdout?.on('data', (data: Buffer) => {
       stdout += data.toString();
       if (stdout.includes(RATE_LIMIT_PATTERN)) return killWithTokenLimit();
@@ -129,6 +149,7 @@ export function spawnClaude(
 
     proc.on('error', (err) => {
       clearTimeout(timer);
+      signal?.removeEventListener('abort', onAbort);
       if (!settled) {
         settled = true;
         logger.error(`프로세스 에러: ${err.message}`);
@@ -138,6 +159,7 @@ export function spawnClaude(
 
     proc.on('close', (code) => {
       clearTimeout(timer);
+      signal?.removeEventListener('abort', onAbort);
       if (!settled) {
         settled = true;
 
@@ -170,6 +192,7 @@ export async function spawnParallelAgents(
     timeoutMs?: number;
   }[],
   onAgentProgress?: (agentName: string, progress: PtyProgress) => void,
+  signal?: AbortSignal,
 ): Promise<Map<string, PtyResult>> {
   const results = new Map<string, PtyResult>();
 
@@ -179,11 +202,12 @@ export async function spawnParallelAgents(
       const result = await spawnClaude(agent.prompt, {
         timeoutMs: agent.timeoutMs ?? 240_000,
         onProgress: (p) => onAgentProgress?.(agent.name, p),
+        signal,
       });
       results.set(agent.name, result);
       logger.log(`에이전트 완료: [${agent.name}] (exit: ${result.exitCode}, output: ${result.output.length}자)`);
     } catch (err: any) {
-      if (err.message === TOKEN_LIMIT_MSG) throw err;
+      if (err.message === TOKEN_LIMIT_MSG || err.message === ABORT_MSG) throw err;
       logger.error(`에이전트 실패: [${agent.name}] - ${err.message}`);
       results.set(agent.name, { output: '', exitCode: 1 });
     }
