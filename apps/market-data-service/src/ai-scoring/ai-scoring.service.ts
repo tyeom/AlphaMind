@@ -160,6 +160,11 @@ export class AiScoringService {
         }
 
         session.scores.push(score);
+
+        // 한 종목 분석이 끝날 때마다 ai_meeting_results 테이블에 즉시 upsert.
+        // (프론트에서 별도 저장 호출 없이 서버가 책임지도록 이관)
+        // 저장 실패는 세션 전체를 중단시키지 않고 로그만 남긴다.
+        await this.persistScoreToDb(session.userId, score);
       }
 
       session.status = 'completed';
@@ -680,6 +685,50 @@ ${newsData.newsHighlights.map((n, i) => `  ${i + 1}. ${n}`).join('\n')}
     } catch (err: any) {
       this.logger.warn(`safeParseJson: JSON 파싱 실패 — ${err.message}. 출력 미리보기: ${output.slice(0, 200)}`);
       return fallback;
+    }
+  }
+
+  /**
+   * 완료된 AI 회의 점수를 ai_meeting_results 테이블에 즉시 upsert.
+   * - (user_id, stock_code) 유니크 인덱스 기준으로 기존 행은 최신값으로 덮어쓴다.
+   * - 엔티티 임포트를 피하기 위해 knex raw 쿼리로 직접 처리 (market-data-service 는
+   *   UserEntity/AiMeetingResultEntity 를 등록하지 않음 — apps/backend 쪽 소유).
+   * - DB 실패는 세션을 중단시키지 않고 로그만 남긴다.
+   */
+  private async persistScoreToDb(
+    userId: number,
+    score: AiStockScore,
+  ): Promise<void> {
+    if (!userId) {
+      this.logger.warn(
+        `ai_meeting_results 저장 건너뜀: userId 없음 (${score.stockCode})`,
+      );
+      return;
+    }
+    try {
+      const knex = this.em.getKnex();
+      const row = {
+        stock_name: score.stockName,
+        score: score.score,
+        reasoning: score.reasoning,
+        data: JSON.stringify(score),
+        updated_at: new Date(),
+      };
+      await knex('ai_meeting_results')
+        .insert({
+          user_id: userId,
+          stock_code: score.stockCode,
+          ...row,
+        })
+        .onConflict(['user_id', 'stock_code'])
+        .merge(row);
+      this.logger.log(
+        `ai_meeting_results upsert: user=${userId}, ${score.stockCode} (score=${score.score})`,
+      );
+    } catch (err: any) {
+      this.logger.error(
+        `ai_meeting_results 저장 실패 (${score.stockCode}): ${err.message}`,
+      );
     }
   }
 

@@ -23,7 +23,7 @@ import {
   type TradingConfigItem,
 } from '../components/AutoTradingConfigModal';
 import { SessionConflictModal } from '../components/SessionConflictModal';
-import { saveAiMeetingResults, getAiMeetingResults, getAiMeetingResult, type AiMeetingResult } from '../api/ai-meeting-result';
+import { getAiMeetingResults, getAiMeetingResult, type AiMeetingResult } from '../api/ai-meeting-result';
 
 type Step = 'idle' | 'scanning' | 'scanned' | 'scoring' | 'scored' | 'trading';
 
@@ -482,10 +482,9 @@ export function AiScanner() {
     const abort = streamAiSession(sessionId, {
       onProgress: (progress) => setScoringProgress(progress),
       onScore: (score) => {
+        // DB 저장은 market-data-service 가 종목 분석 직후 서버 측에서 처리.
+        // 프론트는 UI 상태만 갱신한다.
         setAiScores((prev) => new Map(prev).set(score.stockCode, score));
-        // 한 종목 분석이 끝날 때마다 즉시 DB 저장 (다음 종목 회의는 백엔드에서 병렬로 진행됨)
-        // upsert 이므로 재접속 시 중복 전송되더라도 안전
-        saveAiMeetingResults([score]).catch(() => {});
       },
       onDone: () => {
         clearInterval(elapsedTimer);
@@ -494,7 +493,7 @@ export function AiScanner() {
         setAiSessionId(null);
         setStep('scored');
         createMeetingNotification('completed');
-        // onScore 에서 종목별로 이미 저장했으므로 별도 일괄 저장 불필요
+        // market-data-service 가 종목별로 DB 저장을 수행하므로 프론트 저장 호출 없음
       },
       onCancelled: () => {
         clearInterval(elapsedTimer);
