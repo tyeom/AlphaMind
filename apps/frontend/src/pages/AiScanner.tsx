@@ -4,10 +4,11 @@ import { scanStocks, startAiSession, getActiveAiSession, streamAiSession, cancel
 import type { SseProgress } from '../api/scanner';
 import { api } from '../api/client';
 import { startSessionsBatch, getSessions, pauseSession, resumeSession, stopSession, updateSession, deleteSessionPermanent, manualOrder } from '../api/auto-trading';
-import { getBalance } from '../api/kis';
+import { getBalance, getCurrentPrice } from '../api/kis';
 import { ApiError } from '../api/client';
 import { useAutoTradingWebSocket, type PriceUpdate } from '../hooks/useAutoTradingWebSocket';
 import type { ScanResult, AiStockScore, ExpertOpinion, NewsItem } from '../types/scanner';
+import type { StockPrice } from '../types/kis';
 import type {
   AutoTradingSession,
   ManualOrderRequest,
@@ -49,6 +50,79 @@ const REC_CLASS: Record<string, string> = {
   sell: 'rec-sell',
   strong_sell: 'rec-strong-sell',
 };
+
+/** 스캔 결과에서 제외할 종목 상태 구분 코드 */
+const EXCLUDED_STATUS_CODES = new Set(['51', '52', '53', '54', '58', '59']);
+
+/** 시장 경고 코드 → 라벨 */
+const MARKET_WARN_LABELS: Record<string, string> = {
+  '01': '투자주의',
+  '02': '투자경고',
+  '03': '투자위험',
+};
+
+/** 시장 경고 코드 → CSS 클래스 */
+const MARKET_WARN_CLASS: Record<string, string> = {
+  '01': 'market-warn-01',
+  '02': 'market-warn-02',
+  '03': 'market-warn-03',
+};
+
+/** KIS 현재가 조회 최대 재시도 횟수 (최초 1회 + 재시도) */
+const KIS_PRICE_MAX_RETRIES = 5;
+
+/** KIS 현재가 조회 배치 크기 — KIS OpenAPI 레이트리밋(초당 20건) 회피를 위해 작게 유지 */
+const KIS_PRICE_BATCH_SIZE = 5;
+
+/** KIS 현재가 조회 배치 간 딜레이 (ms) */
+const KIS_PRICE_BATCH_DELAY_MS = 250;
+
+/**
+ * KIS 현재가 조회를 최대 N회까지 재시도. 전부 실패하면 null 반환.
+ * 재시도 사이에 선형 백오프(200ms, 400ms, 600ms, 800ms)를 두어 일시적 장애/레이트리밋 회피.
+ */
+async function fetchPriceWithRetry(
+  stockCode: string,
+  maxAttempts = KIS_PRICE_MAX_RETRIES,
+): Promise<StockPrice | null> {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await getCurrentPrice(stockCode);
+    } catch {
+      if (attempt >= maxAttempts) return null;
+      await new Promise((resolve) => setTimeout(resolve, 200 * attempt));
+    }
+  }
+  return null;
+}
+
+/**
+ * 종목 코드 목록에 대해 KIS 현재가를 배치로 순차 조회.
+ * - 한 번에 `KIS_PRICE_BATCH_SIZE` 개를 병렬로 요청하고 배치 간 `KIS_PRICE_BATCH_DELAY_MS` 대기
+ * - 병렬 30+ 요청 시 KIS 레이트리밋으로 대부분 실패하는 문제 해결
+ * - 순서는 입력 배열과 동일하게 유지
+ */
+async function fetchPricesBatched(
+  stockCodes: string[],
+): Promise<(StockPrice | null)[]> {
+  const results: (StockPrice | null)[] = new Array(stockCodes.length);
+  for (let i = 0; i < stockCodes.length; i += KIS_PRICE_BATCH_SIZE) {
+    const batchEnd = Math.min(i + KIS_PRICE_BATCH_SIZE, stockCodes.length);
+    const batch = stockCodes.slice(i, batchEnd);
+    const batchResults = await Promise.all(
+      batch.map((code) => fetchPriceWithRetry(code)),
+    );
+    for (let j = 0; j < batchResults.length; j++) {
+      results[i + j] = batchResults[j];
+    }
+    if (batchEnd < stockCodes.length) {
+      await new Promise((resolve) =>
+        setTimeout(resolve, KIS_PRICE_BATCH_DELAY_MS),
+      );
+    }
+  }
+  return results;
+}
 
 function ExpertCard({ title, role, opinion }: { title: string; role: string; opinion: ExpertOpinion }) {
   return (
@@ -345,7 +419,14 @@ export function AiScanner() {
   const [investmentAmount, setInvestmentAmount] = useState('10000000');
   const [topN, setTopN] = useState('10');
   const [error, setError] = useState('');
-  const [scanInfo, setScanInfo] = useState({ scanned: 0, eligible: 0, elapsed: 0 });
+  const [scanInfo, setScanInfo] = useState({
+    scanned: 0,
+    eligible: 0,
+    elapsed: 0,
+    targetTopN: 0,
+    droppedByStatus: 0,
+    droppedByPriceError: 0,
+  });
   const [scoringProgress, setScoringProgress] = useState<SseProgress | null>(null);
   const [scoringElapsed, setScoringElapsed] = useState(0);
   const [expandedDetail, setExpandedDetail] = useState<string | null>(null);
@@ -506,7 +587,7 @@ export function AiScanner() {
           }));
           setScanResults(fakeResults);
           setSelected(new Set(fakeResults.map((r) => r.stockCode)));
-          setScanInfo({ scanned: 0, eligible: 0, elapsed: 0 });
+          setScanInfo({ scanned: 0, eligible: 0, elapsed: 0, targetTopN: 0, droppedByStatus: 0, droppedByPriceError: 0 });
 
           connectToAiSession(activeSession.id, activeSession.scores);
           return;
@@ -537,7 +618,7 @@ export function AiScanner() {
             setScanResults(fakeResults);
             setAiScores(scoreMap);
             setSelected(new Set(fakeResults.map((r) => r.stockCode)));
-            setScanInfo({ scanned: 0, eligible: 0, elapsed: 0 });
+            setScanInfo({ scanned: 0, eligible: 0, elapsed: 0, targetTopN: 0, droppedByStatus: 0, droppedByPriceError: 0 });
             setStep('scored');
             // URL 파라미터 제거 (뒤로가기 시 재진입 방지)
             // window.history 사용 — setSearchParams는 searchParams를 변경하여
@@ -580,19 +661,91 @@ export function AiScanner() {
           .map((item) => item.stockCode);
       } catch { /* ignore */ }
 
+      // 사용자 지정 Top N. 필터링(상태 이상/KIS 조회 실패)으로 개수가 부족할 수 있으므로
+      // 백엔드에는 여유 버퍼를 두고 더 많은 후보를 요청한 뒤 프론트에서 필터 후 Top N 으로 트리밍한다.
+      const userTopN = Number(topN);
+      const requestedTopN = Math.max(userTopN * 3, userTopN + 10);
+
       const result = await scanStocks({
         excludeCodes,
-        topN: Number(topN),
+        topN: requestedTopN,
         investmentAmount: Number(investmentAmount),
       });
 
-      setScanResults(result.results);
+      // KIS 현재가 조회로 각 종목의 상태/경고 코드 수집.
+      // - iscd_stat_cls_code 가 51/52/53/54/58/59 면 결과에서 제외 (관리/위험/경고/주의/정지/과열)
+      // - mrkt_warn_cls_code 는 결과에 첨부하여 프론트에서 배지 표시
+      // - 일시적 오류를 고려하여 종목당 최대 5회까지 재시도, 전부 실패 시 결과에서 제외
+      // - KIS 레이트리밋 회피를 위해 배치(5건씩) + 배치간 딜레이(250ms)로 순차 조회
+      const priceResults = await fetchPricesBatched(
+        result.results.map((r) => r.stockCode),
+      );
+
+      // 수익률 순으로 순회하면서 필터를 통과한 종목을 userTopN 만큼 채운다.
+      // (필터링으로 빠진 자리를 다음 Top 종목으로 보충)
+      const filteredResults: ScanResult[] = [];
+      let droppedByPriceError = 0;
+      let droppedByStatusCode = 0;
+      const droppedDetail: Array<{ stockCode: string; stockName: string; reason: string }> = [];
+
+      for (let i = 0; i < result.results.length && filteredResults.length < userTopN; i++) {
+        const r = result.results[i];
+        const price = priceResults[i];
+        if (price === null) {
+          // 5회 재시도 모두 실패 → 제외
+          droppedByPriceError++;
+          droppedDetail.push({
+            stockCode: r.stockCode,
+            stockName: r.stockName,
+            reason: 'KIS 현재가 조회 실패 (5회 재시도 후)',
+          });
+          continue;
+        }
+        const statusCode = price.iscdStatClsCode;
+        if (statusCode && EXCLUDED_STATUS_CODES.has(statusCode)) {
+          // 상태 이상 종목 필터링
+          droppedByStatusCode++;
+          droppedDetail.push({
+            stockCode: r.stockCode,
+            stockName: r.stockName,
+            reason: `상태 코드 필터 (iscd_stat_cls_code=${statusCode})`,
+          });
+          continue;
+        }
+        filteredResults.push({
+          ...r,
+          mrktWarnClsCode: price.mrktWarnClsCode || '',
+        });
+      }
+
+      // 디버그: 필터링 통계를 콘솔에 출력하여 문제 진단에 활용
+      console.info(
+        `[AiScanner] 스캔 결과: 요청 ${requestedTopN} → 백엔드 ${result.results.length} → 최종 ${filteredResults.length} (목표 ${userTopN})`,
+      );
+      console.info(
+        `[AiScanner] 제외: 상태필터 ${droppedByStatusCode}개, KIS오류 ${droppedByPriceError}개`,
+      );
+      if (droppedDetail.length > 0) {
+        console.table(droppedDetail);
+      }
+      if (filteredResults.length < userTopN) {
+        console.warn(
+          `[AiScanner] Top ${userTopN} 에 ${userTopN - filteredResults.length}개 부족 — ` +
+            `백엔드가 ${result.results.length}개만 반환했거나 필터 제외가 많음. ` +
+            `(유효 종목: ${result.eligibleStocks}개)`,
+        );
+      }
+
+      setScanResults(filteredResults);
       setScanInfo({
         scanned: result.scannedStocks,
         eligible: result.eligibleStocks,
         elapsed: result.elapsedMs,
+        targetTopN: userTopN,
+        droppedByStatus: droppedByStatusCode,
+        droppedByPriceError,
       });
-      setSelected(new Set(result.results.map((r) => r.stockCode)));
+      setSelected(new Set(filteredResults.map((r) => r.stockCode)));
       setStep('scanned');
     } catch (err: any) {
       setError(err.message || '스캔에 실패했습니다.');
@@ -912,6 +1065,16 @@ export function AiScanner() {
               <span>스캔: {fmt(scanInfo.scanned)}개</span>
               <span>유효: {fmt(scanInfo.eligible)}개</span>
               <span>소요: {(scanInfo.elapsed / 1000).toFixed(1)}초</span>
+              {scanInfo.targetTopN > 0 && (
+                <span
+                  className={scanResults.length < scanInfo.targetTopN ? 'text-loss' : ''}
+                  title={`Top ${scanInfo.targetTopN} 목표. 상태필터 제외 ${scanInfo.droppedByStatus}건, KIS 오류 제외 ${scanInfo.droppedByPriceError}건`}
+                >
+                  결과: {scanResults.length}/{scanInfo.targetTopN}
+                  {(scanInfo.droppedByStatus > 0 || scanInfo.droppedByPriceError > 0) &&
+                    ` (상태 -${scanInfo.droppedByStatus} / KIS오류 -${scanInfo.droppedByPriceError})`}
+                </span>
+              )}
             </div>
           </div>
 
@@ -984,7 +1147,16 @@ export function AiScanner() {
                       <td><input type="checkbox" checked={selected.has(r.stockCode)} onChange={() => toggleSelect(r.stockCode)} /></td>
                       <td>{i + 1}</td>
                       <td>
-                        <strong>{r.stockName}</strong><br />
+                        <strong>{r.stockName}</strong>
+                        {r.mrktWarnClsCode && MARKET_WARN_LABELS[r.mrktWarnClsCode] && (
+                          <span
+                            className={`market-warn-badge ${MARKET_WARN_CLASS[r.mrktWarnClsCode]}`}
+                            title={`시장 경고: ${MARKET_WARN_LABELS[r.mrktWarnClsCode]}`}
+                          >
+                            {MARKET_WARN_LABELS[r.mrktWarnClsCode]}
+                          </span>
+                        )}
+                        <br />
                         <small className="text-muted">{r.stockCode}</small>
                       </td>
                       <td>

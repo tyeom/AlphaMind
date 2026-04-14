@@ -66,6 +66,17 @@ export interface KisCurrentPrice {
   bps: string;
   hts_avls: string;
   hts_frgn_ehrt: string;
+  /**
+   * 종목 상태 구분 코드
+   * - 00: 정상
+   * - 51: 관리종목 / 52: 투자위험 / 53: 투자경고 / 54: 투자주의 / 58: 거래정지 / 59: 단기과열종목
+   */
+  iscd_stat_cls_code: string;
+  /**
+   * 시장 경고 코드
+   * - 00: 없음 / 01: 투자주의 / 02: 투자경고 / 03: 투자위험
+   */
+  mrkt_warn_cls_code: string;
 }
 
 /** 일자별 시세 */

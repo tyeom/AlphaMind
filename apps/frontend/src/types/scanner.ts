@@ -20,6 +20,8 @@ export interface ScanResult {
   };
   /** 전략별 핵심 지표 */
   indicators: Record<string, unknown>;
+  /** 시장 경고 코드 — 01: 투자주의 / 02: 투자경고 / 03: 투자위험 (KIS 조회 후 채워짐) */
+  mrktWarnClsCode?: string;
 }
 
 export interface ScanResponse {

@@ -296,6 +296,10 @@ export class KisController {
       lowPrice: Number(raw.stck_lwpr),
       volume: Number(raw.acml_vol),
       tradingValue: Number(raw.acml_tr_pbmn),
+      /** 종목 상태 구분 코드 (51/52/53/54/58/59 등 이상 상태 식별) */
+      iscdStatClsCode: raw.iscd_stat_cls_code ?? '',
+      /** 시장 경고 코드 (01: 투자주의 / 02: 투자경고 / 03: 투자위험) */
+      mrktWarnClsCode: raw.mrkt_warn_cls_code ?? '',
     };
   }
 
