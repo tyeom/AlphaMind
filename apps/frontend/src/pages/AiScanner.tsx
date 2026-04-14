@@ -466,14 +466,10 @@ export function AiScanner() {
     setStep('scoring');
     setScoringProgress(null);
 
-    // closure 변수로 점수를 수집 — React 상태에 의존하지 않음
-    const collected = new Map<string, AiStockScore>();
-
     if (existingScores && existingScores.length > 0) {
       const map = new Map<string, AiStockScore>();
       for (const s of existingScores) {
         map.set(s.stockCode, s);
-        collected.set(s.stockCode, s);
       }
       setAiScores(map);
     }
@@ -486,8 +482,10 @@ export function AiScanner() {
     const abort = streamAiSession(sessionId, {
       onProgress: (progress) => setScoringProgress(progress),
       onScore: (score) => {
-        collected.set(score.stockCode, score);
         setAiScores((prev) => new Map(prev).set(score.stockCode, score));
+        // 한 종목 분석이 끝날 때마다 즉시 DB 저장 (다음 종목 회의는 백엔드에서 병렬로 진행됨)
+        // upsert 이므로 재접속 시 중복 전송되더라도 안전
+        saveAiMeetingResults([score]).catch(() => {});
       },
       onDone: () => {
         clearInterval(elapsedTimer);
@@ -496,10 +494,7 @@ export function AiScanner() {
         setAiSessionId(null);
         setStep('scored');
         createMeetingNotification('completed');
-        const allScores = Array.from(collected.values());
-        if (allScores.length > 0) {
-          saveAiMeetingResults(allScores).catch(() => {});
-        }
+        // onScore 에서 종목별로 이미 저장했으므로 별도 일괄 저장 불필요
       },
       onCancelled: () => {
         clearInterval(elapsedTimer);
