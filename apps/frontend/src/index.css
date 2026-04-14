@@ -67,6 +67,12 @@
   padding: 0;
 }
 
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 body {
   font-family: 'Pretendard Variable', system-ui, -apple-system,
     BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -169,6 +175,18 @@ a:hover {
 }
 .sidebar-logo a:hover {
   text-decoration: none;
+}
+.sidebar-logo-link .sidebar-logo-short {
+  display: none;
+}
+.sidebar-logo-link .sidebar-logo-full {
+  display: inline;
+}
+.sidebar-collapsed .sidebar-logo-link .sidebar-logo-short {
+  display: inline;
+}
+.sidebar-collapsed .sidebar-logo-link .sidebar-logo-full {
+  display: none;
 }
 
 .sidebar-nav {
@@ -297,6 +315,7 @@ a:hover {
   padding: 24px;
   min-width: 0;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* ── Connection Indicator ── */
@@ -1045,6 +1064,15 @@ h3 {
 }
 
 /* ── Responsive ── */
+@media (max-width: 1024px) {
+  .scanner-page .card,
+  .backtest-form,
+  .result-summary,
+  .trades-section {
+    padding: 18px;
+  }
+}
+
 @media (max-width: 768px) {
   .app-layout {
     --sidebar-width: var(--sidebar-collapsed-width) !important;
@@ -1052,21 +1080,509 @@ h3 {
   .nav-label {
     display: none;
   }
+  .sidebar-logo-link .sidebar-logo-short {
+    display: inline;
+  }
+  .sidebar-logo-link .sidebar-logo-full {
+    display: none;
+  }
 
   .app-topbar {
-    padding: 0 12px;
+    padding: 0 10px;
+    gap: 8px;
+  }
+  .topbar-left,
+  .topbar-right {
+    gap: 8px;
+  }
+  .server-time {
+    display: none;
   }
 
   .app-main {
-    padding: 16px;
+    padding: 14px;
+  }
+
+  .page-container,
+  .scanner-page {
+    max-width: 100%;
+  }
+
+  h2 {
+    font-size: 18px;
+    margin-bottom: 14px;
+  }
+  h3 {
+    font-size: 15px;
+  }
+  .scanner-page h1 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  .scanner-page h2 {
+    font-size: 16px;
   }
 
   .summary-cards {
     grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .summary-card {
+    padding: 12px;
+  }
+  .summary-value {
+    font-size: 15px;
   }
 
   .stock-details {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .stock-price-main {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .current-price {
+    font-size: 22px;
+  }
+
+  .page-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* 폼 row: 한 줄에 하나씩 */
+  .backtest-form .form-row,
+  .scanner-config .form-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .backtest-form .form-row label,
+  .scanner-config .form-row label {
+    min-width: 0;
+  }
+
+  /* 스캐너 스탯 줄바꿈 */
+  .scan-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .scan-stats {
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .scan-actions {
+    flex-wrap: wrap;
+  }
+
+  /* 모니터 헤더 줄바꿈 */
+  .monitor-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .monitor-status {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* 매매 일지 요약 줄바꿈 */
+  .journal-trade-summary {
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    font-size: 13px;
+  }
+
+  /* 테이블: 모바일 폰트 축소 */
+  .data-table,
+  .trades-table {
+    font-size: 12px;
+  }
+  .data-table th,
+  .data-table td,
+  .trades-table th,
+  .trades-table td {
+    padding: 8px 8px;
+  }
+
+  /* 모달: 전체 화면 활용 */
+  .modal-overlay {
+    padding: 10px;
+  }
+  .modal-content {
+    max-height: 95vh;
+  }
+  .modal-header,
+  .modal-footer {
+    padding: 14px 16px;
+  }
+  .modal-body {
+    padding: 14px 16px;
+  }
+
+  /* bulk-apply-row 줄바꿈 */
+  .bulk-apply-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .bulk-apply-row label {
+    min-width: 0;
+    width: 100%;
+  }
+  .bulk-apply-label {
+    padding-bottom: 0;
+  }
+
+  /* 충돌 처리 모달 radio 줄바꿈 */
+  .conflict-action-group {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* 진입 모드 선택 */
+  .entry-mode-selector .entry-mode-options {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Order 페이지: 풀 너비 */
+  .order-layout {
+    max-width: 100%;
+  }
+
+  /* 알림 드롭다운 */
+  .notification-dropdown {
+    width: calc(100vw - 24px);
+    max-width: 360px;
+    right: -8px;
+  }
+
+  /* 인증 폼 */
+  .auth-page {
+    padding-top: 20px;
+  }
+  .auth-form {
+    padding: 24px 20px;
+  }
+  .form-card {
+    padding: 18px;
+  }
+
+  /* Agent Settings */
+  .agent-status-card,
+  .agent-setup-form,
+  .agent-auth-tabs {
+    max-width: 100%;
+  }
+
+  /* Expert Meeting Detail */
+  .expert-meeting-detail {
+    padding: 14px 12px;
+  }
+  .final-score-banner {
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+  }
+  .final-score {
+    font-size: 22px;
+    min-width: 0;
+    align-self: flex-start;
+  }
+  .detail-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .meeting-progress {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px;
+  }
+  .scoring-meta {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* AI 회의 모달 */
+  .ai-meeting-modal {
+    padding: 14px;
+  }
+
+  /* 뉴스 제목 줄바꿈 */
+  .news-title {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* 매뉴얼 주문 모달 */
+  .manual-order-modal {
+    padding: 16px;
+  }
+
+  /* 스캐너 stock name 셀이 bestStrategy 등과 함께 와이드해 보이지 않도록 */
+  .data-table td strong,
+  .data-table td small {
+    word-break: break-word;
+  }
+
+  /* summary-grid */
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .session-summary {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .stat-card {
+    padding: 12px;
+  }
+  .stat-card span {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-topbar {
+    font-size: 11px;
+  }
+  .collection-status span {
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .connection-label {
+    display: none;
+  }
+
+  /* summary-grid 추가 축소 */
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* 스캐너 테이블: 전략 분석 근거 요약 간결화 */
+  .strategy-summary {
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px 10px;
+  }
+  .strategy-reason,
+  .strategy-detail {
+    max-width: 100%;
+    white-space: normal;
+  }
+  .score-summary {
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px 10px;
+  }
+  .score-reasoning {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  /* 전문가 카드 padding 축소 */
+  .expert-card {
+    padding: 12px;
+  }
+  .expert-header {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* 뉴스 아이템 */
+  .news-item {
+    padding: 8px;
+  }
+
+  /* summary-header */
+  .summary-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .stock-info {
+    font-size: 15px;
+  }
+
+  /* 회원 관리 뱃지 */
+  .badge {
+    font-size: 11px;
+    padding: 2px 6px;
+  }
+
+  /* 세션 액션 버튼 줄바꿈 */
+  .session-actions {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-topbar {
+    padding: 0 8px;
+  }
+  .topbar-left,
+  .topbar-right {
+    gap: 6px;
+  }
+
+  .app-main {
+    padding: 10px;
+  }
+
+  .summary-cards,
+  .summary-grid,
+  .session-summary,
+  .stock-details {
+    grid-template-columns: 1fr;
+  }
+
+  h2 {
+    font-size: 17px;
+  }
+  .scanner-page h1 {
+    font-size: 18px;
+  }
+
+  .btn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  .btn-lg {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  .btn-full {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .current-price {
+    font-size: 20px;
+  }
+  .price-change {
+    font-size: 13px;
+  }
+
+  /* 테이블 폰트 더 축소 */
+  .data-table,
+  .trades-table {
+    font-size: 11px;
+  }
+  .data-table th,
+  .data-table td,
+  .trades-table th,
+  .trades-table td {
+    padding: 6px 6px;
+  }
+
+  /* 카드 padding 축소 */
+  .scanner-page .card,
+  .backtest-form,
+  .result-summary,
+  .trades-section {
+    padding: 12px;
+  }
+
+  /* 사용자 메뉴 - 로그아웃 버튼 숨기지 말고 보이되 압축 */
+  .user-menu {
+    gap: 6px;
+  }
+  .user-name {
+    max-width: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+  }
+
+  /* 수집 상태 - 텍스트 숨기고 점만 */
+  .collection-status span:not(.collection-dot) {
+    display: none;
+  }
+  .collection-trigger-btn {
+    padding: 2px 6px;
+    font-size: 10px;
+  }
+
+  /* 알림 드롭다운: 전체 화면 너비 활용 */
+  .notification-dropdown {
+    width: calc(100vw - 16px);
+    right: -8px;
+  }
+
+  /* 매매 일지 */
+  .journal-trade-summary {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .journal-date-picker {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .journal-date-picker input[type='date'] {
+    flex: 1;
+    min-width: 130px;
+  }
+
+  /* 모달 헤더/푸터 */
+  .modal-header h3 {
+    font-size: 15px;
+  }
+  .modal-footer {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .modal-footer .btn {
+    flex: 1;
+  }
+
+  /* Agent Settings 줄바꿈 */
+  .agent-status-row {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .agent-auth-tabs {
+    max-width: 100%;
+  }
+  .agent-auth-tab {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  .agent-setup-actions {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* 충돌 처리 */
+  .conflict-action-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  /* 백테스트 summary-header */
+  .summary-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* scan-results: 전략 분석 근거 요약 */
+  .strategy-summary,
+  .score-summary {
+    font-size: 11px;
+  }
+
+  /* 밸런스 소스 필터 */
+  .balance-source-filter {
+    flex-wrap: wrap;
+  }
+
+  /* 스캐너 scan-stats */
+  .scan-stats {
+    font-size: 11px;
   }
 }
 

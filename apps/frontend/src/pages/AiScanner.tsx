@@ -1117,6 +1117,7 @@ export function AiScanner() {
             </div>
           )}
 
+          <div className="table-container">
           <table className="data-table">
             <thead>
               <tr>
@@ -1325,6 +1326,7 @@ export function AiScanner() {
               })}
             </tbody>
           </table>
+          </div>
 
           <div className="scan-actions">
             {step === 'scanned' && (
@@ -1394,6 +1396,7 @@ export function AiScanner() {
             </div>
           </div>
 
+          <div className="table-container">
           <table className="data-table">
             <thead>
               <tr>
@@ -1524,6 +1527,7 @@ export function AiScanner() {
               })}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>

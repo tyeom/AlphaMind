@@ -90,8 +90,9 @@ export function Layout() {
         {/* Sidebar */}
         <aside className="app-sidebar">
           <div className="sidebar-logo">
-            <NavLink to="/">
-              {collapsed ? 'A' : 'Alpha Mind'}
+            <NavLink to="/" className="sidebar-logo-link">
+              <span className="sidebar-logo-short">A</span>
+              <span className="sidebar-logo-full">Alpha Mind</span>
             </NavLink>
           </div>
           {user && (
