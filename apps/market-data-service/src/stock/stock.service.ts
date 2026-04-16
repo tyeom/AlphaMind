@@ -73,6 +73,42 @@ export class StockService implements OnModuleInit {
     return stock;
   }
 
+  async searchStocks(query: string, limit = 20): Promise<Stock[]> {
+    const normalized = query.trim();
+    if (!normalized) {
+      return [];
+    }
+
+    const safeLimit = Math.min(Math.max(limit || 20, 1), 50);
+    const results = await this.em.find(
+      Stock,
+      {
+        $or: [
+          { code: { $like: `${normalized}%` } },
+          { name: { $ilike: `%${normalized}%` } },
+        ],
+      },
+      { orderBy: { code: 'ASC' }, limit: safeLimit },
+    );
+
+    const lowerQuery = normalized.toLowerCase();
+    return results.sort((a, b) => {
+      const score = (stock: Stock) => {
+        const code = stock.code.toLowerCase();
+        const name = stock.name.toLowerCase();
+        if (code === lowerQuery) return 0;
+        if (name === lowerQuery) return 1;
+        if (code.startsWith(lowerQuery)) return 2;
+        if (name.startsWith(lowerQuery)) return 3;
+        return 4;
+      };
+
+      const scoreDiff = score(a) - score(b);
+      if (scoreDiff !== 0) return scoreDiff;
+      return a.code.localeCompare(b.code);
+    });
+  }
+
   async onModuleInit() {
     const krxCodes = this.loadKrxCodes();
     const krxCodeSet = new Set(krxCodes.map((k) => k.code));

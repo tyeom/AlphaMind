@@ -1,5 +1,11 @@
 const MARKET_API_BASE = '/market-api';
 
+export interface StockSearchItem {
+  code: string;
+  name: string;
+  sector?: string;
+}
+
 async function marketRequest<T>(
   path: string,
   options: RequestInit = {},
@@ -37,5 +43,9 @@ async function marketRequest<T>(
 }
 
 export const stocksApi = {
+  searchStocks: (query: string, limit = 20) => {
+    const params = new URLSearchParams({ q: query, limit: String(limit) });
+    return marketRequest<StockSearchItem[]>(`/stocks?${params}`);
+  },
   triggerCollection: () => marketRequest<void>('/stocks/collect', { method: 'POST' }),
 };

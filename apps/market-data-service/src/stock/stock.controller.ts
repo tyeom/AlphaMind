@@ -18,7 +18,13 @@ export class StockController {
   }
 
   @Get()
-  async findAll() {
+  async findAll(
+    @Query('q') query?: string,
+    @Query('limit') limit = '20',
+  ) {
+    if (query?.trim()) {
+      return this.stockService.searchStocks(query, parseInt(limit, 10));
+    }
     return this.stockService.findAllStocks();
   }
 

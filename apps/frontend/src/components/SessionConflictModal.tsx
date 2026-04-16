@@ -24,10 +24,10 @@ function strategyLabel(id: string): string {
 export function SessionConflictModal({ conflicts, onCancel, onConfirm }: Props) {
   const [actions, setActions] = useState<Record<string, SessionConflictAction>>(
     () => {
-      // 기본값: 모두 update
+      // 기본값: 모두 제외 — 중복 종목은 제외 후 나머지만 시작하는 흐름을 우선
       const initial: Record<string, SessionConflictAction> = {};
       for (const c of conflicts) {
-        initial[c.stockCode] = 'update';
+        initial[c.stockCode] = 'skip';
       }
       return initial;
     },
@@ -60,8 +60,9 @@ export function SessionConflictModal({ conflicts, onCancel, onConfirm }: Props) 
 
         <div className="modal-body">
           <p className="text-muted modal-description">
-            아래 종목들은 이미 활성 자동매매 세션이 있습니다. 기존 세션을 새 설정으로
-            <strong> 업데이트</strong>하거나 해당 종목을 <strong>제외</strong>할 수 있습니다.
+            아래 종목들은 이미 활성 자동매매 세션이 있습니다. 기본값은 해당 종목을
+            <strong> 제외</strong>하고 나머지 종목만 자동 매매를 시작하는 방식입니다.
+            필요하면 기존 세션을 새 설정으로 <strong>업데이트</strong>할 수도 있습니다.
           </p>
 
           <div className="bulk-apply-row">
@@ -69,16 +70,16 @@ export function SessionConflictModal({ conflicts, onCancel, onConfirm }: Props) 
             <button
               type="button"
               className="btn btn-sm"
-              onClick={() => applyAll('update')}
+              onClick={() => applyAll('skip')}
             >
-              모두 업데이트
+              모두 제외
             </button>
             <button
               type="button"
               className="btn btn-sm"
-              onClick={() => applyAll('skip')}
+              onClick={() => applyAll('update')}
             >
-              모두 제외
+              모두 업데이트
             </button>
           </div>
 
@@ -145,7 +146,7 @@ export function SessionConflictModal({ conflicts, onCancel, onConfirm }: Props) 
             className="btn btn-primary"
             onClick={() => onConfirm(actions)}
           >
-            진행 (업데이트 {updateCount} / 제외 {skipCount})
+            중복 처리 후 진행 (제외 {skipCount} / 업데이트 {updateCount})
           </button>
         </div>
       </div>

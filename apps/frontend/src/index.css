@@ -1119,6 +1119,11 @@ h3 {
     font-size: 20px;
     margin-bottom: 16px;
   }
+  .scanner-page-header {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
   .scanner-page h2 {
     font-size: 16px;
   }
@@ -1184,6 +1189,13 @@ h3 {
   .monitor-status {
     flex-wrap: wrap;
     gap: 8px;
+  }
+  .manual-monitor-form {
+    grid-template-columns: 1fr;
+  }
+  .manual-stock-preview {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   /* 매매 일지 요약 줄바꿈 */
@@ -1598,6 +1610,18 @@ h3 {
   margin-bottom: 24px;
 }
 
+.scanner-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.scanner-page-header h1 {
+  margin-bottom: 0;
+}
+
 .scanner-page h2 {
   font-size: 18px;
   font-weight: 600;
@@ -1833,6 +1857,149 @@ h3 {
   margin-bottom: 20px;
 }
 
+.manual-monitor-panel {
+  margin-bottom: 20px;
+  padding: 16px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  background: var(--bg-secondary);
+}
+
+.manual-monitor-header h3 {
+  margin-bottom: 6px;
+}
+
+.manual-monitor-header p {
+  margin: 0;
+}
+
+.manual-monitor-form {
+  display: grid;
+  grid-template-columns: minmax(240px, 2fr) minmax(180px, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+  margin-top: 14px;
+}
+
+.manual-monitor-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.manual-monitor-form input {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.manual-monitor-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(66, 99, 235, 0.15);
+}
+
+.manual-monitor-alert {
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
+.manual-search-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.manual-search-result {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+}
+
+.manual-search-result:hover:not(:disabled) {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.manual-search-result span,
+.manual-search-result small {
+  color: var(--text-secondary);
+}
+
+.manual-lookup-loading {
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+.manual-stock-preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+}
+
+.manual-stock-main {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.manual-stock-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.manual-stock-price {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+
+.manual-stock-current {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.manual-stock-actions {
+  display: flex;
+  align-items: center;
+}
+
+.manual-duplicate-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #ffe8cc;
+  color: #d9480f;
+  font-size: 11px;
+  font-weight: 600;
+}
+
 .stat-card {
   padding: 16px;
   background: var(--bg-secondary);
@@ -2018,6 +2185,12 @@ h3 {
 .session-actions {
   display: flex;
   gap: 6px;
+}
+
+.monitor-empty-row {
+  padding: 24px 12px !important;
+  text-align: center !important;
+  color: var(--text-secondary);
 }
 
 .btn-sm {

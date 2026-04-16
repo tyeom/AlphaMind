@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, type FormEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { scanStocks, startAiSession, getActiveAiSession, streamAiSession, cancelAiSession } from '../api/scanner';
 import type { SseProgress } from '../api/scanner';
@@ -7,6 +7,7 @@ import { startSessionsBatch, getSessions, pauseSession, resumeSession, stopSessi
 import { getBalance, getCurrentPrice } from '../api/kis';
 import { ApiError } from '../api/client';
 import { useAutoTradingWebSocket, type PriceUpdate } from '../hooks/useAutoTradingWebSocket';
+import { stocksApi, type StockSearchItem } from '../api/stocks';
 import type { ScanResult, AiStockScore, ExpertOpinion, NewsItem } from '../types/scanner';
 import type { StockPrice } from '../types/kis';
 import type {
@@ -33,6 +34,59 @@ function fmt(n: number): string {
 
 function pctClass(n: number): string {
   return n > 0 ? 'text-profit' : n < 0 ? 'text-loss' : '';
+}
+
+function sortSessions(items: AutoTradingSession[]): AutoTradingSession[] {
+  const statusRank: Record<AutoTradingSession['status'], number> = {
+    active: 0,
+    paused: 1,
+    stopped: 2,
+  };
+
+  return [...items].sort((a, b) => {
+    const statusDiff = statusRank[a.status] - statusRank[b.status];
+    if (statusDiff !== 0) return statusDiff;
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  });
+}
+
+function mergeSessions(
+  current: AutoTradingSession[],
+  incoming: AutoTradingSession[],
+): AutoTradingSession[] {
+  const merged = new Map<number, AutoTradingSession>();
+  for (const session of current) {
+    merged.set(session.id, session);
+  }
+  for (const session of incoming) {
+    merged.set(session.id, session);
+  }
+  return sortSessions(Array.from(merged.values()));
+}
+
+function extractSessionConflictError(err: unknown): SessionConflictError | null {
+  if (!(err instanceof ApiError) || err.status !== 409 || !err.body) {
+    return null;
+  }
+
+  const candidate =
+    err.body &&
+    typeof err.body === 'object' &&
+    err.body.message &&
+    typeof err.body.message === 'object'
+      ? err.body.message
+      : err.body;
+
+  if (
+    candidate &&
+    typeof candidate === 'object' &&
+    candidate.code === 'SESSION_CONFLICT' &&
+    Array.isArray(candidate.conflicts)
+  ) {
+    return candidate as SessionConflictError;
+  }
+
+  return null;
 }
 
 const REC_LABELS: Record<string, string> = {
@@ -439,6 +493,12 @@ export function AiScanner() {
     pendingDtos: StartSessionRequest[];
     entryMode: SessionEntryMode;
   } | null>(null);
+  const [manualSearchQuery, setManualSearchQuery] = useState('');
+  const [manualSearchResults, setManualSearchResults] = useState<StockSearchItem[]>([]);
+  const [manualSearchLoading, setManualSearchLoading] = useState(false);
+  const [manualSearchError, setManualSearchError] = useState('');
+  const [manualLookupStock, setManualLookupStock] = useState<StockPrice | null>(null);
+  const [manualLookupLoading, setManualLookupLoading] = useState(false);
 
   const [meetingResultModal, setMeetingResultModal] = useState<AiMeetingResult | null>(null);
   const [meetingResultCache, setMeetingResultCache] = useState<Map<string, AiMeetingResult>>(new Map());
@@ -456,7 +516,7 @@ export function AiScanner() {
 
   useEffect(() => {
     const off = on('session-update', (data: AutoTradingSession) => {
-      setSessions((prev) => prev.map((s) => (s.id === data.id ? data : s)));
+      setSessions((prev) => mergeSessions(prev, [data]));
     });
     return off;
   }, [on]);
@@ -556,6 +616,12 @@ export function AiScanner() {
     } catch { /* 실패해도 무시 */ }
   }, []);
 
+  const openMonitoring = useCallback(async () => {
+    const list = await getSessions();
+    setSessions(sortSessions(list));
+    setStep('trading');
+  }, []);
+
   useEffect(() => {
     let cancelled = false;
 
@@ -628,7 +694,7 @@ export function AiScanner() {
         try {
           const list = await getSessions();
           if (!cancelled && list.length > 0) {
-            setSessions(list);
+            setSessions(sortSessions(list));
             setStep('trading');
           }
         } catch { /* ignore */ }
@@ -801,21 +867,14 @@ export function AiScanner() {
         sessions: sessionDtos,
         entryMode,
       });
-      setSessions(newSessions);
+      setSessions((prev) => mergeSessions(prev, newSessions));
       setStep('trading');
       setConfigModalItems(null);
       setConflictState(null);
     } catch (err: any) {
       // 409 Conflict: 이미 활성 세션이 있는 종목 → 충돌 해결 모달 표시
-      if (
-        err instanceof ApiError &&
-        err.status === 409 &&
-        err.body &&
-        typeof err.body === 'object' &&
-        err.body.code === 'SESSION_CONFLICT' &&
-        Array.isArray(err.body.conflicts)
-      ) {
-        const conflictBody = err.body as SessionConflictError;
+      const conflictBody = extractSessionConflictError(err);
+      if (conflictBody) {
         setConflictState({
           conflicts: conflictBody.conflicts,
           pendingDtos: sessionDtos,
@@ -861,6 +920,74 @@ export function AiScanner() {
 
   const handleConflictCancel = () => {
     setConflictState(null);
+  };
+
+  const handleOpenMonitoring = async () => {
+    setError('');
+    try {
+      await openMonitoring();
+    } catch (err: any) {
+      setError(err.message || '자동 매매 모니터링을 불러오지 못했습니다.');
+    }
+  };
+
+  const handleManualSearch = async (e: FormEvent) => {
+    e.preventDefault();
+    const query = manualSearchQuery.trim();
+    if (!query) {
+      setManualSearchError('종목명 또는 종목코드를 입력해주세요.');
+      setManualSearchResults([]);
+      setManualLookupStock(null);
+      return;
+    }
+
+    setManualSearchLoading(true);
+    setManualSearchError('');
+    setManualSearchResults([]);
+    setManualLookupStock(null);
+
+    try {
+      const results = await stocksApi.searchStocks(query, 15);
+      setManualSearchResults(results);
+      if (results.length === 0) {
+        setManualSearchError('조회된 종목이 없습니다.');
+      }
+    } catch (err: any) {
+      setManualSearchError(err.message || '종목 검색에 실패했습니다.');
+    } finally {
+      setManualSearchLoading(false);
+    }
+  };
+
+  const handleManualSelectStock = async (item: StockSearchItem) => {
+    setManualLookupLoading(true);
+    setManualSearchError('');
+
+    try {
+      const price = await getCurrentPrice(item.code);
+      setManualLookupStock(price);
+      setManualSearchQuery(`${item.name} (${item.code})`);
+      setManualSearchResults([]);
+    } catch (err: any) {
+      setManualSearchError(err.message || '종목 조회에 실패했습니다.');
+      setManualLookupStock(null);
+    } finally {
+      setManualLookupLoading(false);
+    }
+  };
+
+  const handleManualRegister = () => {
+    if (!manualLookupStock) return;
+    setConfigModalItems([
+      {
+        stockCode: manualLookupStock.stockCode,
+        stockName: manualLookupStock.stockName,
+        strategyId: '',
+        takeProfitPct: 5,
+        stopLossPct: -3,
+        addOnBuyMode: 'skip',
+      },
+    ]);
   };
 
   const toggleSelect = (code: string) => {
@@ -956,10 +1083,28 @@ export function AiScanner() {
     'infinity-bot': '무한매수봇',
     'candle-pattern': '캔들 패턴',
   };
+  const activeSessionCodes = new Set(
+    sessions
+      .filter((session) => session.status === 'active')
+      .map((session) => session.stockCode),
+  );
+  const isManualLookupDuplicate = manualLookupStock
+    ? activeSessionCodes.has(manualLookupStock.stockCode)
+    : false;
 
   return (
     <div className="scanner-page">
-      <h1>AI 종목 추천 & 자동 매매</h1>
+      <div className="scanner-page-header">
+        <h1>AI 종목 추천 & 자동 매매</h1>
+        {step !== 'trading' && (
+          <button
+            className="btn btn-secondary"
+            onClick={() => void handleOpenMonitoring()}
+          >
+            자동 매매 모니터링 열기
+          </button>
+        )}
+      </div>
 
       {error && <div className="alert alert-error">{error}</div>}
 
@@ -1352,7 +1497,7 @@ export function AiScanner() {
       )}
 
       {/* ── Step 3: 자동 매매 모니터링 ── */}
-      {step === 'trading' && sessions.length > 0 && (
+      {step === 'trading' && (
         <div className="trading-monitor card">
           <div className="monitor-header">
             <h2>3. 자동 매매 모니터링</h2>
@@ -1360,7 +1505,12 @@ export function AiScanner() {
               <span className={`ws-indicator ${connected ? 'connected' : 'disconnected'}`}>
                 {connected ? 'LIVE' : 'OFFLINE'}
               </span>
-              <button className="btn btn-text btn-sm" onClick={() => getSessions().then(setSessions)}>새로고침</button>
+              <button
+                className="btn btn-text btn-sm"
+                onClick={() => getSessions().then((list) => setSessions(sortSessions(list)))}
+              >
+                새로고침
+              </button>
               <button className="btn btn-text btn-sm" onClick={() => setStep('idle')}>새 스캔</button>
             </div>
           </div>
@@ -1396,6 +1546,122 @@ export function AiScanner() {
             </div>
           </div>
 
+          <div className="manual-monitor-panel">
+            <div className="manual-monitor-header">
+              <h3>종목 조회 후 수동 등록</h3>
+              <p className="text-muted">
+                종목명 또는 종목코드로 조회한 뒤 자동 매매 모니터링 목록에 바로 추가할 수 있습니다.
+              </p>
+            </div>
+
+            <form className="manual-monitor-form" onSubmit={handleManualSearch}>
+              <label className="manual-monitor-query">
+                종목 조회
+                <input
+                  type="text"
+                  value={manualSearchQuery}
+                  onChange={(e) => setManualSearchQuery(e.target.value)}
+                  placeholder="예: 삼성전자 또는 005930"
+                />
+              </label>
+              <label className="manual-monitor-investment">
+                투자 금액
+                <input
+                  type="text"
+                  value={investmentAmount}
+                  onChange={(e) => setInvestmentAmount(e.target.value)}
+                  placeholder="예: 1000000"
+                />
+              </label>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={manualSearchLoading || manualLookupLoading}
+              >
+                {manualSearchLoading ? '검색 중...' : '종목 조회'}
+              </button>
+            </form>
+
+            {manualSearchError && (
+              <div className="alert alert-error manual-monitor-alert">
+                {manualSearchError}
+              </div>
+            )}
+
+            {manualSearchResults.length > 0 && (
+              <div className="manual-search-results">
+                {manualSearchResults.map((item) => (
+                  <button
+                    key={item.code}
+                    type="button"
+                    className="manual-search-result"
+                    onClick={() => void handleManualSelectStock(item)}
+                    disabled={manualLookupLoading}
+                  >
+                    <strong>{item.name}</strong>
+                    <span>{item.code}</span>
+                    {item.sector && <small>{item.sector}</small>}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {manualLookupLoading && (
+              <div className="manual-lookup-loading text-muted">
+                종목 현재가를 조회하고 있습니다...
+              </div>
+            )}
+
+            {manualLookupStock && (
+              <div className="manual-stock-preview">
+                <div className="manual-stock-main">
+                  <div className="manual-stock-title">
+                    <strong>
+                      {manualLookupStock.stockName} ({manualLookupStock.stockCode})
+                    </strong>
+                    {manualLookupStock.mrktWarnClsCode &&
+                      MARKET_WARN_LABELS[manualLookupStock.mrktWarnClsCode] && (
+                        <span
+                          className={`market-warn-badge ${MARKET_WARN_CLASS[manualLookupStock.mrktWarnClsCode]}`}
+                        >
+                          {MARKET_WARN_LABELS[manualLookupStock.mrktWarnClsCode]}
+                        </span>
+                      )}
+                    {isManualLookupDuplicate && (
+                      <span className="manual-duplicate-badge">이미 모니터링 중</span>
+                    )}
+                  </div>
+                  <div className="manual-stock-price">
+                    <span className="manual-stock-current">
+                      {fmt(manualLookupStock.currentPrice)}원
+                    </span>
+                    <span className={pctClass(manualLookupStock.change)}>
+                      {manualLookupStock.change > 0 ? '+' : ''}
+                      {fmt(manualLookupStock.change)}원 (
+                      {manualLookupStock.change > 0 ? '+' : ''}
+                      {manualLookupStock.changeRate.toFixed(2)}%)
+                    </span>
+                  </div>
+                </div>
+                <div className="manual-stock-actions">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={handleManualRegister}
+                    disabled={isManualLookupDuplicate}
+                    title={
+                      isManualLookupDuplicate
+                        ? '이미 활성 자동매매 세션이 있는 종목입니다.'
+                        : undefined
+                    }
+                  >
+                    자동 매매 등록
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="table-container">
           <table className="data-table">
             <thead>
@@ -1405,6 +1671,13 @@ export function AiScanner() {
               </tr>
             </thead>
             <tbody>
+              {sessions.length === 0 && (
+                <tr>
+                  <td colSpan={13} className="monitor-empty-row">
+                    등록된 자동 매매 세션이 없습니다. 위에서 종목을 조회해 바로 추가할 수 있습니다.
+                  </td>
+                </tr>
+              )}
               {sessions.map((s) => {
                 // 활성 세션만 실시간 현재가 표시 — 비활성(일시정지/종료)은 DB 저장 값으로 폴백
                 const cp = s.status === 'active' ? prices.get(s.stockCode) : undefined;
