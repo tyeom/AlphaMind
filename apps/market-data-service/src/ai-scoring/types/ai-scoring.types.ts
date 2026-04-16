@@ -7,8 +7,11 @@ export interface AiScoreRequestItem {
   sector?: string;
 }
 
+export type AiMeetingProvider = 'claude' | 'gpt';
+
 export interface AiScoreRequest {
   stocks: AiScoreRequestItem[];
+  provider?: AiMeetingProvider;
 }
 
 /** 개별 뉴스 아이템 */

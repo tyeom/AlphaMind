@@ -77,6 +77,7 @@ services:
     volumes:
       - agents_data:/app/.agents
       - claude_credentials:/root/.claude
+      - codex_credentials:/root/.codex
       - market_data_logs:/app/apps/market-data-service/logs
     depends_on:
       postgres:
@@ -102,4 +103,5 @@ volumes:
   rabbitmq_data:
   agents_data:
   claude_credentials:
+  codex_credentials:
   market_data_logs:

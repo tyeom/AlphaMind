@@ -3,8 +3,10 @@ import { EntityManager } from '@mikro-orm/postgresql';
 import { Stock } from '../stock/entities/stock.entity';
 import { StockDailyPrice } from '../stock/entities/stock-daily-price.entity';
 import { spawnClaude, spawnParallelAgents, TOKEN_LIMIT_MSG, ABORT_MSG } from './claude-pty';
+import { GPT_AUTH_EXPIRED_MSG, spawnGpt, spawnParallelGptAgents } from './gpt-pty';
 import { AgentConfigService } from '../agent-config/agent-config.service';
 import {
+  AiMeetingProvider,
   AiScoreRequestItem,
   AiStockScore,
   AiScoreResponse,
@@ -19,6 +21,7 @@ export const OAUTH_EXPIRED_MSG = 'Claude OAuth 토큰이 만료되었습니다. 
 export interface AiMeetingSession {
   id: string;
   status: 'running' | 'completed' | 'error' | 'cancelled';
+  provider: AiMeetingProvider;
   stocks: AiScoreRequestItem[];
   scores: AiStockScore[];
   progress: {
@@ -61,7 +64,11 @@ export class AiScoringService {
   ) {}
 
   /** 백그라운드 세션 시작 — sessionId 즉시 반환 */
-  startBackgroundSession(stocks: AiScoreRequestItem[], userId: number): string {
+  startBackgroundSession(
+    stocks: AiScoreRequestItem[],
+    userId: number,
+    provider: AiMeetingProvider,
+  ): string {
     const existingRunning = this.getActiveSession(userId);
     if (existingRunning) {
       return existingRunning.id;
@@ -72,6 +79,7 @@ export class AiScoringService {
     const session: AiMeetingSession = {
       id,
       status: 'running',
+      provider,
       stocks,
       scores: [],
       progress: null,
@@ -124,7 +132,7 @@ export class AiScoringService {
     const signal = session.abortController?.signal;
 
     try {
-      await this.ensureAuth();
+      await this.ensureAuth(session.provider);
 
       for (let i = 0; i < session.stocks.length; i++) {
         // 취소 요청 확인
@@ -151,7 +159,7 @@ export class AiScoringService {
             stockName: stock.stockName,
             phase,
           };
-        }, signal);
+        }, signal, session.provider);
 
         // 분석 완료 후에도 취소 확인
         if (session.status !== 'running') {
@@ -191,19 +199,26 @@ export class AiScoringService {
   }
 
   /** Claude 호출 전 OAuth 토큰 유효성 확인 및 자동 갱신 (외부에서 호출 가능) */
-  async ensureAuth(): Promise<void> {
-    const valid = await this.agentConfig.ensureValidOAuthToken();
-    if (!valid) {
-      throw new Error(OAUTH_EXPIRED_MSG);
+  async ensureAuth(provider: AiMeetingProvider = 'claude'): Promise<void> {
+    try {
+      await this.agentConfig.ensureProviderReady(provider);
+    } catch (err: any) {
+      if (provider === 'claude' && err.message?.includes('만료')) {
+        throw new Error(OAUTH_EXPIRED_MSG);
+      }
+      throw err;
     }
   }
 
-  async scoreStocks(stocks: AiScoreRequestItem[]): Promise<AiScoreResponse> {
+  async scoreStocks(
+    stocks: AiScoreRequestItem[],
+    provider: AiMeetingProvider = 'claude',
+  ): Promise<AiScoreResponse> {
     const startTime = Date.now();
     const scores: AiStockScore[] = [];
 
     try {
-      await this.ensureAuth();
+      await this.ensureAuth(provider);
     } catch (err: any) {
       this.logger.error(err.message);
       return { scores: stocks.map((s) => this.fallbackScore(s, err.message)), elapsedMs: Date.now() - startTime };
@@ -212,7 +227,7 @@ export class AiScoringService {
     for (const stock of stocks) {
       try {
         this.logger.log(`=== ${stock.stockName}(${stock.stockCode}) 멀티 에이전트 분석 시작 ===`);
-        const score = await this.analyzeStock(stock);
+        const score = await this.analyzeStock(stock, undefined, undefined, provider);
         scores.push(score);
         this.logger.log(`=== ${stock.stockName} 최종 점수: ${score.score} ===`);
       } catch (err: any) {
@@ -234,14 +249,19 @@ export class AiScoringService {
     item: AiScoreRequestItem,
     onPhase?: (phase: string) => void,
     signal?: AbortSignal,
+    provider: AiMeetingProvider = 'claude',
   ): Promise<AiStockScore> {
     try {
-      await this.ensureAuth();
+      await this.ensureAuth(provider);
       this.logger.log(`=== ${item.stockName}(${item.stockCode}) 멀티 에이전트 분석 시작 ===`);
-      const score = await this.analyzeStock(item, onPhase, signal);
+      const score = await this.analyzeStock(item, onPhase, signal, provider);
       this.logger.log(`=== ${item.stockName} 최종 점수: ${score.score} ===`);
       return score;
     } catch (err: any) {
+      if (provider === 'gpt' && err.message === GPT_AUTH_EXPIRED_MSG) {
+        this.agentConfig.markGptSubscriptionExpired(err.message);
+        throw err;
+      }
       // abort 에러는 상위로 전파
       if (err.message === ABORT_MSG) throw err;
       if (err.message === TOKEN_LIMIT_MSG) {
@@ -253,20 +273,25 @@ export class AiScoringService {
     }
   }
 
-  private async analyzeStock(item: AiScoreRequestItem, onPhase?: (phase: string) => void, signal?: AbortSignal): Promise<AiStockScore> {
+  private async analyzeStock(
+    item: AiScoreRequestItem,
+    onPhase?: (phase: string) => void,
+    signal?: AbortSignal,
+    provider: AiMeetingProvider = 'claude',
+  ): Promise<AiStockScore> {
     const chartSummary = await this.buildChartSummary(item.stockCode);
 
     // ── Phase 1: 데이터 수집 (병렬) ──
     onPhase?.('phase1');
     this.logger.log(`[Phase 1] 데이터 수집 시작: ${item.stockCode}`);
-    const { newsData, chartData } = await this.phase1DataCollection(item, chartSummary, signal);
+    const { newsData, chartData } = await this.phase1DataCollection(item, chartSummary, signal, provider);
     this.logger.log(`[Phase 1] 완료 — 뉴스 감성: ${newsData.sentiment}, 기술 점수: ${chartData.technicalScore}`);
 
     // ── Phase 2: 전문가 분석 (병렬) ──
     onPhase?.('phase2');
     this.logger.log(`[Phase 2] 전문가 분석 시작: ${item.stockCode}`);
     const { traderOpinion, economistOpinion } = await this.phase2ExpertAnalysis(
-      item, chartSummary, newsData, chartData, signal,
+      item, chartSummary, newsData, chartData, signal, provider,
     );
     this.logger.log(
       `[Phase 2] 완료 — 트레이더: ${traderOpinion.recommendation}(${traderOpinion.score}), ` +
@@ -277,7 +302,7 @@ export class AiScoringService {
     onPhase?.('phase3');
     this.logger.log(`[Phase 3] 전문가 회의 시작: ${item.stockCode}`);
     const conclusion = await this.phase3Meeting(
-      item, newsData, chartData, traderOpinion, economistOpinion, signal,
+      item, newsData, chartData, traderOpinion, economistOpinion, signal, provider,
     );
     this.logger.log(`[Phase 3] 완료 — 최종 점수: ${conclusion.finalScore}`);
 
@@ -306,6 +331,7 @@ export class AiScoringService {
     item: AiScoreRequestItem,
     chartSummary: string,
     signal?: AbortSignal,
+    provider: AiMeetingProvider = 'claude',
   ): Promise<{ newsData: NewsAgentResult; chartData: ChartAgentResult }> {
     const newsPrompt = `당신은 한국 주식시장 뉴스 전문 수집가입니다.
 
@@ -360,7 +386,8 @@ ${chartSummary}
 trendDirection: "상승" | "하락" | "횡보"
 momentum: "강함" | "보통" | "약함"`;
 
-    const results = await spawnParallelAgents(
+    const results = await this.spawnParallelByProvider(
+      provider,
       [
         { name: 'news', prompt: newsPrompt, timeoutMs: 240_000 },
         { name: 'chart', prompt: chartPrompt, timeoutMs: 180_000 },
@@ -392,6 +419,7 @@ momentum: "강함" | "보통" | "약함"`;
     newsData: NewsAgentResult,
     chartData: ChartAgentResult,
     signal?: AbortSignal,
+    provider: AiMeetingProvider = 'claude',
   ): Promise<{ traderOpinion: ExpertOpinion; economistOpinion: ExpertOpinion }> {
     const dataContext = this.buildDataContext(item, chartSummary, newsData, chartData);
 
@@ -451,7 +479,8 @@ recommendation: "strong_buy" | "buy" | "hold" | "sell" | "strong_sell"
 score: 1.00(매도) ~ 10.00(강력 매수)
 confidence: 0.0(확신 없음) ~ 1.0(매우 확신)`;
 
-    const results = await spawnParallelAgents(
+    const results = await this.spawnParallelByProvider(
+      provider,
       [
         { name: 'trader', prompt: traderPrompt, timeoutMs: 180_000 },
         { name: 'economist', prompt: economistPrompt, timeoutMs: 180_000 },
@@ -492,6 +521,7 @@ confidence: 0.0(확신 없음) ~ 1.0(매우 확신)`;
     traderOpinion: ExpertOpinion,
     economistOpinion: ExpertOpinion,
     signal?: AbortSignal,
+    provider: AiMeetingProvider = 'claude',
   ): Promise<MeetingConclusion> {
     const meetingPrompt = `당신은 투자위원회 의장입니다. 두 전문가의 분석을 종합하여 최종 투자 결정을 내려야 합니다.
 
@@ -536,7 +566,7 @@ confidence: 0.0(확신 없음) ~ 1.0(매우 확신)`;
 }
 finalScore: 1.00(강력 매도) ~ 10.00(강력 매수)`;
 
-    const result = await spawnClaude(meetingPrompt, {
+    const result = await this.spawnSingleByProvider(provider, meetingPrompt, {
       timeoutMs: 180_000,
       onProgress: (p) => { if (p.done) this.logger.log(`  [Phase 3] 회의 종합 완료`); },
       signal,
@@ -586,6 +616,35 @@ ${chartSummary}
 ${newsData.newsHighlights.map((n, i) => `  ${i + 1}. ${n}`).join('\n')}
 핵심 이슈: ${newsData.keyIssues.join(', ')}
 리스크: ${newsData.riskFactors.join(', ')}`;
+  }
+
+  private spawnSingleByProvider(
+    provider: AiMeetingProvider,
+    prompt: string,
+    options: {
+      timeoutMs?: number;
+      onProgress?: (progress: { output: string; done: boolean }) => void;
+      signal?: AbortSignal;
+    },
+  ) {
+    return provider === 'gpt'
+      ? spawnGpt(prompt, options)
+      : spawnClaude(prompt, options);
+  }
+
+  private spawnParallelByProvider(
+    provider: AiMeetingProvider,
+    agents: {
+      name: string;
+      prompt: string;
+      timeoutMs?: number;
+    }[],
+    onAgentProgress?: (agentName: string, progress: { output: string; done: boolean }) => void,
+    signal?: AbortSignal,
+  ) {
+    return provider === 'gpt'
+      ? spawnParallelGptAgents(agents, onAgentProgress, signal)
+      : spawnParallelAgents(agents, onAgentProgress, signal);
   }
 
   /** 회의 실패 시 두 전문가 점수의 가중 평균으로 폴백 */

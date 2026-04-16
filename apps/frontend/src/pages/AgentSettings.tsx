@@ -1,12 +1,19 @@
 import { useState, useEffect, useCallback } from 'react';
 
+type Provider = 'claude' | 'gpt';
 type AuthMode = 'api_key' | 'subscription';
 
-interface AgentStatus {
+interface ProviderStatus {
   configured: boolean;
   authMode: AuthMode | 'none';
   keySet: boolean;
   keyPreview: string | null;
+  errorMessage?: string;
+}
+
+interface AgentStatus {
+  claude: ProviderStatus;
+  gpt: ProviderStatus;
 }
 
 type Step = 'loading' | 'configured' | 'setup';
@@ -14,6 +21,7 @@ type Step = 'loading' | 'configured' | 'setup';
 export function AgentSettings() {
   const [step, setStep] = useState<Step>('loading');
   const [status, setStatus] = useState<AgentStatus | null>(null);
+  const [provider, setProvider] = useState<Provider>('claude');
   const [authMode, setAuthMode] = useState<AuthMode>('api_key');
   const [apiKey, setApiKey] = useState('');
   const [verifying, setVerifying] = useState(false);
@@ -21,12 +29,17 @@ export function AgentSettings() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  // 구독 로그인
   const [loggingIn, setLoggingIn] = useState(false);
   const [loginUrl, setLoginUrl] = useState<string | null>(null);
   const [authCode, setAuthCode] = useState('');
   const [submittingCode, setSubmittingCode] = useState(false);
-  const [cliLoggedIn, setCliLoggedIn] = useState(false);
+  const [claudeCliLoggedIn, setClaudeCliLoggedIn] = useState(false);
+  const [gptCliLoggedIn, setGptCliLoggedIn] = useState(false);
+  const [gptCliAuthMode, setGptCliAuthMode] = useState<'chatgpt' | 'api_key' | 'none'>('none');
+  const [gptAuthJson, setGptAuthJson] = useState('');
+  const [importingGptAuth, setImportingGptAuth] = useState(false);
+
+  const currentStatus = status?.[provider] ?? null;
 
   const fetchStatus = useCallback(async () => {
     try {
@@ -34,10 +47,6 @@ export function AgentSettings() {
       if (res.ok) {
         const data: AgentStatus = await res.json();
         setStatus(data);
-        if (data.authMode && data.authMode !== 'none') {
-          setAuthMode(data.authMode);
-        }
-        setStep(data.configured ? 'configured' : 'setup');
       } else {
         setError('서버 연결 실패');
         setStep('setup');
@@ -48,23 +57,53 @@ export function AgentSettings() {
     }
   }, []);
 
+  const fetchProviderLoginStatus = useCallback(async (targetProvider: Provider) => {
+    try {
+      const res = await fetch(`/market-api/agents/login/status?provider=${targetProvider}`);
+      const data = await res.json();
+      if (targetProvider === 'claude') {
+        setClaudeCliLoggedIn(!!data.loggedIn);
+      } else {
+        setGptCliLoggedIn(!!data.loggedIn);
+        setGptCliAuthMode(data.authMode || 'none');
+      }
+    } catch {
+      if (targetProvider === 'claude') {
+        setClaudeCliLoggedIn(false);
+      } else {
+        setGptCliLoggedIn(false);
+        setGptCliAuthMode('none');
+      }
+    }
+  }, []);
+
   useEffect(() => {
-    fetchStatus();
+    void fetchStatus();
   }, [fetchStatus]);
 
-  // 구독 탭 진입 시 CLI 로그인 상태 확인
   useEffect(() => {
-    if (authMode === 'subscription' && step === 'setup') {
-      fetch('/market-api/agents/login/status')
-        .then((r) => r.json())
-        .then((d) => setCliLoggedIn(d.loggedIn))
-        .catch(() => {});
+    if (!status) {
+      setStep('loading');
+      return;
     }
-  }, [authMode, step]);
+    const nextStatus = status[provider];
+    setStep(nextStatus.configured ? 'configured' : 'setup');
+    if (provider === 'gpt' && nextStatus.errorMessage) {
+      setAuthMode('subscription');
+      return;
+    }
+    setAuthMode(nextStatus.authMode !== 'none' ? nextStatus.authMode : 'api_key');
+  }, [provider, status]);
+
+  useEffect(() => {
+    if (step === 'setup' && authMode === 'subscription') {
+      void fetchProviderLoginStatus(provider);
+    }
+  }, [authMode, fetchProviderLoginStatus, provider, step]);
 
   const handleVerify = async () => {
     if (!apiKey.trim()) {
-      setError('API 키를 입력하세요.');
+      setError(provider === 'gpt' ? 'OpenAI API 키를 입력하세요.' : 'API 키를 입력하세요.');
       return;
     }
     setError('');
@@ -73,14 +112,18 @@ export function AgentSettings() {
       const res = await fetch('/market-api/agents/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ anthropicApiKey: apiKey.trim() }),
+        body: JSON.stringify(
+          provider === 'gpt'
+            ? { provider, openaiApiKey: apiKey.trim() }
+            : { provider, anthropicApiKey: apiKey.trim() },
+        ),
       });
       const data = await res.json();
       if (data.valid) {
-        setSuccess('API 키가 유효합니다.');
+        setSuccess(provider === 'gpt' ? 'OpenAI API 키가 유효합니다.' : 'API 키가 유효합니다.');
         setError('');
       } else {
-        setError('유효하지 않은 API 키입니다.');
+        setError(provider === 'gpt' ? '유효하지 않은 OpenAI API 키입니다.' : '유효하지 않은 API 키입니다.');
         setSuccess('');
       }
     } catch {
@@ -92,7 +135,7 @@ export function AgentSettings() {
 
   const handleSave = async () => {
     if (authMode === 'api_key' && !apiKey.trim()) {
-      setError('API 키를 입력하세요.');
+      setError(provider === 'gpt' ? 'OpenAI API 키를 입력하세요.' : 'API 키를 입력하세요.');
       return;
     }
     setError('');
@@ -101,9 +144,13 @@ export function AgentSettings() {
     try {
       const token = localStorage.getItem('access_token');
       const body =
-        authMode === 'subscription'
-          ? { authMode: 'subscription' }
-          : { authMode: 'api_key', anthropicApiKey: apiKey.trim() };
+        provider === 'gpt'
+          ? authMode === 'subscription'
+            ? { provider, authMode: 'subscription' }
+            : { provider, authMode: 'api_key', openaiApiKey: apiKey.trim() }
+          : authMode === 'subscription'
+            ? { provider, authMode: 'subscription' }
+            : { provider, authMode: 'api_key', anthropicApiKey: apiKey.trim() };
 
       const res = await fetch('/market-api/agents/config', {
         method: 'POST',
@@ -116,14 +163,17 @@ export function AgentSettings() {
       const data = await res.json();
       if (data.success) {
         setSuccess(
-          authMode === 'subscription'
-            ? 'Claude 구독 인증으로 설정되었습니다.'
-            : 'API 키가 저장되었습니다.',
+          provider === 'gpt'
+            ? authMode === 'subscription'
+              ? 'GPT 구독 인증으로 설정되었습니다.'
+              : 'OpenAI API 키가 저장되었습니다.'
+            : authMode === 'subscription'
+              ? 'Claude 구독 인증으로 설정되었습니다.'
+              : 'API 키가 저장되었습니다.',
         );
         setError('');
         setApiKey('');
         setStatus(data.status);
-        setStep('configured');
       } else {
         setError(data.message || '저장 실패');
       }
@@ -134,7 +184,41 @@ export function AgentSettings() {
     }
   };
 
-  /** 1단계: OAuth PKCE URL 생성 (즉시 응답, CLI 사용 안 함) */
+  const handleImportGptAuth = async () => {
+    if (!gptAuthJson.trim()) {
+      setError('auth.json 내용을 붙여넣어 주세요.');
+      return;
+    }
+
+    setError('');
+    setSuccess('');
+    setImportingGptAuth(true);
+    try {
+      const token = localStorage.getItem('access_token');
+      const res = await fetch('/market-api/agents/gpt/auth/import', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ authJson: gptAuthJson }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSuccess('GPT auth.json 이 저장되었습니다.');
+        setGptAuthJson('');
+        setStatus(data.status);
+        await fetchProviderLoginStatus('gpt');
+      } else {
+        setError(data.error || 'GPT auth.json 저장 실패');
+      }
+    } catch {
+      setError('GPT auth.json 저장 요청 실패');
+    } finally {
+      setImportingGptAuth(false);
+    }
+  };
+
   const handleLogin = async () => {
     setError('');
     setSuccess('');
@@ -166,7 +250,6 @@ export function AgentSettings() {
     }
   };
 
-  /** 2단계: 인증 코드 → OAuth 토큰 교환 (HTTP 직접 교환) */
   const handleSubmitCode = async () => {
     if (!authCode.trim()) {
       setError('인증 코드를 입력하세요.');
@@ -188,12 +271,13 @@ export function AgentSettings() {
       const data = await res.json();
 
       if (data.success) {
-        setCliLoggedIn(true);
+        setClaudeCliLoggedIn(true);
         setLoggingIn(false);
         setSubmittingCode(false);
         setLoginUrl(null);
         setAuthCode('');
         setSuccess('Claude 구독 인증이 완료되었습니다.');
+        await fetchStatus();
       } else {
         setError(data.error || '인증 실패');
         setSubmittingCode(false);
@@ -209,6 +293,8 @@ export function AgentSettings() {
     setLoggingIn(false);
     setAuthCode('');
     setSubmittingCode(false);
+    setGptAuthJson('');
+    setImportingGptAuth(false);
   };
 
   const handleReconfigure = () => {
@@ -227,54 +313,84 @@ export function AgentSettings() {
     resetLoginState();
   };
 
+  const handleProviderChange = (nextProvider: Provider) => {
+    setProvider(nextProvider);
+    setError('');
+    setSuccess('');
+    setApiKey('');
+    resetLoginState();
+  };
+
   if (step === 'loading') {
     return (
       <div className="page-container">
-        <h2>Claude Code 설정</h2>
+        <h2>AI 에이전트 설정</h2>
         <p className="text-muted">상태 확인 중...</p>
       </div>
     );
   }
 
   const authModeLabel =
-    status?.authMode === 'subscription'
-      ? 'Claude 구독'
-      : status?.authMode === 'api_key'
-        ? 'Anthropic API 키'
+    currentStatus?.authMode === 'subscription'
+      ? provider === 'gpt' ? 'GPT 구독' : 'Claude 구독'
+      : currentStatus?.authMode === 'api_key'
+        ? provider === 'gpt' ? 'OpenAI API 키' : 'Anthropic API 키'
         : '미설정';
 
   return (
     <div className="page-container">
-      <h2>Claude Code 설정</h2>
+      <h2>AI 에이전트 설정</h2>
       <p style={{ color: 'var(--text-secondary)', marginBottom: 24 }}>
-        AI 종목 분석에 사용되는 Claude Code CLI 인증 설정입니다.
+        AI 전문가 회의에 사용할 Claude / GPT 연동 방식을 설정합니다.
       </p>
 
-      {/* 현재 상태 카드 */}
+      <div className="agent-auth-tabs" style={{ marginBottom: 24 }}>
+        <button
+          className={`agent-auth-tab ${provider === 'claude' ? 'active' : ''}`}
+          onClick={() => handleProviderChange('claude')}
+        >
+          Claude
+        </button>
+        <button
+          className={`agent-auth-tab ${provider === 'gpt' ? 'active' : ''}`}
+          onClick={() => handleProviderChange('gpt')}
+        >
+          GPT
+        </button>
+      </div>
+
       <div className="agent-status-card">
         <div className="agent-status-row">
-          <span className="agent-status-label">인증 상태</span>
-          <span className={`agent-status-badge ${status?.configured ? 'ok' : 'none'}`}>
-            {status?.configured ? '설정 완료' : '미설정'}
+          <span className="agent-status-label">연동 상태</span>
+          <span className={`agent-status-badge ${currentStatus?.configured ? 'ok' : 'none'}`}>
+            {currentStatus?.configured ? '설정 완료' : '미설정'}
           </span>
         </div>
         <div className="agent-status-row">
           <span className="agent-status-label">인증 방식</span>
           <span className="agent-key-preview">{authModeLabel}</span>
         </div>
-        {status?.keyPreview && (
+        {currentStatus?.keyPreview && (
           <div className="agent-status-row">
             <span className="agent-status-label">API 키</span>
-            <code className="agent-key-preview">{status.keyPreview}</code>
+            <code className="agent-key-preview">{currentStatus.keyPreview}</code>
           </div>
         )}
       </div>
+
+      {currentStatus?.errorMessage && (
+        <div className="alert alert-error" style={{ marginTop: 16 }}>
+          {currentStatus.errorMessage}
+        </div>
+      )}
 
       {step === 'configured' ? (
         <div style={{ marginTop: 24 }}>
           {success && <div className="alert alert-success">{success}</div>}
           <p style={{ marginBottom: 16, color: 'var(--text-secondary)' }}>
-            Claude Code CLI 인증이 완료되었습니다. AI 종목 추천 기능을 사용할 수 있습니다.
+            {provider === 'gpt'
+              ? 'GPT 연동이 완료되었습니다. AI 전문가 회의에서 GPT를 선택할 수 있습니다.'
+              : 'Claude 연동이 완료되었습니다. AI 전문가 회의에서 Claude를 선택할 수 있습니다.'}
           </p>
           <button className="btn" onClick={handleReconfigure}>
             인증 재설정
@@ -284,19 +400,18 @@ export function AgentSettings() {
         <div className="agent-setup-form">
           <h3>인증 방식 선택</h3>
 
-          {/* 인증 모드 탭 */}
           <div className="agent-auth-tabs">
             <button
               className={`agent-auth-tab ${authMode === 'api_key' ? 'active' : ''}`}
               onClick={() => handleModeChange('api_key')}
             >
-              Anthropic API 키
+              {provider === 'gpt' ? 'OpenAI API 키' : 'API 키'}
             </button>
             <button
               className={`agent-auth-tab ${authMode === 'subscription' ? 'active' : ''}`}
               onClick={() => handleModeChange('subscription')}
             >
-              Claude 구독
+              {provider === 'gpt' ? 'GPT 구독' : 'Claude 구독'}
             </button>
           </div>
 
@@ -306,24 +421,40 @@ export function AgentSettings() {
           {authMode === 'api_key' ? (
             <>
               <p style={{ color: 'var(--text-secondary)', fontSize: 13, marginBottom: 16 }}>
-                Anthropic API 키를 입력하세요.{' '}
-                <a
-                  href="https://console.anthropic.com/settings/keys"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Anthropic Console
-                </a>
-                에서 발급받을 수 있습니다.
+                {provider === 'gpt' ? (
+                  <>
+                    OpenAI API 키를 입력하세요.{' '}
+                    <a
+                      href="https://platform.openai.com/api-keys"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      OpenAI Platform
+                    </a>
+                    에서 발급받을 수 있습니다.
+                  </>
+                ) : (
+                  <>
+                    Anthropic API 키를 입력하세요.{' '}
+                    <a
+                      href="https://console.anthropic.com/settings/keys"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Anthropic Console
+                    </a>
+                    에서 발급받을 수 있습니다.
+                  </>
+                )}
               </p>
 
               <div className="form-group">
-                <label>Anthropic API Key</label>
+                <label>{provider === 'gpt' ? 'OpenAI API Key' : 'Anthropic API Key'}</label>
                 <input
                   type="password"
                   value={apiKey}
                   onChange={(e) => setApiKey(e.target.value)}
-                  placeholder="sk-ant-api03-..."
+                  placeholder={provider === 'gpt' ? 'sk-...' : 'sk-ant-api03-...'}
                   autoComplete="off"
                 />
               </div>
@@ -343,14 +474,14 @@ export function AgentSettings() {
                 >
                   {saving ? '저장 중...' : '저장'}
                 </button>
-                {status?.configured && (
+                {currentStatus?.configured && (
                   <button className="btn" onClick={() => setStep('configured')}>
                     취소
                   </button>
                 )}
               </div>
             </>
-          ) : (
+          ) : provider === 'claude' ? (
             <>
               <div className="agent-subscription-info">
                 <p>
@@ -358,14 +489,13 @@ export function AgentSettings() {
                 </p>
                 <div className="agent-login-status">
                   <span className="agent-status-label">CLI 로그인</span>
-                  <span className={`agent-status-badge ${cliLoggedIn ? 'ok' : 'none'}`}>
-                    {cliLoggedIn ? '로그인됨' : '로그인 필요'}
+                  <span className={`agent-status-badge ${claudeCliLoggedIn ? 'ok' : 'none'}`}>
+                    {claudeCliLoggedIn ? '로그인됨' : '로그인 필요'}
                   </span>
                 </div>
               </div>
 
-              {/* 로그인 단계별 UI */}
-              {!cliLoggedIn && !loginUrl && (
+              {!claudeCliLoggedIn && !loginUrl && (
                 <div className="agent-setup-actions">
                   <button
                     className="btn"
@@ -374,7 +504,7 @@ export function AgentSettings() {
                   >
                     {loggingIn ? '준비 중...' : 'Claude 로그인'}
                   </button>
-                  {status?.configured && (
+                  {currentStatus?.configured && (
                     <button className="btn" onClick={() => setStep('configured')}>
                       취소
                     </button>
@@ -382,8 +512,7 @@ export function AgentSettings() {
                 </div>
               )}
 
-              {/* 인증 코드 입력 */}
-              {loggingIn && loginUrl && !cliLoggedIn && (
+              {loggingIn && loginUrl && !claudeCliLoggedIn && (
                 <div className="agent-code-form">
                   <p style={{ color: 'var(--text-secondary)', fontSize: 13, marginBottom: 8 }}>
                     브라우저에서 Claude 로그인 후 표시되는 인증 코드를 입력하세요.
@@ -427,8 +556,7 @@ export function AgentSettings() {
                 </div>
               )}
 
-              {/* 로그인 완료 → 저장 */}
-              {cliLoggedIn && (
+              {claudeCliLoggedIn && (
                 <div className="agent-setup-actions">
                   <button
                     className="btn btn-primary"
@@ -437,13 +565,77 @@ export function AgentSettings() {
                   >
                     {saving ? '저장 중...' : '구독 인증으로 설정'}
                   </button>
-                  {status?.configured && (
+                  {currentStatus?.configured && (
                     <button className="btn" onClick={() => setStep('configured')}>
                       취소
                     </button>
                   )}
                 </div>
               )}
+            </>
+          ) : (
+            <>
+              <div className="agent-subscription-info">
+                <p>
+                  GPT 구독은 Codex CLI의 <code>auth.json</code>을 사용합니다.
+                </p>
+                <div className="agent-login-status">
+                  <span className="agent-status-label">Codex 로그인</span>
+                  <span className={`agent-status-badge ${gptCliLoggedIn && gptCliAuthMode === 'chatgpt' ? 'ok' : 'none'}`}>
+                    {gptCliLoggedIn && gptCliAuthMode === 'chatgpt' ? 'ChatGPT 로그인됨' : '로그인 필요'}
+                  </span>
+                </div>
+              </div>
+
+              <p style={{ color: 'var(--text-secondary)', fontSize: 13, marginBottom: 16 }}>
+                Docker 서버 터미널에서 직접 로그인할 수 없는 경우, 로컬 PC에서 <code>codex login</code> 후
+                생성된 <code>~/.codex/auth.json</code> 내용을 아래에 붙여넣으면 됩니다.
+              </p>
+
+              {currentStatus?.errorMessage && (
+                <p style={{ color: 'var(--danger, #c92a2a)', fontSize: 13, marginBottom: 16 }}>
+                  기존 GPT 구독 인증이 만료되었거나 refresh 에 실패했습니다. 최신 <code>auth.json</code>을 다시 가져와야 합니다.
+                </p>
+              )}
+
+              <div className="form-group">
+                <label>Codex auth.json</label>
+                <textarea
+                  value={gptAuthJson}
+                  onChange={(e) => setGptAuthJson(e.target.value)}
+                  placeholder={'{\n  "auth_mode": "chatgpt",\n  "tokens": { ... }\n}'}
+                  rows={10}
+                  style={{ width: '100%', resize: 'vertical' }}
+                />
+              </div>
+
+              <div className="agent-setup-actions">
+                <button
+                  className="btn"
+                  onClick={() => void fetchProviderLoginStatus('gpt')}
+                >
+                  상태 다시 확인
+                </button>
+                <button
+                  className="btn"
+                  onClick={handleImportGptAuth}
+                  disabled={importingGptAuth || !gptAuthJson.trim()}
+                >
+                  {importingGptAuth ? '가져오는 중...' : 'auth.json 가져오기'}
+                </button>
+                <button
+                  className="btn btn-primary"
+                  onClick={handleSave}
+                  disabled={saving || !gptCliLoggedIn || gptCliAuthMode !== 'chatgpt'}
+                >
+                  {saving ? '저장 중...' : 'GPT 구독으로 설정'}
+                </button>
+                {currentStatus?.configured && (
+                  <button className="btn" onClick={() => setStep('configured')}>
+                    취소
+                  </button>
+                )}
+              </div>
             </>
           )}
         </div>

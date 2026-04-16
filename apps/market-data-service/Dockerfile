@@ -24,9 +24,9 @@ RUN pnpm --filter @alpha-mind/market-data-service run build
 FROM base AS production
 WORKDIR /app
 
-# Claude Code CLI 설치
-RUN npm install -g @anthropic-ai/claude-code \
-    && mkdir -p /root/.claude
+# Claude Code CLI + Codex CLI 설치
+RUN npm install -g @anthropic-ai/claude-code @openai/codex \
+    && mkdir -p /root/.claude /root/.codex
 
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
 COPY apps/market-data-service/package.json ./apps/market-data-service/package.json
@@ -44,8 +44,10 @@ RUN mkdir -p /app/.agents
 WORKDIR /app/apps/market-data-service
 
 ENV CLAUDE_CLI_PATH=/usr/local/bin/claude
+ENV CODEX_CLI_PATH=/usr/local/bin/codex
 ENV AGENTS_CONFIG_DIR=/app/.agents
 ENV CLAUDE_CONFIG_DIR=/root/.claude
+ENV CODEX_HOME=/root/.codex
 
 EXPOSE 3001
 CMD ["sh", "-c", "node -e \"const c = require('./dist/config/mikro-orm.config').default; const { MikroORM } = require('@mikro-orm/core'); MikroORM.init(c).then(orm => orm.getMigrator().up().then(() => orm.close()))\" && node dist/main.js"]

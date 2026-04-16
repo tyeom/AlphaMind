@@ -17,6 +17,11 @@ interface AgentConfigFile {
   authMode?: string;
   anthropicApiKey?: string;
   oauthAccessToken?: string;
+  claude?: {
+    authMode?: string;
+    anthropicApiKey?: string;
+    oauthAccessToken?: string;
+  };
 }
 
 function readAgentConfig(): AgentConfigFile {
@@ -35,12 +40,13 @@ function readAgentConfig(): AgentConfigFile {
 
 function getAnthropicApiKey(): string | undefined {
   const config = readAgentConfig();
+  const claudeConfig = config.claude || {};
   // 구독 모드면 API 키 대신 OAuth 토큰 사용
-  if (config.authMode === 'subscription') return undefined;
+  if ((claudeConfig.authMode ?? config.authMode) === 'subscription') return undefined;
   // 1) 환경변수 우선
   if (process.env.ANTHROPIC_API_KEY) return process.env.ANTHROPIC_API_KEY;
   // 2) config.json에서 읽기
-  return config.anthropicApiKey || undefined;
+  return claudeConfig.anthropicApiKey || config.anthropicApiKey || undefined;
 }
 
 export interface PtyProgress {

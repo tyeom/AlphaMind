@@ -2,7 +2,7 @@
 
 > 한국 주식시장(KRX)을 대상으로 하는 **멀티 AI Agent 분석 기반 종목 추천 및 전략적 자동매매 플랫폼**
 
-Alpha Mind는 **다양한 기술적 지표 기반의 4가지 매매 전략**과 **Claude Code 기반의 멀티 에이전트 AI 시스템**을 결합합니다. AI 에이전트가 분석/추천한 종목을 **사용자가 직접 검토하여 수동으로 선택**하면, 설정된 종목에 대해 실시간 포지션 모니터링을 통한 **정교한 자동 매매**를 수행합니다. 한국투자증권(KIS) OpenAPI를 통해 실계좌·모의투자 환경 모두에서 주문 실행이 가능합니다.
+Alpha Mind는 **다양한 기술적 지표 기반의 4가지 매매 전략**과 **Claude Code / GPT 기반의 멀티 에이전트 AI 시스템**을 결합합니다. AI 에이전트가 분석/추천한 종목을 **사용자가 직접 검토하여 수동으로 선택**하면, 설정된 종목에 대해 실시간 포지션 모니터링을 통한 **정교한 자동 매매**를 수행합니다. 한국투자증권(KIS) OpenAPI를 통해 실계좌·모의투자 환경 모두에서 주문 실행이 가능합니다.
 
 ---
 
@@ -108,7 +108,7 @@ Claude Code CLI를 `child_process.spawn`으로 실행해 **3단계 멀티 에이
 ```
 
 - **Backend**와 **Market Data**는 HTTP + RabbitMQ 메시지 패턴 양방향 통신
-- **Market Data**는 Yahoo Finance 차트 수집 + Claude Code CLI 기반 AI 분석을 담당 (backend를 느리게 만드는 무거운 I/O를 분리)
+- **Market Data**는 Yahoo Finance 차트 수집 + Claude Code CLI / GPT 기반 AI 분석을 담당 (backend를 느리게 만드는 무거운 I/O를 분리)
 - **Frontend**는 nginx reverse proxy로 두 서비스를 하나의 오리진에서 서비스 (`/api`, `/market-api`, `/ws`)
 
 ---

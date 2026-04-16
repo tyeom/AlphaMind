@@ -121,9 +121,9 @@ export function Layout() {
                 <span className="nav-icon">AI</span>
                 {!collapsed && <span className="nav-label">AI 종목 추천</span>}
               </NavLink>
-              <NavLink to="/agent-settings" title="Claude 설정">
+              <NavLink to="/agent-settings" title="AI 에이전트 설정">
                 <span className="nav-icon">S</span>
-                {!collapsed && <span className="nav-label">Claude 설정</span>}
+                {!collapsed && <span className="nav-label">AI 설정</span>}
               </NavLink>
               {isAdmin && (
                 <NavLink to="/admin/users" className="nav-admin" title="회원 관리">

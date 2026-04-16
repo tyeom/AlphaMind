@@ -1,6 +1,7 @@
 import type { ScanResponse, AiStockScore } from '../types/scanner';
 
 const MARKET_API = '/market-api';
+export type AiMeetingProvider = 'claude' | 'gpt';
 
 function authHeaders(): Record<string, string> {
   const token = localStorage.getItem('access_token');
@@ -54,11 +55,12 @@ export interface AiScoreStreamCallbacks {
  */
 export async function startAiSession(
   stocks: { stockCode: string; stockName: string; totalReturnPct: number; strategyName: string; strategyId?: string }[],
+  provider: AiMeetingProvider,
 ): Promise<{ sessionId: string }> {
   const res = await fetch(`${MARKET_API}/ai-scoring/session/start`, {
     method: 'POST',
     headers: authHeaders(),
-    body: JSON.stringify({ stocks }),
+    body: JSON.stringify({ stocks, provider }),
   });
   if (!res.ok) {
     const body = await res.json().catch(() => ({ message: res.statusText }));
@@ -72,6 +74,7 @@ export async function getActiveAiSession(): Promise<{
   session?: {
     id: string;
     status: string;
+    provider: AiMeetingProvider;
     stocks: any[];
     scores: AiStockScore[];
     progress: SseProgress | null;

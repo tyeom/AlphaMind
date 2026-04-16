@@ -1,6 +1,13 @@
 import { useState, useEffect, useCallback, type FormEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { scanStocks, startAiSession, getActiveAiSession, streamAiSession, cancelAiSession } from '../api/scanner';
+import {
+  scanStocks,
+  startAiSession,
+  getActiveAiSession,
+  streamAiSession,
+  cancelAiSession,
+  type AiMeetingProvider,
+} from '../api/scanner';
 import type { SseProgress } from '../api/scanner';
 import { api } from '../api/client';
 import { startSessionsBatch, getSessions, pauseSession, resumeSession, stopSession, updateSession, deleteSessionPermanent, manualOrder } from '../api/auto-trading';
@@ -27,6 +34,19 @@ import { SessionConflictModal } from '../components/SessionConflictModal';
 import { getAiMeetingResults, getAiMeetingResult, type AiMeetingResult } from '../api/ai-meeting-result';
 
 type Step = 'idle' | 'scanning' | 'scanned' | 'scoring' | 'scored' | 'trading';
+type AuthMode = 'api_key' | 'subscription';
+
+interface ProviderStatus {
+  configured: boolean;
+  authMode: AuthMode | 'none';
+  keySet: boolean;
+  keyPreview: string | null;
+}
+
+interface AgentStatuses {
+  claude: ProviderStatus;
+  gpt: ProviderStatus;
+}
 
 function fmt(n: number): string {
   return n.toLocaleString('ko-KR');
@@ -502,10 +522,34 @@ export function AiScanner() {
 
   const [meetingResultModal, setMeetingResultModal] = useState<AiMeetingResult | null>(null);
   const [meetingResultCache, setMeetingResultCache] = useState<Map<string, AiMeetingResult>>(new Map());
+  const [agentStatuses, setAgentStatuses] = useState<AgentStatuses | null>(null);
+  const [meetingProvider, setMeetingProvider] = useState<AiMeetingProvider>('claude');
 
   const [, setAiSessionId] = useState<string | null>(null);
 
   const { connected, on } = useAutoTradingWebSocket();
+
+  const availableMeetingProviders = (['claude', 'gpt'] as const).filter(
+    (provider) => agentStatuses?.[provider].configured,
+  );
+
+  const fetchAgentStatuses = useCallback(async () => {
+    try {
+      const res = await fetch('/market-api/agents/status');
+      if (!res.ok) return null;
+      const data: AgentStatuses = await res.json();
+      setAgentStatuses(data);
+      setMeetingProvider((prev) => {
+        if (data[prev].configured) return prev;
+        if (data.claude.configured) return 'claude';
+        if (data.gpt.configured) return 'gpt';
+        return prev;
+      });
+      return data;
+    } catch {
+      return null;
+    }
+  }, []);
 
   useEffect(() => {
     const off = on('price-update', (data: PriceUpdate) => {
@@ -521,10 +565,17 @@ export function AiScanner() {
     return off;
   }, [on]);
 
-  const connectToAiSession = useCallback((sessionId: string, existingScores?: AiStockScore[]) => {
+  const connectToAiSession = useCallback((
+    sessionId: string,
+    existingScores?: AiStockScore[],
+    provider?: AiMeetingProvider,
+  ) => {
     setAiSessionId(sessionId);
     setStep('scoring');
     setScoringProgress(null);
+    if (provider) {
+      setMeetingProvider(provider);
+    }
 
     if (existingScores && existingScores.length > 0) {
       const map = new Map<string, AiStockScore>();
@@ -627,6 +678,7 @@ export function AiScanner() {
 
     async function init() {
       const viewParam = searchParams.get('view');
+      await fetchAgentStatuses();
 
       // 진행 중인 AI 세션이 있는지 확인
       try {
@@ -649,7 +701,7 @@ export function AiScanner() {
           setSelected(new Set(fakeResults.map((r) => r.stockCode)));
           setScanInfo({ scanned: 0, eligible: 0, elapsed: 0, targetTopN: 0, droppedByStatus: 0, droppedByPriceError: 0 });
 
-          connectToAiSession(activeSession.id, activeSession.scores);
+          connectToAiSession(activeSession.id, activeSession.scores, activeSession.provider);
           return;
         }
       } catch { /* ignore */ }
@@ -703,7 +755,7 @@ export function AiScanner() {
 
     init();
     return () => { cancelled = true; };
-  }, [connectToAiSession, searchParams]);
+  }, [connectToAiSession, fetchAgentStatuses, searchParams]);
 
   const handleScan = async () => {
     setError('');
@@ -828,10 +880,25 @@ export function AiScanner() {
         strategyName: r.bestStrategy.strategyName,
       }));
 
+    const latestStatuses = agentStatuses ?? await fetchAgentStatuses();
+    const configuredProviders = (['claude', 'gpt'] as const).filter(
+      (provider) => latestStatuses?.[provider].configured,
+    );
+    if (configuredProviders.length === 0) {
+      setError('AI 전문가 회의를 시작하려면 Claude 또는 GPT 연동 설정을 먼저 완료해주세요.');
+      return;
+    }
+    if (!latestStatuses?.[meetingProvider].configured) {
+      const fallbackProvider = configuredProviders[0];
+      setMeetingProvider(fallbackProvider);
+      setError(`${meetingProvider === 'claude' ? 'Claude' : 'GPT'} 연동이 설정되지 않았습니다. 먼저 AI 설정을 완료하세요.`);
+      return;
+    }
+
     try {
-      const { sessionId } = await startAiSession(stocks);
+      const { sessionId } = await startAiSession(stocks, meetingProvider);
       createMeetingNotification('started');
-      connectToAiSession(sessionId);
+      connectToAiSession(sessionId, undefined, meetingProvider);
     } catch (err: any) {
       setError(err.message || 'AI 세션 시작에 실패했습니다.');
     }
@@ -1216,6 +1283,29 @@ export function AiScanner() {
               )}
             </div>
           </div>
+
+          {(availableMeetingProviders.length > 1 || agentStatuses) && (
+            <div className="agent-setup-actions" style={{ marginBottom: 16 }}>
+              <span className="text-muted" style={{ alignSelf: 'center' }}>회의 엔진</span>
+              <button
+                className={`btn ${meetingProvider === 'claude' ? 'btn-primary' : ''}`}
+                onClick={() => setMeetingProvider('claude')}
+                disabled={!agentStatuses?.claude.configured || step === 'scoring'}
+              >
+                Claude
+              </button>
+              <button
+                className={`btn ${meetingProvider === 'gpt' ? 'btn-primary' : ''}`}
+                onClick={() => setMeetingProvider('gpt')}
+                disabled={!agentStatuses?.gpt.configured || step === 'scoring'}
+              >
+                GPT
+              </button>
+              {agentStatuses && !agentStatuses.claude.configured && !agentStatuses.gpt.configured && (
+                <span className="text-loss">AI 설정에서 Claude 또는 GPT 연동이 필요합니다.</span>
+              )}
+            </div>
+          )}
 
           {step === 'scoring' && (
             <div className="meeting-progress card">

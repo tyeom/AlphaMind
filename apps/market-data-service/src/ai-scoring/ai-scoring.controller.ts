@@ -38,7 +38,7 @@ export class AiScoringController {
 
     try {
       // OAuth 토큰 사전 검증 (만료 시 자동 갱신 시도)
-      await this.aiScoringService.ensureAuth();
+      await this.aiScoringService.ensureAuth(body.provider ?? 'claude');
 
       const startTime = Date.now();
 
@@ -61,7 +61,7 @@ export class AiScoringController {
             stockName: stock.stockName,
             phase,
           });
-        });
+        }, undefined, body.provider ?? 'claude');
 
         send('score', score);
       }
@@ -76,9 +76,15 @@ export class AiScoringController {
 
   /** 백그라운드 세션 시작 — sessionId 즉시 반환 */
   @Post('session/start')
-  startSession(@Req() req: Request, @Body() body: AiScoreRequest) {
+  async startSession(@Req() req: Request, @Body() body: AiScoreRequest) {
     const userId = (req as any).user?.sub ?? 0;
-    const sessionId = this.aiScoringService.startBackgroundSession(body.stocks, userId);
+    const existing = this.aiScoringService.getActiveSession(userId);
+    if (existing) {
+      return { sessionId: existing.id };
+    }
+    const provider = body.provider ?? 'claude';
+    await this.aiScoringService.ensureAuth(provider);
+    const sessionId = this.aiScoringService.startBackgroundSession(body.stocks, userId, provider);
     return { sessionId };
   }
 
@@ -93,6 +99,7 @@ export class AiScoringController {
       session: {
         id: session.id,
         status: session.status,
+        provider: session.provider,
         stocks: session.stocks,
         scores: session.scores,
         progress: session.progress,
@@ -196,6 +203,7 @@ export class AiScoringController {
       session: {
         id: session.id,
         status: session.status,
+        provider: session.provider,
         stocks: session.stocks,
         scores: session.scores,
         progress: session.progress,
@@ -219,12 +227,12 @@ export class AiScoringController {
   /** 기존 동기 HTTP 엔드포인트 (소수 종목용) */
   @Post('score')
   scoreStocks(@Body() body: AiScoreRequest) {
-    return this.aiScoringService.scoreStocks(body.stocks);
+    return this.aiScoringService.scoreStocks(body.stocks, body.provider ?? 'claude');
   }
 
   /** RMQ 메시지 패턴 */
   @MessagePattern('ai_scoring.score')
   scoreStocksRmq(@Payload() body: AiScoreRequest) {
-    return this.aiScoringService.scoreStocks(body.stocks);
+    return this.aiScoringService.scoreStocks(body.stocks, body.provider ?? 'claude');
   }
 }

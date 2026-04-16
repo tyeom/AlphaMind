@@ -19,6 +19,8 @@ export const validationSchema = Joi.object({
 
   // Claude CLI
   CLAUDE_CLI_PATH: Joi.string().default('claude'),
+  CODEX_CLI_PATH: Joi.string().default('codex'),
+  CODEX_HOME: Joi.string().default('/root/.codex'),
 
   // RabbitMQ
   RMQ_URL: Joi.string().default('amqp://alpha:alpha1234@localhost:5672'),
