@@ -176,6 +176,16 @@ export interface KisRealtimeOrderNotification {
   orderPrice: number;
 }
 
+/** 실시간 구독/해제 응답 */
+export interface KisRealtimeSubscriptionResult {
+  action: 'subscribe' | 'unsubscribe';
+  trId: string;
+  trKey: string;
+  success: boolean;
+  code: string;
+  message: string;
+}
+
 /** 프론트엔드 → 백엔드 WebSocket 메시지 */
 export interface WsClientMessage {
   event: 'subscribe' | 'unsubscribe';
@@ -187,6 +197,12 @@ export interface WsClientMessage {
 
 /** 백엔드 → 프론트엔드 WebSocket 이벤트 */
 export interface WsServerMessage {
-  event: 'execution' | 'orderbook' | 'notification' | 'subscribed' | 'unsubscribed' | 'error';
+  event:
+    | 'execution'
+    | 'orderbook'
+    | 'notification'
+    | 'subscribed'
+    | 'unsubscribed'
+    | 'error';
   data: any;
 }

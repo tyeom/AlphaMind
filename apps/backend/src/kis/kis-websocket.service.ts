@@ -14,6 +14,7 @@ import {
   KisRealtimeExecution,
   KisRealtimeOrderbook,
   KisRealtimeOrderNotification,
+  KisRealtimeSubscriptionResult,
   KisRealtimeTrId,
 } from './kis.types';
 
@@ -30,6 +31,10 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
   private aesIv: string | null = null;
   private aesKey: string | null = null;
   private subscriptions = new Map<string, Set<string>>();
+  private pendingSubscriptionActions = new Map<
+    string,
+    'subscribe' | 'unsubscribe'
+  >();
 
   /** 재연결 상태 */
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
@@ -46,6 +51,8 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
   readonly orderbook$ = new Subject<KisRealtimeOrderbook>();
   /** 실시간 체결통보 스트림 */
   readonly notification$ = new Subject<KisRealtimeOrderNotification>();
+  /** 실시간 구독 결과 스트림 */
+  readonly subscriptionResult$ = new Subject<KisRealtimeSubscriptionResult>();
 
   constructor(
     private readonly httpService: HttpService,
@@ -64,6 +71,7 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
     this.execution$.complete();
     this.orderbook$.complete();
     this.notification$.complete();
+    this.subscriptionResult$.complete();
   }
 
   /** WebSocket 접속키 발급 (REST) */
@@ -209,11 +217,21 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
   // ── 구독 관리 ──
 
   /** 종목 구독 */
-  subscribe(trId: KisRealtimeTrId, trKey: string) {
+  subscribe(
+    trId: KisRealtimeTrId,
+    trKey: string,
+    options?: { force?: boolean },
+  ) {
     if (!this.subscriptions.has(trId)) {
       this.subscriptions.set(trId, new Set());
     }
-    this.subscriptions.get(trId)!.add(trKey);
+    const keys = this.subscriptions.get(trId)!;
+    const alreadySubscribed = keys.has(trKey);
+    keys.add(trKey);
+
+    if (alreadySubscribed && !options?.force) {
+      return;
+    }
 
     if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
       this.logger.warn(
@@ -227,12 +245,19 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
 
   /** 구독 해제 */
   unsubscribe(trId: KisRealtimeTrId, trKey: string) {
-    this.subscriptions.get(trId)?.delete(trKey);
+    const deleted = this.subscriptions.get(trId)?.delete(trKey);
+    if (!deleted) {
+      return;
+    }
     this.sendSubscription('2', trId, trKey);
   }
 
   private sendSubscription(trType: '1' | '2', trId: string, trKey: string) {
-    if (!this.ws || this.ws.readyState !== WebSocket.OPEN || !this.approvalKey) {
+    if (
+      !this.ws ||
+      this.ws.readyState !== WebSocket.OPEN ||
+      !this.approvalKey
+    ) {
       return;
     }
 
@@ -248,6 +273,11 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
           input: { tr_id: trId, tr_key: trKey },
         },
       }),
+    );
+
+    this.pendingSubscriptionActions.set(
+      `${trId}:${trKey}`,
+      trType === '1' ? 'subscribe' : 'unsubscribe',
     );
   }
 
@@ -280,12 +310,44 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
     if (raw.startsWith('{')) {
       try {
         const json = JSON.parse(raw);
+        const trId = json.header?.tr_id;
+        const trKey = json.header?.tr_key;
+        const rtCd = json.body?.rt_cd;
+        const msgCd = json.body?.msg_cd;
+        const msg1 = json.body?.msg1;
+        const pendingAction =
+          trId && trKey
+            ? this.pendingSubscriptionActions.get(`${trId}:${trKey}`)
+            : undefined;
+        const action =
+          pendingAction ??
+          (String(msg1 ?? '')
+            .toUpperCase()
+            .includes('UNSUBSCRIBE')
+            ? 'unsubscribe'
+            : 'subscribe');
+
         if (json.body?.output?.iv) {
           this.aesIv = json.body.output.iv;
           this.aesKey = json.body.output.key;
         }
-        if (json.body?.rt_cd !== '0') {
-          this.logger.warn(`구독 실패: ${json.body?.msg1}`);
+
+        if (trId && trKey && rtCd) {
+          this.pendingSubscriptionActions.delete(`${trId}:${trKey}`);
+          this.subscriptionResult$.next({
+            action,
+            trId,
+            trKey,
+            success: rtCd === '0',
+            code: msgCd ?? '',
+            message: msg1 ?? '',
+          });
+        }
+
+        if (rtCd !== '0') {
+          this.logger.warn(
+            `구독 실패: ${trId ?? 'N/A'}:${trKey ?? 'N/A'} - ${msg1}`,
+          );
         }
       } catch {
         this.logger.warn('JSON 파싱 실패');

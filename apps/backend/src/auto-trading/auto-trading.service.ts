@@ -34,6 +34,7 @@ import { KisOrderService } from '../kis/kis-order.service';
 import { KisWebSocketService } from '../kis/kis-websocket.service';
 import { KisQuotationService } from '../kis/kis-quotation.service';
 import { KisInquiryService } from '../kis/kis-inquiry.service';
+import { KisRealtimeSubscriptionResult } from '../kis/kis.types';
 import { UserEntity } from '../user/entities/user.entity';
 import { NotificationService } from '../notification/notification.service';
 import { NotificationType } from '../notification/entities/notification.entity';
@@ -54,11 +55,15 @@ const DEFAULT_TAKE_PROFIT_PCT = 5;
 const DEFAULT_STOP_LOSS_PCT = -3;
 const DEFAULT_STRATEGY_ID = 'day-trading';
 const TRADE_RATIO_PCT = 10;
+const PRICE_POLL_INTERVAL_MS = 5_000;
+const SUBSCRIPTION_RETRY_BASE_DELAY_MS = 5_000;
+const SUBSCRIPTION_RETRY_MAX_DELAY_MS = 60_000;
 
 @Injectable()
 export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(AutoTradingService.name);
   private executionSub?: Subscription;
+  private subscriptionResultSub?: Subscription;
   private notificationSub?: Subscription;
   /** 종목별 최신 가격 캐시 */
   private latestPrices = new Map<string, number>();
@@ -70,6 +75,20 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
    * 세션 상태가 바뀔 때마다 syncStockActivity 로 갱신한다.
    */
   private activeStockCodes = new Set<string>();
+  /** 구독 한도 초과 종목은 REST 현재가 폴링으로 폴백 */
+  private pollingStockIntervals = new Map<
+    string,
+    ReturnType<typeof setInterval>
+  >();
+  /** 현재가 폴링 중복 실행 방지 */
+  private pollingInFlight = new Set<string>();
+  /** 기타 구독 실패에 대한 종목별 재시도 타이머 */
+  private subscriptionRetryTimers = new Map<
+    string,
+    ReturnType<typeof setTimeout>
+  >();
+  /** 기타 구독 실패 재시도 횟수 */
+  private subscriptionRetryAttempts = new Map<string, number>();
 
   private gateway?: import('./auto-trading.gateway').AutoTradingGateway;
 
@@ -536,7 +555,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
         // 보유 중이면 익절/손절 체크 (세션별 목표 수익/손절 기준)
         if (session.holdingQty > 0 && session.avgBuyPrice > 0) {
-          const returnPct = ((price - session.avgBuyPrice) / session.avgBuyPrice) * 100;
+          const returnPct =
+            ((price - session.avgBuyPrice) / session.avgBuyPrice) * 100;
 
           if (returnPct >= session.takeProfitPct) {
             await this.executeSell(
@@ -634,7 +654,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     const qty = Math.floor(tradeAmount / price);
     if (qty <= 0) return;
 
-    this.logger.log(`매수 실행(지정가): ${session.stockCode} ${qty}주 @ ${price}`);
+    this.logger.log(
+      `매수 실행(지정가): ${session.stockCode} ${qty}주 @ ${price}`,
+    );
 
     try {
       const result = await this.kisOrderService.orderCash({
@@ -647,7 +669,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       });
 
       if (result.rt_cd !== '0') {
-        this.logger.error(`매수 주문 거부: ${session.stockCode} - ${result.msg1}`);
+        this.logger.error(
+          `매수 주문 거부: ${session.stockCode} - ${result.msg1}`,
+        );
         return;
       }
 
@@ -748,7 +772,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       });
 
       if (result.rt_cd !== '0') {
-        this.logger.error(`매도 주문 거부: ${session.stockCode} - ${result.msg1}`);
+        this.logger.error(
+          `매도 주문 거부: ${session.stockCode} - ${result.msg1}`,
+        );
         return;
       }
 
@@ -761,7 +787,14 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       session.totalSells += 1;
       await this.em.flush();
 
-      this.createSignalNotification(session, 'sell', price, sellQty, reason, Math.round(pnl));
+      this.createSignalNotification(
+        session,
+        'sell',
+        price,
+        sellQty,
+        reason,
+        Math.round(pnl),
+      );
     } catch (err: any) {
       this.logger.error(`매도 실패: ${session.stockCode} - ${err.message}`);
       return;
@@ -787,8 +820,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       const { items } = await this.kisInquiryService.getBalance();
       const stillHeld = items.some(
         (item) =>
-          item.pdno?.trim() === session.stockCode &&
-          Number(item.hldg_qty) > 0,
+          item.pdno?.trim() === session.stockCode && Number(item.hldg_qty) > 0,
       );
 
       if (stillHeld) {
@@ -819,7 +851,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     pnl?: number,
   ) {
     const isBuy = action === 'buy';
-    const type = isBuy ? NotificationType.BUY_SIGNAL : NotificationType.SELL_SIGNAL;
+    const type = isBuy
+      ? NotificationType.BUY_SIGNAL
+      : NotificationType.SELL_SIGNAL;
     const title = isBuy
       ? `${session.stockName} 매수 체결`
       : `${session.stockName} 매도 체결`;
@@ -839,39 +873,65 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         sessionId: session.id,
       })
       .then((n) => this.gateway?.broadcastNotification(n))
-      .catch((err) =>
-        this.logger.warn(`알림 생성 실패: ${err.message}`),
-      );
+      .catch((err) => this.logger.warn(`알림 생성 실패: ${err.message}`));
   }
 
   /** 실시간 가격 모니터링 시작 */
   private startMonitoring(sessions: AutoTradingSessionEntity[]) {
+    const stockCodes = new Set(sessions.map((s) => s.stockCode));
+
     // WebSocket 실시간 체결가 구독
-    for (const s of sessions) {
-      this.subscribeStock(s.stockCode);
+    for (const stockCode of stockCodes) {
+      this.subscribeStock(stockCode);
     }
 
-    this.executionSub = this.kisWsService.execution$.subscribe((data) => {
-      this.latestPrices.set(data.stockCode, Number(data.price));
-    });
+    if (!this.executionSub) {
+      this.executionSub = this.kisWsService.execution$.subscribe((data) => {
+        this.latestPrices.set(data.stockCode, Number(data.price));
+      });
+    }
+
+    if (!this.subscriptionResultSub) {
+      this.subscriptionResultSub =
+        this.kisWsService.subscriptionResult$.subscribe((result) => {
+          this.handleExecutionSubscriptionResult(result);
+        });
+    }
 
     // 30초마다 전략 신호 체크
-    this.monitorInterval = setInterval(() => {
-      this.checkSignalsAndTrade().catch((err) =>
-        this.logger.error(`모니터링 오류: ${err.message}`),
-      );
-    }, 30_000);
+    if (!this.monitorInterval) {
+      this.monitorInterval = setInterval(() => {
+        this.checkSignalsAndTrade().catch((err) =>
+          this.logger.error(`모니터링 오류: ${err.message}`),
+        );
+      }, 30_000);
+    }
   }
 
   private stopMonitoring() {
     this.executionSub?.unsubscribe();
+    this.subscriptionResultSub?.unsubscribe();
     this.notificationSub?.unsubscribe();
     if (this.monitorInterval) clearInterval(this.monitorInterval);
+    for (const interval of this.pollingStockIntervals.values()) {
+      clearInterval(interval);
+    }
+    for (const timer of this.subscriptionRetryTimers.values()) {
+      clearTimeout(timer);
+    }
+    this.executionSub = undefined;
+    this.subscriptionResultSub = undefined;
+    this.notificationSub = undefined;
+    this.monitorInterval = undefined;
+    this.pollingStockIntervals.clear();
+    this.pollingInFlight.clear();
+    this.subscriptionRetryTimers.clear();
+    this.subscriptionRetryAttempts.clear();
   }
 
-  private subscribeStock(stockCode: string) {
+  private subscribeStock(stockCode: string, options?: { force?: boolean }) {
     try {
-      this.kisWsService.subscribe('H0STCNT0', stockCode);
+      this.kisWsService.subscribe('H0STCNT0', stockCode, options);
     } catch (err: any) {
       this.logger.warn(`WebSocket 구독 실패: ${stockCode} - ${err.message}`);
     }
@@ -904,11 +964,164 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     });
     if (active) {
       this.activeStockCodes.add(stockCode);
-      this.subscribeStock(stockCode);
+      if (
+        !this.executionSub ||
+        !this.subscriptionResultSub ||
+        !this.monitorInterval
+      ) {
+        this.startMonitoring([active]);
+      } else {
+        this.subscribeStock(stockCode);
+      }
     } else {
       this.activeStockCodes.delete(stockCode);
       this.latestPrices.delete(stockCode);
+      this.stopPricePolling(stockCode);
+      this.clearSubscriptionRetry(stockCode);
       this.unsubscribeStock(stockCode);
+    }
+  }
+
+  private handleExecutionSubscriptionResult(
+    result: KisRealtimeSubscriptionResult,
+  ) {
+    if (result.trId !== 'H0STCNT0' || result.action !== 'subscribe') {
+      return;
+    }
+
+    const stockCode = result.trKey;
+    if (!this.activeStockCodes.has(stockCode)) {
+      this.stopPricePolling(stockCode);
+      this.clearSubscriptionRetry(stockCode);
+      return;
+    }
+
+    if (result.success) {
+      this.stopPricePolling(stockCode);
+      this.clearSubscriptionRetry(stockCode);
+      this.subscriptionRetryAttempts.delete(stockCode);
+      return;
+    }
+
+    if (this.isSubscriptionLimitError(result)) {
+      this.clearSubscriptionRetry(stockCode);
+      this.subscriptionRetryAttempts.delete(stockCode);
+      this.startPricePolling(stockCode, result.message);
+      return;
+    }
+
+    this.scheduleSubscriptionRetry(stockCode, result.message);
+  }
+
+  private isSubscriptionLimitError(
+    result: KisRealtimeSubscriptionResult,
+  ): boolean {
+    const text = `${result.code} ${result.message}`.toLowerCase();
+    return (
+      text.includes('max subscribe over') ||
+      text.includes('limit') ||
+      text.includes('exceed') ||
+      text.includes('초과') ||
+      text.includes('한도') ||
+      text.includes('제한')
+    );
+  }
+
+  private startPricePolling(stockCode: string, reason: string) {
+    if (this.pollingStockIntervals.has(stockCode)) {
+      return;
+    }
+
+    this.logger.warn(
+      `WebSocket 구독 한도 초과로 REST 폴링 전환: ${stockCode} - ${reason}`,
+    );
+    this.kisWsService.unsubscribe('H0STCNT0', stockCode);
+    void this.pollCurrentPrice(stockCode);
+
+    const interval = setInterval(() => {
+      void this.pollCurrentPrice(stockCode);
+    }, PRICE_POLL_INTERVAL_MS);
+    this.pollingStockIntervals.set(stockCode, interval);
+  }
+
+  private stopPricePolling(stockCode: string) {
+    const interval = this.pollingStockIntervals.get(stockCode);
+    if (interval) {
+      clearInterval(interval);
+      this.pollingStockIntervals.delete(stockCode);
+    }
+    this.pollingInFlight.delete(stockCode);
+  }
+
+  private async pollCurrentPrice(stockCode: string) {
+    if (
+      !this.activeStockCodes.has(stockCode) ||
+      this.pollingInFlight.has(stockCode)
+    ) {
+      return;
+    }
+
+    this.pollingInFlight.add(stockCode);
+
+    try {
+      const priceRaw =
+        await this.kisQuotationService.getCurrentPrice(stockCode);
+      const price = Number(priceRaw.stck_prpr);
+      if (!Number.isFinite(price) || price <= 0) {
+        this.logger.warn(
+          `REST 현재가 조회 실패: ${stockCode} - 유효하지 않은 가격`,
+        );
+        return;
+      }
+      this.latestPrices.set(stockCode, price);
+    } catch (err: any) {
+      this.logger.warn(
+        `REST 현재가 폴링 실패: ${stockCode} - ${err.message ?? err}`,
+      );
+    } finally {
+      this.pollingInFlight.delete(stockCode);
+    }
+  }
+
+  private scheduleSubscriptionRetry(stockCode: string, reason: string) {
+    if (
+      this.subscriptionRetryTimers.has(stockCode) ||
+      this.pollingStockIntervals.has(stockCode) ||
+      !this.activeStockCodes.has(stockCode)
+    ) {
+      return;
+    }
+
+    const attempt = (this.subscriptionRetryAttempts.get(stockCode) ?? 0) + 1;
+    this.subscriptionRetryAttempts.set(stockCode, attempt);
+
+    const delay = Math.min(
+      SUBSCRIPTION_RETRY_BASE_DELAY_MS * Math.pow(2, attempt - 1),
+      SUBSCRIPTION_RETRY_MAX_DELAY_MS,
+    );
+
+    this.logger.warn(
+      `WebSocket 구독 재시도 예약: ${stockCode} - ${reason} ` +
+        `(시도 #${attempt}, ${delay / 1000}초 후)`,
+    );
+
+    const timer = setTimeout(() => {
+      this.subscriptionRetryTimers.delete(stockCode);
+      if (!this.activeStockCodes.has(stockCode)) {
+        this.subscriptionRetryAttempts.delete(stockCode);
+        return;
+      }
+      this.subscribeStock(stockCode, { force: true });
+    }, delay);
+
+    this.subscriptionRetryTimers.set(stockCode, timer);
+  }
+
+  private clearSubscriptionRetry(stockCode: string) {
+    const timer = this.subscriptionRetryTimers.get(stockCode);
+    if (timer) {
+      clearTimeout(timer);
+      this.subscriptionRetryTimers.delete(stockCode);
     }
   }
 
