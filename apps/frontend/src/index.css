@@ -74,8 +74,14 @@ body {
 }
 
 body {
-  font-family: 'Pretendard Variable', system-ui, -apple-system,
-    BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    'Pretendard Variable',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
   font-size: 14px;
   line-height: 1.6;
   color: var(--text-primary);
@@ -159,7 +165,9 @@ a:hover {
   border-right: 1px solid var(--header-border);
   display: flex;
   flex-direction: column;
-  transition: width 0.2s, min-width 0.2s;
+  transition:
+    width 0.2s,
+    min-width 0.2s;
   overflow: hidden;
 }
 .sidebar-logo {
@@ -206,7 +214,9 @@ a:hover {
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 .sidebar-nav a:hover {
   background: var(--bg-tertiary);
@@ -1695,7 +1705,9 @@ h3 {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .scan-header {
@@ -2226,6 +2238,82 @@ h3 {
   opacity: 0.6;
 }
 
+.session-live-profit td {
+  background: linear-gradient(
+    90deg,
+    rgba(46, 160, 67, 0.12),
+    rgba(46, 160, 67, 0.03)
+  );
+}
+
+.session-live-loss td {
+  background: linear-gradient(
+    90deg,
+    rgba(224, 49, 49, 0.12),
+    rgba(224, 49, 49, 0.03)
+  );
+}
+
+.session-live-flat td {
+  background: linear-gradient(
+    90deg,
+    rgba(134, 142, 150, 0.08),
+    rgba(134, 142, 150, 0.02)
+  );
+}
+
+.session-live-profit td:first-child {
+  box-shadow: inset 3px 0 0 rgba(46, 160, 67, 0.5);
+}
+
+.session-live-loss td:first-child {
+  box-shadow: inset 3px 0 0 rgba(224, 49, 49, 0.5);
+}
+
+.session-live-flat td:first-child {
+  box-shadow: inset 3px 0 0 rgba(134, 142, 150, 0.45);
+}
+
+.current-price-cell {
+  position: relative;
+  font-variant-numeric: tabular-nums;
+  transition:
+    color 0.16s ease,
+    background-color 0.16s ease;
+}
+
+.current-price-cell.price-tick-up {
+  color: #2f9e44;
+  animation: price-tick-up 0.7s ease-out;
+}
+
+.current-price-cell.price-tick-down {
+  color: #e03131;
+  animation: price-tick-down 0.7s ease-out;
+}
+
+@keyframes price-tick-up {
+  0% {
+    background: rgba(46, 160, 67, 0.22);
+    transform: translateY(-1px);
+  }
+  100% {
+    background: transparent;
+    transform: translateY(0);
+  }
+}
+
+@keyframes price-tick-down {
+  0% {
+    background: rgba(224, 49, 49, 0.2);
+    transform: translateY(1px);
+  }
+  100% {
+    background: transparent;
+    transform: translateY(0);
+  }
+}
+
 /* ── Expert Meeting Detail ── */
 .ai-score-btn {
   font-weight: 700;
@@ -2369,11 +2457,26 @@ h3 {
   border-radius: 4px;
 }
 
-.rec-strong-buy { background: #d3f9d8; color: #2b8a3e; }
-.rec-buy { background: #e3fafc; color: #0c8599; }
-.rec-hold { background: #fff3bf; color: #e67700; }
-.rec-sell { background: #ffe3e3; color: #c92a2a; }
-.rec-strong-sell { background: #e03131; color: #fff; }
+.rec-strong-buy {
+  background: #d3f9d8;
+  color: #2b8a3e;
+}
+.rec-buy {
+  background: #e3fafc;
+  color: #0c8599;
+}
+.rec-hold {
+  background: #fff3bf;
+  color: #e67700;
+}
+.rec-sell {
+  background: #ffe3e3;
+  color: #c92a2a;
+}
+.rec-strong-sell {
+  background: #e03131;
+  color: #fff;
+}
 
 .expert-score {
   font-size: 16px;
@@ -2524,8 +2627,13 @@ h3 {
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 4px rgba(66, 99, 235, 0.2); }
-  50% { box-shadow: 0 0 0 8px rgba(66, 99, 235, 0.1); }
+  0%,
+  100% {
+    box-shadow: 0 0 0 4px rgba(66, 99, 235, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(66, 99, 235, 0.1);
+  }
 }
 
 .phase-line {
@@ -2561,8 +2669,13 @@ h3 {
 }
 
 @keyframes pulse-text {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
 
 /* ── 전략 분석 근거 요약 행 ── */
@@ -2903,7 +3016,9 @@ h3 {
   background: var(--bg-secondary);
   color: var(--text-secondary);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .agent-auth-tab:not(:last-child) {
@@ -2982,7 +3097,9 @@ h3 {
 }
 
 @keyframes agent-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .agent-setup-actions {
@@ -3468,7 +3585,7 @@ h3 {
   margin-bottom: 16px;
 }
 .ai-resume-banner .spinner {
-  border-color: rgba(255,255,255,0.3);
+  border-color: rgba(255, 255, 255, 0.3);
   border-top-color: #fff;
 }
 

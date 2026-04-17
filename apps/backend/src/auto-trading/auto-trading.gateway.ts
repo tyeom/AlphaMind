@@ -10,8 +10,6 @@ import {
 } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
 import { Server, WebSocket } from 'ws';
-import { Subscription } from 'rxjs';
-import { KisWebSocketService } from '../kis/kis-websocket.service';
 import { AutoTradingService } from './auto-trading.service';
 
 @WebSocketGateway({ path: '/ws/auto-trading' })
@@ -20,43 +18,31 @@ export class AutoTradingGateway
 {
   private readonly logger = new Logger(AutoTradingGateway.name);
   private clients = new Set<WebSocket>();
-  private executionSub?: Subscription;
 
   @WebSocketServer()
   server!: Server;
 
-  constructor(
-    private readonly kisWsService: KisWebSocketService,
-    private readonly autoTradingService: AutoTradingService,
-  ) {}
+  constructor(private readonly autoTradingService: AutoTradingService) {}
 
   afterInit() {
-    this.logger.log('AutoTrading WebSocket Gateway 초기화 (path: /ws/auto-trading)');
+    this.logger.log(
+      'AutoTrading WebSocket Gateway 초기화 (path: /ws/auto-trading)',
+    );
     this.autoTradingService.setGateway(this);
-
-    // 실시간 체결 데이터 — 활성(ACTIVE) 자동매매 세션이 있는 종목만 브로드캐스트
-    // (일시정지/종료 세션의 종목은 구독/현재가 수신 대상에서 제외)
-    this.executionSub = this.kisWsService.execution$.subscribe((data) => {
-      if (!this.autoTradingService.isStockActive(data.stockCode)) {
-        return;
-      }
-      this.broadcast('price-update', {
-        stockCode: data.stockCode,
-        price: Number(data.price),
-        volume: data.executionVolume,
-        timestamp: new Date().toISOString(),
-      });
-    });
   }
 
   handleConnection(client: WebSocket) {
     this.clients.add(client);
-    this.logger.log(`자동매매 WS 클라이언트 연결 (현재 ${this.clients.size}명)`);
+    this.logger.log(
+      `자동매매 WS 클라이언트 연결 (현재 ${this.clients.size}명)`,
+    );
   }
 
   handleDisconnect(client: WebSocket) {
     this.clients.delete(client);
-    this.logger.log(`자동매매 WS 클라이언트 해제 (현재 ${this.clients.size}명)`);
+    this.logger.log(
+      `자동매매 WS 클라이언트 해제 (현재 ${this.clients.size}명)`,
+    );
   }
 
   @SubscribeMessage('ping')
@@ -80,6 +66,26 @@ export class AutoTradingGateway
   /** 세션 업데이트를 모든 클라이언트에 브로드캐스트 */
   broadcastSessionUpdate(session: any) {
     this.broadcast('session-update', session);
+  }
+
+  /** 세션 제거를 모든 클라이언트에 브로드캐스트 */
+  broadcastSessionRemoved(sessionId: number, stockCode: string) {
+    this.broadcast('session-removed', { id: sessionId, stockCode });
+  }
+
+  /** 현재가 업데이트를 모든 클라이언트에 브로드캐스트 */
+  broadcastPriceUpdate(data: {
+    stockCode: string;
+    price: number;
+    volume?: number;
+    timestamp?: string;
+  }) {
+    this.broadcast('price-update', {
+      stockCode: data.stockCode,
+      price: data.price,
+      volume: data.volume ?? 0,
+      timestamp: data.timestamp ?? new Date().toISOString(),
+    });
   }
 
   /** 매매 실행 알림 */

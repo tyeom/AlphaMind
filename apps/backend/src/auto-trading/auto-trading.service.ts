@@ -106,6 +106,30 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     this.gateway = gw;
   }
 
+  private broadcastSessionUpdate(session: AutoTradingSessionEntity) {
+    this.gateway?.broadcastSessionUpdate(session);
+  }
+
+  private broadcastSessionRemoved(sessionId: number, stockCode: string) {
+    this.gateway?.broadcastSessionRemoved(sessionId, stockCode);
+  }
+
+  private setLatestPrice(
+    stockCode: string,
+    price: number,
+    options?: { volume?: number; broadcast?: boolean },
+  ) {
+    this.latestPrices.set(stockCode, price);
+
+    if (options?.broadcast && this.activeStockCodes.has(stockCode)) {
+      this.gateway?.broadcastPriceUpdate({
+        stockCode,
+        price,
+        volume: options.volume,
+      });
+    }
+  }
+
   async onModuleInit() {
     // 서버 재시작 시 활성 세션이 있으면 모니터링 시작
     const activeSessions = await this.em.find(AutoTradingSessionEntity, {
@@ -235,6 +259,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
             `(목표 ${existing.takeProfitPct}%, 손절 ${existing.stopLossPct}%)`,
         );
         await this.syncStockActivity(dto.stockCode);
+        this.broadcastSessionUpdate(existing);
         return existing;
       }
 
@@ -284,6 +309,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
     // 새 ACTIVE 세션 — 구독/활성 종목 집합 갱신
     await this.syncStockActivity(dto.stockCode);
+    this.broadcastSessionUpdate(session);
 
     // 즉시 매수 모드: 시장가로 투자금액 전체를 매수
     if (dto.entryMode === 'immediate') {
@@ -455,6 +481,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     const session = await this.getSession(sessionId, userId);
     session.status = SessionStatus.PAUSED;
     await this.em.flush();
+    this.broadcastSessionUpdate(session);
     // 동일 종목의 다른 활성 세션이 없으면 구독 해제 / 활성 집합에서 제거
     await this.syncStockActivity(session.stockCode);
     return session;
@@ -469,6 +496,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     session.status = SessionStatus.ACTIVE;
     await this.em.flush();
     await this.syncStockActivity(session.stockCode);
+    this.broadcastSessionUpdate(session);
     return session;
   }
 
@@ -522,6 +550,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       `자동매매 설정 수정: ${session.stockName}(${session.stockCode}) - ${session.strategyId}` +
         ` (목표 ${session.takeProfitPct}%, 손절 ${session.stopLossPct}%)`,
     );
+    this.broadcastSessionUpdate(session);
     return session;
   }
 
@@ -537,6 +566,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     this.logger.log(
       `자동매매 종료: ${session.stockName}(${session.stockCode})`,
     );
+    this.broadcastSessionUpdate(session);
     // 동일 종목의 다른 활성 세션이 없으면 구독 해제 / 활성 집합에서 제거
     await this.syncStockActivity(session.stockCode);
     return session;
@@ -680,6 +710,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       session.avgBuyPrice = totalCost / session.holdingQty;
       session.totalBuys += 1;
       await this.em.flush();
+      this.broadcastSessionUpdate(session);
 
       this.createSignalNotification(session, 'buy', price, qty);
     } catch (err: any) {
@@ -739,8 +770,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       session.holdingQty += qty;
       session.avgBuyPrice = totalCost / session.holdingQty;
       session.totalBuys += 1;
-      this.latestPrices.set(session.stockCode, price);
+      this.setLatestPrice(session.stockCode, price, { broadcast: true });
       await this.em.flush();
+      this.broadcastSessionUpdate(session);
     } catch (err: any) {
       // 즉시 매수 실패는 세션 자체를 롤백하지 않고 로깅만 — 이후 전략 신호로 진입 가능
       this.logger.error(
@@ -786,6 +818,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       session.avgBuyPrice = 0;
       session.totalSells += 1;
       await this.em.flush();
+      this.broadcastSessionUpdate(session);
 
       this.createSignalNotification(
         session,
@@ -831,9 +864,11 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       }
 
       const stockCode = session.stockCode;
+      const sessionId = session.id;
       const label = `${session.stockName}(${stockCode})`;
       await this.em.removeAndFlush(session);
       await this.syncStockActivity(stockCode);
+      this.broadcastSessionRemoved(sessionId, stockCode);
       this.logger.log(`매도 후 세션 완전 삭제: ${label} (실보유 없음)`);
     } catch (err: any) {
       this.logger.warn(
@@ -887,7 +922,10 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
     if (!this.executionSub) {
       this.executionSub = this.kisWsService.execution$.subscribe((data) => {
-        this.latestPrices.set(data.stockCode, Number(data.price));
+        this.setLatestPrice(data.stockCode, Number(data.price), {
+          volume: data.executionVolume,
+          broadcast: true,
+        });
       });
     }
 
@@ -1073,7 +1111,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         );
         return;
       }
-      this.latestPrices.set(stockCode, price);
+      this.setLatestPrice(stockCode, price, { broadcast: true });
     } catch (err: any) {
       this.logger.warn(
         `REST 현재가 폴링 실패: ${stockCode} - ${err.message ?? err}`,
@@ -1216,6 +1254,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
 
     await this.em.flush();
+    this.broadcastSessionUpdate(session);
     return session;
   }
 
@@ -1236,8 +1275,10 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       });
     }
     const deletedId = session.id;
+    const stockCode = session.stockCode;
     const label = `${session.stockName}(${session.stockCode})`;
     await this.em.removeAndFlush(session);
+    this.broadcastSessionRemoved(deletedId, stockCode);
     this.logger.log(`자동매매 세션 완전 삭제: ${label}`);
     return { id: deletedId };
   }

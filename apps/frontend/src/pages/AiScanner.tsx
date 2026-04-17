@@ -1,4 +1,10 @@
-import { useState, useEffect, useCallback, type FormEvent } from 'react';
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  type FormEvent,
+} from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   scanStocks,
@@ -10,12 +16,29 @@ import {
 } from '../api/scanner';
 import type { SseProgress } from '../api/scanner';
 import { api } from '../api/client';
-import { startSessionsBatch, getSessions, pauseSession, resumeSession, stopSession, updateSession, deleteSessionPermanent, manualOrder } from '../api/auto-trading';
+import {
+  startSessionsBatch,
+  getSessions,
+  pauseSession,
+  resumeSession,
+  stopSession,
+  updateSession,
+  deleteSessionPermanent,
+  manualOrder,
+} from '../api/auto-trading';
 import { getBalance, getCurrentPrice } from '../api/kis';
 import { ApiError } from '../api/client';
-import { useAutoTradingWebSocket, type PriceUpdate } from '../hooks/useAutoTradingWebSocket';
+import {
+  useAutoTradingWebSocket,
+  type PriceUpdate,
+} from '../hooks/useAutoTradingWebSocket';
 import { stocksApi, type StockSearchItem } from '../api/stocks';
-import type { ScanResult, AiStockScore, ExpertOpinion, NewsItem } from '../types/scanner';
+import type {
+  ScanResult,
+  AiStockScore,
+  ExpertOpinion,
+  NewsItem,
+} from '../types/scanner';
 import type { StockPrice } from '../types/kis';
 import type {
   AutoTradingSession,
@@ -31,7 +54,11 @@ import {
   type TradingConfigItem,
 } from '../components/AutoTradingConfigModal';
 import { SessionConflictModal } from '../components/SessionConflictModal';
-import { getAiMeetingResults, getAiMeetingResult, type AiMeetingResult } from '../api/ai-meeting-result';
+import {
+  getAiMeetingResults,
+  getAiMeetingResult,
+  type AiMeetingResult,
+} from '../api/ai-meeting-result';
 
 type Step = 'idle' | 'scanning' | 'scanned' | 'scoring' | 'scored' | 'trading';
 type AuthMode = 'api_key' | 'subscription';
@@ -84,7 +111,52 @@ function mergeSessions(
   return sortSessions(Array.from(merged.values()));
 }
 
-function extractSessionConflictError(err: unknown): SessionConflictError | null {
+function getLiveCurrentPrice(
+  session: AutoTradingSession,
+  prices: Map<string, number>,
+): number | undefined {
+  return session.status === 'active'
+    ? prices.get(session.stockCode)
+    : undefined;
+}
+
+function getLiveUnrealizedPnl(
+  session: AutoTradingSession,
+  livePrice?: number,
+): number {
+  if (session.holdingQty <= 0) {
+    return 0;
+  }
+
+  if (livePrice != null) {
+    return Math.round((livePrice - session.avgBuyPrice) * session.holdingQty);
+  }
+
+  return Number(session.unrealizedPnl);
+}
+
+function getLiveRowToneClass(
+  session: AutoTradingSession,
+  unrealizedPnl: number,
+): string {
+  if (session.status !== 'active' || session.holdingQty <= 0) {
+    return '';
+  }
+
+  if (unrealizedPnl > 0) {
+    return 'session-live-profit';
+  }
+
+  if (unrealizedPnl < 0) {
+    return 'session-live-loss';
+  }
+
+  return 'session-live-flat';
+}
+
+function extractSessionConflictError(
+  err: unknown,
+): SessionConflictError | null {
   if (!(err instanceof ApiError) || err.status !== 409 || !err.body) {
     return null;
   }
@@ -198,7 +270,15 @@ async function fetchPricesBatched(
   return results;
 }
 
-function ExpertCard({ title, role, opinion }: { title: string; role: string; opinion: ExpertOpinion }) {
+function ExpertCard({
+  title,
+  role,
+  opinion,
+}: {
+  title: string;
+  role: string;
+  opinion: ExpertOpinion;
+}) {
   return (
     <div className="expert-card">
       <div className="expert-header">
@@ -206,27 +286,42 @@ function ExpertCard({ title, role, opinion }: { title: string; role: string; opi
         <span className="expert-role">{role}</span>
       </div>
       <div className="expert-rec">
-        <span className={`rec-badge ${REC_CLASS[opinion.recommendation] || 'rec-hold'}`}>
+        <span
+          className={`rec-badge ${REC_CLASS[opinion.recommendation] || 'rec-hold'}`}
+        >
           {REC_LABELS[opinion.recommendation] || opinion.recommendation}
         </span>
         <span className="expert-score">{opinion.score.toFixed(1)}/10</span>
-        <span className="expert-confidence">확신도 {(opinion.confidence * 100).toFixed(0)}%</span>
+        <span className="expert-confidence">
+          확신도 {(opinion.confidence * 100).toFixed(0)}%
+        </span>
       </div>
       <p className="expert-analysis">{opinion.analysis}</p>
       {opinion.keyPoints.length > 0 && (
         <div className="expert-section">
           <small className="section-label">핵심 근거</small>
-          <ul>{opinion.keyPoints.map((p, i) => <li key={i}>{p}</li>)}</ul>
+          <ul>
+            {opinion.keyPoints.map((p, i) => (
+              <li key={i}>{p}</li>
+            ))}
+          </ul>
         </div>
       )}
       {opinion.concerns.length > 0 && (
         <div className="expert-section">
           <small className="section-label text-loss">우려사항</small>
-          <ul>{opinion.concerns.map((c, i) => <li key={i}>{c}</li>)}</ul>
+          <ul>
+            {opinion.concerns.map((c, i) => (
+              <li key={i}>{c}</li>
+            ))}
+          </ul>
         </div>
       )}
       <div className="expert-target">
-        목표 수익률: <strong className={pctClass(opinion.targetReturnPct)}>{opinion.targetReturnPct}%</strong>
+        목표 수익률:{' '}
+        <strong className={pctClass(opinion.targetReturnPct)}>
+          {opinion.targetReturnPct}%
+        </strong>
       </div>
     </div>
   );
@@ -242,10 +337,17 @@ function AiMeetingResultModal({
   const score: AiStockScore = result.data;
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content ai-meeting-modal" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="modal-content ai-meeting-modal"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="detail-header">
-          <h3>AI 전문가 회의 결과 - {result.stockName} ({result.stockCode})</h3>
-          <button className="btn btn-sm btn-text" onClick={onClose}>닫기</button>
+          <h3>
+            AI 전문가 회의 결과 - {result.stockName} ({result.stockCode})
+          </h3>
+          <button className="btn btn-sm btn-text" onClick={onClose}>
+            닫기
+          </button>
         </div>
         <div className="meeting-meta">
           <small className="text-muted">
@@ -254,11 +356,18 @@ function AiMeetingResultModal({
         </div>
 
         <div className="final-score-banner">
-          <div className={`final-score ${score.score >= 7 ? 'score-high' : score.score >= 4 ? 'score-mid' : 'score-low'}`}>
+          <div
+            className={`final-score ${score.score >= 7 ? 'score-high' : score.score >= 4 ? 'score-mid' : 'score-low'}`}
+          >
             {score.score.toFixed(2)}
           </div>
           <div className="final-reasoning">
-            <p><strong>{score.expertDetail?.conclusion.finalRecommendation || '분석 완료'}</strong></p>
+            <p>
+              <strong>
+                {score.expertDetail?.conclusion.finalRecommendation ||
+                  '분석 완료'}
+              </strong>
+            </p>
             <p>{score.reasoning}</p>
           </div>
         </div>
@@ -272,12 +381,22 @@ function AiMeetingResultModal({
                   <li key={j} className={`news-item news-${item.impact}`}>
                     <div className="news-title">
                       {item.url ? (
-                        <a href={item.url} target="_blank" rel="noopener noreferrer">{item.title}</a>
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {item.title}
+                        </a>
                       ) : (
                         <span>{item.title}</span>
                       )}
                       <span className={`news-impact impact-${item.impact}`}>
-                        {item.impact === 'positive' ? '호재' : item.impact === 'negative' ? '악재' : '중립'}
+                        {item.impact === 'positive'
+                          ? '호재'
+                          : item.impact === 'negative'
+                            ? '악재'
+                            : '중립'}
                       </span>
                     </div>
                     <p className="news-summary">{item.summary}</p>
@@ -285,7 +404,11 @@ function AiMeetingResultModal({
                 ))}
               </ul>
             ) : score.newsHighlights && score.newsHighlights.length > 0 ? (
-              <ul>{score.newsHighlights.map((n, j) => <li key={j}>{n}</li>)}</ul>
+              <ul>
+                {score.newsHighlights.map((n, j) => (
+                  <li key={j}>{n}</li>
+                ))}
+              </ul>
             ) : (
               <p className="text-muted">수집된 뉴스 없음</p>
             )}
@@ -315,19 +438,33 @@ function AiMeetingResultModal({
 
             <div className="meeting-conclusion">
               <h4>회의 결론</h4>
-              <p className="conclusion-rec">{score.expertDetail.conclusion.finalRecommendation}</p>
-              <p className="conclusion-reasoning">{score.expertDetail.conclusion.reasoning}</p>
+              <p className="conclusion-rec">
+                {score.expertDetail.conclusion.finalRecommendation}
+              </p>
+              <p className="conclusion-reasoning">
+                {score.expertDetail.conclusion.reasoning}
+              </p>
 
               {score.expertDetail.conclusion.consensusPoints.length > 0 && (
                 <div className="conclusion-section">
                   <small className="section-label">합의점</small>
-                  <ul>{score.expertDetail.conclusion.consensusPoints.map((p, j) => <li key={j}>{p}</li>)}</ul>
+                  <ul>
+                    {score.expertDetail.conclusion.consensusPoints.map(
+                      (p, j) => (
+                        <li key={j}>{p}</li>
+                      ),
+                    )}
+                  </ul>
                 </div>
               )}
               {score.expertDetail.conclusion.disagreements.length > 0 && (
                 <div className="conclusion-section">
                   <small className="section-label">이견</small>
-                  <ul>{score.expertDetail.conclusion.disagreements.map((d, j) => <li key={j}>{d}</li>)}</ul>
+                  <ul>
+                    {score.expertDetail.conclusion.disagreements.map((d, j) => (
+                      <li key={j}>{d}</li>
+                    ))}
+                  </ul>
                 </div>
               )}
             </div>
@@ -337,7 +474,11 @@ function AiMeetingResultModal({
         {score.riskFactors && score.riskFactors.length > 0 && (
           <div className="conclusion-section">
             <small className="section-label text-loss">리스크 요인</small>
-            <ul>{score.riskFactors.map((rf, j) => <li key={j}>{rf}</li>)}</ul>
+            <ul>
+              {score.riskFactors.map((rf, j) => (
+                <li key={j}>{rf}</li>
+              ))}
+            </ul>
           </div>
         )}
       </div>
@@ -378,14 +519,30 @@ function ManualOrderModal({
 
   return (
     <div className="modal-overlay" onClick={onCancel}>
-      <div className="modal-content manual-order-modal" onClick={(e) => e.stopPropagation()}>
-        <h3>수동 주문 — {session.stockName} ({session.stockCode})</h3>
+      <div
+        className="modal-content manual-order-modal"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h3>
+          수동 주문 — {session.stockName} ({session.stockCode})
+        </h3>
 
         <div className="order-info">
-          {currentPrice && <div className="info-row"><label>현재가</label><span>{fmt(currentPrice)}원</span></div>}
-          <div className="info-row"><label>보유 수량</label><span>{fmt(session.holdingQty)}주</span></div>
+          {currentPrice && (
+            <div className="info-row">
+              <label>현재가</label>
+              <span>{fmt(currentPrice)}원</span>
+            </div>
+          )}
+          <div className="info-row">
+            <label>보유 수량</label>
+            <span>{fmt(session.holdingQty)}주</span>
+          </div>
           {session.holdingQty > 0 && (
-            <div className="info-row"><label>평균 단가</label><span>{fmt(Math.round(session.avgBuyPrice))}원</span></div>
+            <div className="info-row">
+              <label>평균 단가</label>
+              <span>{fmt(Math.round(session.avgBuyPrice))}원</span>
+            </div>
           )}
         </div>
 
@@ -430,7 +587,11 @@ function ManualOrderModal({
               onChange={(e) => setQuantity(e.target.value)}
               min="1"
               max={orderType === 'sell' ? session.holdingQty : undefined}
-              placeholder={orderType === 'sell' ? `최대 ${session.holdingQty}주` : '수량 입력'}
+              placeholder={
+                orderType === 'sell'
+                  ? `최대 ${session.holdingQty}주`
+                  : '수량 입력'
+              }
             />
           </label>
           {orderType === 'sell' && session.holdingQty > 0 && (
@@ -450,7 +611,9 @@ function ManualOrderModal({
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 min="1"
-                placeholder={currentPrice ? `현재가 ${fmt(currentPrice)}` : '단가 입력'}
+                placeholder={
+                  currentPrice ? `현재가 ${fmt(currentPrice)}` : '단가 입력'
+                }
               />
             </label>
           )}
@@ -458,21 +621,39 @@ function ManualOrderModal({
 
         {quantity && Number(quantity) > 0 && (
           <div className="order-estimate">
-            예상 금액: <strong>
-              {fmt(Math.round(
-                Number(quantity) * (orderDvsn === '00' && Number(price) > 0 ? Number(price) : (currentPrice ?? 0)),
-              ))}원
+            예상 금액:{' '}
+            <strong>
+              {fmt(
+                Math.round(
+                  Number(quantity) *
+                    (orderDvsn === '00' && Number(price) > 0
+                      ? Number(price)
+                      : (currentPrice ?? 0)),
+                ),
+              )}
+              원
             </strong>
-            {orderDvsn === '01' && <small className="text-muted"> (시장가 — 실제 체결가와 다를 수 있음)</small>}
+            {orderDvsn === '01' && (
+              <small className="text-muted">
+                {' '}
+                (시장가 — 실제 체결가와 다를 수 있음)
+              </small>
+            )}
           </div>
         )}
 
         <div className="modal-actions">
-          <button className="btn btn-text" onClick={onCancel}>취소</button>
+          <button className="btn btn-text" onClick={onCancel}>
+            취소
+          </button>
           <button
             className={`btn ${orderType === 'buy' ? 'btn-primary' : 'btn-danger'}`}
             onClick={handleSubmit}
-            disabled={!quantity || Number(quantity) <= 0 || (orderDvsn === '00' && (!price || Number(price) <= 0))}
+            disabled={
+              !quantity ||
+              Number(quantity) <= 0 ||
+              (orderDvsn === '00' && (!price || Number(price) <= 0))
+            }
           >
             {orderType === 'buy' ? '매수 주문' : '매도 주문'}
           </button>
@@ -486,7 +667,9 @@ export function AiScanner() {
   const [searchParams] = useSearchParams();
   const [step, setStep] = useState<Step>('idle');
   const [scanResults, setScanResults] = useState<ScanResult[]>([]);
-  const [aiScores, setAiScores] = useState<Map<string, AiStockScore>>(new Map());
+  const [aiScores, setAiScores] = useState<Map<string, AiStockScore>>(
+    new Map(),
+  );
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [sessions, setSessions] = useState<AutoTradingSession[]>([]);
   const [prices, setPrices] = useState<Map<string, number>>(new Map());
@@ -501,31 +684,58 @@ export function AiScanner() {
     droppedByStatus: 0,
     droppedByPriceError: 0,
   });
-  const [scoringProgress, setScoringProgress] = useState<SseProgress | null>(null);
+  const [scoringProgress, setScoringProgress] = useState<SseProgress | null>(
+    null,
+  );
   const [scoringElapsed, setScoringElapsed] = useState(0);
   const [expandedDetail, setExpandedDetail] = useState<string | null>(null);
   const [abortScoring, setAbortScoring] = useState<(() => void) | null>(null);
-  const [configModalItems, setConfigModalItems] = useState<TradingConfigItem[] | null>(null);
-  const [editSession, setEditSession] = useState<AutoTradingSession | null>(null);
-  const [orderSession, setOrderSession] = useState<AutoTradingSession | null>(null);
+  const [configModalItems, setConfigModalItems] = useState<
+    TradingConfigItem[] | null
+  >(null);
+  const [editSession, setEditSession] = useState<AutoTradingSession | null>(
+    null,
+  );
+  const [orderSession, setOrderSession] = useState<AutoTradingSession | null>(
+    null,
+  );
   const [conflictState, setConflictState] = useState<{
     conflicts: SessionConflictItem[];
     pendingDtos: StartSessionRequest[];
     entryMode: SessionEntryMode;
   } | null>(null);
   const [manualSearchQuery, setManualSearchQuery] = useState('');
-  const [manualSearchResults, setManualSearchResults] = useState<StockSearchItem[]>([]);
+  const [manualSearchResults, setManualSearchResults] = useState<
+    StockSearchItem[]
+  >([]);
   const [manualSearchLoading, setManualSearchLoading] = useState(false);
   const [manualSearchError, setManualSearchError] = useState('');
-  const [manualLookupStock, setManualLookupStock] = useState<StockPrice | null>(null);
+  const [manualLookupStock, setManualLookupStock] = useState<StockPrice | null>(
+    null,
+  );
   const [manualLookupLoading, setManualLookupLoading] = useState(false);
 
-  const [meetingResultModal, setMeetingResultModal] = useState<AiMeetingResult | null>(null);
-  const [meetingResultCache, setMeetingResultCache] = useState<Map<string, AiMeetingResult>>(new Map());
-  const [agentStatuses, setAgentStatuses] = useState<AgentStatuses | null>(null);
-  const [meetingProvider, setMeetingProvider] = useState<AiMeetingProvider>('claude');
+  const [meetingResultModal, setMeetingResultModal] =
+    useState<AiMeetingResult | null>(null);
+  const [meetingResultCache, setMeetingResultCache] = useState<
+    Map<string, AiMeetingResult>
+  >(new Map());
+  const [agentStatuses, setAgentStatuses] = useState<AgentStatuses | null>(
+    null,
+  );
+  const [meetingProvider, setMeetingProvider] =
+    useState<AiMeetingProvider>('claude');
 
   const [, setAiSessionId] = useState<string | null>(null);
+  const seededPriceStockCodesRef = useRef<Set<string>>(new Set());
+  const pendingPriceSeedStockCodesRef = useRef<Set<string>>(new Set());
+  const priceFlashTimersRef = useRef<
+    Map<string, ReturnType<typeof setTimeout>>
+  >(new Map());
+  const pricesRef = useRef<Map<string, number>>(new Map());
+  const [priceFlashDirections, setPriceFlashDirections] = useState<
+    Map<string, 'up' | 'down'>
+  >(new Map());
 
   const { connected, on } = useAutoTradingWebSocket();
 
@@ -551,12 +761,67 @@ export function AiScanner() {
     }
   }, []);
 
+  const triggerPriceFlash = useCallback(
+    (stockCode: string, direction: 'up' | 'down') => {
+      const existingTimer = priceFlashTimersRef.current.get(stockCode);
+      if (existingTimer) {
+        clearTimeout(existingTimer);
+      }
+
+      setPriceFlashDirections((prev) => {
+        const next = new Map(prev);
+        next.set(stockCode, direction);
+        return next;
+      });
+
+      const timer = setTimeout(() => {
+        priceFlashTimersRef.current.delete(stockCode);
+        setPriceFlashDirections((prev) => {
+          if (!prev.has(stockCode)) {
+            return prev;
+          }
+          const next = new Map(prev);
+          next.delete(stockCode);
+          return next;
+        });
+      }, 700);
+
+      priceFlashTimersRef.current.set(stockCode, timer);
+    },
+    [],
+  );
+
+  useEffect(() => {
+    pricesRef.current = prices;
+  }, [prices]);
+
+  useEffect(() => {
+    return () => {
+      for (const timer of priceFlashTimersRef.current.values()) {
+        clearTimeout(timer);
+      }
+      priceFlashTimersRef.current.clear();
+    };
+  }, []);
+
   useEffect(() => {
     const off = on('price-update', (data: PriceUpdate) => {
+      const previousPrice = pricesRef.current.get(data.stockCode);
+
+      seededPriceStockCodesRef.current.add(data.stockCode);
+      pendingPriceSeedStockCodesRef.current.delete(data.stockCode);
+
+      if (previousPrice != null && previousPrice !== data.price) {
+        triggerPriceFlash(
+          data.stockCode,
+          data.price > previousPrice ? 'up' : 'down',
+        );
+      }
+
       setPrices((prev) => new Map(prev).set(data.stockCode, data.price));
     });
     return off;
-  }, [on]);
+  }, [on, triggerPriceFlash]);
 
   useEffect(() => {
     const off = on('session-update', (data: AutoTradingSession) => {
@@ -565,107 +830,247 @@ export function AiScanner() {
     return off;
   }, [on]);
 
-  const connectToAiSession = useCallback((
-    sessionId: string,
-    existingScores?: AiStockScore[],
-    provider?: AiMeetingProvider,
-  ) => {
-    setAiSessionId(sessionId);
-    setStep('scoring');
-    setScoringProgress(null);
-    if (provider) {
-      setMeetingProvider(provider);
-    }
+  useEffect(() => {
+    const off = on(
+      'session-removed',
+      (data: { id: number; stockCode: string }) => {
+        setSessions((prev) => prev.filter((session) => session.id !== data.id));
+      },
+    );
+    return off;
+  }, [on]);
 
-    if (existingScores && existingScores.length > 0) {
-      const map = new Map<string, AiStockScore>();
-      for (const s of existingScores) {
-        map.set(s.stockCode, s);
+  useEffect(() => {
+    const activeStockCodes = new Set(
+      sessions
+        .filter((session) => session.status === 'active')
+        .map((session) => session.stockCode),
+    );
+
+    for (const stockCode of seededPriceStockCodesRef.current) {
+      if (!activeStockCodes.has(stockCode)) {
+        seededPriceStockCodesRef.current.delete(stockCode);
       }
-      setAiScores(map);
     }
 
-    const startTime = Date.now();
-    const elapsedTimer = setInterval(() => {
-      setScoringElapsed(Math.floor((Date.now() - startTime) / 1000));
-    }, 1000);
+    for (const stockCode of pendingPriceSeedStockCodesRef.current) {
+      if (!activeStockCodes.has(stockCode)) {
+        pendingPriceSeedStockCodesRef.current.delete(stockCode);
+      }
+    }
 
-    const abort = streamAiSession(sessionId, {
-      onProgress: (progress) => setScoringProgress(progress),
-      onScore: (score) => {
-        // DB 저장은 market-data-service 가 종목 분석 직후 서버 측에서 처리.
-        // 프론트는 UI 상태만 갱신한다.
-        setAiScores((prev) => new Map(prev).set(score.stockCode, score));
-      },
-      onDone: () => {
-        clearInterval(elapsedTimer);
-        setScoringProgress(null);
-        setAbortScoring(null);
-        setAiSessionId(null);
-        setStep('scored');
-        createMeetingNotification('completed');
-        // market-data-service 가 종목별로 DB 저장을 수행하므로 프론트 저장 호출 없음
-      },
-      onCancelled: () => {
-        clearInterval(elapsedTimer);
-        setScoringProgress(null);
-        setAbortScoring(null);
-        setAiSessionId(null);
-        setStep('scanned');
-      },
-      onError: (message) => {
-        clearInterval(elapsedTimer);
-        const errorMsg = message || 'AI 점수 측정에 실패했습니다.';
-        setError(errorMsg);
-        setScoringProgress(null);
-        setAbortScoring(null);
-        setAiSessionId(null);
-        setStep('scanned');
-        createMeetingNotification('error', errorMsg);
-      },
+    for (const [stockCode, timer] of priceFlashTimersRef.current.entries()) {
+      if (!activeStockCodes.has(stockCode)) {
+        clearTimeout(timer);
+        priceFlashTimersRef.current.delete(stockCode);
+      }
+    }
+
+    setPriceFlashDirections((prev) => {
+      let changed = false;
+      const next = new Map(prev);
+
+      for (const stockCode of prev.keys()) {
+        if (!activeStockCodes.has(stockCode)) {
+          next.delete(stockCode);
+          changed = true;
+        }
+      }
+
+      return changed ? next : prev;
     });
 
-    setAbortScoring(() => () => {
-      // 서버에 취소 요청 후 SSE 스트림 종료
-      cancelAiSession(sessionId)
-        .then(() => createMeetingNotification('cancelled'))
-        .catch(() => {});
-      abort();
-      clearInterval(elapsedTimer);
-      setScoringProgress(null);
-      setAbortScoring(null);
-      setAiSessionId(null);
-      setStep('scanned');
-    });
-  }, []);
+    setPrices((prev) => {
+      let changed = false;
+      const next = new Map(prev);
 
-  const createMeetingNotification = useCallback(async (type: 'started' | 'completed' | 'cancelled' | 'error', errorMessage?: string) => {
-    try {
-      const notifTypes: Record<string, string> = {
-        started: 'ai_meeting_started',
-        completed: 'ai_meeting_completed',
-        cancelled: 'ai_meeting_started', // 같은 타입으로 기존 "시작" 알림을 대체
-        error: 'ai_meeting_error',
-      };
-      const titles: Record<string, string> = {
-        started: 'AI 전문가 회의 시작',
-        completed: 'AI 전문가 회의 완료',
-        cancelled: 'AI 전문가 회의 중단',
-        error: 'AI 전문가 회의 오류',
-      };
-      const messages: Record<string, string> = {
-        started: 'AI 전문가 회의가 시작되었습니다.',
-        completed: 'AI 전문가 회의가 완료되었습니다. 결과를 확인하세요.',
-        cancelled: 'AI 전문가 회의가 사용자에 의해 중단되었습니다.',
-        error: errorMessage || 'AI 전문가 회의 중 오류가 발생했습니다.',
-      };
-      await api.post('/notifications/create', {
-        type: notifTypes[type],
-        title: titles[type],
-        message: messages[type],
+      for (const stockCode of prev.keys()) {
+        if (!activeStockCodes.has(stockCode)) {
+          next.delete(stockCode);
+          changed = true;
+        }
+      }
+
+      return changed ? next : prev;
+    });
+  }, [sessions]);
+
+  useEffect(() => {
+    if (step !== 'trading') {
+      return;
+    }
+
+    const stockCodesToSeed = Array.from(
+      new Set(
+        sessions
+          .filter((session) => session.status === 'active')
+          .map((session) => session.stockCode),
+      ),
+    ).filter((stockCode) => {
+      return (
+        !prices.has(stockCode) &&
+        !seededPriceStockCodesRef.current.has(stockCode) &&
+        !pendingPriceSeedStockCodesRef.current.has(stockCode)
+      );
+    });
+
+    if (stockCodesToSeed.length === 0) {
+      return;
+    }
+
+    let cancelled = false;
+    stockCodesToSeed.forEach((stockCode) => {
+      pendingPriceSeedStockCodesRef.current.add(stockCode);
+    });
+
+    void fetchPricesBatched(stockCodesToSeed)
+      .then((results) => {
+        results.forEach((price, index) => {
+          const stockCode = stockCodesToSeed[index];
+          pendingPriceSeedStockCodesRef.current.delete(stockCode);
+
+          if (price) {
+            seededPriceStockCodesRef.current.add(stockCode);
+          }
+        });
+
+        if (cancelled) {
+          return;
+        }
+
+        setPrices((prev) => {
+          const next = new Map(prev);
+          results.forEach((price, index) => {
+            if (price) {
+              next.set(stockCodesToSeed[index], price.currentPrice);
+            }
+          });
+          return next;
+        });
+      })
+      .catch(() => {
+        stockCodesToSeed.forEach((stockCode) => {
+          pendingPriceSeedStockCodesRef.current.delete(stockCode);
+        });
       });
-    } catch { /* 실패해도 무시 */ }
-  }, []);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [prices, sessions, step]);
+
+  const connectToAiSession = useCallback(
+    (
+      sessionId: string,
+      existingScores?: AiStockScore[],
+      provider?: AiMeetingProvider,
+    ) => {
+      setAiSessionId(sessionId);
+      setStep('scoring');
+      setScoringProgress(null);
+      if (provider) {
+        setMeetingProvider(provider);
+      }
+
+      if (existingScores && existingScores.length > 0) {
+        const map = new Map<string, AiStockScore>();
+        for (const s of existingScores) {
+          map.set(s.stockCode, s);
+        }
+        setAiScores(map);
+      }
+
+      const startTime = Date.now();
+      const elapsedTimer = setInterval(() => {
+        setScoringElapsed(Math.floor((Date.now() - startTime) / 1000));
+      }, 1000);
+
+      const abort = streamAiSession(sessionId, {
+        onProgress: (progress) => setScoringProgress(progress),
+        onScore: (score) => {
+          // DB 저장은 market-data-service 가 종목 분석 직후 서버 측에서 처리.
+          // 프론트는 UI 상태만 갱신한다.
+          setAiScores((prev) => new Map(prev).set(score.stockCode, score));
+        },
+        onDone: () => {
+          clearInterval(elapsedTimer);
+          setScoringProgress(null);
+          setAbortScoring(null);
+          setAiSessionId(null);
+          setStep('scored');
+          createMeetingNotification('completed');
+          // market-data-service 가 종목별로 DB 저장을 수행하므로 프론트 저장 호출 없음
+        },
+        onCancelled: () => {
+          clearInterval(elapsedTimer);
+          setScoringProgress(null);
+          setAbortScoring(null);
+          setAiSessionId(null);
+          setStep('scanned');
+        },
+        onError: (message) => {
+          clearInterval(elapsedTimer);
+          const errorMsg = message || 'AI 점수 측정에 실패했습니다.';
+          setError(errorMsg);
+          setScoringProgress(null);
+          setAbortScoring(null);
+          setAiSessionId(null);
+          setStep('scanned');
+          createMeetingNotification('error', errorMsg);
+        },
+      });
+
+      setAbortScoring(() => () => {
+        // 서버에 취소 요청 후 SSE 스트림 종료
+        cancelAiSession(sessionId)
+          .then(() => createMeetingNotification('cancelled'))
+          .catch(() => {});
+        abort();
+        clearInterval(elapsedTimer);
+        setScoringProgress(null);
+        setAbortScoring(null);
+        setAiSessionId(null);
+        setStep('scanned');
+      });
+    },
+    [],
+  );
+
+  const createMeetingNotification = useCallback(
+    async (
+      type: 'started' | 'completed' | 'cancelled' | 'error',
+      errorMessage?: string,
+    ) => {
+      try {
+        const notifTypes: Record<string, string> = {
+          started: 'ai_meeting_started',
+          completed: 'ai_meeting_completed',
+          cancelled: 'ai_meeting_started', // 같은 타입으로 기존 "시작" 알림을 대체
+          error: 'ai_meeting_error',
+        };
+        const titles: Record<string, string> = {
+          started: 'AI 전문가 회의 시작',
+          completed: 'AI 전문가 회의 완료',
+          cancelled: 'AI 전문가 회의 중단',
+          error: 'AI 전문가 회의 오류',
+        };
+        const messages: Record<string, string> = {
+          started: 'AI 전문가 회의가 시작되었습니다.',
+          completed: 'AI 전문가 회의가 완료되었습니다. 결과를 확인하세요.',
+          cancelled: 'AI 전문가 회의가 사용자에 의해 중단되었습니다.',
+          error: errorMessage || 'AI 전문가 회의 중 오류가 발생했습니다.',
+        };
+        await api.post('/notifications/create', {
+          type: notifTypes[type],
+          title: titles[type],
+          message: messages[type],
+        });
+      } catch {
+        /* 실패해도 무시 */
+      }
+    },
+    [],
+  );
 
   const openMonitoring = useCallback(async () => {
     const list = await getSessions();
@@ -683,28 +1088,52 @@ export function AiScanner() {
       // 진행 중인 AI 세션이 있는지 확인
       try {
         const { active, session: activeSession } = await getActiveAiSession();
-        if (!cancelled && active && activeSession && activeSession.status === 'running') {
+        if (
+          !cancelled &&
+          active &&
+          activeSession &&
+          activeSession.status === 'running'
+        ) {
           // 기존 세션의 종목 정보를 scanResults에 설정
-          const fakeResults: ScanResult[] = activeSession.stocks.map((s: any) => ({
-            stockCode: s.stockCode,
-            stockName: s.stockName,
-            bestStrategy: { strategyId: s.strategyId || '', strategyName: s.strategyName || '', variant: '' },
-            totalReturnPct: s.totalReturnPct || 0,
-            winRate: 0,
-            maxDrawdownPct: 0,
-            totalTrades: 0,
-            summary: '',
-            currentSignal: { direction: 'NEUTRAL', strength: 0, reason: '' },
-            indicators: {},
-          }));
+          const fakeResults: ScanResult[] = activeSession.stocks.map(
+            (s: any) => ({
+              stockCode: s.stockCode,
+              stockName: s.stockName,
+              bestStrategy: {
+                strategyId: s.strategyId || '',
+                strategyName: s.strategyName || '',
+                variant: '',
+              },
+              totalReturnPct: s.totalReturnPct || 0,
+              winRate: 0,
+              maxDrawdownPct: 0,
+              totalTrades: 0,
+              summary: '',
+              currentSignal: { direction: 'NEUTRAL', strength: 0, reason: '' },
+              indicators: {},
+            }),
+          );
           setScanResults(fakeResults);
           setSelected(new Set(fakeResults.map((r) => r.stockCode)));
-          setScanInfo({ scanned: 0, eligible: 0, elapsed: 0, targetTopN: 0, droppedByStatus: 0, droppedByPriceError: 0 });
+          setScanInfo({
+            scanned: 0,
+            eligible: 0,
+            elapsed: 0,
+            targetTopN: 0,
+            droppedByStatus: 0,
+            droppedByPriceError: 0,
+          });
 
-          connectToAiSession(activeSession.id, activeSession.scores, activeSession.provider);
+          connectToAiSession(
+            activeSession.id,
+            activeSession.scores,
+            activeSession.provider,
+          );
           return;
         }
-      } catch { /* ignore */ }
+      } catch {
+        /* ignore */
+      }
 
       // ?view=results — 저장된 AI 회의 결과 표시
       if (!cancelled && viewParam === 'results') {
@@ -723,14 +1152,25 @@ export function AiScanner() {
                 maxDrawdownPct: 0,
                 totalTrades: 0,
                 summary: '',
-                currentSignal: { direction: 'NEUTRAL', strength: 0, reason: '' },
+                currentSignal: {
+                  direction: 'NEUTRAL',
+                  strength: 0,
+                  reason: '',
+                },
                 indicators: {},
               };
             });
             setScanResults(fakeResults);
             setAiScores(scoreMap);
             setSelected(new Set(fakeResults.map((r) => r.stockCode)));
-            setScanInfo({ scanned: 0, eligible: 0, elapsed: 0, targetTopN: 0, droppedByStatus: 0, droppedByPriceError: 0 });
+            setScanInfo({
+              scanned: 0,
+              eligible: 0,
+              elapsed: 0,
+              targetTopN: 0,
+              droppedByStatus: 0,
+              droppedByPriceError: 0,
+            });
             setStep('scored');
             // URL 파라미터 제거 (뒤로가기 시 재진입 방지)
             // window.history 사용 — setSearchParams는 searchParams를 변경하여
@@ -738,7 +1178,9 @@ export function AiScanner() {
             window.history.replaceState(null, '', window.location.pathname);
             return;
           }
-        } catch { /* ignore */ }
+        } catch {
+          /* ignore */
+        }
       }
 
       // 기존 자동매매 세션 확인
@@ -749,12 +1191,16 @@ export function AiScanner() {
             setSessions(sortSessions(list));
             setStep('trading');
           }
-        } catch { /* ignore */ }
+        } catch {
+          /* ignore */
+        }
       }
     }
 
     init();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [connectToAiSession, fetchAgentStatuses, searchParams]);
 
   const handleScan = async () => {
@@ -771,7 +1217,9 @@ export function AiScanner() {
         excludeCodes = balance.items
           .filter((item) => item.holdingQty > 0)
           .map((item) => item.stockCode);
-      } catch { /* ignore */ }
+      } catch {
+        /* ignore */
+      }
 
       // 사용자 지정 Top N. 필터링(상태 이상/KIS 조회 실패)으로 개수가 부족할 수 있으므로
       // 백엔드에는 여유 버퍼를 두고 더 많은 후보를 요청한 뒤 프론트에서 필터 후 Top N 으로 트리밍한다.
@@ -798,9 +1246,17 @@ export function AiScanner() {
       const filteredResults: ScanResult[] = [];
       let droppedByPriceError = 0;
       let droppedByStatusCode = 0;
-      const droppedDetail: Array<{ stockCode: string; stockName: string; reason: string }> = [];
+      const droppedDetail: Array<{
+        stockCode: string;
+        stockName: string;
+        reason: string;
+      }> = [];
 
-      for (let i = 0; i < result.results.length && filteredResults.length < userTopN; i++) {
+      for (
+        let i = 0;
+        i < result.results.length && filteredResults.length < userTopN;
+        i++
+      ) {
         const r = result.results[i];
         const price = priceResults[i];
         if (price === null) {
@@ -880,18 +1336,22 @@ export function AiScanner() {
         strategyName: r.bestStrategy.strategyName,
       }));
 
-    const latestStatuses = agentStatuses ?? await fetchAgentStatuses();
+    const latestStatuses = agentStatuses ?? (await fetchAgentStatuses());
     const configuredProviders = (['claude', 'gpt'] as const).filter(
       (provider) => latestStatuses?.[provider].configured,
     );
     if (configuredProviders.length === 0) {
-      setError('AI 전문가 회의를 시작하려면 Claude 또는 GPT 연동 설정을 먼저 완료해주세요.');
+      setError(
+        'AI 전문가 회의를 시작하려면 Claude 또는 GPT 연동 설정을 먼저 완료해주세요.',
+      );
       return;
     }
     if (!latestStatuses?.[meetingProvider].configured) {
       const fallbackProvider = configuredProviders[0];
       setMeetingProvider(fallbackProvider);
-      setError(`${meetingProvider === 'claude' ? 'Claude' : 'GPT'} 연동이 설정되지 않았습니다. 먼저 AI 설정을 완료하세요.`);
+      setError(
+        `${meetingProvider === 'claude' ? 'Claude' : 'GPT'} 연동이 설정되지 않았습니다. 먼저 AI 설정을 완료하세요.`,
+      );
       return;
     }
 
@@ -906,7 +1366,9 @@ export function AiScanner() {
 
   const handleStartTrading = () => {
     setError('');
-    const selectedResults = scanResults.filter((r) => selected.has(r.stockCode));
+    const selectedResults = scanResults.filter((r) =>
+      selected.has(r.stockCode),
+    );
     if (selectedResults.length === 0) {
       setError('종목을 선택해주세요.');
       return;
@@ -1074,12 +1536,6 @@ export function AiScanner() {
   const handlePause = async (id: number) => {
     const updated = await pauseSession(id);
     setSessions((prev) => prev.map((s) => (s.id === id ? updated : s)));
-    // 일시정지 시 캐시된 실시간 가격 제거 — 재개 후 stale 값 표시 방지
-    setPrices((prev) => {
-      const next = new Map(prev);
-      next.delete(updated.stockCode);
-      return next;
-    });
   };
 
   const handleResume = async (id: number) => {
@@ -1090,12 +1546,6 @@ export function AiScanner() {
   const handleStop = async (id: number) => {
     const updated = await stopSession(id);
     setSessions((prev) => prev.map((s) => (s.id === id ? updated : s)));
-    // 종료 시 캐시된 실시간 가격 제거
-    setPrices((prev) => {
-      const next = new Map(prev);
-      next.delete(updated.stockCode);
-      return next;
-    });
   };
 
   const handleDeletePermanent = async (id: number, stockName: string) => {
@@ -1125,7 +1575,9 @@ export function AiScanner() {
         stopLossPct: item.stopLossPct,
         addOnBuyMode: item.addOnBuyMode,
       });
-      setSessions((prev) => prev.map((s) => (s.id === updated.id ? updated : s)));
+      setSessions((prev) =>
+        prev.map((s) => (s.id === updated.id ? updated : s)),
+      );
       setEditSession(null);
     } catch (err: any) {
       setError(err.message || '세션 수정에 실패했습니다.');
@@ -1136,7 +1588,9 @@ export function AiScanner() {
     if (!orderSession) return;
     try {
       const updated = await manualOrder(orderSession.id, dto);
-      setSessions((prev) => prev.map((s) => (s.id === updated.id ? updated : s)));
+      setSessions((prev) =>
+        prev.map((s) => (s.id === updated.id ? updated : s)),
+      );
       setOrderSession(null);
     } catch (err: any) {
       setError(err.message || '주문에 실패했습니다.');
@@ -1150,6 +1604,15 @@ export function AiScanner() {
     'infinity-bot': '무한매수봇',
     'candle-pattern': '캔들 패턴',
   };
+  const totalRealizedPnl = sessions.reduce(
+    (sum, session) => sum + Number(session.realizedPnl),
+    0,
+  );
+  const totalUnrealizedPnl = sessions.reduce((sum, session) => {
+    return (
+      sum + getLiveUnrealizedPnl(session, getLiveCurrentPrice(session, prices))
+    );
+  }, 0);
   const activeSessionCodes = new Set(
     sessions
       .filter((session) => session.status === 'active')
@@ -1241,16 +1704,30 @@ export function AiScanner() {
           <div className="form-row">
             <label>
               투자 금액
-              <input type="text" value={investmentAmount}
-                onChange={(e) => setInvestmentAmount(e.target.value)} disabled={step === 'scanning'} />
+              <input
+                type="text"
+                value={investmentAmount}
+                onChange={(e) => setInvestmentAmount(e.target.value)}
+                disabled={step === 'scanning'}
+              />
             </label>
             <label>
               Top N
-              <input type="number" value={topN}
-                onChange={(e) => setTopN(e.target.value)} min="1" max="50" disabled={step === 'scanning'} />
+              <input
+                type="number"
+                value={topN}
+                onChange={(e) => setTopN(e.target.value)}
+                min="1"
+                max="50"
+                disabled={step === 'scanning'}
+              />
             </label>
           </div>
-          <button className="btn btn-primary btn-lg" onClick={handleScan} disabled={step === 'scanning'}>
+          <button
+            className="btn btn-primary btn-lg"
+            onClick={handleScan}
+            disabled={step === 'scanning'}
+          >
             {step === 'scanning' ? '스캔 중...' : 'AI 최적 종목 추출'}
           </button>
           {step === 'scanning' && (
@@ -1273,11 +1750,14 @@ export function AiScanner() {
               <span>소요: {(scanInfo.elapsed / 1000).toFixed(1)}초</span>
               {scanInfo.targetTopN > 0 && (
                 <span
-                  className={scanResults.length < scanInfo.targetTopN ? 'text-loss' : ''}
+                  className={
+                    scanResults.length < scanInfo.targetTopN ? 'text-loss' : ''
+                  }
                   title={`Top ${scanInfo.targetTopN} 목표. 상태필터 제외 ${scanInfo.droppedByStatus}건, KIS 오류 제외 ${scanInfo.droppedByPriceError}건`}
                 >
                   결과: {scanResults.length}/{scanInfo.targetTopN}
-                  {(scanInfo.droppedByStatus > 0 || scanInfo.droppedByPriceError > 0) &&
+                  {(scanInfo.droppedByStatus > 0 ||
+                    scanInfo.droppedByPriceError > 0) &&
                     ` (상태 -${scanInfo.droppedByStatus} / KIS오류 -${scanInfo.droppedByPriceError})`}
                 </span>
               )}
@@ -1286,11 +1766,15 @@ export function AiScanner() {
 
           {(availableMeetingProviders.length > 1 || agentStatuses) && (
             <div className="agent-setup-actions" style={{ marginBottom: 16 }}>
-              <span className="text-muted" style={{ alignSelf: 'center' }}>회의 엔진</span>
+              <span className="text-muted" style={{ alignSelf: 'center' }}>
+                회의 엔진
+              </span>
               <button
                 className={`btn ${meetingProvider === 'claude' ? 'btn-primary' : ''}`}
                 onClick={() => setMeetingProvider('claude')}
-                disabled={!agentStatuses?.claude.configured || step === 'scoring'}
+                disabled={
+                  !agentStatuses?.claude.configured || step === 'scoring'
+                }
               >
                 Claude
               </button>
@@ -1301,9 +1785,13 @@ export function AiScanner() {
               >
                 GPT
               </button>
-              {agentStatuses && !agentStatuses.claude.configured && !agentStatuses.gpt.configured && (
-                <span className="text-loss">AI 설정에서 Claude 또는 GPT 연동이 필요합니다.</span>
-              )}
+              {agentStatuses &&
+                !agentStatuses.claude.configured &&
+                !agentStatuses.gpt.configured && (
+                  <span className="text-loss">
+                    AI 설정에서 Claude 또는 GPT 연동이 필요합니다.
+                  </span>
+                )}
             </div>
           )}
 
@@ -1311,18 +1799,26 @@ export function AiScanner() {
             <div className="meeting-progress card">
               <div className="spinner spinner-lg" />
               <div className="meeting-steps">
-                <p><strong>
-                  {scoringProgress
-                    ? `[${scoringProgress.current}/${scoringProgress.total}] ${scoringProgress.stockName} — ${
-                        scoringProgress.phase === 'phase1' ? 'Phase 1: 뉴스 수집 + 차트 분석' :
-                        scoringProgress.phase === 'phase2' ? 'Phase 2: 전문가 분석' :
-                        scoringProgress.phase === 'phase3' ? 'Phase 3: 회의 종합' :
-                        '준비 중...'
-                      }`
-                    : 'AI 전문가 회의 준비 중...'}
-                </strong></p>
+                <p>
+                  <strong>
+                    {scoringProgress
+                      ? `[${scoringProgress.current}/${scoringProgress.total}] ${scoringProgress.stockName} — ${
+                          scoringProgress.phase === 'phase1'
+                            ? 'Phase 1: 뉴스 수집 + 차트 분석'
+                            : scoringProgress.phase === 'phase2'
+                              ? 'Phase 2: 전문가 분석'
+                              : scoringProgress.phase === 'phase3'
+                                ? 'Phase 3: 회의 종합'
+                                : '준비 중...'
+                        }`
+                      : 'AI 전문가 회의 준비 중...'}
+                  </strong>
+                </p>
                 <div className="scoring-meta">
-                  <span className="scoring-elapsed">{Math.floor(scoringElapsed / 60)}분 {scoringElapsed % 60}초 경과</span>
+                  <span className="scoring-elapsed">
+                    {Math.floor(scoringElapsed / 60)}분 {scoringElapsed % 60}초
+                    경과
+                  </span>
                   <span className="text-muted">
                     완료: {aiScores.size}/{scanResults.length} 종목
                   </span>
@@ -1330,11 +1826,17 @@ export function AiScanner() {
                 {scoringProgress && (
                   <>
                     <div className="phase-indicator">
-                      <div className={`phase-dot ${scoringProgress.phase === 'phase1' ? 'active' : scoringProgress.phase === 'phase2' || scoringProgress.phase === 'phase3' ? 'done' : ''}`} />
+                      <div
+                        className={`phase-dot ${scoringProgress.phase === 'phase1' ? 'active' : scoringProgress.phase === 'phase2' || scoringProgress.phase === 'phase3' ? 'done' : ''}`}
+                      />
                       <div className="phase-line" />
-                      <div className={`phase-dot ${scoringProgress.phase === 'phase2' ? 'active' : scoringProgress.phase === 'phase3' ? 'done' : ''}`} />
+                      <div
+                        className={`phase-dot ${scoringProgress.phase === 'phase2' ? 'active' : scoringProgress.phase === 'phase3' ? 'done' : ''}`}
+                      />
                       <div className="phase-line" />
-                      <div className={`phase-dot ${scoringProgress.phase === 'phase3' ? 'active' : ''}`} />
+                      <div
+                        className={`phase-dot ${scoringProgress.phase === 'phase3' ? 'active' : ''}`}
+                      />
                     </div>
                     <div className="phase-labels">
                       <span>데이터 수집</span>
@@ -1344,7 +1846,11 @@ export function AiScanner() {
                   </>
                 )}
                 {abortScoring && (
-                  <button className="btn btn-sm btn-danger" style={{ marginTop: 12 }} onClick={abortScoring}>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    style={{ marginTop: 12 }}
+                    onClick={abortScoring}
+                  >
                     중단
                   </button>
                 )}
@@ -1353,214 +1859,358 @@ export function AiScanner() {
           )}
 
           <div className="table-container">
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th><input type="checkbox" checked={selected.size === scanResults.length} onChange={toggleSelectAll} /></th>
-                <th>#</th>
-                <th>종목</th>
-                <th>전략</th>
-                <th>수익률</th>
-                <th>승률</th>
-                <th>MDD</th>
-                <th>거래수</th>
-                <th>AI 점수</th>
-              </tr>
-            </thead>
-            <tbody>
-              {scanResults.map((r, i) => {
-                const score = aiScores.get(r.stockCode);
-                const isExpanded = expandedDetail === r.stockCode;
-                return (
-                  <>
-                    <tr key={r.stockCode}>
-                      <td><input type="checkbox" checked={selected.has(r.stockCode)} onChange={() => toggleSelect(r.stockCode)} /></td>
-                      <td>{i + 1}</td>
-                      <td>
-                        <strong>{r.stockName}</strong>
-                        {r.mrktWarnClsCode && MARKET_WARN_LABELS[r.mrktWarnClsCode] && (
-                          <span
-                            className={`market-warn-badge ${MARKET_WARN_CLASS[r.mrktWarnClsCode]}`}
-                            title={`시장 경고: ${MARKET_WARN_LABELS[r.mrktWarnClsCode]}`}
-                          >
-                            {MARKET_WARN_LABELS[r.mrktWarnClsCode]}
-                          </span>
-                        )}
-                        <br />
-                        <small className="text-muted">{r.stockCode}</small>
-                      </td>
-                      <td>
-                        {STRATEGY_NAMES[r.bestStrategy.strategyId] || r.bestStrategy.strategyId}
-                        {r.bestStrategy.variant && <small className="text-muted"> ({r.bestStrategy.variant})</small>}
-                      </td>
-                      <td className={pctClass(r.totalReturnPct)}>{r.totalReturnPct.toFixed(2)}%</td>
-                      <td>{(r.winRate * 100).toFixed(1)}%</td>
-                      <td className="text-loss">{r.maxDrawdownPct.toFixed(2)}%</td>
-                      <td>{r.totalTrades}</td>
-                      <td>
-                        {score ? (
-                          <div className="ai-score-cell">
-                            <button
-                              className={`ai-score-btn ${score.score >= 7 ? 'score-high' : score.score >= 4 ? 'score-mid' : 'score-low'}`}
-                              onClick={() => setExpandedDetail(isExpanded ? null : r.stockCode)}
-                              title="클릭하여 전문가 회의 상세 보기"
-                            >
-                              {score.score.toFixed(2)}
-                            </button>
-                            {score.expertDetail?.conclusion.finalRecommendation && (
-                              <span className={`rec-badge rec-sm ${REC_CLASS[score.expertDetail.traderOpinion.recommendation] || 'rec-hold'}`}>
-                                {REC_LABELS[score.expertDetail.traderOpinion.recommendation] || '관망'}
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>
+                    <input
+                      type="checkbox"
+                      checked={selected.size === scanResults.length}
+                      onChange={toggleSelectAll}
+                    />
+                  </th>
+                  <th>#</th>
+                  <th>종목</th>
+                  <th>전략</th>
+                  <th>수익률</th>
+                  <th>승률</th>
+                  <th>MDD</th>
+                  <th>거래수</th>
+                  <th>AI 점수</th>
+                </tr>
+              </thead>
+              <tbody>
+                {scanResults.map((r, i) => {
+                  const score = aiScores.get(r.stockCode);
+                  const isExpanded = expandedDetail === r.stockCode;
+                  return (
+                    <>
+                      <tr key={r.stockCode}>
+                        <td>
+                          <input
+                            type="checkbox"
+                            checked={selected.has(r.stockCode)}
+                            onChange={() => toggleSelect(r.stockCode)}
+                          />
+                        </td>
+                        <td>{i + 1}</td>
+                        <td>
+                          <strong>{r.stockName}</strong>
+                          {r.mrktWarnClsCode &&
+                            MARKET_WARN_LABELS[r.mrktWarnClsCode] && (
+                              <span
+                                className={`market-warn-badge ${MARKET_WARN_CLASS[r.mrktWarnClsCode]}`}
+                                title={`시장 경고: ${MARKET_WARN_LABELS[r.mrktWarnClsCode]}`}
+                              >
+                                {MARKET_WARN_LABELS[r.mrktWarnClsCode]}
                               </span>
                             )}
-                          </div>
-                        ) : step === 'scoring' && selected.has(r.stockCode) ? (
-                          <span className="scoring-dot">분석중</span>
-                        ) : (
-                          <span className="text-muted">-</span>
-                        )}
-                      </td>
-                    </tr>
-                    {/* 전략 분석 근거 요약 */}
-                    <tr key={`${r.stockCode}-strategy`} className="strategy-summary-row">
-                      <td colSpan={9}>
-                        <div className="strategy-summary">
-                          <span className={`signal-badge signal-${r.currentSignal.direction.toLowerCase()}`}>
-                            {r.currentSignal.direction === 'BUY' ? '매수' : r.currentSignal.direction === 'SELL' ? '매도' : '중립'}
-                            <small>{(r.currentSignal.strength * 100).toFixed(0)}%</small>
-                          </span>
-                          <span className="strategy-reason">{r.currentSignal.reason}</span>
-                          <span className="strategy-detail">{r.summary}</span>
-                        </div>
-                      </td>
-                    </tr>
-                    {/* 점수 근거 요약 (점수 완료된 종목) */}
-                    {score && !isExpanded && (
-                      <tr key={`${r.stockCode}-summary`} className="score-summary-row">
+                          <br />
+                          <small className="text-muted">{r.stockCode}</small>
+                        </td>
+                        <td>
+                          {STRATEGY_NAMES[r.bestStrategy.strategyId] ||
+                            r.bestStrategy.strategyId}
+                          {r.bestStrategy.variant && (
+                            <small className="text-muted">
+                              {' '}
+                              ({r.bestStrategy.variant})
+                            </small>
+                          )}
+                        </td>
+                        <td className={pctClass(r.totalReturnPct)}>
+                          {r.totalReturnPct.toFixed(2)}%
+                        </td>
+                        <td>{(r.winRate * 100).toFixed(1)}%</td>
+                        <td className="text-loss">
+                          {r.maxDrawdownPct.toFixed(2)}%
+                        </td>
+                        <td>{r.totalTrades}</td>
+                        <td>
+                          {score ? (
+                            <div className="ai-score-cell">
+                              <button
+                                className={`ai-score-btn ${score.score >= 7 ? 'score-high' : score.score >= 4 ? 'score-mid' : 'score-low'}`}
+                                onClick={() =>
+                                  setExpandedDetail(
+                                    isExpanded ? null : r.stockCode,
+                                  )
+                                }
+                                title="클릭하여 전문가 회의 상세 보기"
+                              >
+                                {score.score.toFixed(2)}
+                              </button>
+                              {score.expertDetail?.conclusion
+                                .finalRecommendation && (
+                                <span
+                                  className={`rec-badge rec-sm ${REC_CLASS[score.expertDetail.traderOpinion.recommendation] || 'rec-hold'}`}
+                                >
+                                  {REC_LABELS[
+                                    score.expertDetail.traderOpinion
+                                      .recommendation
+                                  ] || '관망'}
+                                </span>
+                              )}
+                            </div>
+                          ) : step === 'scoring' &&
+                            selected.has(r.stockCode) ? (
+                            <span className="scoring-dot">분석중</span>
+                          ) : (
+                            <span className="text-muted">-</span>
+                          )}
+                        </td>
+                      </tr>
+                      {/* 전략 분석 근거 요약 */}
+                      <tr
+                        key={`${r.stockCode}-strategy`}
+                        className="strategy-summary-row"
+                      >
                         <td colSpan={9}>
-                          <div className="score-summary" onClick={() => setExpandedDetail(r.stockCode)}>
-                            <span className="score-reasoning">{score.reasoning || '분석 결과 없음'}</span>
-                            <span className="expand-hint">상세 보기 ▾</span>
+                          <div className="strategy-summary">
+                            <span
+                              className={`signal-badge signal-${r.currentSignal.direction.toLowerCase()}`}
+                            >
+                              {r.currentSignal.direction === 'BUY'
+                                ? '매수'
+                                : r.currentSignal.direction === 'SELL'
+                                  ? '매도'
+                                  : '중립'}
+                              <small>
+                                {(r.currentSignal.strength * 100).toFixed(0)}%
+                              </small>
+                            </span>
+                            <span className="strategy-reason">
+                              {r.currentSignal.reason}
+                            </span>
+                            <span className="strategy-detail">{r.summary}</span>
                           </div>
                         </td>
                       </tr>
-                    )}
-                    {/* 전문가 회의 상세 패널 */}
-                    {isExpanded && score && (
-                      <tr key={`${r.stockCode}-detail`} className="detail-row">
-                        <td colSpan={9}>
-                          <div className="expert-meeting-detail">
-                            <div className="detail-header">
-                              <h3>전문가 회의 분석 - {r.stockName}</h3>
-                              <button className="btn btn-sm btn-text" onClick={() => setExpandedDetail(null)}>접기 ▴</button>
+                      {/* 점수 근거 요약 (점수 완료된 종목) */}
+                      {score && !isExpanded && (
+                        <tr
+                          key={`${r.stockCode}-summary`}
+                          className="score-summary-row"
+                        >
+                          <td colSpan={9}>
+                            <div
+                              className="score-summary"
+                              onClick={() => setExpandedDetail(r.stockCode)}
+                            >
+                              <span className="score-reasoning">
+                                {score.reasoning || '분석 결과 없음'}
+                              </span>
+                              <span className="expand-hint">상세 보기 ▾</span>
                             </div>
-
-                            {/* 종합 분석 결과 */}
-                            <div className="final-score-banner">
-                              <div className={`final-score ${score.score >= 7 ? 'score-high' : score.score >= 4 ? 'score-mid' : 'score-low'}`}>
-                                {score.score.toFixed(2)}
+                          </td>
+                        </tr>
+                      )}
+                      {/* 전문가 회의 상세 패널 */}
+                      {isExpanded && score && (
+                        <tr
+                          key={`${r.stockCode}-detail`}
+                          className="detail-row"
+                        >
+                          <td colSpan={9}>
+                            <div className="expert-meeting-detail">
+                              <div className="detail-header">
+                                <h3>전문가 회의 분석 - {r.stockName}</h3>
+                                <button
+                                  className="btn btn-sm btn-text"
+                                  onClick={() => setExpandedDetail(null)}
+                                >
+                                  접기 ▴
+                                </button>
                               </div>
-                              <div className="final-reasoning">
-                                <p><strong>{score.expertDetail?.conclusion.finalRecommendation || '분석 완료'}</strong></p>
-                                <p>{score.reasoning}</p>
-                              </div>
-                            </div>
 
-                            {/* 뉴스 & 차트 요약 */}
-                            <div className="data-summary">
-                              <div className="data-block">
-                                <small className="section-label">뉴스 수집 결과</small>
-                                {score.newsItems && score.newsItems.length > 0 ? (
-                                  <ul className="news-list">
-                                    {score.newsItems.map((item: NewsItem, j: number) => (
-                                      <li key={j} className={`news-item news-${item.impact}`}>
-                                        <div className="news-title">
-                                          {item.url ? (
-                                            <a href={item.url} target="_blank" rel="noopener noreferrer">{item.title}</a>
-                                          ) : (
-                                            <span>{item.title}</span>
-                                          )}
-                                          <span className={`news-impact impact-${item.impact}`}>
-                                            {item.impact === 'positive' ? '호재' : item.impact === 'negative' ? '악재' : '중립'}
-                                          </span>
-                                        </div>
-                                        <p className="news-summary">{item.summary}</p>
-                                        {item.url && (
-                                          <span className="news-source">
-                                            <a href={item.url} target="_blank" rel="noopener noreferrer">
-                                              {(() => { try { return new URL(item.url).hostname; } catch { return item.url; } })()}
-                                            </a>
-                                          </span>
-                                        )}
-                                      </li>
-                                    ))}
-                                  </ul>
-                                ) : score.newsHighlights.length > 0 ? (
-                                  <ul>{score.newsHighlights.map((n, j) => <li key={j}>{n}</li>)}</ul>
-                                ) : (
-                                  <p className="text-muted">수집된 뉴스 없음</p>
+                              {/* 종합 분석 결과 */}
+                              <div className="final-score-banner">
+                                <div
+                                  className={`final-score ${score.score >= 7 ? 'score-high' : score.score >= 4 ? 'score-mid' : 'score-low'}`}
+                                >
+                                  {score.score.toFixed(2)}
+                                </div>
+                                <div className="final-reasoning">
+                                  <p>
+                                    <strong>
+                                      {score.expertDetail?.conclusion
+                                        .finalRecommendation || '분석 완료'}
+                                    </strong>
+                                  </p>
+                                  <p>{score.reasoning}</p>
+                                </div>
+                              </div>
+
+                              {/* 뉴스 & 차트 요약 */}
+                              <div className="data-summary">
+                                <div className="data-block">
+                                  <small className="section-label">
+                                    뉴스 수집 결과
+                                  </small>
+                                  {score.newsItems &&
+                                  score.newsItems.length > 0 ? (
+                                    <ul className="news-list">
+                                      {score.newsItems.map(
+                                        (item: NewsItem, j: number) => (
+                                          <li
+                                            key={j}
+                                            className={`news-item news-${item.impact}`}
+                                          >
+                                            <div className="news-title">
+                                              {item.url ? (
+                                                <a
+                                                  href={item.url}
+                                                  target="_blank"
+                                                  rel="noopener noreferrer"
+                                                >
+                                                  {item.title}
+                                                </a>
+                                              ) : (
+                                                <span>{item.title}</span>
+                                              )}
+                                              <span
+                                                className={`news-impact impact-${item.impact}`}
+                                              >
+                                                {item.impact === 'positive'
+                                                  ? '호재'
+                                                  : item.impact === 'negative'
+                                                    ? '악재'
+                                                    : '중립'}
+                                              </span>
+                                            </div>
+                                            <p className="news-summary">
+                                              {item.summary}
+                                            </p>
+                                            {item.url && (
+                                              <span className="news-source">
+                                                <a
+                                                  href={item.url}
+                                                  target="_blank"
+                                                  rel="noopener noreferrer"
+                                                >
+                                                  {(() => {
+                                                    try {
+                                                      return new URL(item.url)
+                                                        .hostname;
+                                                    } catch {
+                                                      return item.url;
+                                                    }
+                                                  })()}
+                                                </a>
+                                              </span>
+                                            )}
+                                          </li>
+                                        ),
+                                      )}
+                                    </ul>
+                                  ) : score.newsHighlights.length > 0 ? (
+                                    <ul>
+                                      {score.newsHighlights.map((n, j) => (
+                                        <li key={j}>{n}</li>
+                                      ))}
+                                    </ul>
+                                  ) : (
+                                    <p className="text-muted">
+                                      수집된 뉴스 없음
+                                    </p>
+                                  )}
+                                </div>
+                                {score.chartAnalysis && (
+                                  <div className="data-block">
+                                    <small className="section-label">
+                                      차트 분석
+                                    </small>
+                                    <p>{score.chartAnalysis}</p>
+                                  </div>
                                 )}
                               </div>
-                              {score.chartAnalysis && (
-                                <div className="data-block">
-                                  <small className="section-label">차트 분석</small>
-                                  <p>{score.chartAnalysis}</p>
+
+                              {/* 전문가 의견 카드 */}
+                              {score.expertDetail && (
+                                <>
+                                  <div className="expert-cards">
+                                    <ExpertCard
+                                      title="주식 전문가 트레이더"
+                                      role="단기 매매 / 기술적 분석"
+                                      opinion={score.expertDetail.traderOpinion}
+                                    />
+                                    <ExpertCard
+                                      title="경제 전문 분석가"
+                                      role="거시경제 / 펀더멘탈 분석"
+                                      opinion={
+                                        score.expertDetail.economistOpinion
+                                      }
+                                    />
+                                  </div>
+
+                                  {/* 회의 결론 */}
+                                  <div className="meeting-conclusion">
+                                    <h4>회의 결론</h4>
+                                    <p className="conclusion-rec">
+                                      {
+                                        score.expertDetail.conclusion
+                                          .finalRecommendation
+                                      }
+                                    </p>
+                                    <p className="conclusion-reasoning">
+                                      {score.expertDetail.conclusion.reasoning}
+                                    </p>
+
+                                    {score.expertDetail.conclusion
+                                      .consensusPoints.length > 0 && (
+                                      <div className="conclusion-section">
+                                        <small className="section-label">
+                                          합의점
+                                        </small>
+                                        <ul>
+                                          {score.expertDetail.conclusion.consensusPoints.map(
+                                            (p, j) => (
+                                              <li key={j}>{p}</li>
+                                            ),
+                                          )}
+                                        </ul>
+                                      </div>
+                                    )}
+                                    {score.expertDetail.conclusion.disagreements
+                                      .length > 0 && (
+                                      <div className="conclusion-section">
+                                        <small className="section-label">
+                                          이견
+                                        </small>
+                                        <ul>
+                                          {score.expertDetail.conclusion.disagreements.map(
+                                            (d, j) => (
+                                              <li key={j}>{d}</li>
+                                            ),
+                                          )}
+                                        </ul>
+                                      </div>
+                                    )}
+                                  </div>
+                                </>
+                              )}
+
+                              {score.riskFactors.length > 0 && (
+                                <div className="conclusion-section">
+                                  <small className="section-label text-loss">
+                                    리스크 요인
+                                  </small>
+                                  <ul>
+                                    {score.riskFactors.map((rf, j) => (
+                                      <li key={j}>{rf}</li>
+                                    ))}
+                                  </ul>
                                 </div>
                               )}
                             </div>
-
-                            {/* 전문가 의견 카드 */}
-                            {score.expertDetail && (
-                              <>
-                                <div className="expert-cards">
-                                  <ExpertCard
-                                    title="주식 전문가 트레이더"
-                                    role="단기 매매 / 기술적 분석"
-                                    opinion={score.expertDetail.traderOpinion}
-                                  />
-                                  <ExpertCard
-                                    title="경제 전문 분석가"
-                                    role="거시경제 / 펀더멘탈 분석"
-                                    opinion={score.expertDetail.economistOpinion}
-                                  />
-                                </div>
-
-                                {/* 회의 결론 */}
-                                <div className="meeting-conclusion">
-                                  <h4>회의 결론</h4>
-                                  <p className="conclusion-rec">{score.expertDetail.conclusion.finalRecommendation}</p>
-                                  <p className="conclusion-reasoning">{score.expertDetail.conclusion.reasoning}</p>
-
-                                  {score.expertDetail.conclusion.consensusPoints.length > 0 && (
-                                    <div className="conclusion-section">
-                                      <small className="section-label">합의점</small>
-                                      <ul>{score.expertDetail.conclusion.consensusPoints.map((p, j) => <li key={j}>{p}</li>)}</ul>
-                                    </div>
-                                  )}
-                                  {score.expertDetail.conclusion.disagreements.length > 0 && (
-                                    <div className="conclusion-section">
-                                      <small className="section-label">이견</small>
-                                      <ul>{score.expertDetail.conclusion.disagreements.map((d, j) => <li key={j}>{d}</li>)}</ul>
-                                    </div>
-                                  )}
-                                </div>
-                              </>
-                            )}
-
-                            {score.riskFactors.length > 0 && (
-                              <div className="conclusion-section">
-                                <small className="section-label text-loss">리스크 요인</small>
-                                <ul>{score.riskFactors.map((rf, j) => <li key={j}>{rf}</li>)}</ul>
-                              </div>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    )}
-                  </>
-                );
-              })}
-            </tbody>
-          </table>
+                          </td>
+                        </tr>
+                      )}
+                    </>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
 
           <div className="scan-actions">
@@ -1569,17 +2219,32 @@ export function AiScanner() {
                 <button className="btn btn-secondary" onClick={handleAiScore}>
                   AI 전문가 회의 시작
                 </button>
-                <button className="btn btn-primary" onClick={handleStartTrading} disabled={selected.size === 0}>
+                <button
+                  className="btn btn-primary"
+                  onClick={handleStartTrading}
+                  disabled={selected.size === 0}
+                >
                   선택 종목 자동 매매 시작 ({selected.size}개)
                 </button>
               </>
             )}
             {step === 'scored' && (
-              <button className="btn btn-primary" onClick={handleStartTrading} disabled={selected.size === 0}>
+              <button
+                className="btn btn-primary"
+                onClick={handleStartTrading}
+                disabled={selected.size === 0}
+              >
                 선택 종목 자동 매매 시작 ({selected.size}개)
               </button>
             )}
-            <button className="btn btn-text" onClick={() => { setStep('idle'); setScanResults([]); setExpandedDetail(null); }}>
+            <button
+              className="btn btn-text"
+              onClick={() => {
+                setStep('idle');
+                setScanResults([]);
+                setExpandedDetail(null);
+              }}
+            >
               다시 스캔
             </button>
           </div>
@@ -1592,46 +2257,65 @@ export function AiScanner() {
           <div className="monitor-header">
             <h2>3. 자동 매매 모니터링</h2>
             <div className="monitor-status">
-              <span className={`ws-indicator ${connected ? 'connected' : 'disconnected'}`}>
+              <span
+                className={`ws-indicator ${connected ? 'connected' : 'disconnected'}`}
+              >
                 {connected ? 'LIVE' : 'OFFLINE'}
               </span>
               <button
                 className="btn btn-text btn-sm"
-                onClick={() => getSessions().then((list) => setSessions(sortSessions(list)))}
+                onClick={() =>
+                  getSessions().then((list) => setSessions(sortSessions(list)))
+                }
               >
                 새로고침
               </button>
-              <button className="btn btn-text btn-sm" onClick={() => setStep('idle')}>새 스캔</button>
+              <button
+                className="btn btn-text btn-sm"
+                onClick={() => setStep('idle')}
+              >
+                새 스캔
+              </button>
             </div>
           </div>
 
           <div className="session-summary">
             <div className="stat-card">
               <label>활성 세션</label>
-              <span>{sessions.filter((s) => s.status === 'active').length}</span>
+              <span>
+                {sessions.filter((s) => s.status === 'active').length}
+              </span>
             </div>
             <div className="stat-card">
               <label>보유중 / 대기중</label>
               <span>
                 <span className="text-profit">
-                  {sessions.filter((s) => s.status === 'active' && s.holdingQty > 0).length}
+                  {
+                    sessions.filter(
+                      (s) => s.status === 'active' && s.holdingQty > 0,
+                    ).length
+                  }
                 </span>
                 <small className="text-muted"> / </small>
                 <span style={{ color: '#e67700' }}>
-                  {sessions.filter((s) => s.status === 'active' && s.holdingQty === 0).length}
+                  {
+                    sessions.filter(
+                      (s) => s.status === 'active' && s.holdingQty === 0,
+                    ).length
+                  }
                 </span>
               </span>
             </div>
             <div className="stat-card">
               <label>총 실현 손익</label>
-              <span className={pctClass(sessions.reduce((a, s) => a + Number(s.realizedPnl), 0))}>
-                {fmt(sessions.reduce((a, s) => a + Number(s.realizedPnl), 0))}원
+              <span className={pctClass(totalRealizedPnl)}>
+                {fmt(totalRealizedPnl)}원
               </span>
             </div>
             <div className="stat-card">
               <label>총 평가 손익</label>
-              <span className={pctClass(sessions.reduce((a, s) => a + Number(s.unrealizedPnl), 0))}>
-                {fmt(sessions.reduce((a, s) => a + Number(s.unrealizedPnl), 0))}원
+              <span className={pctClass(totalUnrealizedPnl)}>
+                {fmt(totalUnrealizedPnl)}원
               </span>
             </div>
           </div>
@@ -1640,7 +2324,8 @@ export function AiScanner() {
             <div className="manual-monitor-header">
               <h3>종목 조회 후 수동 등록</h3>
               <p className="text-muted">
-                종목명 또는 종목코드로 조회한 뒤 자동 매매 모니터링 목록에 바로 추가할 수 있습니다.
+                종목명 또는 종목코드로 조회한 뒤 자동 매매 모니터링 목록에 바로
+                추가할 수 있습니다.
               </p>
             </div>
 
@@ -1707,18 +2392,25 @@ export function AiScanner() {
                 <div className="manual-stock-main">
                   <div className="manual-stock-title">
                     <strong>
-                      {manualLookupStock.stockName} ({manualLookupStock.stockCode})
+                      {manualLookupStock.stockName} (
+                      {manualLookupStock.stockCode})
                     </strong>
                     {manualLookupStock.mrktWarnClsCode &&
                       MARKET_WARN_LABELS[manualLookupStock.mrktWarnClsCode] && (
                         <span
                           className={`market-warn-badge ${MARKET_WARN_CLASS[manualLookupStock.mrktWarnClsCode]}`}
                         >
-                          {MARKET_WARN_LABELS[manualLookupStock.mrktWarnClsCode]}
+                          {
+                            MARKET_WARN_LABELS[
+                              manualLookupStock.mrktWarnClsCode
+                            ]
+                          }
                         </span>
                       )}
                     {isManualLookupDuplicate && (
-                      <span className="manual-duplicate-badge">이미 모니터링 중</span>
+                      <span className="manual-duplicate-badge">
+                        이미 모니터링 중
+                      </span>
                     )}
                   </div>
                   <div className="manual-stock-price">
@@ -1753,143 +2445,247 @@ export function AiScanner() {
           </div>
 
           <div className="table-container">
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>종목</th><th>전략</th><th>목표/손절</th><th>보유 시<br />매수신호</th><th>상태</th><th>포지션</th><th>보유수량</th><th>평균단가</th>
-                <th>현재가</th><th>평가 손익</th><th>실현 손익</th><th>AI</th><th>관리</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sessions.length === 0 && (
+            <table className="data-table">
+              <thead>
                 <tr>
-                  <td colSpan={13} className="monitor-empty-row">
-                    등록된 자동 매매 세션이 없습니다. 위에서 종목을 조회해 바로 추가할 수 있습니다.
-                  </td>
+                  <th>종목</th>
+                  <th>전략</th>
+                  <th>목표/손절</th>
+                  <th>
+                    보유 시<br />
+                    매수신호
+                  </th>
+                  <th>상태</th>
+                  <th>포지션</th>
+                  <th>보유수량</th>
+                  <th>평균단가</th>
+                  <th>현재가</th>
+                  <th>평가 손익</th>
+                  <th>실현 손익</th>
+                  <th>AI</th>
+                  <th>관리</th>
                 </tr>
-              )}
-              {sessions.map((s) => {
-                // 활성 세션만 실시간 현재가 표시 — 비활성(일시정지/종료)은 DB 저장 값으로 폴백
-                const cp = s.status === 'active' ? prices.get(s.stockCode) : undefined;
-                const unr = cp && s.holdingQty > 0 ? (cp - s.avgBuyPrice) * s.holdingQty : Number(s.unrealizedPnl);
-                // 백엔드 계산값이 있으면 사용, 없으면 holdingQty 로 폴백 (구버전 API 호환)
-                const positionStatus = s.positionStatus ?? (s.holdingQty > 0 ? 'holding' : 'waiting');
-                return (
-                  <tr key={s.id} className={`session-${s.status}`}>
-                    <td><strong>{s.stockName}</strong><br /><small className="text-muted">{s.stockCode}</small></td>
-                    <td>{STRATEGY_NAMES[s.strategyId] || s.strategyId}{s.variant && <small className="text-muted"> ({s.variant})</small>}</td>
-                    <td>
-                      <span className="text-profit">+{s.takeProfitPct}%</span>
-                      <small className="text-muted"> / </small>
-                      <span className="text-loss">{s.stopLossPct}%</span>
-                    </td>
-                    <td>
-                      <span
-                        className={`add-on-badge add-on-${s.addOnBuyMode}`}
-                        title="보유 중 매수 신호가 발생했을 때의 처리"
-                      >
-                        {s.addOnBuyMode === 'add' ? '추가매수' : '스킵'}
-                      </span>
-                    </td>
-                    <td><span className={`status-badge status-${s.status}`}>
-                      {s.status === 'active' ? '활성' : s.status === 'paused' ? '일시정지' : '종료'}
-                    </span></td>
-                    <td>
-                      <span
-                        className={`position-badge position-${positionStatus}`}
-                        title={
-                          positionStatus === 'holding'
-                            ? '실제 매수되어 보유 중 (익절/손절 감시)'
-                            : '아직 매수 전 — 전략 매수 신호 대기 중'
-                        }
-                      >
-                        {positionStatus === 'holding' ? '보유중' : '대기중'}
-                      </span>
-                    </td>
-                    <td>{fmt(s.holdingQty)}</td>
-                    <td>{fmt(Math.round(s.avgBuyPrice))}</td>
-                    <td>{cp ? fmt(cp) : '-'}</td>
-                    <td className={pctClass(unr)}>{fmt(Math.round(unr))}원</td>
-                    <td className={pctClass(Number(s.realizedPnl))}>{fmt(Number(s.realizedPnl))}원</td>
-                    <td>
-                      {s.aiScore ? (
-                        <button
-                          className={`ai-score-btn ${s.aiScore >= 7 ? 'score-high' : s.aiScore >= 4 ? 'score-mid' : 'score-low'}`}
-                          title="AI 전문가 회의 결과 보기"
-                          onClick={() => {
-                            const cached = meetingResultCache.get(s.stockCode);
-                            if (cached) {
-                              setMeetingResultModal(cached);
-                            } else {
-                              getAiMeetingResult(s.stockCode).then((r) => {
-                                if (r) {
-                                  setMeetingResultCache((prev) => new Map(prev).set(s.stockCode, r));
-                                  setMeetingResultModal(r);
-                                }
-                              }).catch(() => {});
-                            }
-                          }}
-                        >
-                          {s.aiScore.toFixed(1)}
-                        </button>
-                      ) : '-'}
-                    </td>
-                    <td className="session-actions">
-                      {s.status === 'active' && (
-                        <>
-                          <button className="btn btn-sm btn-order" onClick={() => setOrderSession(s)}>주문</button>
-                          <button className="btn btn-sm" onClick={() => setEditSession(s)}>수정</button>
-                          <button
-                            className="btn btn-sm btn-warning"
-                            onClick={() => handlePause(s.id)}
-                            disabled={positionStatus === 'holding'}
-                            title={positionStatus === 'holding' ? '보유 중인 종목은 일시정지할 수 없습니다 (먼저 매도 필요)' : undefined}
-                          >
-                            일시정지
-                          </button>
-                          <button
-                            className="btn btn-sm btn-danger"
-                            onClick={() => handleStop(s.id)}
-                            disabled={positionStatus === 'holding'}
-                            title={positionStatus === 'holding' ? '보유 중인 종목은 종료할 수 없습니다 (먼저 매도 필요)' : undefined}
-                          >
-                            종료
-                          </button>
-                        </>
-                      )}
-                      {s.status === 'paused' && (
-                        <>
-                          <button className="btn btn-sm btn-order" onClick={() => setOrderSession(s)}>주문</button>
-                          <button className="btn btn-sm" onClick={() => setEditSession(s)}>수정</button>
-                          <button className="btn btn-sm btn-primary" onClick={() => handleResume(s.id)}>재개</button>
-                          <button
-                            className="btn btn-sm btn-danger"
-                            onClick={() => handleStop(s.id)}
-                            disabled={positionStatus === 'holding'}
-                            title={positionStatus === 'holding' ? '보유 중인 종목은 종료할 수 없습니다 (먼저 매도 필요)' : undefined}
-                          >
-                            종료
-                          </button>
-                        </>
-                      )}
-                      {s.status === 'stopped' && (
-                        <>
-                          <span className="text-muted">{s.stoppedAt ? new Date(s.stoppedAt).toLocaleDateString('ko-KR') : '종료됨'}</span>
-                          <button
-                            className="btn btn-sm btn-danger"
-                            onClick={() => handleDeletePermanent(s.id, s.stockName)}
-                            title="비활성 세션 완전 삭제 (되돌릴 수 없음)"
-                          >
-                            완전 삭제
-                          </button>
-                        </>
-                      )}
+              </thead>
+              <tbody>
+                {sessions.length === 0 && (
+                  <tr>
+                    <td colSpan={13} className="monitor-empty-row">
+                      등록된 자동 매매 세션이 없습니다. 위에서 종목을 조회해
+                      바로 추가할 수 있습니다.
                     </td>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                )}
+                {sessions.map((s) => {
+                  const cp = getLiveCurrentPrice(s, prices);
+                  const unr = getLiveUnrealizedPnl(s, cp);
+                  const rowToneClass = getLiveRowToneClass(s, unr);
+                  const priceFlashClass =
+                    cp != null && s.status === 'active'
+                      ? priceFlashDirections.get(s.stockCode)
+                      : undefined;
+                  // 백엔드 계산값이 있으면 사용, 없으면 holdingQty 로 폴백 (구버전 API 호환)
+                  const positionStatus =
+                    s.positionStatus ??
+                    (s.holdingQty > 0 ? 'holding' : 'waiting');
+                  return (
+                    <tr
+                      key={s.id}
+                      className={`session-${s.status} ${rowToneClass}`.trim()}
+                    >
+                      <td>
+                        <strong>{s.stockName}</strong>
+                        <br />
+                        <small className="text-muted">{s.stockCode}</small>
+                      </td>
+                      <td>
+                        {STRATEGY_NAMES[s.strategyId] || s.strategyId}
+                        {s.variant && (
+                          <small className="text-muted"> ({s.variant})</small>
+                        )}
+                      </td>
+                      <td>
+                        <span className="text-profit">+{s.takeProfitPct}%</span>
+                        <small className="text-muted"> / </small>
+                        <span className="text-loss">{s.stopLossPct}%</span>
+                      </td>
+                      <td>
+                        <span
+                          className={`add-on-badge add-on-${s.addOnBuyMode}`}
+                          title="보유 중 매수 신호가 발생했을 때의 처리"
+                        >
+                          {s.addOnBuyMode === 'add' ? '추가매수' : '스킵'}
+                        </span>
+                      </td>
+                      <td>
+                        <span className={`status-badge status-${s.status}`}>
+                          {s.status === 'active'
+                            ? '활성'
+                            : s.status === 'paused'
+                              ? '일시정지'
+                              : '종료'}
+                        </span>
+                      </td>
+                      <td>
+                        <span
+                          className={`position-badge position-${positionStatus}`}
+                          title={
+                            positionStatus === 'holding'
+                              ? '실제 매수되어 보유 중 (익절/손절 감시)'
+                              : '아직 매수 전 — 전략 매수 신호 대기 중'
+                          }
+                        >
+                          {positionStatus === 'holding' ? '보유중' : '대기중'}
+                        </span>
+                      </td>
+                      <td>{fmt(s.holdingQty)}</td>
+                      <td>{fmt(Math.round(s.avgBuyPrice))}</td>
+                      <td
+                        className={`current-price-cell${
+                          priceFlashClass
+                            ? ` price-tick-${priceFlashClass}`
+                            : ''
+                        }`}
+                      >
+                        {cp != null ? fmt(cp) : '-'}
+                      </td>
+                      <td className={pctClass(unr)}>
+                        {fmt(Math.round(unr))}원
+                      </td>
+                      <td className={pctClass(Number(s.realizedPnl))}>
+                        {fmt(Number(s.realizedPnl))}원
+                      </td>
+                      <td>
+                        {s.aiScore ? (
+                          <button
+                            className={`ai-score-btn ${s.aiScore >= 7 ? 'score-high' : s.aiScore >= 4 ? 'score-mid' : 'score-low'}`}
+                            title="AI 전문가 회의 결과 보기"
+                            onClick={() => {
+                              const cached = meetingResultCache.get(
+                                s.stockCode,
+                              );
+                              if (cached) {
+                                setMeetingResultModal(cached);
+                              } else {
+                                getAiMeetingResult(s.stockCode)
+                                  .then((r) => {
+                                    if (r) {
+                                      setMeetingResultCache((prev) =>
+                                        new Map(prev).set(s.stockCode, r),
+                                      );
+                                      setMeetingResultModal(r);
+                                    }
+                                  })
+                                  .catch(() => {});
+                              }
+                            }}
+                          >
+                            {s.aiScore.toFixed(1)}
+                          </button>
+                        ) : (
+                          '-'
+                        )}
+                      </td>
+                      <td className="session-actions">
+                        {s.status === 'active' && (
+                          <>
+                            <button
+                              className="btn btn-sm btn-order"
+                              onClick={() => setOrderSession(s)}
+                            >
+                              주문
+                            </button>
+                            <button
+                              className="btn btn-sm"
+                              onClick={() => setEditSession(s)}
+                            >
+                              수정
+                            </button>
+                            <button
+                              className="btn btn-sm btn-warning"
+                              onClick={() => handlePause(s.id)}
+                              disabled={positionStatus === 'holding'}
+                              title={
+                                positionStatus === 'holding'
+                                  ? '보유 중인 종목은 일시정지할 수 없습니다 (먼저 매도 필요)'
+                                  : undefined
+                              }
+                            >
+                              일시정지
+                            </button>
+                            <button
+                              className="btn btn-sm btn-danger"
+                              onClick={() => handleStop(s.id)}
+                              disabled={positionStatus === 'holding'}
+                              title={
+                                positionStatus === 'holding'
+                                  ? '보유 중인 종목은 종료할 수 없습니다 (먼저 매도 필요)'
+                                  : undefined
+                              }
+                            >
+                              종료
+                            </button>
+                          </>
+                        )}
+                        {s.status === 'paused' && (
+                          <>
+                            <button
+                              className="btn btn-sm btn-order"
+                              onClick={() => setOrderSession(s)}
+                            >
+                              주문
+                            </button>
+                            <button
+                              className="btn btn-sm"
+                              onClick={() => setEditSession(s)}
+                            >
+                              수정
+                            </button>
+                            <button
+                              className="btn btn-sm btn-primary"
+                              onClick={() => handleResume(s.id)}
+                            >
+                              재개
+                            </button>
+                            <button
+                              className="btn btn-sm btn-danger"
+                              onClick={() => handleStop(s.id)}
+                              disabled={positionStatus === 'holding'}
+                              title={
+                                positionStatus === 'holding'
+                                  ? '보유 중인 종목은 종료할 수 없습니다 (먼저 매도 필요)'
+                                  : undefined
+                              }
+                            >
+                              종료
+                            </button>
+                          </>
+                        )}
+                        {s.status === 'stopped' && (
+                          <>
+                            <span className="text-muted">
+                              {s.stoppedAt
+                                ? new Date(s.stoppedAt).toLocaleDateString(
+                                    'ko-KR',
+                                  )
+                                : '종료됨'}
+                            </span>
+                            <button
+                              className="btn btn-sm btn-danger"
+                              onClick={() =>
+                                handleDeletePermanent(s.id, s.stockName)
+                              }
+                              title="비활성 세션 완전 삭제 (되돌릴 수 없음)"
+                            >
+                              완전 삭제
+                            </button>
+                          </>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
       )}
