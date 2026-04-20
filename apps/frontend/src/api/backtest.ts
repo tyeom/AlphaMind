@@ -1,3 +1,5 @@
+import { marketRequest } from './market-client';
+
 const MARKET_API = '/market-api';
 
 function authHeaders(): Record<string, string> {
@@ -69,14 +71,9 @@ export async function runBacktest(params: BacktestParams): Promise<BacktestResul
     query.set('autoStopLossPct', String(params.autoStopLossPct));
   }
 
-  const res = await fetch(`${MARKET_API}/strategies/${params.stockCode}/backtest?${query}`, {
-    headers: authHeaders(),
-  });
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({ message: res.statusText }));
-    throw new Error(body.message || res.statusText);
-  }
-  return res.json();
+  return marketRequest<BacktestResult>(
+    `/strategies/${params.stockCode}/backtest?${query}`,
+  );
 }
 
 export interface StrategyInfo {

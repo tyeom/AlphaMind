@@ -27,7 +27,13 @@ export class NotificationController {
   @Post('create')
   async create(
     @User() user: any,
-    @Body() body: { type: string; title: string; message: string; metadata?: Record<string, any> },
+    @Body()
+    body: {
+      type: string;
+      title: string;
+      message: string;
+      metadata?: Record<string, any>;
+    },
   ) {
     const notifType = TYPE_MAP[body.type];
     if (!notifType) return { error: 'Invalid notification type' };

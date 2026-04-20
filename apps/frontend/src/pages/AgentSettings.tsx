@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
+import { ApiError } from '../api/client';
+import { marketRequest } from '../api/market-client';
 
 type Provider = 'claude' | 'gpt';
 type AuthMode = 'api_key' | 'subscription';
@@ -43,17 +45,13 @@ export function AgentSettings() {
 
   const fetchStatus = useCallback(async () => {
     try {
-      const res = await fetch('/market-api/agents/status');
-      if (res.ok) {
-        const data: AgentStatus = await res.json();
-        setStatus(data);
-      } else {
-        setError('서버 연결 실패');
-        setStep('setup');
-      }
-    } catch {
-      setError('Market Data 서비스에 연결할 수 없습니다.');
+      const data = await marketRequest<AgentStatus>('/agents/status');
+      setStatus(data);
+      setError('');
+    } catch (err) {
+      setStatus(null);
       setStep('setup');
+      setError(err instanceof ApiError ? err.message : 'Market Data 서비스에 연결할 수 없습니다.');
     }
   }, []);
 

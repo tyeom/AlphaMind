@@ -1,4 +1,5 @@
 import type { ScanResponse, AiStockScore } from '../types/scanner';
+import { marketRequest } from './market-client';
 
 const MARKET_API = '/market-api';
 export type AiMeetingProvider = 'claude' | 'gpt';
@@ -18,7 +19,7 @@ export async function scanStocks(params: {
   autoTakeProfitPct?: number;
   autoStopLossPct?: number;
 }): Promise<ScanResponse> {
-  const res = await fetch(`${MARKET_API}/strategies/scan`, {
+  return marketRequest<ScanResponse>('/strategies/scan', {
     method: 'POST',
     headers: authHeaders(),
     body: JSON.stringify({
@@ -29,11 +30,6 @@ export async function scanStocks(params: {
       autoStopLossPct: params.autoStopLossPct ?? -3,
     }),
   });
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({ message: res.statusText }));
-    throw new Error(body.message || res.statusText);
-  }
-  return res.json();
 }
 
 export interface SseProgress {

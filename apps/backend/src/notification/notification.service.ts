@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
-import { NotificationEntity, NotificationType } from './entities/notification.entity';
+import {
+  NotificationEntity,
+  NotificationType,
+} from './entities/notification.entity';
 import { UserEntity } from '../user/entities/user.entity';
 
 @Injectable()

@@ -29,6 +29,10 @@ import {
 import { getBalance, getCurrentPrice } from '../api/kis';
 import { ApiError } from '../api/client';
 import {
+  LOGIN_REQUIRED_MESSAGE,
+  marketRequest,
+} from '../api/market-client';
+import {
   useAutoTradingWebSocket,
   type PriceUpdate,
 } from '../hooks/useAutoTradingWebSocket';
@@ -756,9 +760,7 @@ export function AiScanner() {
 
   const fetchAgentStatuses = useCallback(async () => {
     try {
-      const res = await fetch('/market-api/agents/status');
-      if (!res.ok) return null;
-      const data: AgentStatuses = await res.json();
+      const data = await marketRequest<AgentStatuses>('/agents/status');
       setAgentStatuses(data);
       setMeetingProvider((prev) => {
         if (data[prev].configured) return prev;
@@ -766,8 +768,13 @@ export function AiScanner() {
         if (data.gpt.configured) return 'gpt';
         return prev;
       });
+      setError((prev) => (prev === LOGIN_REQUIRED_MESSAGE ? '' : prev));
       return data;
-    } catch {
+    } catch (err) {
+      setAgentStatuses(null);
+      if (err instanceof ApiError && err.status === 401) {
+        setError(err.message);
+      }
       return null;
     }
   }, []);
