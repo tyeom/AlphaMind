@@ -8,6 +8,7 @@ export {
   calculateBollingerBands,
   calculateATR,
   calculateAvgVolume,
+  calculateOBV,
   countConsecutiveUpCandles,
   type BollingerBands,
 } from './indicators/technical-indicators';
@@ -17,3 +18,5 @@ export { analyzeDayTrading } from './strategies/day-trading.strategy';
 export { analyzeMeanReversion } from './strategies/mean-reversion.strategy';
 export { analyzeInfinityBot } from './strategies/infinity-bot.strategy';
 export { analyzeCandlePattern } from './strategies/candle-pattern.strategy';
+export { analyzeMomentumPower } from './strategies/momentum-power.strategy';
+export { analyzeMomentumSurge } from './strategies/momentum-surge.strategy';

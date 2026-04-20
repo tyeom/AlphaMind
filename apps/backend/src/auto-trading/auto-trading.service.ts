@@ -17,6 +17,8 @@ import {
   analyzeMeanReversion,
   analyzeInfinityBot,
   analyzeCandlePattern,
+  analyzeMomentumPower,
+  analyzeMomentumSurge,
   StrategyAnalysisResult,
 } from '@alpha-mind/strategies';
 import {
@@ -42,12 +44,19 @@ import { MARKET_DATA_SERVICE } from '../rmq/rmq.module';
 
 const STRATEGY_MAP: Record<
   string,
-  (candles: CandleData[], config?: any) => StrategyAnalysisResult
+  (
+    candles: CandleData[],
+    config?: any,
+    stockCode?: string,
+  ) => StrategyAnalysisResult
 > = {
   'day-trading': analyzeDayTrading,
   'mean-reversion': analyzeMeanReversion,
   'infinity-bot': analyzeInfinityBot,
   'candle-pattern': analyzeCandlePattern,
+  'momentum-power': analyzeMomentumPower,
+  'momentum-surge': (candles, config, stockCode) =>
+    analyzeMomentumSurge(candles, config, stockCode ?? ''),
 };
 
 /** 기본 익절/손절/매매비율 — 세션에 값이 없을 때만 사용 */
@@ -666,7 +675,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         }));
 
       const config = session.variant ? { variant: session.variant } : {};
-      const analysis = strategyFn(candles, config);
+      const analysis = strategyFn(candles, config, session.stockCode);
       const lastSignal = analysis.currentSignal;
 
       return (

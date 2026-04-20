@@ -1,11 +1,18 @@
-import { CandleData, DayTradingVariant, MeanReversionVariant, SignalDirection } from '../types/strategy.types';
-import { calculateSMA, calculateRSI, calculateBollingerBands, calculateATR } from '../indicators/technical-indicators';
-import { analyzeDayTrading } from './day-trading.strategy';
-import { analyzeMeanReversion } from './mean-reversion.strategy';
-import { analyzeInfinityBot } from './infinity-bot.strategy';
-import { analyzeCandlePattern } from './candle-pattern.strategy';
+import {
+  CandleData,
+  DayTradingVariant,
+  MeanReversionVariant,
+  SignalDirection,
+  calculateSMA,
+  calculateRSI,
+  calculateBollingerBands,
+  calculateATR,
+  analyzeDayTrading,
+  analyzeMeanReversion,
+  analyzeInfinityBot,
+  analyzeCandlePattern,
+} from '@alpha-mind/strategies';
 
-// 3개월(약 60거래일) 모의 데이터 생성
 function generateMockCandles(days: number = 60, startPrice: number = 50000): CandleData[] {
   const candles: CandleData[] = [];
   let price = startPrice;
@@ -15,8 +22,7 @@ function generateMockCandles(days: number = 60, startPrice: number = 50000): Can
     const date = new Date(baseDate);
     date.setDate(date.getDate() + i);
 
-    // 랜덤 변동 (-3% ~ +3%)
-    const change = (Math.random() - 0.48) * 0.06; // 약간 상승 편향
+    const change = (Math.random() - 0.48) * 0.06;
     const open = price;
     const close = price * (1 + change);
     const high = Math.max(open, close) * (1 + Math.random() * 0.02);
@@ -38,7 +44,6 @@ function generateMockCandles(days: number = 60, startPrice: number = 50000): Can
   return candles;
 }
 
-// 하락 추세 데이터 (무한매수봇/평균회귀 테스트용)
 function generateDowntrendCandles(days: number = 60, startPrice: number = 50000): CandleData[] {
   const candles: CandleData[] = [];
   let price = startPrice;
@@ -48,13 +53,12 @@ function generateDowntrendCandles(days: number = 60, startPrice: number = 50000)
     const date = new Date(baseDate);
     date.setDate(date.getDate() + i);
 
-    // 전반부 하락, 후반부 반등
     const phase = i / days;
     let change: number;
     if (phase < 0.6) {
-      change = -0.005 - Math.random() * 0.015; // -0.5% ~ -2%
+      change = -0.005 - Math.random() * 0.015;
     } else {
-      change = 0.005 + Math.random() * 0.02; // +0.5% ~ +2.5%
+      change = 0.005 + Math.random() * 0.02;
     }
 
     const open = price;
@@ -85,9 +89,9 @@ describe('Technical Indicators', () => {
 
     expect(sma3[0]).toBeNull();
     expect(sma3[1]).toBeNull();
-    expect(sma3[2]).toBeCloseTo(20); // (10+20+30)/3
-    expect(sma3[3]).toBeCloseTo(30); // (20+30+40)/3
-    expect(sma3[4]).toBeCloseTo(40); // (30+40+50)/3
+    expect(sma3[2]).toBeCloseTo(20);
+    expect(sma3[3]).toBeCloseTo(30);
+    expect(sma3[4]).toBeCloseTo(40);
   });
 
   test('SMA 결과 길이는 입력과 동일', () => {
@@ -132,7 +136,6 @@ describe('Technical Indicators', () => {
     const atr = calculateATR(candles, 14);
     expect(atr.length).toBe(candles.length);
     expect(atr[0]).toBeNull();
-    // 14번째 이후부터는 값이 있어야 함
     expect(atr[15]).not.toBeNull();
     expect(atr[15]!).toBeGreaterThan(0);
   });
@@ -277,7 +280,6 @@ describe('Candle Pattern Strategy', () => {
   test('Bullish Engulfing 감지', () => {
     const baseDate = new Date('2026-01-02');
     const candles: CandleData[] = [
-      // 20개의 하락 추세 캔들 (트렌드 형성용)
       ...Array.from({ length: 20 }, (_, i) => ({
         date: new Date(baseDate.getTime() + i * 86400000),
         open: 50000 - i * 200,
@@ -286,7 +288,6 @@ describe('Candle Pattern Strategy', () => {
         close: 50000 - i * 200 - 400,
         volume: 200000,
       })),
-      // 음봉
       {
         date: new Date(baseDate.getTime() + 20 * 86400000),
         open: 46200,
@@ -295,7 +296,6 @@ describe('Candle Pattern Strategy', () => {
         close: 45600,
         volume: 300000,
       },
-      // Bullish Engulfing 양봉 (전봉을 완전히 감쌈)
       {
         date: new Date(baseDate.getTime() + 21 * 86400000),
         open: 45400,

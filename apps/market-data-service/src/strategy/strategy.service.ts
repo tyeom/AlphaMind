@@ -8,12 +8,16 @@ import {
   MeanReversionConfig,
   InfinityBotConfig,
   CandlePatternConfig,
+  MomentumPowerConfig,
+  MomentumSurgeConfig,
   StrategyAnalysisResult,
   InfinityBotResult,
   analyzeDayTrading,
   analyzeMeanReversion,
   analyzeInfinityBot,
   analyzeCandlePattern,
+  analyzeMomentumPower,
+  analyzeMomentumSurge,
 } from '@alpha-mind/strategies';
 
 @Injectable()
@@ -45,6 +49,16 @@ export class StrategyService {
         name: '캔들 패턴 인식',
         description: '캔들스틱 패턴(Hammer, Engulfing, Star 등) 감지 기반 매매 신호',
       },
+      {
+        id: 'momentum-power',
+        name: 'Momentum Power',
+        description: '장기 MA(시장 안전) + 단기 MA(모멘텀) 기반 공격/안전/위기 모드 전환 전략',
+      },
+      {
+        id: 'momentum-surge',
+        name: 'Momentum Surge',
+        description: 'OBV + MA 정/역배열 + RSI 조합 레버리지/인버스 ETF 추세 추종 전략',
+      },
     ];
   }
 
@@ -60,6 +74,8 @@ export class StrategyService {
       meanReversion: withStockCode(analyzeMeanReversion(candles), code),
       infinityBot: withStockCode(analyzeInfinityBot(candles), code) as InfinityBotResult,
       candlePattern: withStockCode(analyzeCandlePattern(candles), code),
+      momentumPower: withStockCode(analyzeMomentumPower(candles), code),
+      momentumSurge: withStockCode(analyzeMomentumSurge(candles, {}, code), code),
     };
 
     return { stock: { code: stock.code, name: stock.name }, results };
@@ -99,6 +115,24 @@ export class StrategyService {
   ): Promise<StrategyAnalysisResult> {
     const { candles } = await this.loadCandles(code);
     return withStockCode(analyzeCandlePattern(candles, config), code);
+  }
+
+  /** Momentum Power (Snow) 전략 분석 */
+  async analyzeMomentumPower(
+    code: string,
+    config: Partial<MomentumPowerConfig> = {},
+  ): Promise<StrategyAnalysisResult> {
+    const { candles } = await this.loadCandles(code);
+    return withStockCode(analyzeMomentumPower(candles, config), code);
+  }
+
+  /** Momentum Surge 전략 분석 */
+  async analyzeMomentumSurge(
+    code: string,
+    config: Partial<MomentumSurgeConfig> = {},
+  ): Promise<StrategyAnalysisResult> {
+    const { candles } = await this.loadCandles(code);
+    return withStockCode(analyzeMomentumSurge(candles, config, code), code);
   }
 
   /** DB에서 3개월 일봉 데이터 로드 */

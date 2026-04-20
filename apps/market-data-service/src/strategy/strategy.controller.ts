@@ -115,6 +115,18 @@ export class StrategyController {
     });
   }
 
+  /** Momentum Power (Snow) 분석 */
+  @Get(':code/momentum-power')
+  analyzeMomentumPower(@Param('code') code: string) {
+    return this.strategyService.analyzeMomentumPower(code);
+  }
+
+  /** Momentum Surge (레버리지/인버스 ETF) 분석 */
+  @Get(':code/momentum-surge')
+  analyzeMomentumSurge(@Param('code') code: string) {
+    return this.strategyService.analyzeMomentumSurge(code);
+  }
+
   /** 전 종목 스캔 — Top N 추출 (HTTP) */
   @Post('scan')
   scanStocks(@Body() body: ScanBodyDto) {

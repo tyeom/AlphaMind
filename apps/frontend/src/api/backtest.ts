@@ -95,6 +95,16 @@ const FALLBACK_STRATEGIES: StrategyInfo[] = [
     name: '캔들 패턴 인식',
     description: '캔들스틱 패턴(Hammer, Engulfing, Star 등) 감지 기반 매매 신호',
   },
+  {
+    id: 'momentum-power',
+    name: 'Momentum Power',
+    description: '장기 MA(시장 안전) + 단기 MA(모멘텀) 기반 공격/안전/위기 모드 전환 전략',
+  },
+  {
+    id: 'momentum-surge',
+    name: 'Momentum Surge',
+    description: 'OBV + MA 정/역배열 + RSI 조합 레버리지/인버스 ETF 추세 추종 전략',
+  },
 ];
 
 export async function getStrategies(): Promise<StrategyInfo[]> {

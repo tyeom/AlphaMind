@@ -39,6 +39,8 @@ const STRATEGY_OPTIONS: { id: string; name: string }[] = [
   { id: 'mean-reversion', name: '평균회귀' },
   { id: 'infinity-bot', name: '무한매수봇' },
   { id: 'candle-pattern', name: '캔들 패턴' },
+  { id: 'momentum-power', name: 'Momentum Power' },
+  { id: 'momentum-surge', name: 'Momentum Surge' },
 ];
 
 export function AutoTradingConfigModal({

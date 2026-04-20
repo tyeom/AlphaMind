@@ -15,6 +15,8 @@ const STRATEGY_NAMES: Record<string, string> = {
   'mean-reversion': '평균회귀',
   'infinity-bot': '무한매수봇',
   'candle-pattern': '캔들 패턴',
+  'momentum-power': 'Momentum Power',
+  'momentum-surge': 'Momentum Surge',
 };
 
 function strategyLabel(id: string): string {

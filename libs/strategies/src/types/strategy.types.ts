@@ -185,3 +185,98 @@ export interface CandlePatternConfig {
   useTrendConfirmation: boolean;
   trendPeriod: number;
 }
+
+// ─── Exit Config (공통: 손절/익절/트레일링 스탑) ───
+
+export interface ExitConfig {
+  /** 손절 활성화 (기본: true) */
+  stopLossEnabled: boolean;
+  /** 손절 비율 % (기본: 2.0) */
+  stopLossPct: number;
+  /** 익절 활성화 (기본: true) */
+  takeProfitEnabled: boolean;
+  /** 익절 비율 % (기본: 4.0) */
+  takeProfitPct: number;
+  /** 트레일링 스톱 활성화 (기본: false) */
+  trailingStopEnabled: boolean;
+  /** 트레일링 시작 수익률 % (기본: 2.0) */
+  trailingTriggerPct: number;
+  /** 트레일링 스톱 비율 % (기본: 1.0) */
+  trailingStopPct: number;
+  /** 반대 신호 시 청산 (기본: true) */
+  exitOnOppositeSignal: boolean;
+}
+
+// ─── Momentum Power Types ───
+
+/** 시장 타입 */
+export enum MomentumPowerMarket {
+  KR = 'kr',
+  US = 'us',
+}
+
+/** 전략 모드 */
+export enum MomentumPowerMode {
+  /** 시장 안전 + 모멘텀 양호 */
+  Attack = 'attack',
+  /** 시장 안전 + 모멘텀 부진 */
+  Safe = 'safe',
+  /** 시장 위험 */
+  Crisis = 'crisis',
+}
+
+export interface MomentumPowerConfig {
+  /** 시장 타입 (KR/US) */
+  market: MomentumPowerMarket;
+  /** 시장 안전 지표 MA 기간 (기본: 200일 ≒ 10개월) */
+  tipMaPeriod: number;
+  /** 모멘텀 확인 MA 기간 (기본: 5일) */
+  momentumPeriod: number;
+  /** 리밸런싱 간격 (일) (기본: 30일) */
+  rebalanceDays: number;
+  /** 청산 설정 */
+  exitConfig: ExitConfig;
+}
+
+// ─── Momentum Surge Types ───
+
+/** ETF 타입 */
+export enum MomentumSurgeEtfKind {
+  /** 레버리지 계열 (정배열 추세 추종) */
+  Leverage = 'leverage',
+  /** 인버스 계열 (역배열 추세 추종) */
+  Inverse = 'inverse',
+  /** 티커 기반 자동 판별 */
+  Auto = 'auto',
+}
+
+export interface MomentumSurgeConfig {
+  /** ETF 타입 (자동 판별 또는 강제 지정) */
+  etfKind: MomentumSurgeEtfKind;
+  /** 코스피 레버리지 티커 (기본: 122630) */
+  kospiLeverage: string;
+  /** 코스닥 레버리지 티커 (기본: 233740) */
+  kosdaqLeverage: string;
+  /** 코스피 인버스 티커 (기본: 252670) */
+  kospiInverse: string;
+  /** 코스닥 인버스 티커 (기본: 251340) */
+  kosdaqInverse: string;
+  /** 종목당 투자 비율 (기본: 0.5) */
+  positionRatio: number;
+  /** OBV 추세 확인 기간 (기본: 10) */
+  obvPeriod: number;
+  /** 단기 MA (기본: 5) */
+  maShort: number;
+  /** 중기 MA (기본: 20) */
+  maMedium: number;
+  /** 장기 MA (기본: 60) */
+  maLong: number;
+  /** RSI 기간 (기본: 14) */
+  rsiPeriod: number;
+  /** 손절 % (기본: 3.0) */
+  stopLossPct: number;
+  /** 익절 % (기본: 10.0) */
+  takeProfitPct: number;
+  /** 청산 설정 */
+  exitConfig: ExitConfig;
+}

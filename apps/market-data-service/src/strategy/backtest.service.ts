@@ -13,6 +13,8 @@ import {
   analyzeMeanReversion,
   analyzeInfinityBot,
   analyzeCandlePattern,
+  analyzeMomentumPower,
+  analyzeMomentumSurge,
 } from '@alpha-mind/strategies';
 import { BacktestConfig, BacktestResult, BacktestTrade } from './types/backtest.types';
 import { ScanResult, ScanResponse } from './types/scan.types';
@@ -31,11 +33,23 @@ function toDateKey(d: Date): string {
 const AUTO_TAKE_PROFIT_PCT = 5; // 5% 이상 수익 시 자동 익절
 const AUTO_STOP_LOSS_PCT = -3;  // -3% 이하 손실 시 자동 손절
 
-const STRATEGY_MAP: Record<string, { name: string; analyze: (candles: CandleData[], config?: any) => StrategyAnalysisResult }> = {
+const STRATEGY_MAP: Record<
+  string,
+  {
+    name: string;
+    analyze: (candles: CandleData[], config?: any, stockCode?: string) => StrategyAnalysisResult;
+  }
+> = {
   'day-trading': { name: '일간 모멘텀 통합 전략', analyze: analyzeDayTrading },
   'mean-reversion': { name: '평균회귀 전략', analyze: analyzeMeanReversion },
   'infinity-bot': { name: '무한매수봇', analyze: analyzeInfinityBot },
   'candle-pattern': { name: '캔들 패턴 인식', analyze: analyzeCandlePattern },
+  'momentum-power': { name: 'Momentum Power', analyze: analyzeMomentumPower },
+  'momentum-surge': {
+    name: 'Momentum Surge',
+    analyze: (candles, config, stockCode) =>
+      analyzeMomentumSurge(candles, config, stockCode ?? ''),
+  },
 };
 
 /**
@@ -56,6 +70,8 @@ const STRATEGY_VARIANTS: Record<string, (string | undefined)[]> = {
   ],
   'infinity-bot': [undefined],
   'candle-pattern': [undefined],
+  'momentum-power': [undefined],
+  'momentum-surge': [undefined],
 };
 
 @Injectable()
@@ -74,7 +90,7 @@ export class BacktestService {
 
     // 전략 분석으로 신호 추출
     const strategyConfig = config.variant ? { variant: config.variant } : {};
-    const analysis = strategy.analyze(candles, strategyConfig);
+    const analysis = strategy.analyze(candles, strategyConfig, stock.code);
     const signals = analysis.signals;
 
     // SELL 신호 존재 여부 확인
@@ -443,7 +459,7 @@ export class BacktestService {
       for (const variant of variants) {
         try {
           const analyzeConfig = variant ? { variant } : {};
-          const analysis = strategy.analyze(candles, analyzeConfig);
+          const analysis = strategy.analyze(candles, analyzeConfig, stock.code);
           const signals = analysis.signals;
           const hasSellSignals = signals.some((s) => s.direction === SignalDirection.Sell);
 

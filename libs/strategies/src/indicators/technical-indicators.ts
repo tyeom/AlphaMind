@@ -146,3 +146,25 @@ export function countConsecutiveUpCandles(candles: CandleData[], fromIndex: numb
   }
   return count;
 }
+
+/** OBV (On-Balance Volume) 누적 값 시리즈 계산 */
+export function calculateOBV(candles: CandleData[]): number[] {
+  const obv: number[] = [];
+  if (candles.length === 0) return obv;
+
+  obv.push(candles[0].volume);
+
+  for (let i = 1; i < candles.length; i++) {
+    const prev = obv[i - 1];
+    const priceDelta = candles[i].close - candles[i - 1].close;
+    if (priceDelta > 0) {
+      obv.push(prev + candles[i].volume);
+    } else if (priceDelta < 0) {
+      obv.push(prev - candles[i].volume);
+    } else {
+      obv.push(prev);
+    }
+  }
+
+  return obv;
+}
