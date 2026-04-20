@@ -333,12 +333,21 @@ export class AiScoringService {
     signal?: AbortSignal,
     provider: AiMeetingProvider = 'claude',
   ): Promise<{ newsData: NewsAgentResult; chartData: ChartAgentResult }> {
+    const today = new Date();
+    const fmt = (d: Date) => d.toISOString().split('T')[0];
+    const threeDaysAgo = new Date(today); threeDaysAgo.setDate(today.getDate() - 3);
+    const sevenDaysAgo = new Date(today); sevenDaysAgo.setDate(today.getDate() - 7);
+
     const newsPrompt = `당신은 한국 주식시장 뉴스 전문 수집가입니다.
 
 종목: ${item.stockName} (${item.stockCode})
+오늘 날짜: ${fmt(today)}
 
 작업:
-1. "${item.stockName}" 관련 최신 뉴스를 웹에서 검색하세요 (최근 1~2주)
+1. "${item.stockName}" 관련 최신 뉴스를 웹에서 검색하세요
+   - 1차 수집 범위: ${fmt(threeDaysAgo)} ~ ${fmt(today)} (최근 3일)
+   - 최근 3일간 뉴스가 없거나 부족한 경우에만 ${fmt(sevenDaysAgo)} ~ ${fmt(today)} (최근 7일)까지 확장하세요
+   - 7일을 초과한 오래된 뉴스는 절대 수집하지 마세요
 2. 반드시 실제 뉴스 기사를 찾아서 제목, URL, 핵심 요약을 포함하세요
 3. 각 뉴스의 주가 영향도를 분석하세요
 4. 전체 뉴스 감성을 종합 평가하세요
