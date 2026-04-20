@@ -11,6 +11,15 @@ import {
 import { BacktestQueryDto } from './dto/backtest-query.dto';
 import { ScanBodyDto } from './dto/scan-query.dto';
 
+function parseNumberOrDefault(value: string | undefined, defaultValue: number): number {
+  if (value == null || value.trim() === '') {
+    return defaultValue;
+  }
+
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : defaultValue;
+}
+
 @Controller('strategies')
 export class StrategyController {
   constructor(
@@ -136,6 +145,8 @@ export class StrategyController {
       body.investmentAmount ?? 10_000_000,
       body.tradeRatioPct ?? 10,
       body.commissionPct ?? 0.015,
+      body.autoTakeProfitPct ?? 5,
+      body.autoStopLossPct ?? -3,
     );
   }
 
@@ -148,6 +159,8 @@ export class StrategyController {
       body.investmentAmount ?? 10_000_000,
       body.tradeRatioPct ?? 10,
       body.commissionPct ?? 0.015,
+      body.autoTakeProfitPct ?? 5,
+      body.autoStopLossPct ?? -3,
     );
   }
 
@@ -179,9 +192,11 @@ export class StrategyController {
     return this.backtestService.runBacktest(code, {
       strategyId: query.strategyId,
       variant: query.variant,
-      investmentAmount: parseFloat(query.investmentAmount || '') || 10_000_000,
-      tradeRatioPct: parseFloat(query.tradeRatioPct || '') || 10,
-      commissionPct: parseFloat(query.commissionPct || '') || 0.015,
+      investmentAmount: parseNumberOrDefault(query.investmentAmount, 10_000_000),
+      tradeRatioPct: parseNumberOrDefault(query.tradeRatioPct, 10),
+      commissionPct: parseNumberOrDefault(query.commissionPct, 0.015),
+      autoTakeProfitPct: parseNumberOrDefault(query.autoTakeProfitPct, 5),
+      autoStopLossPct: parseNumberOrDefault(query.autoStopLossPct, -3),
     });
   }
 }

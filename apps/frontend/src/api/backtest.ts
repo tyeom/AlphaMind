@@ -12,6 +12,8 @@ export interface BacktestParams {
   investmentAmount?: number;
   tradeRatioPct?: number;
   commissionPct?: number;
+  autoTakeProfitPct?: number;
+  autoStopLossPct?: number;
 }
 
 export interface BacktestTrade {
@@ -51,9 +53,21 @@ export async function runBacktest(params: BacktestParams): Promise<BacktestResul
   const query = new URLSearchParams();
   query.set('strategyId', params.strategyId);
   if (params.variant) query.set('variant', params.variant);
-  if (params.investmentAmount) query.set('investmentAmount', String(params.investmentAmount));
-  if (params.tradeRatioPct) query.set('tradeRatioPct', String(params.tradeRatioPct));
-  if (params.commissionPct) query.set('commissionPct', String(params.commissionPct));
+  if (params.investmentAmount !== undefined) {
+    query.set('investmentAmount', String(params.investmentAmount));
+  }
+  if (params.tradeRatioPct !== undefined) {
+    query.set('tradeRatioPct', String(params.tradeRatioPct));
+  }
+  if (params.commissionPct !== undefined) {
+    query.set('commissionPct', String(params.commissionPct));
+  }
+  if (params.autoTakeProfitPct !== undefined) {
+    query.set('autoTakeProfitPct', String(params.autoTakeProfitPct));
+  }
+  if (params.autoStopLossPct !== undefined) {
+    query.set('autoStopLossPct', String(params.autoStopLossPct));
+  }
 
   const res = await fetch(`${MARKET_API}/strategies/${params.stockCode}/backtest?${query}`, {
     headers: authHeaders(),

@@ -14,6 +14,15 @@ function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString('ko-KR');
 }
 
+function toOptionalNumber(value: string): number | undefined {
+  if (value.trim() === '') {
+    return undefined;
+  }
+
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
 export function Backtest() {
   const [strategies, setStrategies] = useState<StrategyInfo[]>([]);
   const [stockCode, setStockCode] = useState('');
@@ -22,6 +31,8 @@ export function Backtest() {
   const [investmentAmount, setInvestmentAmount] = useState('10000000');
   const [tradeRatioPct, setTradeRatioPct] = useState('10');
   const [commissionPct, setCommissionPct] = useState('0.015');
+  const [autoTakeProfitPct, setAutoTakeProfitPct] = useState('5');
+  const [autoStopLossPct, setAutoStopLossPct] = useState('-3');
   const [result, setResult] = useState<BacktestResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -47,9 +58,11 @@ export function Backtest() {
         stockCode: stockCode.trim(),
         strategyId,
         variant: variant || undefined,
-        investmentAmount: Number(investmentAmount),
-        tradeRatioPct: Number(tradeRatioPct),
-        commissionPct: Number(commissionPct),
+        investmentAmount: toOptionalNumber(investmentAmount),
+        tradeRatioPct: toOptionalNumber(tradeRatioPct),
+        commissionPct: toOptionalNumber(commissionPct),
+        autoTakeProfitPct: toOptionalNumber(autoTakeProfitPct),
+        autoStopLossPct: toOptionalNumber(autoStopLossPct),
       });
       setResult(data);
     } catch (err: any) {
@@ -143,6 +156,30 @@ export function Backtest() {
               onChange={(e) => setCommissionPct(e.target.value)}
               min="0"
               step="0.001"
+            />
+          </label>
+        </div>
+
+        <div className="form-row">
+          <label>
+            자동 익절 (%)
+            <input
+              type="number"
+              value={autoTakeProfitPct}
+              onChange={(e) => setAutoTakeProfitPct(e.target.value)}
+              min="0"
+              step="0.1"
+            />
+          </label>
+
+          <label>
+            자동 손절 (%)
+            <input
+              type="number"
+              value={autoStopLossPct}
+              onChange={(e) => setAutoStopLossPct(e.target.value)}
+              max="0"
+              step="0.1"
             />
           </label>
         </div>

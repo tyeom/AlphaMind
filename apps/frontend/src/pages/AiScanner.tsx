@@ -83,6 +83,15 @@ function pctClass(n: number): string {
   return n > 0 ? 'text-profit' : n < 0 ? 'text-loss' : '';
 }
 
+function toOptionalNumber(value: string): number | undefined {
+  if (value.trim() === '') {
+    return undefined;
+  }
+
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
 function sortSessions(items: AutoTradingSession[]): AutoTradingSession[] {
   const statusRank: Record<AutoTradingSession['status'], number> = {
     active: 0,
@@ -674,6 +683,8 @@ export function AiScanner() {
   const [sessions, setSessions] = useState<AutoTradingSession[]>([]);
   const [prices, setPrices] = useState<Map<string, number>>(new Map());
   const [investmentAmount, setInvestmentAmount] = useState('10000000');
+  const [autoTakeProfitPct, setAutoTakeProfitPct] = useState('5');
+  const [autoStopLossPct, setAutoStopLossPct] = useState('-3');
   const [topN, setTopN] = useState('10');
   const [error, setError] = useState('');
   const [scanInfo, setScanInfo] = useState({
@@ -1229,7 +1240,9 @@ export function AiScanner() {
       const result = await scanStocks({
         excludeCodes,
         topN: requestedTopN,
-        investmentAmount: Number(investmentAmount),
+        investmentAmount: toOptionalNumber(investmentAmount),
+        autoTakeProfitPct: toOptionalNumber(autoTakeProfitPct),
+        autoStopLossPct: toOptionalNumber(autoStopLossPct),
       });
 
       // KIS 현재가 조회로 각 종목의 상태/경고 코드 수집.
@@ -1701,7 +1714,7 @@ export function AiScanner() {
         <div className="scanner-config card">
           <h2>1. 최적 종목 스캔</h2>
           <p className="text-muted">
-            전체 KRX 종목을 4가지 전략으로 백테스팅하여 최적 종목을 추출합니다.
+            전체 KRX 종목을 6가지 전략으로 백테스팅하여 최적 종목을 추출합니다.
           </p>
           <div className="form-row">
             <label>
@@ -1710,6 +1723,28 @@ export function AiScanner() {
                 type="text"
                 value={investmentAmount}
                 onChange={(e) => setInvestmentAmount(e.target.value)}
+                disabled={step === 'scanning'}
+              />
+            </label>
+            <label>
+              자동 익절 (%)
+              <input
+                type="number"
+                value={autoTakeProfitPct}
+                onChange={(e) => setAutoTakeProfitPct(e.target.value)}
+                min="0"
+                step="0.1"
+                disabled={step === 'scanning'}
+              />
+            </label>
+            <label>
+              자동 손절 (%)
+              <input
+                type="number"
+                value={autoStopLossPct}
+                onChange={(e) => setAutoStopLossPct(e.target.value)}
+                max="0"
+                step="0.1"
                 disabled={step === 'scanning'}
               />
             </label>

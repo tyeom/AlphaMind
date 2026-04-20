@@ -30,8 +30,8 @@ function toDateKey(d: Date): string {
 }
 
 /** 자동 익절/손절 기본 설정 */
-const AUTO_TAKE_PROFIT_PCT = 5; // 5% 이상 수익 시 자동 익절
-const AUTO_STOP_LOSS_PCT = -3;  // -3% 이하 손실 시 자동 손절
+const DEFAULT_AUTO_TAKE_PROFIT_PCT = 5; // 5% 이상 수익 시 자동 익절
+const DEFAULT_AUTO_STOP_LOSS_PCT = -3;  // -3% 이하 손실 시 자동 손절
 
 const STRATEGY_MAP: Record<
   string,
@@ -136,7 +136,7 @@ export class BacktestService {
       // 보유 중이고 SELL 신호가 없는 전략일 때: 자동 익절/손절 체크
       if (!hasSellSignals && quantity > 0 && avgBuyPrice > 0) {
         const returnPct = ((candle.close - avgBuyPrice) / avgBuyPrice) * 100;
-        if (returnPct >= AUTO_TAKE_PROFIT_PCT || returnPct <= AUTO_STOP_LOSS_PCT) {
+        if (returnPct >= config.autoTakeProfitPct || returnPct <= config.autoStopLossPct) {
           const sellAmount = quantity * candle.close;
           const commission = sellAmount * commissionRate;
           const pnl = (candle.close - avgBuyPrice) * quantity - commission;
@@ -147,7 +147,7 @@ export class BacktestService {
 
           cash += sellAmount - commission;
 
-          const reason = returnPct >= AUTO_TAKE_PROFIT_PCT
+          const reason = returnPct >= config.autoTakeProfitPct
             ? `자동 익절 (수익률 ${returnPct.toFixed(1)}%)`
             : `자동 손절 (수익률 ${returnPct.toFixed(1)}%)`;
 
@@ -270,13 +270,15 @@ export class BacktestService {
     };
   }
 
-  /** 전 종목 스캔: 4가지 전략으로 백테스팅 후 Top N 추출 */
+  /** 전 종목 스캔: 6가지 전략으로 백테스팅 후 Top N 추출 */
   async scanAllStocks(
     excludeCodes: string[],
     topN: number,
     investmentAmount: number,
     tradeRatioPct: number,
     commissionPct: number,
+    autoTakeProfitPct = DEFAULT_AUTO_TAKE_PROFIT_PCT,
+    autoStopLossPct = DEFAULT_AUTO_STOP_LOSS_PCT,
   ): Promise<ScanResponse> {
     const logger = new Logger('BacktestService');
     const startTime = Date.now();
@@ -330,7 +332,17 @@ export class BacktestService {
     for (let i = 0; i < eligibleStocks.length; i += BATCH_SIZE) {
       const batch = eligibleStocks.slice(i, i + BATCH_SIZE);
       const batchResults = await Promise.allSettled(
-        batch.map((stock) => this.scanSingleStock(stock, pricesByStockId, investmentAmount, tradeRatioPct, commissionPct)),
+        batch.map((stock) =>
+          this.scanSingleStock(
+            stock,
+            pricesByStockId,
+            investmentAmount,
+            tradeRatioPct,
+            commissionPct,
+            autoTakeProfitPct,
+            autoStopLossPct,
+          ),
+        ),
       );
 
       for (const result of batchResults) {
@@ -358,7 +370,7 @@ export class BacktestService {
 
   /**
    * 특정 종목에 대한 추천 전략 산출
-   * - 4가지 전략 모두 백테스팅 후 최고 수익률 전략 반환
+   * - 6가지 전략 모두 백테스팅 후 최고 수익률 전략 반환
    * - 자동매매 세션 시작 시 디폴트 전략 결정에 사용
    */
   async recommendStrategy(
@@ -417,13 +429,15 @@ export class BacktestService {
     };
   }
 
-  /** 단일 종목에 대해 4가지 전략 백테스트 → 최고 수익률 전략 선택 */
+  /** 단일 종목에 대해 6가지 전략 백테스트 → 최고 수익률 전략 선택 */
   private async scanSingleStock(
     stock: Stock,
     pricesByStockId: Map<number, StockDailyPrice[]>,
     investmentAmount: number,
     tradeRatioPct: number,
     commissionPct: number,
+    autoTakeProfitPct = DEFAULT_AUTO_TAKE_PROFIT_PCT,
+    autoStopLossPct = DEFAULT_AUTO_STOP_LOSS_PCT,
   ): Promise<ScanResult | null> {
     const prices = pricesByStockId.get(stock.id);
     if (!prices || prices.length < 20) return null;
@@ -474,6 +488,8 @@ export class BacktestService {
             investmentAmount,
             tradeRatioPct,
             commissionPct,
+            autoTakeProfitPct,
+            autoStopLossPct,
           };
 
           const result = this.simulate(stock, candles, signalByDate, config, strategy.name, hasSellSignals);

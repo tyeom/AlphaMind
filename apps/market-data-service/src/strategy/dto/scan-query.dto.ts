@@ -4,4 +4,6 @@ export interface ScanBodyDto {
   investmentAmount?: number;
   tradeRatioPct?: number;
   commissionPct?: number;
+  autoTakeProfitPct?: number;
+  autoStopLossPct?: number;
 }

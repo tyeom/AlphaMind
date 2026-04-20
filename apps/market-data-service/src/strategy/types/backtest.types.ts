@@ -12,6 +12,10 @@ export interface BacktestConfig {
   tradeRatioPct: number;
   /** 매매 수수료율 % (기본 0.015) */
   commissionPct: number;
+  /** 자동 익절 수익률 % (기본 5) */
+  autoTakeProfitPct: number;
+  /** 자동 손절 수익률 % (기본 -3) */
+  autoStopLossPct: number;
 }
 
 /** 개별 거래 기록 */

@@ -9,4 +9,8 @@ export interface BacktestQueryDto {
   tradeRatioPct?: string;
   /** 매매 수수료율 % (기본 0.015) */
   commissionPct?: string;
+  /** 자동 익절 수익률 % (기본 5) */
+  autoTakeProfitPct?: string;
+  /** 자동 손절 수익률 % (기본 -3) */
+  autoStopLossPct?: string;
 }

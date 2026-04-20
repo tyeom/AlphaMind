@@ -15,6 +15,8 @@ export async function scanStocks(params: {
   excludeCodes?: string[];
   topN?: number;
   investmentAmount?: number;
+  autoTakeProfitPct?: number;
+  autoStopLossPct?: number;
 }): Promise<ScanResponse> {
   const res = await fetch(`${MARKET_API}/strategies/scan`, {
     method: 'POST',
@@ -23,6 +25,8 @@ export async function scanStocks(params: {
       excludeCodes: params.excludeCodes ?? [],
       topN: params.topN ?? 10,
       investmentAmount: params.investmentAmount ?? 10_000_000,
+      autoTakeProfitPct: params.autoTakeProfitPct ?? 5,
+      autoStopLossPct: params.autoStopLossPct ?? -3,
     }),
   });
   if (!res.ok) {
