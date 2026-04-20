@@ -44,6 +44,20 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
   /** PINGPONG 헬스체크 */
   private pingpongTimer: ReturnType<typeof setTimeout> | null = null;
   private lastPingpongAt: number = 0;
+  private hasWarnedMissingHtsId = false;
+  private orderNotificationSubscriptionState:
+    | 'idle'
+    | 'pending'
+    | 'subscribed'
+    | 'failed' = 'idle';
+  private orderNotificationSubscriptionPromise: Promise<boolean> | null = null;
+  private orderNotificationSubscriptionResolver?:
+    | ((value: boolean) => void)
+    | undefined;
+  private orderNotificationSubscriptionTimer:
+    | ReturnType<typeof setTimeout>
+    | null = null;
+  private lastOrderNotificationSubscriptionError?: string;
 
   /** 실시간 체결가 스트림 */
   readonly execution$ = new Subject<KisRealtimeExecution>();
@@ -67,6 +81,7 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
     this.destroyed = true;
     this.clearReconnectTimer();
     this.clearPingpongTimer();
+    this.clearOrderNotificationSubscriptionTimer();
     this.closeExistingSocket();
     this.execution$.complete();
     this.orderbook$.complete();
@@ -147,6 +162,11 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
         `KIS WebSocket 연결 종료 (code: ${code}, reason: ${reason.toString() || 'N/A'})`,
       );
       this.clearPingpongTimer();
+      if (this.orderNotificationSubscriptionState === 'pending') {
+        this.finishOrderNotificationSubscription(false);
+      } else if (this.orderNotificationSubscriptionState === 'subscribed') {
+        this.orderNotificationSubscriptionState = 'idle';
+      }
       this.scheduleReconnect();
     });
 
@@ -252,6 +272,99 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
     this.sendSubscription('2', trId, trKey);
   }
 
+  /** 계좌 체결통보 구독 */
+  async ensureOrderNotificationsSubscribed(
+    timeoutMs = 5000,
+  ): Promise<boolean> {
+    const htsId = this.configService.get<string>('KIS_HTS_ID')?.trim();
+    if (!htsId) {
+      if (!this.hasWarnedMissingHtsId) {
+        this.logger.warn(
+          'KIS_HTS_ID 미설정: 실제 체결 기반 주문 추적을 사용하려면 HTS ID 설정이 필요합니다.',
+        );
+        this.hasWarnedMissingHtsId = true;
+      }
+      this.lastOrderNotificationSubscriptionError =
+        'KIS_HTS_ID가 설정되지 않아 체결통보를 구독할 수 없습니다.';
+      return false;
+    }
+
+    this.hasWarnedMissingHtsId = false;
+    if (this.orderNotificationSubscriptionState === 'subscribed') {
+      return true;
+    }
+
+    if (this.orderNotificationSubscriptionPromise) {
+      return this.orderNotificationSubscriptionPromise;
+    }
+
+    this.orderNotificationSubscriptionState = 'pending';
+    this.subscribe(this.getOrderNotificationTrId(), htsId, { force: true });
+
+    this.orderNotificationSubscriptionPromise = new Promise<boolean>(
+      (resolve) => {
+        this.orderNotificationSubscriptionResolver = resolve;
+        this.clearOrderNotificationSubscriptionTimer();
+        this.orderNotificationSubscriptionTimer = setTimeout(() => {
+          this.logger.error(
+            '체결통보 구독 응답 대기 시간 초과: 주문 체결 추적을 사용할 수 없습니다.',
+          );
+          this.finishOrderNotificationSubscription(false);
+        }, timeoutMs);
+      },
+    );
+
+    return this.orderNotificationSubscriptionPromise;
+  }
+
+  /** 계좌 체결통보 구독 해제 */
+  unsubscribeOrderNotifications() {
+    const htsId = this.configService.get<string>('KIS_HTS_ID')?.trim();
+    if (!htsId) return;
+    this.unsubscribe(this.getOrderNotificationTrId(), htsId);
+    this.finishOrderNotificationSubscription(false, { resetToIdle: true });
+  }
+
+  isOrderNotificationsSubscribed(): boolean {
+    return this.orderNotificationSubscriptionState === 'subscribed';
+  }
+
+  getOrderNotificationSubscriptionError(): string | undefined {
+    return this.lastOrderNotificationSubscriptionError;
+  }
+
+  private getOrderNotificationTrId(): KisRealtimeTrId {
+    return this.configService.get('KIS_ENV') === 'production'
+      ? 'H0STCNI0'
+      : 'H0STCNI9';
+  }
+
+  private clearOrderNotificationSubscriptionTimer() {
+    if (this.orderNotificationSubscriptionTimer) {
+      clearTimeout(this.orderNotificationSubscriptionTimer);
+      this.orderNotificationSubscriptionTimer = null;
+    }
+  }
+
+  private finishOrderNotificationSubscription(
+    success: boolean,
+    options?: { resetToIdle?: boolean },
+  ) {
+    this.clearOrderNotificationSubscriptionTimer();
+    const resolve = this.orderNotificationSubscriptionResolver;
+    this.orderNotificationSubscriptionResolver = undefined;
+    this.orderNotificationSubscriptionPromise = null;
+    this.orderNotificationSubscriptionState = options?.resetToIdle
+      ? 'idle'
+      : success
+        ? 'subscribed'
+        : 'failed';
+    if (success) {
+      this.lastOrderNotificationSubscriptionError = undefined;
+    }
+    resolve?.(success);
+  }
+
   private sendSubscription(trType: '1' | '2', trId: string, trKey: string) {
     if (
       !this.ws ||
@@ -315,6 +428,9 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
         const rtCd = json.body?.rt_cd;
         const msgCd = json.body?.msg_cd;
         const msg1 = json.body?.msg1;
+        const orderNotificationTrId = this.getOrderNotificationTrId();
+        const orderNotificationTrKey =
+          this.configService.get<string>('KIS_HTS_ID')?.trim() ?? '';
         const pendingAction =
           trId && trKey
             ? this.pendingSubscriptionActions.get(`${trId}:${trKey}`)
@@ -348,6 +464,41 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
           this.logger.warn(
             `구독 실패: ${trId ?? 'N/A'}:${trKey ?? 'N/A'} - ${msg1}`,
           );
+        }
+
+        const isOrderNotificationSubscriptionResult =
+          (trId === orderNotificationTrId &&
+            trKey === orderNotificationTrKey &&
+            Boolean(rtCd)) ||
+          (this.orderNotificationSubscriptionState === 'pending' &&
+            msgCd === 'OPSP0017' &&
+            String(msg1 ?? '').toLowerCase().includes('htsid'));
+
+        if (isOrderNotificationSubscriptionResult && rtCd) {
+          if (!trId || !trKey) {
+            this.subscriptionResult$.next({
+              action: 'subscribe',
+              trId: orderNotificationTrId,
+              trKey: orderNotificationTrKey,
+              success: rtCd === '0',
+              code: msgCd ?? '',
+              message: msg1 ?? '',
+            });
+          }
+
+          if (rtCd === '0') {
+            this.finishOrderNotificationSubscription(true);
+          } else {
+            this.lastOrderNotificationSubscriptionError =
+              msg1 ?? '체결통보 구독에 실패했습니다.';
+            this.logger.error(
+              `체결통보 구독 실패: ${msg1 ?? '알 수 없는 오류'}`,
+            );
+            this.pendingSubscriptionActions.delete(
+              `${orderNotificationTrId}:${orderNotificationTrKey}`,
+            );
+            this.finishOrderNotificationSubscription(false);
+          }
         }
       } catch {
         this.logger.warn('JSON 파싱 실패');

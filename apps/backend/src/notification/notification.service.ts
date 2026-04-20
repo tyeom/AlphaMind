@@ -11,6 +11,7 @@ export class NotificationService {
   private static readonly DEDUP_TYPES: Set<NotificationType> = new Set([
     NotificationType.AI_MEETING_STARTED,
     NotificationType.AI_MEETING_COMPLETED,
+    NotificationType.ORDER_TRACKING_WARNING,
   ]);
 
   async create(

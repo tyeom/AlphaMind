@@ -21,13 +21,21 @@ export enum TradeAction {
 }
 
 export enum TradeStatus {
+  ACCEPTED = 'accepted',
+  PARTIAL = 'partial',
+  EXECUTED = 'executed',
   SUCCESS = 'success',
   FAILED = 'failed',
 }
 
 @Entity({ tableName: 'trade_histories' })
 export class TradeHistoryEntity {
-  [OptionalProps]?: 'id' | 'createdAt';
+  [OptionalProps]?:
+    | 'id'
+    | 'createdAt'
+    | 'executedQuantity'
+    | 'executedAmount'
+    | 'lastExecutedAt';
 
   @PrimaryKey()
   id!: number;
@@ -79,6 +87,15 @@ export class TradeHistoryEntity {
 
   @Enum(() => TradeStatus)
   status!: TradeStatus;
+
+  @Property({ default: 0 })
+  executedQuantity: number = 0;
+
+  @Property({ type: 'decimal', precision: 15, scale: 0, default: 0 })
+  executedAmount: number = 0;
+
+  @Property({ nullable: true })
+  lastExecutedAt?: Date;
 
   @Property({ nullable: true, type: 'text' })
   errorMessage?: string;

@@ -3,7 +3,12 @@ import { HttpService } from '@nestjs/axios';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { firstValueFrom } from 'rxjs';
 import { KisService } from './kis.service';
-import { KisApiResponse, KisOrderOutput, OrderDivision } from './kis.types';
+import {
+  KisApiResponse,
+  KisOrderOutput,
+  KisRealtimeOrderNotification,
+  OrderDivision,
+} from './kis.types';
 import {
   TradeHistoryEntity,
   TradeType,
@@ -30,6 +35,7 @@ export class KisOrderService {
     quantity: number;
     price: number;
     userId: number;
+    metadata?: Record<string, any>;
   }): Promise<KisApiResponse<KisOrderOutput>> {
     // 입력 검증 — undefined/NaN가 그대로 KIS로 전송되어 500을 받는 것을 방지
     const quantity = Number(params.quantity);
@@ -93,7 +99,10 @@ export class KisOrderService {
         price,
         status: TradeStatus.FAILED,
         errorMessage: detailedMessage,
-        rawResponse: kisBody,
+        rawResponse: {
+          kisResponse: kisBody,
+          meta: params.metadata ?? null,
+        },
       });
       throw err;
     }
@@ -106,13 +115,109 @@ export class KisOrderService {
       orderDvsn: params.orderDvsn,
       quantity,
       price,
-      status: data.rt_cd === '0' ? TradeStatus.SUCCESS : TradeStatus.FAILED,
+      status:
+        data.rt_cd === '0'
+          ? params.metadata?.trackingMode === 'optimistic-fallback'
+            ? TradeStatus.SUCCESS
+            : TradeStatus.ACCEPTED
+          : TradeStatus.FAILED,
       kisOrderNo: data.output?.ODNO,
       errorMessage: data.rt_cd !== '0' ? data.msg1 : undefined,
-      rawResponse: data,
+      rawResponse: {
+        kisResponse: data,
+        meta: params.metadata ?? null,
+      },
     });
 
     return data;
+  }
+
+  /** 체결통보 기준으로 주문 이력을 체결 상태로 갱신 */
+  async recordExecutionNotification(notification: KisRealtimeOrderNotification): Promise<{
+    history: TradeHistoryEntity;
+    appliedQty: number;
+    previousExecutedQty: number;
+    isFullyExecuted: boolean;
+  } | null> {
+    const history = await this.em.findOne(
+      TradeHistoryEntity,
+      {
+        action: TradeAction.ORDER,
+        kisOrderNo: notification.orderNo,
+        status: {
+          $in: [TradeStatus.ACCEPTED, TradeStatus.PARTIAL],
+        },
+      },
+      { orderBy: { createdAt: 'DESC' } },
+    );
+
+    if (!history) {
+      return null;
+    }
+
+    const previousExecutedQty = Number(history.executedQuantity) || 0;
+    const remainingQty = Math.max(0, history.quantity - previousExecutedQty);
+    const appliedQty = Math.min(
+      remainingQty,
+      Math.max(0, Number(notification.executionQty) || 0),
+    );
+
+    if (appliedQty <= 0) {
+      return null;
+    }
+
+    history.executedQuantity = previousExecutedQty + appliedQty;
+    history.executedAmount =
+      Number(history.executedAmount) +
+      Math.round((Number(notification.executionPrice) || 0) * appliedQty);
+    history.lastExecutedAt = new Date();
+    history.status =
+      history.executedQuantity >= history.quantity
+        ? TradeStatus.EXECUTED
+        : TradeStatus.PARTIAL;
+    history.rawResponse = {
+      ...(history.rawResponse ?? {}),
+      lastNotification: notification,
+    };
+
+    await this.em.flush();
+
+    return {
+      history,
+      appliedQty,
+      previousExecutedQty,
+      isFullyExecuted: history.status === TradeStatus.EXECUTED,
+    };
+  }
+
+  /** 거부 통보를 받은 주문 이력을 실패 상태로 마감 */
+  async markOrderRejected(
+    notification: KisRealtimeOrderNotification,
+  ): Promise<TradeHistoryEntity | null> {
+    const history = await this.em.findOne(
+      TradeHistoryEntity,
+      {
+        action: TradeAction.ORDER,
+        kisOrderNo: notification.orderNo,
+        status: {
+          $in: [TradeStatus.ACCEPTED, TradeStatus.PARTIAL],
+        },
+      },
+      { orderBy: { createdAt: 'DESC' } },
+    );
+
+    if (!history) {
+      return null;
+    }
+
+    history.status = TradeStatus.FAILED;
+    history.errorMessage = 'KIS 체결통보상 주문이 거부되었습니다.';
+    history.rawResponse = {
+      ...(history.rawResponse ?? {}),
+      lastNotification: notification,
+    };
+    await this.em.flush();
+    return history;
   }
 
   /** 주문 정정 */

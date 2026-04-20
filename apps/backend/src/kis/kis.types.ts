@@ -20,6 +20,8 @@ export interface KisBalanceItem {
   pdno: string;
   prdt_name: string;
   trad_dvsn_name: string;
+  thdt_buyqty?: string;
+  thdt_sll_qty?: string;
   hldg_qty: string;
   ord_psbl_qty: string;
   pchs_avg_pric: string;
@@ -43,6 +45,18 @@ export interface KisBalanceSummary {
   pchs_amt_smtl_amt: string;
   evlu_amt_smtl_amt: string;
   evlu_pfls_smtl_amt: string;
+}
+
+/** 실현손익 포함 잔고 요약 */
+export interface KisBalanceRealizedSummary extends KisBalanceSummary {
+  thdt_buy_amt?: string;
+  thdt_sll_amt?: string;
+  asst_icdc_amt?: string;
+  asst_icdc_erng_rt?: string;
+  rlzt_pfls?: string;
+  rlzt_erng_rt?: string;
+  real_evlu_pfls?: string;
+  real_evlu_pfls_erng_rt?: string;
 }
 
 /** 현재가 */

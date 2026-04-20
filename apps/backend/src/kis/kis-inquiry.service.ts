@@ -5,6 +5,7 @@ import { KisService } from './kis.service';
 import {
   KisApiResponse,
   KisBalanceItem,
+  KisBalanceRealizedSummary,
   KisBalanceSummary,
   KisBuyableOutput,
 } from './kis.types';
@@ -51,6 +52,46 @@ export class KisInquiryService {
     return {
       items: data.output1 ?? [],
       summary: data.output2?.[0] ?? ({} as KisBalanceSummary),
+    };
+  }
+
+  /** 실현손익 포함 주식 잔고 조회 */
+  async getBalanceWithRealized(): Promise<{
+    items: KisBalanceItem[];
+    summary: KisBalanceRealizedSummary;
+  }> {
+    const headers = await this.kisService.getAuthHeaders('TTTC8494R');
+
+    const { data } = await firstValueFrom(
+      this.httpService.get<
+        KisApiResponse<KisBalanceItem[]> & {
+          output2: KisBalanceRealizedSummary[];
+        }
+      >(
+        `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/inquire-balance-rlz-pl`,
+        {
+          headers,
+          params: {
+            CANO: this.kisService.accountNo,
+            ACNT_PRDT_CD: this.kisService.accountProdCd,
+            AFHR_FLPR_YN: 'N',
+            OFL_YN: '',
+            INQR_DVSN: '02',
+            UNPR_DVSN: '01',
+            FUND_STTL_ICLD_YN: 'N',
+            FNCG_AMT_AUTO_RDPT_YN: 'N',
+            PRCS_DVSN: '01',
+            COST_ICLD_YN: 'N',
+            CTX_AREA_FK100: '',
+            CTX_AREA_NK100: '',
+          },
+        },
+      ),
+    );
+
+    return {
+      items: data.output1 ?? [],
+      summary: data.output2?.[0] ?? ({} as KisBalanceRealizedSummary),
     };
   }
 

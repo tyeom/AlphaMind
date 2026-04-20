@@ -36,7 +36,16 @@ import { KisOrderService } from '../kis/kis-order.service';
 import { KisWebSocketService } from '../kis/kis-websocket.service';
 import { KisQuotationService } from '../kis/kis-quotation.service';
 import { KisInquiryService } from '../kis/kis-inquiry.service';
-import { KisRealtimeSubscriptionResult } from '../kis/kis.types';
+import {
+  KisRealtimeOrderNotification,
+  KisRealtimeSubscriptionResult,
+} from '../kis/kis.types';
+import {
+  TradeAction,
+  TradeHistoryEntity,
+  TradeStatus,
+  TradeType,
+} from '../kis/entities/trade-history.entity';
 import { UserEntity } from '../user/entities/user.entity';
 import { NotificationService } from '../notification/notification.service';
 import { NotificationType } from '../notification/entities/notification.entity';
@@ -123,6 +132,139 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     this.gateway?.broadcastSessionRemoved(sessionId, stockCode);
   }
 
+  private async ensureOrderNotificationTrackingReady(): Promise<boolean> {
+    const subscribed =
+      await this.kisWsService.ensureOrderNotificationsSubscribed();
+    if (!subscribed) {
+      return false;
+    }
+
+    if (!this.notificationSub) {
+      this.notificationSub = this.kisWsService.notification$.subscribe(
+        (notification) => {
+          this.handleOrderNotification(notification).catch((err) =>
+            this.logger.error(`체결통보 처리 실패: ${err.message ?? err}`),
+          );
+        },
+      );
+    }
+
+    return true;
+  }
+
+  private async warnOrderTrackingUnavailable(
+    session: AutoTradingSessionEntity,
+  ): Promise<void> {
+    const detail =
+      this.kisWsService.getOrderNotificationSubscriptionError() ??
+      '체결통보 구독을 사용할 수 없습니다.';
+
+    try {
+      const notification = await this.notificationService.create(
+        session.user.id,
+        NotificationType.ORDER_TRACKING_WARNING,
+        '주문 체결 추적 경고',
+        `${session.stockName}(${session.stockCode}) 주문은 진행되지만 실시간 체결 추적이 비활성화되어 접수 기준으로 반영됩니다. ${detail}`,
+        {
+          stockCode: session.stockCode,
+          sessionId: session.id,
+          detail,
+        },
+      );
+      this.gateway?.broadcastNotification(notification);
+    } catch (err: any) {
+      this.logger.warn(`주문 추적 경고 알림 생성 실패: ${err.message ?? err}`);
+    }
+  }
+
+  private applyOptimisticBuyFill(
+    session: AutoTradingSessionEntity,
+    price: number,
+    qty: number,
+  ) {
+    const totalCost = session.avgBuyPrice * session.holdingQty + price * qty;
+    session.holdingQty += qty;
+    session.avgBuyPrice = totalCost / session.holdingQty;
+    session.totalBuys += 1;
+  }
+
+  private applyOptimisticSellFill(
+    session: AutoTradingSessionEntity,
+    price: number,
+    qty: number,
+  ): number {
+    const pnl = (price - session.avgBuyPrice) * qty;
+    session.realizedPnl = Number(session.realizedPnl) + Math.round(pnl);
+    session.holdingQty = Math.max(0, session.holdingQty - qty);
+    if (session.holdingQty <= 0) {
+      session.holdingQty = 0;
+      session.avgBuyPrice = 0;
+      session.unrealizedPnl = 0;
+    }
+    session.totalSells += 1;
+    return Math.round(pnl);
+  }
+
+  private async getOpenOrderMap(
+    sessions: AutoTradingSessionEntity[],
+  ): Promise<Map<string, TradeHistoryEntity[]>> {
+    const stockCodes = [...new Set(sessions.map((session) => session.stockCode))];
+    const userIds = [
+      ...new Set(
+        sessions.map((session) => this.getEntityUserId(session.user)),
+      ),
+    ].filter((id) => Number.isFinite(id));
+
+    if (stockCodes.length === 0 || userIds.length === 0) {
+      return new Map();
+    }
+
+    const orders = await this.em.find(TradeHistoryEntity, {
+      action: TradeAction.ORDER,
+      stockCode: { $in: stockCodes },
+      user: { $in: userIds },
+      status: {
+        $in: [TradeStatus.ACCEPTED, TradeStatus.PARTIAL],
+      },
+    });
+
+    const map = new Map<string, TradeHistoryEntity[]>();
+    for (const order of orders) {
+      const key = `${this.getEntityUserId(order.user)}:${order.stockCode}`;
+      const existing = map.get(key) ?? [];
+      existing.push(order);
+      map.set(key, existing);
+    }
+    return map;
+  }
+
+  private async hasOpenOrder(
+    userId: number,
+    stockCode: string,
+  ): Promise<boolean> {
+    const openOrder = await this.em.findOne(TradeHistoryEntity, {
+      action: TradeAction.ORDER,
+      user: userId,
+      stockCode,
+      status: {
+        $in: [TradeStatus.ACCEPTED, TradeStatus.PARTIAL],
+      },
+    });
+    return Boolean(openOrder);
+  }
+
+  private hasOpenOrderInMap(
+    session: AutoTradingSessionEntity,
+    openOrders: Map<string, TradeHistoryEntity[]>,
+  ): boolean {
+    const userId = this.getEntityUserId(session.user);
+    return (openOrders.get(`${userId}:${session.stockCode}`)?.length ?? 0) > 0;
+  }
+
+  private getEntityUserId(user: UserEntity | number): number {
+    return typeof user === 'number' ? user : Number(user.id);
+  }
+
   private setLatestPrice(
     stockCode: string,
     price: number,
@@ -140,6 +282,14 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   }
 
   async onModuleInit() {
+    const openOrderCount = await this.em.count(TradeHistoryEntity, {
+      action: TradeAction.ORDER,
+      status: { $in: [TradeStatus.ACCEPTED, TradeStatus.PARTIAL] },
+    });
+    if (openOrderCount > 0) {
+      await this.ensureOrderNotificationTrackingReady();
+    }
+
     // 서버 재시작 시 활성 세션이 있으면 모니터링 시작
     const activeSessions = await this.em.find(AutoTradingSessionEntity, {
       status: SessionStatus.ACTIVE,
@@ -156,6 +306,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
   onModuleDestroy() {
     this.stopMonitoring();
+    this.notificationSub?.unsubscribe();
+    this.notificationSub = undefined;
+    this.kisWsService.unsubscribeOrderNotifications();
   }
 
   /**
@@ -441,15 +594,22 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       const realQty = real?.qty ?? 0;
       const realAvg = real?.avgPrice ?? 0;
 
-      if (session.holdingQty !== realQty) {
+      if (session.holdingQty !== realQty || session.avgBuyPrice !== realAvg) {
         this.logger.log(
-          `잔고 동기화: ${session.stockCode} holdingQty ${session.holdingQty} → ${realQty}`,
+          `잔고 동기화: ${session.stockCode} holdingQty ${session.holdingQty} → ${realQty}, avgBuyPrice ${session.avgBuyPrice} → ${realAvg}`,
         );
         session.holdingQty = realQty;
         session.avgBuyPrice = realAvg;
         if (realQty <= 0) {
           session.avgBuyPrice = 0;
           session.unrealizedPnl = 0;
+        } else {
+          const latestPrice = this.latestPrices.get(session.stockCode);
+          if (latestPrice) {
+            session.unrealizedPnl = Math.round(
+              (latestPrice - session.avgBuyPrice) * session.holdingQty,
+            );
+          }
         }
         changed = true;
       }
@@ -586,6 +746,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     const sessions = await this.em.find(AutoTradingSessionEntity, {
       status: SessionStatus.ACTIVE,
     });
+    const openOrders = await this.getOpenOrderMap(sessions);
 
     for (const session of sessions) {
       try {
@@ -618,6 +779,14 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           session.unrealizedPnl = Math.round(
             (price - session.avgBuyPrice) * session.holdingQty,
           );
+        }
+
+        if (
+          this.kisWsService.isOrderNotificationsSubscribed() &&
+          this.hasOpenOrderInMap(session, openOrders)
+        ) {
+          await this.em.flush();
+          continue;
         }
 
         // 전략 신호 분석 (일봉 기반이므로 일중에는 현재가 기반 간이 분석)
@@ -689,6 +858,11 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
   /** 매수 실행 — 신호 발생 시점의 현재가로 지정가 매수 */
   private async executeBuy(session: AutoTradingSessionEntity, price: number) {
+    const trackingReady = await this.ensureOrderNotificationTrackingReady();
+    if (!trackingReady) {
+      await this.warnOrderTrackingUnavailable(session);
+    }
+
     const tradeAmount = session.investmentAmount * (TRADE_RATIO_PCT / 100);
     const qty = Math.floor(tradeAmount / price);
     if (qty <= 0) return;
@@ -705,6 +879,11 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         quantity: qty,
         price,
         userId: session.user.id,
+        metadata: {
+          sessionId: session.id,
+          source: 'auto-buy',
+          trackingMode: trackingReady ? 'notification' : 'optimistic-fallback',
+        },
       });
 
       if (result.rt_cd !== '0') {
@@ -714,14 +893,16 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         return;
       }
 
-      const totalCost = session.avgBuyPrice * session.holdingQty + price * qty;
-      session.holdingQty += qty;
-      session.avgBuyPrice = totalCost / session.holdingQty;
-      session.totalBuys += 1;
-      await this.em.flush();
-      this.broadcastSessionUpdate(session);
-
-      this.createSignalNotification(session, 'buy', price, qty);
+      this.logger.log(
+        `매수 주문 접수: ${session.stockCode} ${qty}주 @ ${price} ` +
+          `(주문번호 ${result.output?.ODNO ?? 'N/A'})`,
+      );
+      if (!trackingReady) {
+        this.applyOptimisticBuyFill(session, price, qty);
+        await this.em.flush();
+        this.broadcastSessionUpdate(session);
+        this.createSignalNotification(session, 'buy', price, qty);
+      }
     } catch (err: any) {
       this.logger.error(`매수 실패: ${session.stockCode} - ${err.message}`);
     }
@@ -733,6 +914,11 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
    */
   private async executeImmediateBuy(session: AutoTradingSessionEntity) {
     try {
+      const trackingReady = await this.ensureOrderNotificationTrackingReady();
+      if (!trackingReady) {
+        await this.warnOrderTrackingUnavailable(session);
+      }
+
       const priceRaw = await this.kisQuotationService.getCurrentPrice(
         session.stockCode,
       );
@@ -765,6 +951,11 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         quantity: qty,
         price: 0,
         userId: session.user.id,
+        metadata: {
+          sessionId: session.id,
+          source: 'immediate-buy',
+          trackingMode: trackingReady ? 'notification' : 'optimistic-fallback',
+        },
       });
 
       if (result.rt_cd !== '0') {
@@ -774,14 +965,16 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         return;
       }
 
-      // 즉시 매수 결과를 세션에 반영 (가중평균 매입가 계산)
-      const totalCost = session.avgBuyPrice * session.holdingQty + price * qty;
-      session.holdingQty += qty;
-      session.avgBuyPrice = totalCost / session.holdingQty;
-      session.totalBuys += 1;
       this.setLatestPrice(session.stockCode, price, { broadcast: true });
-      await this.em.flush();
-      this.broadcastSessionUpdate(session);
+      this.logger.log(
+        `즉시 매수 주문 접수: ${session.stockCode} ${qty}주 ` +
+          `(주문번호 ${result.output?.ODNO ?? 'N/A'})`,
+      );
+      if (!trackingReady) {
+        this.applyOptimisticBuyFill(session, price, qty);
+        await this.em.flush();
+        this.broadcastSessionUpdate(session);
+      }
     } catch (err: any) {
       // 즉시 매수 실패는 세션 자체를 롤백하지 않고 로깅만 — 이후 전략 신호로 진입 가능
       this.logger.error(
@@ -797,6 +990,10 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     reason: string,
   ) {
     if (session.holdingQty <= 0) return;
+    const trackingReady = await this.ensureOrderNotificationTrackingReady();
+    if (!trackingReady) {
+      await this.warnOrderTrackingUnavailable(session);
+    }
 
     this.logger.log(
       `매도 실행: ${session.stockCode} ${session.holdingQty}주 @ ${price} (${reason})`,
@@ -810,6 +1007,13 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         quantity: session.holdingQty,
         price: 0,
         userId: session.user.id,
+        metadata: {
+          sessionId: session.id,
+          source: 'auto-sell',
+          reason,
+          removeSessionIfNotHeld: true,
+          trackingMode: trackingReady ? 'notification' : 'optimistic-fallback',
+        },
       });
 
       if (result.rt_cd !== '0') {
@@ -819,32 +1023,133 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         return;
       }
 
-      const pnl = (price - session.avgBuyPrice) * session.holdingQty;
-      const sellQty = session.holdingQty;
-      session.realizedPnl = Number(session.realizedPnl) + Math.round(pnl);
-      session.unrealizedPnl = 0;
-      session.holdingQty = 0;
-      session.avgBuyPrice = 0;
-      session.totalSells += 1;
-      await this.em.flush();
-      this.broadcastSessionUpdate(session);
-
-      this.createSignalNotification(
-        session,
-        'sell',
-        price,
-        sellQty,
-        reason,
-        Math.round(pnl),
+      this.logger.log(
+        `매도 주문 접수: ${session.stockCode} ${session.holdingQty}주 (${reason}) ` +
+          `(주문번호 ${result.output?.ODNO ?? 'N/A'})`,
       );
+      if (!trackingReady) {
+        const sellQty = session.holdingQty;
+        const pnl = this.applyOptimisticSellFill(session, price, sellQty);
+        await this.em.flush();
+        this.broadcastSessionUpdate(session);
+        this.createSignalNotification(
+          session,
+          'sell',
+          price,
+          sellQty,
+          reason,
+          pnl,
+        );
+        await this.removeSessionIfNotHeld(session);
+      }
     } catch (err: any) {
       this.logger.error(`매도 실패: ${session.stockCode} - ${err.message}`);
       return;
     }
+  }
 
-    // 매도 성공 후 KIS 실잔고를 확인해 보유 종목이 아니면 세션을 완전 삭제하여
-    // 모니터링 목록에서 제거한다 — 다음 사이클에서 동일 종목을 자동 재진입하는 것을 방지.
-    await this.removeSessionIfNotHeld(session);
+  private async handleOrderNotification(
+    notification: KisRealtimeOrderNotification,
+  ): Promise<void> {
+    if (notification.isRejected) {
+      await this.kisOrderService.markOrderRejected(notification);
+      return;
+    }
+
+    if (!notification.isExecuted || notification.executionQty <= 0) {
+      return;
+    }
+
+    const execution = await this.kisOrderService.recordExecutionNotification(
+      notification,
+    );
+    if (!execution) {
+      return;
+    }
+
+    const sessionId = Number(
+      execution.history.rawResponse?.meta?.sessionId ?? 0,
+    );
+    if (!sessionId) {
+      return;
+    }
+
+    if (
+      execution.history.rawResponse?.meta?.trackingMode ===
+      'optimistic-fallback'
+    ) {
+      return;
+    }
+
+    const session = await this.em.findOne(AutoTradingSessionEntity, sessionId);
+    if (!session) {
+      return;
+    }
+
+    const executedQty = execution.appliedQty;
+    const executedPrice =
+      Number(notification.executionPrice) ||
+      Number(notification.orderPrice) ||
+      0;
+    const wasFirstExecution = execution.previousExecutedQty === 0;
+
+    if (execution.history.tradeType === TradeType.BUY) {
+      const totalCost =
+        session.avgBuyPrice * session.holdingQty + executedPrice * executedQty;
+      session.holdingQty += executedQty;
+      session.avgBuyPrice =
+        session.holdingQty > 0 ? totalCost / session.holdingQty : 0;
+      if (wasFirstExecution) {
+        session.totalBuys += 1;
+      }
+      const latestPrice = this.latestPrices.get(session.stockCode);
+      if (latestPrice) {
+        session.unrealizedPnl = Math.round(
+          (latestPrice - session.avgBuyPrice) * session.holdingQty,
+        );
+      }
+      this.createSignalNotification(session, 'buy', executedPrice, executedQty);
+    } else if (execution.history.tradeType === TradeType.SELL) {
+      const sellQty = Math.min(executedQty, session.holdingQty);
+      const pnl = (executedPrice - session.avgBuyPrice) * sellQty;
+      session.realizedPnl = Number(session.realizedPnl) + Math.round(pnl);
+      session.holdingQty = Math.max(0, session.holdingQty - sellQty);
+      if (wasFirstExecution) {
+        session.totalSells += 1;
+      }
+      if (session.holdingQty <= 0) {
+        session.holdingQty = 0;
+        session.avgBuyPrice = 0;
+        session.unrealizedPnl = 0;
+      } else {
+        const latestPrice = this.latestPrices.get(session.stockCode);
+        if (latestPrice) {
+          session.unrealizedPnl = Math.round(
+            (latestPrice - session.avgBuyPrice) * session.holdingQty,
+          );
+        }
+      }
+
+      this.createSignalNotification(
+        session,
+        'sell',
+        executedPrice,
+        sellQty,
+        execution.history.rawResponse?.meta?.reason,
+        Math.round(pnl),
+      );
+    }
+
+    await this.em.flush();
+    this.broadcastSessionUpdate(session);
+
+    if (
+      execution.isFullyExecuted &&
+      session.holdingQty <= 0 &&
+      execution.history.rawResponse?.meta?.removeSessionIfNotHeld
+    ) {
+      await this.removeSessionIfNotHeld(session);
+    }
   }
 
   /**
@@ -924,6 +1229,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   private startMonitoring(sessions: AutoTradingSessionEntity[]) {
     const stockCodes = new Set(sessions.map((s) => s.stockCode));
 
+    void this.ensureOrderNotificationTrackingReady();
+
     // WebSocket 실시간 체결가 구독
     for (const stockCode of stockCodes) {
       this.subscribeStock(stockCode);
@@ -958,7 +1265,6 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   private stopMonitoring() {
     this.executionSub?.unsubscribe();
     this.subscriptionResultSub?.unsubscribe();
-    this.notificationSub?.unsubscribe();
     if (this.monitorInterval) clearInterval(this.monitorInterval);
     for (const interval of this.pollingStockIntervals.values()) {
       clearInterval(interval);
@@ -968,7 +1274,6 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
     this.executionSub = undefined;
     this.subscriptionResultSub = undefined;
-    this.notificationSub = undefined;
     this.monitorInterval = undefined;
     this.pollingStockIntervals.clear();
     this.pollingInFlight.clear();
@@ -1209,6 +1514,21 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       });
     }
 
+    const trackingReady = await this.ensureOrderNotificationTrackingReady();
+    if (!trackingReady) {
+      await this.warnOrderTrackingUnavailable(session);
+    }
+
+    if (
+      trackingReady &&
+      (await this.hasOpenOrder(session.user.id, session.stockCode))
+    ) {
+      throw new ConflictException({
+        message: '미체결 주문이 있어 새 주문을 낼 수 없습니다.',
+        code: 'OPEN_ORDER_EXISTS',
+      });
+    }
+
     const price = dto.orderDvsn === '01' ? 0 : (dto.price ?? 0);
 
     this.logger.log(
@@ -1223,6 +1543,11 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       quantity: dto.quantity,
       price,
       userId: session.user.id,
+      metadata: {
+        sessionId: session.id,
+        source: 'manual',
+        trackingMode: trackingReady ? 'notification' : 'optimistic-fallback',
+      },
     });
 
     // KIS 주문 실패 시 세션 상태를 변경하지 않고 에러 반환
@@ -1233,37 +1558,25 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       });
     }
 
-    // 주문 성공 시 세션 상태 갱신
-    if (dto.orderType === 'buy') {
-      const estimatedPrice =
-        dto.orderDvsn === '01'
-          ? (this.latestPrices.get(session.stockCode) ?? session.avgBuyPrice)
-          : price;
-      const totalCost =
-        session.avgBuyPrice * session.holdingQty +
-        estimatedPrice * dto.quantity;
-      session.holdingQty += dto.quantity;
-      session.avgBuyPrice =
-        session.holdingQty > 0 ? totalCost / session.holdingQty : 0;
-      session.totalBuys += 1;
-    } else {
-      const sellPrice =
-        dto.orderDvsn === '01'
-          ? (this.latestPrices.get(session.stockCode) ?? session.avgBuyPrice)
-          : price;
-      const pnl = (sellPrice - session.avgBuyPrice) * dto.quantity;
-      session.realizedPnl = Number(session.realizedPnl) + Math.round(pnl);
-      session.holdingQty -= dto.quantity;
-      if (session.holdingQty <= 0) {
-        session.holdingQty = 0;
-        session.avgBuyPrice = 0;
-        session.unrealizedPnl = 0;
+    if (!trackingReady) {
+      if (dto.orderType === 'buy') {
+        const estimatedPrice =
+          dto.orderDvsn === '01'
+            ? (this.latestPrices.get(session.stockCode) ?? session.avgBuyPrice)
+            : price;
+        this.applyOptimisticBuyFill(session, estimatedPrice, dto.quantity);
+      } else {
+        const sellPrice =
+          dto.orderDvsn === '01'
+            ? (this.latestPrices.get(session.stockCode) ?? session.avgBuyPrice)
+            : price;
+        this.applyOptimisticSellFill(session, sellPrice, dto.quantity);
       }
-      session.totalSells += 1;
+
+      await this.em.flush();
+      this.broadcastSessionUpdate(session);
     }
 
-    await this.em.flush();
-    this.broadcastSessionUpdate(session);
     return session;
   }
 

@@ -104,13 +104,19 @@ export class KisJournalService {
   ): Promise<JournalResponse> {
     try {
       // KIS API 호출: 오늘 체결 내역 + 잔고
-      const [orders, balanceData] = await Promise.all([
+      const [orders, balanceData, realizedBalanceData] = await Promise.all([
         this.inquiryService.getDailyOrders({
           startDate: date,
           endDate: date,
           status: 'executed',
         }),
         this.inquiryService.getBalance(),
+        this.inquiryService.getBalanceWithRealized().catch((err) => {
+          this.logger.warn(
+            `실현손익 포함 잔고 조회 실패, 기본 잔고 계산으로 대체: ${err instanceof Error ? err.message : err}`,
+          );
+          return null;
+        }),
       ]);
 
       const stockSummaries = this.buildStockSummaries(
@@ -119,21 +125,22 @@ export class KisJournalService {
         balanceData.summary,
       );
 
-      const totalBuyAmount = stockSummaries.reduce(
-        (s, i) => s + i.buyAmount,
-        0,
-      );
-      const totalSellAmount = stockSummaries.reduce(
-        (s, i) => s + i.sellAmount,
-        0,
-      );
-      const realizedProfitLoss = totalSellAmount - totalBuyAmount;
+      const totalBuyAmount =
+        this.parseNumber(realizedBalanceData?.summary.thdt_buy_amt) ??
+        stockSummaries.reduce((s, i) => s + i.buyAmount, 0);
+      const totalSellAmount =
+        this.parseNumber(realizedBalanceData?.summary.thdt_sll_amt) ??
+        stockSummaries.reduce((s, i) => s + i.sellAmount, 0);
+      const realizedProfitLoss =
+        this.parseNumber(realizedBalanceData?.summary.rlzt_pfls) ??
+        this.estimateRealizedProfitLoss(stockSummaries);
       const totalEval = Number(balanceData.summary.evlu_amt_smtl_amt) || 0;
       const totalPurchase = Number(balanceData.summary.pchs_amt_smtl_amt) || 0;
       const totalEvalProfitLoss =
         Number(balanceData.summary.evlu_pfls_smtl_amt) || 0;
       const totalProfitLossRate =
-        totalPurchase > 0 ? (totalEvalProfitLoss / totalPurchase) * 100 : 0;
+        this.parseNumber(realizedBalanceData?.summary.real_evlu_pfls_erng_rt) ??
+        (totalPurchase > 0 ? (totalEvalProfitLoss / totalPurchase) * 100 : 0);
       const cashBalance = Number(balanceData.summary.dnca_tot_amt) || 0;
 
       // DB에 저장 (upsert)
@@ -320,5 +327,23 @@ export class KisJournalService {
     const m = String(now.getMonth() + 1).padStart(2, '0');
     const d = String(now.getDate()).padStart(2, '0');
     return `${y}${m}${d}`;
+  }
+
+  private parseNumber(value?: string | null): number | undefined {
+    if (value === undefined || value === null || value === '') {
+      return undefined;
+    }
+
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : undefined;
+  }
+
+  private estimateRealizedProfitLoss(stockSummaries: StockSummary[]): number {
+    return stockSummaries.reduce((sum, item) => {
+      if (item.buyQty > 0 && item.sellQty > 0) {
+        return sum + item.profitLoss;
+      }
+      return sum;
+    }, 0);
   }
 }

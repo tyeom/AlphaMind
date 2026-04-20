@@ -14,6 +14,7 @@ const TYPE_ICONS: Record<string, string> = {
   ai_meeting_started: 'AI',
   ai_meeting_completed: 'AI',
   ai_meeting_error: '!',
+  order_tracking_warning: '!',
   buy_signal: 'B',
   sell_signal: 'S',
 };
@@ -22,6 +23,7 @@ const TYPE_CLASS: Record<string, string> = {
   ai_meeting_started: 'notif-ai',
   ai_meeting_completed: 'notif-ai',
   ai_meeting_error: 'notif-error',
+  order_tracking_warning: 'notif-error',
   buy_signal: 'notif-buy',
   sell_signal: 'notif-sell',
 };

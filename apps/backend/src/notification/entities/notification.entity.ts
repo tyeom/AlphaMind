@@ -13,6 +13,7 @@ export enum NotificationType {
   AI_MEETING_STARTED = 'ai_meeting_started',
   AI_MEETING_COMPLETED = 'ai_meeting_completed',
   AI_MEETING_ERROR = 'ai_meeting_error',
+  ORDER_TRACKING_WARNING = 'order_tracking_warning',
   BUY_SIGNAL = 'buy_signal',
   SELL_SIGNAL = 'sell_signal',
 }

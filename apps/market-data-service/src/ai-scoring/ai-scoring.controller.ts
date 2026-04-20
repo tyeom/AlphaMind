@@ -143,6 +143,11 @@ export class AiScoringController {
       }
       if (session.status === 'completed') {
         send('done', { elapsedMs: session.elapsedMs });
+      } else if (session.status === 'cancelled') {
+        send('cancelled', {
+          elapsedMs: session.elapsedMs,
+          completedCount: session.scores.length,
+        });
       } else {
         send('error', { message: session.error || '세션 오류' });
       }

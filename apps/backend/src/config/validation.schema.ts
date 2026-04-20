@@ -23,6 +23,7 @@ export const validationSchema = Joi.object({
   KIS_APP_SECRET: Joi.string().required(),
   KIS_ACCOUNT_NO: Joi.string().length(8).required(),
   KIS_ACCOUNT_PROD_CD: Joi.string().length(2).default('01'),
+  KIS_HTS_ID: Joi.string().allow('').optional(),
   KIS_ENV: Joi.string().valid('sandbox', 'production').default('sandbox'),
 
   // RabbitMQ
