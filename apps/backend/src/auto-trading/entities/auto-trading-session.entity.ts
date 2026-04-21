@@ -43,6 +43,10 @@ export enum AddOnBuyMode {
 }
 
 @Entity({ tableName: 'auto_trading_sessions' })
+@Index({
+  name: 'auto_trading_sessions_user_stock_active_uniq',
+  expression: `create unique index "auto_trading_sessions_user_stock_active_uniq" on "auto_trading_sessions" ("user_id", "stock_code") where "status" = 'active'`,
+})
 export class AutoTradingSessionEntity {
   [OptionalProps]?:
     | 'id'
