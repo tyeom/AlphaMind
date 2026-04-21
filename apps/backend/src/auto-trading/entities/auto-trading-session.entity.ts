@@ -15,6 +15,11 @@ export enum SessionStatus {
   STOPPED = 'stopped',
 }
 
+export enum PauseReason {
+  MANUAL = 'manual',
+  AUTO_SELL = 'auto-sell',
+}
+
 /**
  * 세션 내 실제 포지션 상태
  * - 'holding': 실제 보유 중 (holdingQty > 0) — 익절/손절 감시 대상
@@ -48,6 +53,8 @@ export class AutoTradingSessionEntity {
     | 'totalBuys'
     | 'totalSells'
     | 'status'
+    | 'pauseReason'
+    | 'autoPausePending'
     | 'takeProfitPct'
     | 'stopLossPct'
     | 'addOnBuyMode'
@@ -126,6 +133,17 @@ export class AutoTradingSessionEntity {
 
   @Enum({ items: () => SessionStatus, default: SessionStatus.ACTIVE })
   status: SessionStatus = SessionStatus.ACTIVE;
+
+  /** 세션이 PAUSED 상태가 된 원인 — 자동 재개 대상 판별에 사용 */
+  @Property({ length: 20, nullable: true })
+  pauseReason?: PauseReason;
+
+  /**
+   * 자동 익절/손절 매도 주문 후 실제 잔고가 0이 되는 시점을 기다리는 상태.
+   * 체결통보 지연/미사용 환경에서도 이후 balance 동기화 시 최종 PAUSED 전환을 보장한다.
+   */
+  @Property({ default: false })
+  autoPausePending: boolean = false;
 
   @Property({ type: 'float', nullable: true })
   aiScore?: number;

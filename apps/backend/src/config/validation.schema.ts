@@ -28,4 +28,7 @@ export const validationSchema = Joi.object({
 
   // RabbitMQ
   RMQ_URL: Joi.string().default('amqp://alpha:alpha1234@localhost:5672'),
+
+  // 예약 스캔 실행 사용자 — 미설정 시 예약 스캔 스킵
+  SCHEDULED_TRADER_USER_ID: Joi.number().integer().positive().optional(),
 });

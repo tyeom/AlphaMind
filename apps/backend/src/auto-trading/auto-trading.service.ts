@@ -24,6 +24,7 @@ import {
 import {
   AddOnBuyMode,
   AutoTradingSessionEntity,
+  PauseReason,
   SessionStatus,
 } from './entities/auto-trading-session.entity';
 import {
@@ -460,6 +461,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         (dto.addOnBuyMode as AddOnBuyMode | undefined) ?? AddOnBuyMode.SKIP,
       aiScore: dto.aiScore,
       status: SessionStatus.ACTIVE,
+      pauseReason: undefined,
+      autoPausePending: false,
     });
 
     await this.em.persistAndFlush(session);
@@ -587,6 +590,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
 
     let changed = false;
+    const pausedStockCodes = new Set<string>();
     for (const session of sessions) {
       if (session.status === SessionStatus.STOPPED) continue;
 
@@ -613,10 +617,102 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         }
         changed = true;
       }
+
+      if (session.autoPausePending && realQty <= 0) {
+        this.applyPausedState(session, PauseReason.AUTO_SELL);
+        pausedStockCodes.add(session.stockCode);
+        changed = true;
+      }
     }
 
     if (changed) {
       await this.em.flush();
+      for (const stockCode of pausedStockCodes) {
+        await this.syncStockActivity(stockCode);
+      }
+    }
+  }
+
+  private async reconcilePendingAutoPauses(
+    sessions: AutoTradingSessionEntity[],
+  ): Promise<void> {
+    const pendingSessions = sessions.filter((session) => session.autoPausePending);
+    if (pendingSessions.length === 0) {
+      return;
+    }
+
+    let balanceItems: import('../kis/kis.types').KisBalanceItem[];
+    try {
+      const { items } = await this.kisInquiryService.getBalance();
+      balanceItems = items;
+    } catch (err: any) {
+      this.logger.warn(
+        `자동 일시정지 대기 세션 잔고 조회 실패: ${err.message ?? err}`,
+      );
+      return;
+    }
+
+    const balanceMap = new Map<string, { qty: number; avgPrice: number }>();
+    for (const item of balanceItems) {
+      const code = item.pdno?.trim();
+      if (!code) {
+        continue;
+      }
+      balanceMap.set(code, {
+        qty: Number(item.hldg_qty) || 0,
+        avgPrice: Number(item.pchs_avg_pric) || 0,
+      });
+    }
+
+    const pausedSessions: AutoTradingSessionEntity[] = [];
+    const pausedStockCodes = new Set<string>();
+    let changed = false;
+
+    for (const session of pendingSessions) {
+      const real = balanceMap.get(session.stockCode);
+      const realQty = real?.qty ?? 0;
+      const realAvg = real?.avgPrice ?? 0;
+
+      if (session.holdingQty !== realQty || session.avgBuyPrice !== realAvg) {
+        session.holdingQty = realQty;
+        session.avgBuyPrice = realQty > 0 ? realAvg : 0;
+        if (realQty <= 0) {
+          session.unrealizedPnl = 0;
+        } else {
+          const latestPrice = this.latestPrices.get(session.stockCode);
+          if (latestPrice) {
+            session.unrealizedPnl = Math.round(
+              (latestPrice - session.avgBuyPrice) * session.holdingQty,
+            );
+          }
+        }
+        changed = true;
+      }
+
+      if (realQty > 0) {
+        continue;
+      }
+
+      this.applyPausedState(session, PauseReason.AUTO_SELL);
+      pausedSessions.push(session);
+      pausedStockCodes.add(session.stockCode);
+      changed = true;
+    }
+
+    if (!changed) {
+      return;
+    }
+
+    await this.em.flush();
+
+    for (const stockCode of pausedStockCodes) {
+      await this.syncStockActivity(stockCode);
+    }
+    for (const session of pausedSessions) {
+      this.broadcastSessionUpdate(session);
+      this.logger.log(
+        `자동 매도 후 세션 일시정지 확정: ${session.stockName}(${session.stockCode})`,
+      );
     }
   }
 
@@ -642,13 +738,28 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     return session;
   }
 
+  private applyActiveState(session: AutoTradingSessionEntity) {
+    session.status = SessionStatus.ACTIVE;
+    session.pauseReason = undefined;
+    session.autoPausePending = false;
+  }
+
+  private applyPausedState(
+    session: AutoTradingSessionEntity,
+    reason: PauseReason,
+  ) {
+    session.status = SessionStatus.PAUSED;
+    session.pauseReason = reason;
+    session.autoPausePending = false;
+  }
+
   /** 세션 일시정지 */
   async pauseSession(
     sessionId: number,
     userId: number,
   ): Promise<AutoTradingSessionEntity> {
     const session = await this.getSession(sessionId, userId);
-    session.status = SessionStatus.PAUSED;
+    this.applyPausedState(session, PauseReason.MANUAL);
     await this.em.flush();
     this.broadcastSessionUpdate(session);
     // 동일 종목의 다른 활성 세션이 없으면 구독 해제 / 활성 집합에서 제거
@@ -662,7 +773,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     userId: number,
   ): Promise<AutoTradingSessionEntity> {
     const session = await this.getSession(sessionId, userId);
-    session.status = SessionStatus.ACTIVE;
+    this.applyActiveState(session);
     await this.em.flush();
     await this.syncStockActivity(session.stockCode);
     this.broadcastSessionUpdate(session);
@@ -730,6 +841,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   ): Promise<AutoTradingSessionEntity> {
     const session = await this.getSession(sessionId, userId);
     session.status = SessionStatus.STOPPED;
+    session.pauseReason = undefined;
+    session.autoPausePending = false;
     session.stoppedAt = new Date();
     await this.em.flush();
     this.logger.log(
@@ -746,10 +859,15 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     const sessions = await this.em.find(AutoTradingSessionEntity, {
       status: SessionStatus.ACTIVE,
     });
+    await this.reconcilePendingAutoPauses(sessions);
     const openOrders = await this.getOpenOrderMap(sessions);
 
     for (const session of sessions) {
       try {
+        if (session.autoPausePending) {
+          continue;
+        }
+
         const price = this.latestPrices.get(session.stockCode);
         if (!price) continue;
 
@@ -1011,7 +1129,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           sessionId: session.id,
           source: 'auto-sell',
           reason,
-          removeSessionIfNotHeld: true,
+          pauseAfterSell: true,
           trackingMode: trackingReady ? 'notification' : 'optimistic-fallback',
         },
       });
@@ -1027,6 +1145,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         `매도 주문 접수: ${session.stockCode} ${session.holdingQty}주 (${reason}) ` +
           `(주문번호 ${result.output?.ODNO ?? 'N/A'})`,
       );
+      session.autoPausePending = true;
+      session.pauseReason = undefined;
       if (!trackingReady) {
         const sellQty = session.holdingQty;
         const pnl = this.applyOptimisticSellFill(session, price, sellQty);
@@ -1040,7 +1160,10 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           reason,
           pnl,
         );
-        await this.removeSessionIfNotHeld(session);
+        await this.pauseSessionAfterAutoSell(session, reason);
+      } else {
+        await this.em.flush();
+        this.broadcastSessionUpdate(session);
       }
     } catch (err: any) {
       this.logger.error(`매도 실패: ${session.stockCode} - ${err.message}`);
@@ -1052,7 +1175,19 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     notification: KisRealtimeOrderNotification,
   ): Promise<void> {
     if (notification.isRejected) {
-      await this.kisOrderService.markOrderRejected(notification);
+      const history = await this.kisOrderService.markOrderRejected(notification);
+      const sessionId = Number(history?.rawResponse?.meta?.sessionId ?? 0);
+      if (
+        history?.rawResponse?.meta?.pauseAfterSell &&
+        sessionId > 0
+      ) {
+        const session = await this.em.findOne(AutoTradingSessionEntity, sessionId);
+        if (session?.autoPausePending) {
+          session.autoPausePending = false;
+          await this.em.flush();
+          this.broadcastSessionUpdate(session);
+        }
+      }
       return;
     }
 
@@ -1146,22 +1281,25 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     if (
       execution.isFullyExecuted &&
       session.holdingQty <= 0 &&
-      execution.history.rawResponse?.meta?.removeSessionIfNotHeld
+      execution.history.rawResponse?.meta?.pauseAfterSell
     ) {
-      await this.removeSessionIfNotHeld(session);
+      const reason = execution.history.rawResponse?.meta?.reason as
+        | string
+        | undefined;
+      await this.pauseSessionAfterAutoSell(session, reason);
     }
   }
 
   /**
-   * 매도 직후 KIS 실제 잔고를 조회해, 해당 종목이 더 이상 보유 중이 아니라면
-   * 세션을 DB 에서 완전 삭제하고 구독/활성 종목 캐시도 정리한다.
-   *
-   * - 시장가 체결 → 잔고 반영까지 약간의 지연이 있을 수 있어 짧게 대기 후 조회
-   * - 잔고 조회 실패 또는 여전히 보유중이면 세션은 그대로 둔다 (다음 사이클에서 정리 가능)
+   * 자동 익절/손절 매도 체결 후 세션 상태를 PAUSED 로 전환한다.
+   * 실제 잔고를 재확인해 아직 보유 중이면 상태를 그대로 둔다
+   * (부분 체결 등으로 다음 사이클에서 계속 감시 필요).
    */
-  private async removeSessionIfNotHeld(session: AutoTradingSessionEntity) {
+  private async pauseSessionAfterAutoSell(
+    session: AutoTradingSessionEntity,
+    reason?: string,
+  ) {
     try {
-      // 체결 → 잔고 반영까지 짧은 대기
       await new Promise((resolve) => setTimeout(resolve, 2_000));
 
       const { items } = await this.kisInquiryService.getBalance();
@@ -1172,21 +1310,29 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
       if (stillHeld) {
         this.logger.log(
-          `매도 후 잔고 확인: ${session.stockCode} 아직 보유중 — 세션 유지`,
+          `매도 후 잔고 확인: ${session.stockCode} 아직 보유중 — 자동 일시정지 대기 유지`,
         );
         return;
       }
 
-      const stockCode = session.stockCode;
-      const sessionId = session.id;
-      const label = `${session.stockName}(${stockCode})`;
-      await this.em.removeAndFlush(session);
-      await this.syncStockActivity(stockCode);
-      this.broadcastSessionRemoved(sessionId, stockCode);
-      this.logger.log(`매도 후 세션 완전 삭제: ${label} (실보유 없음)`);
+      if (session.status === SessionStatus.PAUSED) {
+        session.autoPausePending = false;
+        session.pauseReason = PauseReason.AUTO_SELL;
+        await this.em.flush();
+        return;
+      }
+
+      this.applyPausedState(session, PauseReason.AUTO_SELL);
+      await this.em.flush();
+      await this.syncStockActivity(session.stockCode);
+      this.broadcastSessionUpdate(session);
+      this.logger.log(
+        `자동 매도 후 세션 일시정지: ${session.stockName}(${session.stockCode})` +
+          (reason ? ` — ${reason}` : ''),
+      );
     } catch (err: any) {
       this.logger.warn(
-        `매도 후 잔고 확인 실패: ${session.stockCode} - ${err.message ?? err}`,
+        `매도 후 세션 일시정지 처리 실패: ${session.stockCode} - ${err.message ?? err}`,
       );
     }
   }

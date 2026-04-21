@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { AppController } from './app.controller';
@@ -25,6 +26,7 @@ import { AuthGuard, RbacGuard, AllExceptionFilter } from '@alpha-mind/common';
         abortEarly: true,
       },
     }),
+    ScheduleModule.forRoot(),
     MikroOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
