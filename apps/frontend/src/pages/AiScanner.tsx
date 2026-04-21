@@ -2537,8 +2537,17 @@ export function AiScanner() {
                       className={`session-${s.status} ${rowToneClass}`.trim()}
                     >
                       <td>
-                        <strong>{s.stockName}</strong>
-                        <br />
+                        <div className="session-stock-cell">
+                          <strong>{s.stockName}</strong>
+                          {s.scheduledScan && (
+                            <span
+                              className="scheduled-scan-badge"
+                              title="매일 08:00 KST 스케줄러가 등록/갱신한 세션"
+                            >
+                              자동 스캔
+                            </span>
+                          )}
+                        </div>
                         <small className="text-muted">{s.stockCode}</small>
                       </td>
                       <td>

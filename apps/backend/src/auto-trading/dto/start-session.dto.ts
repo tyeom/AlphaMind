@@ -64,6 +64,23 @@ export interface UpdateSessionDto {
   addOnBuyMode?: AddOnBuyMode;
 }
 
+/**
+ * 내부 서비스 전용 DTO.
+ * 공개 HTTP API 에서는 `scheduledScan` 을 받지 않고, 스케줄러 등 서버 내부 호출만 사용한다.
+ */
+export interface InternalStartSessionDto extends StartSessionDto {
+  scheduledScan?: boolean;
+}
+
+export interface InternalStartSessionsDto {
+  sessions: InternalStartSessionDto[];
+  entryMode?: SessionEntryMode;
+}
+
+export interface InternalUpdateSessionDto extends UpdateSessionDto {
+  scheduledScan?: boolean;
+}
+
 /** 수동 매수/매도 주문 DTO */
 export interface ManualOrderDto {
   orderType: 'buy' | 'sell';

@@ -83,6 +83,10 @@ export class ScheduledScannerService {
   private async runScan(userId: number): Promise<void> {
     this.logger.log(`예약 스캔 시작 (userId=${userId})`);
 
+    // 오늘의 신규 추천으로 대체될 수 있도록 보유 없는 자동 등록 세션 사전 정리.
+    // 보유 중이거나 수동 등록 세션은 그대로 유지된다.
+    await this.autoTradingService.removeStaleScheduledScanSessions(userId);
+
     const existing = await this.em.find(AutoTradingSessionEntity, {
       user: userId,
     });
@@ -144,6 +148,7 @@ export class ScheduledScannerService {
           variant: candidate.bestStrategy.variant,
           takeProfitPct: SESSION_TAKE_PROFIT_PCT,
           stopLossPct: SESSION_STOP_LOSS_PCT,
+          scheduledScan: true,
         });
         await this.autoTradingService.resumeSession(session.id, userId);
         resumedCodes.push(session.stockCode);
@@ -184,6 +189,7 @@ export class ScheduledScannerService {
             takeProfitPct: SESSION_TAKE_PROFIT_PCT,
             stopLossPct: SESSION_STOP_LOSS_PCT,
             onConflict: 'skip',
+            scheduledScan: true,
           })),
           entryMode: 'monitor',
         });

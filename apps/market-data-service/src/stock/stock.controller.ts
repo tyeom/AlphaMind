@@ -1,4 +1,5 @@
 import { Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Public } from '@alpha-mind/common';
 import { StockDailyPrice } from './entities/stock-daily-price.entity';
@@ -10,6 +11,20 @@ export class StockController {
     private readonly em: EntityManager,
     private readonly stockService: StockService,
   ) {}
+
+  @MessagePattern('stock.lookup')
+  async lookupStockRmq(
+    @Payload() body: { code: string },
+  ): Promise<{ code: string; name: string } | null> {
+    const code = body?.code?.trim();
+    if (!code) return null;
+    try {
+      const stock = await this.stockService.findStockByCode(code);
+      return { code: stock.code, name: stock.name };
+    } catch {
+      return null;
+    }
+  }
 
   @Public()
   @Get('collection-status')

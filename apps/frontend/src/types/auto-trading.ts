@@ -33,6 +33,11 @@ export interface AutoTradingSession {
   status: SessionStatus;
   /** 실보유/대기 상태 — 백엔드에서 holdingQty 기반으로 계산 */
   positionStatus: PositionStatus;
+  /**
+   * 스케줄러(매일 08:00 KST)에 의해 등록/갱신된 세션 여부.
+   * 사용자가 직접 등록한 세션과 구분하기 위해 UI 에 배지로 표시.
+   */
+  scheduledScan: boolean;
   aiScore?: number;
   createdAt: string;
   stoppedAt?: string;

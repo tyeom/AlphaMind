@@ -28,9 +28,9 @@ import {
   SessionStatus,
 } from './entities/auto-trading-session.entity';
 import {
-  StartSessionDto,
-  StartSessionsDto,
-  UpdateSessionDto,
+  InternalStartSessionDto,
+  InternalStartSessionsDto,
+  InternalUpdateSessionDto,
   ManualOrderDto,
 } from './dto/start-session.dto';
 import { KisOrderService } from '../kis/kis-order.service';
@@ -320,7 +320,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
    */
   async startSessions(
     userId: number,
-    dto: StartSessionsDto,
+    dto: InternalStartSessionsDto,
   ): Promise<AutoTradingSessionEntity[]> {
     // 1. 사전 충돌 감지
     const conflicts: Array<{
@@ -371,7 +371,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     const results: AutoTradingSessionEntity[] = [];
     for (const sessionDto of dto.sessions) {
       // 일괄 entryMode 는 개별 entryMode 가 비어있을 때만 적용
-      const effectiveDto: StartSessionDto = {
+      const effectiveDto: InternalStartSessionDto = {
         ...sessionDto,
         entryMode: sessionDto.entryMode ?? dto.entryMode,
       };
@@ -384,9 +384,13 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   /** 세션 시작 (단일) */
   async startSession(
     userId: number,
-    dto: StartSessionDto,
+    dto: InternalStartSessionDto,
   ): Promise<AutoTradingSessionEntity> {
     const user = await this.em.findOneOrFail(UserEntity, userId);
+
+    // 클라이언트가 종목명 누락/공백 전송 시 KIS → market-data 순으로 보강.
+    // 두 경로 모두 실패하면 최악의 경우에도 stockCode 로 대체해 빈 값 저장을 막는다.
+    dto = { ...dto, stockName: await this.resolveStockName(dto.stockCode, dto.stockName) };
 
     // 활성 세션 중복 검사
     const existing = await this.em.findOne(AutoTradingSessionEntity, {
@@ -416,6 +420,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           existing.addOnBuyMode = dto.addOnBuyMode as AddOnBuyMode;
         }
         if (dto.aiScore !== undefined) existing.aiScore = dto.aiScore;
+        if (dto.scheduledScan !== undefined) {
+          existing.scheduledScan = dto.scheduledScan;
+        }
         await this.em.flush();
         this.logger.log(
           `자동매매 업데이트: ${dto.stockName}(${dto.stockCode}) - ${strategyId} ` +
@@ -463,6 +470,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       status: SessionStatus.ACTIVE,
       pauseReason: undefined,
       autoPausePending: false,
+      scheduledScan: dto.scheduledScan ?? false,
     });
 
     await this.em.persistAndFlush(session);
@@ -486,7 +494,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
   /** DTO의 전략 필드를 해석 — 미지정 시 백테스트 기반 추천 전략 조회 */
   private async resolveStrategy(
-    dto: StartSessionDto,
+    dto: InternalStartSessionDto,
   ): Promise<{ strategyId: string; variant?: string }> {
     if (dto.strategyId) {
       return { strategyId: dto.strategyId, variant: dto.variant };
@@ -504,6 +512,49 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           : ' (fallback)'),
     );
     return { strategyId, variant };
+  }
+
+  /**
+   * DTO stockName 이 비어있거나 공백이면 KIS 현재가 → market-data `stock.lookup`
+   * 순으로 보강. 모두 실패하면 stockCode 문자열을 반환해 빈 값 저장을 막는다.
+   */
+  private async resolveStockName(
+    stockCode: string,
+    provided?: string,
+  ): Promise<string> {
+    const trimmed = provided?.trim();
+    if (trimmed) return trimmed;
+
+    try {
+      const raw = await this.kisQuotationService.getCurrentPrice(stockCode);
+      const fromKis = raw?.hts_kor_isnm?.trim();
+      if (fromKis) return fromKis;
+    } catch (err: any) {
+      this.logger.warn(
+        `종목명 KIS 조회 실패 (${stockCode}): ${err.message ?? err}`,
+      );
+    }
+
+    try {
+      const lookup = await firstValueFrom(
+        this.marketDataClient
+          .send<{ code: string; name: string } | null>('stock.lookup', {
+            code: stockCode,
+          })
+          .pipe(timeout(5_000)),
+      );
+      const fromMd = lookup?.name?.trim();
+      if (fromMd) return fromMd;
+    } catch (err: any) {
+      this.logger.warn(
+        `종목명 market-data 조회 실패 (${stockCode}): ${err.message ?? err}`,
+      );
+    }
+
+    this.logger.warn(
+      `종목명 확보 실패 — stockCode(${stockCode})로 대체 저장`,
+    );
+    return stockCode;
   }
 
   /** 특정 종목 추천 전략 조회 (market-data-service RMQ 호출) */
@@ -784,7 +835,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   async updateSession(
     sessionId: number,
     userId: number,
-    dto: UpdateSessionDto,
+    dto: InternalUpdateSessionDto,
   ): Promise<AutoTradingSessionEntity> {
     const session = await this.getSession(sessionId, userId);
 
@@ -823,6 +874,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
     if (dto.addOnBuyMode !== undefined) {
       session.addOnBuyMode = dto.addOnBuyMode as AddOnBuyMode;
+    }
+    if (dto.scheduledScan !== undefined) {
+      session.scheduledScan = dto.scheduledScan;
     }
 
     await this.em.flush();
@@ -1724,6 +1778,50 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
 
     return session;
+  }
+
+  /**
+   * 스케줄러 사전 정리 — `scheduledScan=true` 이면서 현재 보유하지 않은(holdingQty=0)
+   * 세션을 일괄 삭제한다. 보유 중이거나 수동 등록(scheduledScan=false)인 세션은 유지.
+   * 삭제 후 실시간 구독/활성 종목 캐시와 프론트 브로드캐스트까지 동기화한다.
+   */
+  async removeStaleScheduledScanSessions(userId: number): Promise<{
+    deletedCount: number;
+    stockCodes: string[];
+  }> {
+    const stale = await this.em.find(AutoTradingSessionEntity, {
+      user: userId,
+      scheduledScan: true,
+      holdingQty: 0,
+    });
+    if (stale.length === 0) {
+      return { deletedCount: 0, stockCodes: [] };
+    }
+
+    const removedRefs = stale.map((s) => ({
+      id: s.id,
+      stockCode: s.stockCode,
+      stockName: s.stockName,
+    }));
+    const uniqueStockCodes = Array.from(
+      new Set(removedRefs.map((r) => r.stockCode)),
+    );
+
+    await this.em.removeAndFlush(stale);
+
+    for (const stockCode of uniqueStockCodes) {
+      await this.syncStockActivity(stockCode);
+    }
+    for (const { id, stockCode } of removedRefs) {
+      this.broadcastSessionRemoved(id, stockCode);
+    }
+
+    this.logger.log(
+      `스케줄 스캔 사전 정리: 보유 0 & 자동 등록 세션 ${stale.length}개 삭제 ` +
+        `(${uniqueStockCodes.join(', ')})`,
+    );
+
+    return { deletedCount: stale.length, stockCodes: uniqueStockCodes };
   }
 
   /**

@@ -2152,6 +2152,48 @@ h3 {
   color: var(--text-secondary);
 }
 
+/* 자동 매매 모니터링 목록 — 종목명 셀 내부 배지 레이아웃 */
+.session-stock-cell {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  row-gap: 4px;
+}
+
+/* 스케줄 스캔(자동 등록) 배지 — 매일 08:00 KST 스케줄러가 등록/갱신한 세션 표식 */
+.scheduled-scan-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+  background: rgba(34, 139, 230, 0.12);
+  color: #1c7ed6;
+  border: 1px solid #1c7ed6;
+  line-height: 1.3;
+}
+
+@media (max-width: 640px) {
+  .scheduled-scan-badge {
+    font-size: 10px;
+    padding: 1px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .session-stock-cell {
+    gap: 4px;
+  }
+  .scheduled-scan-badge {
+    font-size: 10px;
+    padding: 1px 5px;
+    border-radius: 8px;
+  }
+}
+
 /* 진입 모드 선택 (모니터링 / 즉시 매수) */
 .entry-mode-selector {
   display: flex;

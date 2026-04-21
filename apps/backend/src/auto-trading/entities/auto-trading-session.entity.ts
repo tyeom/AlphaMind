@@ -62,6 +62,7 @@ export class AutoTradingSessionEntity {
     | 'takeProfitPct'
     | 'stopLossPct'
     | 'addOnBuyMode'
+    | 'scheduledScan'
     | 'positionStatus'
     | 'createdAt';
 
@@ -148,6 +149,13 @@ export class AutoTradingSessionEntity {
    */
   @Property({ default: false })
   autoPausePending: boolean = false;
+
+  /**
+   * ScheduledScannerService.handleDailyScan 스케줄러에 의해 생성/갱신된 세션 여부.
+   * 수동 등록과 구분해 UI 에 배지로 표시하고, 스케줄러 기반 운용 현황을 추적하는 데 사용.
+   */
+  @Property({ default: false })
+  scheduledScan: boolean = false;
 
   @Property({ type: 'float', nullable: true })
   aiScore?: number;
