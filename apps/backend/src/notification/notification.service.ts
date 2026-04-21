@@ -15,6 +15,7 @@ export class NotificationService {
     NotificationType.AI_MEETING_STARTED,
     NotificationType.AI_MEETING_COMPLETED,
     NotificationType.ORDER_TRACKING_WARNING,
+    NotificationType.SCHEDULED_SCAN_WARNING,
   ]);
 
   async create(

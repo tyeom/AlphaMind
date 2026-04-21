@@ -14,6 +14,7 @@ export enum NotificationType {
   AI_MEETING_COMPLETED = 'ai_meeting_completed',
   AI_MEETING_ERROR = 'ai_meeting_error',
   ORDER_TRACKING_WARNING = 'order_tracking_warning',
+  SCHEDULED_SCAN_WARNING = 'scheduled_scan_warning',
   BUY_SIGNAL = 'buy_signal',
   SELL_SIGNAL = 'sell_signal',
 }

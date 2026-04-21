@@ -38,6 +38,7 @@ import { KisWebSocketService } from '../kis/kis-websocket.service';
 import { KisQuotationService } from '../kis/kis-quotation.service';
 import { KisInquiryService } from '../kis/kis-inquiry.service';
 import {
+  KisBalanceItem,
   KisRealtimeOrderNotification,
   KisRealtimeSubscriptionResult,
 } from '../kis/kis.types';
@@ -77,6 +78,8 @@ const TRADE_RATIO_PCT = 10;
 const PRICE_POLL_INTERVAL_MS = 5_000;
 const SUBSCRIPTION_RETRY_BASE_DELAY_MS = 5_000;
 const SUBSCRIPTION_RETRY_MAX_DELAY_MS = 60_000;
+const SCHEDULED_CLEANUP_BALANCE_MAX_ATTEMPTS = 2;
+const SCHEDULED_CLEANUP_BALANCE_RETRY_DELAY_MS = 5_000;
 
 @Injectable()
 export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
@@ -390,7 +393,10 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
     // 클라이언트가 종목명 누락/공백 전송 시 KIS → market-data 순으로 보강.
     // 두 경로 모두 실패하면 최악의 경우에도 stockCode 로 대체해 빈 값 저장을 막는다.
-    dto = { ...dto, stockName: await this.resolveStockName(dto.stockCode, dto.stockName) };
+    dto = {
+      ...dto,
+      stockName: await this.resolveStockName(dto.stockCode, dto.stockName),
+    };
 
     // 활성 세션 중복 검사
     const existing = await this.em.findOne(AutoTradingSessionEntity, {
@@ -551,9 +557,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       );
     }
 
-    this.logger.warn(
-      `종목명 확보 실패 — stockCode(${stockCode})로 대체 저장`,
-    );
+    this.logger.warn(`종목명 확보 실패 — stockCode(${stockCode})로 대체 저장`);
     return stockCode;
   }
 
@@ -620,13 +624,22 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   ): Promise<void> {
     if (sessions.length === 0) return;
 
-    let balanceItems: import('../kis/kis.types').KisBalanceItem[];
+    let balanceItems: KisBalanceItem[];
     try {
       const { items } = await this.kisInquiryService.getBalance();
       balanceItems = items;
     } catch {
       return; // 잔고 조회 실패 시 DB 값 유지
     }
+
+    await this.applyBalanceSnapshotToSessions(sessions, balanceItems);
+  }
+
+  private async applyBalanceSnapshotToSessions(
+    sessions: AutoTradingSessionEntity[],
+    balanceItems: KisBalanceItem[],
+  ): Promise<void> {
+    if (sessions.length === 0) return;
 
     // 종목코드 → 잔고 매핑
     const balanceMap = new Map<string, { qty: number; avgPrice: number }>();
@@ -684,10 +697,42 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
+  private async syncSessionsWithBalanceForScheduledCleanup(
+    sessions: AutoTradingSessionEntity[],
+  ): Promise<{ ok: true } | { ok: false; error: string }> {
+    let lastError = 'unknown error';
+
+    for (
+      let attempt = 1;
+      attempt <= SCHEDULED_CLEANUP_BALANCE_MAX_ATTEMPTS;
+      attempt++
+    ) {
+      try {
+        const { items } = await this.kisInquiryService.getBalance();
+        await this.applyBalanceSnapshotToSessions(sessions, items);
+        return { ok: true };
+      } catch (err: any) {
+        lastError = err?.message ?? String(err);
+        this.logger.warn(
+          `스케줄 정리 전 KIS 실잔고 조회 실패 (${attempt}/${SCHEDULED_CLEANUP_BALANCE_MAX_ATTEMPTS}): ${lastError}`,
+        );
+        if (attempt < SCHEDULED_CLEANUP_BALANCE_MAX_ATTEMPTS) {
+          await new Promise((resolve) =>
+            setTimeout(resolve, SCHEDULED_CLEANUP_BALANCE_RETRY_DELAY_MS),
+          );
+        }
+      }
+    }
+
+    return { ok: false, error: lastError };
+  }
+
   private async reconcilePendingAutoPauses(
     sessions: AutoTradingSessionEntity[],
   ): Promise<void> {
-    const pendingSessions = sessions.filter((session) => session.autoPausePending);
+    const pendingSessions = sessions.filter(
+      (session) => session.autoPausePending,
+    );
     if (pendingSessions.length === 0) {
       return;
     }
@@ -1788,14 +1833,40 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   async removeStaleScheduledScanSessions(userId: number): Promise<{
     deletedCount: number;
     stockCodes: string[];
+    skippedDueToBalanceSyncFailure: boolean;
+    balanceSyncError?: string;
   }> {
-    const stale = await this.em.find(AutoTradingSessionEntity, {
+    const scheduledSessions = await this.em.find(AutoTradingSessionEntity, {
       user: userId,
       scheduledScan: true,
-      holdingQty: 0,
+      status: { $in: [SessionStatus.ACTIVE, SessionStatus.PAUSED] },
     });
+    if (scheduledSessions.length === 0) {
+      return {
+        deletedCount: 0,
+        stockCodes: [],
+        skippedDueToBalanceSyncFailure: false,
+      };
+    }
+
+    const balanceSync =
+      await this.syncSessionsWithBalanceForScheduledCleanup(scheduledSessions);
+    if (!balanceSync.ok) {
+      return {
+        deletedCount: 0,
+        stockCodes: [],
+        skippedDueToBalanceSyncFailure: true,
+        balanceSyncError: balanceSync.error,
+      };
+    }
+
+    const stale = scheduledSessions.filter((s) => s.holdingQty === 0);
     if (stale.length === 0) {
-      return { deletedCount: 0, stockCodes: [] };
+      return {
+        deletedCount: 0,
+        stockCodes: [],
+        skippedDueToBalanceSyncFailure: false,
+      };
     }
 
     const removedRefs = stale.map((s) => ({
@@ -1821,7 +1892,11 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         `(${uniqueStockCodes.join(', ')})`,
     );
 
-    return { deletedCount: stale.length, stockCodes: uniqueStockCodes };
+    return {
+      deletedCount: stale.length,
+      stockCodes: uniqueStockCodes,
+      skippedDueToBalanceSyncFailure: false,
+    };
   }
 
   /**

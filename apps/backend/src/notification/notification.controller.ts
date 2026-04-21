@@ -16,6 +16,7 @@ const TYPE_MAP: Record<string, NotificationType> = {
   ai_meeting_started: NotificationType.AI_MEETING_STARTED,
   ai_meeting_completed: NotificationType.AI_MEETING_COMPLETED,
   ai_meeting_error: NotificationType.AI_MEETING_ERROR,
+  scheduled_scan_warning: NotificationType.SCHEDULED_SCAN_WARNING,
   buy_signal: NotificationType.BUY_SIGNAL,
   sell_signal: NotificationType.SELL_SIGNAL,
 };

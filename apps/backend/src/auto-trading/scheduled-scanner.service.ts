@@ -85,7 +85,26 @@ export class ScheduledScannerService {
 
     // 오늘의 신규 추천으로 대체될 수 있도록 보유 없는 자동 등록 세션 사전 정리.
     // 보유 중이거나 수동 등록 세션은 그대로 유지된다.
-    await this.autoTradingService.removeStaleScheduledScanSessions(userId);
+    const cleanup =
+      await this.autoTradingService.removeStaleScheduledScanSessions(userId);
+    if (cleanup.skippedDueToBalanceSyncFailure) {
+      const detail = cleanup.balanceSyncError ?? 'unknown error';
+      this.logger.warn(
+        `예약 스캔 사전 삭제 스킵: KIS 실잔고 조회 2회 실패 (${detail})`,
+      );
+      await this.notificationService.create(
+        userId,
+        NotificationType.SCHEDULED_SCAN_WARNING,
+        '예약 스캔 삭제 작업 건너뜀',
+        'KIS 실시간 잔고 조회가 2회 실패해 기존 자동 스캔 세션 삭제를 건너뛰고, 신규 등록/갱신은 계속 진행합니다.',
+        {
+          scheduledScan: true,
+          phase: 'pre_cleanup',
+          retryAttempts: 2,
+          balanceSyncError: detail,
+        },
+      );
+    }
 
     const existing = await this.em.find(AutoTradingSessionEntity, {
       user: userId,
@@ -188,7 +207,7 @@ export class ScheduledScannerService {
             investmentAmount: SCAN_INVESTMENT_AMOUNT,
             takeProfitPct: SESSION_TAKE_PROFIT_PCT,
             stopLossPct: SESSION_STOP_LOSS_PCT,
-            onConflict: 'skip',
+            onConflict: 'update',
             scheduledScan: true,
           })),
           entryMode: 'monitor',

@@ -26,9 +26,10 @@ export class AutoTradingController {
    * 저장 경로로 흘러가지 않도록 런타임에서 명시적으로 제거한다.
    */
   private sanitizeStartSessionDto(dto: StartSessionDto): StartSessionDto {
-    const { scheduledScan: _scheduledScan, ...sanitized } = dto as StartSessionDto & {
-      scheduledScan?: boolean;
-    };
+    const { scheduledScan: _scheduledScan, ...sanitized } =
+      dto as StartSessionDto & {
+        scheduledScan?: boolean;
+      };
     return sanitized;
   }
 
