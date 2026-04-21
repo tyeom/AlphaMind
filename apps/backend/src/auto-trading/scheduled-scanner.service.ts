@@ -65,7 +65,9 @@ export class ScheduledScannerService {
 
     const locked = await this.acquireScanLock();
     if (!locked) {
-      this.logger.warn('다른 인스턴스가 예약 스캔을 실행 중이어서 현재 실행을 건너뜁니다.');
+      this.logger.warn(
+        '다른 인스턴스가 예약 스캔을 실행 중이어서 현재 실행을 건너뜁니다.',
+      );
       return;
     }
 

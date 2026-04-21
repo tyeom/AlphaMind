@@ -1772,12 +1772,12 @@ export function AiScanner() {
             onClick={handleScan}
             disabled={step === 'scanning'}
           >
-            {step === 'scanning' ? '스캔 중...' : 'AI 최적 종목 추출'}
+            {step === 'scanning' ? '스캔 중...' : '전략별 추천 종목 추출'}
           </button>
           {step === 'scanning' && (
             <div className="scan-progress">
               <div className="spinner" />
-              <span>전체 종목 백테스팅 진행 중... (약 15~30초 소요)</span>
+              <span>전체 종목 백테스팅 진행 중... (약 30~60초 소요)</span>
             </div>
           )}
         </div>
