@@ -8,7 +8,9 @@ import {
   Body,
   ParseIntPipe,
 } from '@nestjs/common';
+import { Roles, UserRole } from '@alpha-mind/common';
 import { AutoTradingService } from './auto-trading.service';
+import { ScheduledScannerService } from './scheduled-scanner.service';
 import {
   StartSessionDto,
   StartSessionsDto,
@@ -19,7 +21,10 @@ import { User } from '../decorator/user.decorator';
 
 @Controller('auto-trading')
 export class AutoTradingController {
-  constructor(private readonly autoTradingService: AutoTradingService) {}
+  constructor(
+    private readonly autoTradingService: AutoTradingService,
+    private readonly scheduledScannerService: ScheduledScannerService,
+  ) {}
 
   /**
    * 전역 ValidationPipe/whitelist 없이도 공개 API 에서 `scheduledScan` 주입이
@@ -31,6 +36,16 @@ export class AutoTradingController {
         scheduledScan?: boolean;
       };
     return sanitized;
+  }
+
+  /**
+   * 예약 스캔 수동 트리거 — 매일 08:00 KST에 실행되는 스캐너를 지금 실행한다.
+   * 실제 스캔/세션 등록은 `SCHEDULED_TRADER_USER_ID` 사용자 기준으로 수행된다.
+   */
+  @Roles(UserRole.ADMIN)
+  @Post('scheduled-scan/trigger')
+  async triggerScheduledScan() {
+    return this.scheduledScannerService.triggerScan('manual');
   }
 
   /** 단일 세션 시작 */

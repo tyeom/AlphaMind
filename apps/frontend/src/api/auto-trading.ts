@@ -7,6 +7,22 @@ import type {
   ManualOrderRequest,
 } from '../types/auto-trading';
 
+export interface TriggerScheduledScanResponse {
+  triggered: boolean;
+  reason?: 'no_user_id' | 'already_running';
+  userId?: number;
+}
+
+/**
+ * 예약 스캔(08:00 KST Cron)을 수동 트리거한다.
+ * 즉시 반환되며 스캔 결과는 알림/세션으로 반영된다.
+ */
+export async function triggerScheduledScan(): Promise<TriggerScheduledScanResponse> {
+  return api.post<TriggerScheduledScanResponse>(
+    '/auto-trading/scheduled-scan/trigger',
+  );
+}
+
 export async function startSession(dto: StartSessionRequest): Promise<AutoTradingSession> {
   return api.post<AutoTradingSession>('/auto-trading/sessions', dto);
 }

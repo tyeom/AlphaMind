@@ -25,6 +25,7 @@ import {
   updateSession,
   deleteSessionPermanent,
   manualOrder,
+  triggerScheduledScan,
 } from '../api/auto-trading';
 import { getBalance, getCurrentPrice } from '../api/kis';
 import { ApiError } from '../api/client';
@@ -1221,6 +1222,45 @@ export function AiScanner() {
     };
   }, [connectToAiSession, fetchAgentStatuses, searchParams]);
 
+  const [triggeringScheduled, setTriggeringScheduled] = useState(false);
+
+  /**
+   * 예약 스캔(매일 08:00 KST Cron)을 수동으로 트리거한다.
+   * - fire-and-forget: 요청이 RMQ로 발행되면 즉시 반환되고, 결과는 자동매매 세션/알림으로 반영
+   * - `SCHEDULED_TRADER_USER_ID` 사용자 기준으로 동작 (현재 세션 사용자와 무관)
+   */
+  const handleTriggerScheduledScan = async () => {
+    if (triggeringScheduled) return;
+    const confirmed = window.confirm(
+      '매일 08:00 KST 예약 스캔을 지금 실행합니다.\n' +
+        '스캔 완료 후 `SCHEDULED_TRADER_USER_ID` 계정의 자동매매 세션이 자동으로 등록/갱신됩니다. 계속하시겠습니까?',
+    );
+    if (!confirmed) return;
+
+    setTriggeringScheduled(true);
+    setError('');
+    try {
+      const res = await triggerScheduledScan();
+      if (res.triggered) {
+        window.alert(
+          '예약 스캔을 시작했습니다. 완료까지 약 1~2분 소요됩니다.\n스캔 결과는 자동매매 세션 및 알림으로 반영됩니다.',
+        );
+      } else if (res.reason === 'already_running') {
+        window.alert('이미 다른 인스턴스에서 예약 스캔이 실행 중입니다.');
+      } else if (res.reason === 'no_user_id') {
+        window.alert(
+          '서버에 SCHEDULED_TRADER_USER_ID 설정이 없어 예약 스캔을 실행할 수 없습니다.',
+        );
+      } else {
+        window.alert('예약 스캔을 시작하지 못했습니다.');
+      }
+    } catch (err: any) {
+      setError(err?.message || '예약 스캔 수동 실행에 실패했습니다.');
+    } finally {
+      setTriggeringScheduled(false);
+    }
+  };
+
   const handleScan = async () => {
     setError('');
     setStep('scanning');
@@ -1767,13 +1807,25 @@ export function AiScanner() {
               />
             </label>
           </div>
-          <button
-            className="btn btn-primary btn-lg"
-            onClick={handleScan}
-            disabled={step === 'scanning'}
-          >
-            {step === 'scanning' ? '스캔 중...' : '전략별 추천 종목 추출'}
-          </button>
+          <div className="scan-action-buttons">
+            <button
+              className="btn btn-primary btn-lg"
+              onClick={handleScan}
+              disabled={step === 'scanning'}
+            >
+              {step === 'scanning' ? '스캔 중...' : '전략별 추천 종목 추출'}
+            </button>
+            <button
+              className="btn btn-secondary btn-lg"
+              onClick={handleTriggerScheduledScan}
+              disabled={step === 'scanning' || triggeringScheduled}
+              title="매일 08:00 KST 예약 스캔을 지금 실행합니다. 결과가 자동매매 세션에 자동 반영됩니다."
+            >
+              {triggeringScheduled
+                ? '예약 스캔 요청 중...'
+                : '예약 스캔 수동 실행'}
+            </button>
+          </div>
           {step === 'scanning' && (
             <div className="scan-progress">
               <div className="spinner" />

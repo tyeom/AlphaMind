@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Controller, Get, Post, Body, Param, Query, Inject, Logger } from '@nestjs/common';
+import { ClientProxy, EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
+import { Public } from '@alpha-mind/common';
 import { StrategyService } from './strategy.service';
 import { BacktestService } from './backtest.service';
 import {
@@ -10,6 +11,7 @@ import {
 } from './dto/strategy-query.dto';
 import { BacktestQueryDto } from './dto/backtest-query.dto';
 import { ScanBodyDto } from './dto/scan-query.dto';
+import { BACKEND_SERVICE } from '../rmq/rmq.module';
 
 function parseNumberOrDefault(value: string | undefined, defaultValue: number): number {
   if (value == null || value.trim() === '') {
@@ -22,9 +24,12 @@ function parseNumberOrDefault(value: string | undefined, defaultValue: number): 
 
 @Controller('strategies')
 export class StrategyController {
+  private readonly logger = new Logger(StrategyController.name);
+
   constructor(
     private readonly strategyService: StrategyService,
     private readonly backtestService: BacktestService,
+    @Inject(BACKEND_SERVICE) private readonly backendClient: ClientProxy,
   ) {}
 
   /** 사용 가능한 전략 목록 */
@@ -150,18 +155,50 @@ export class StrategyController {
     );
   }
 
-  /** 전 종목 스캔 — Top N 추출 (RMQ) */
-  @MessagePattern('strategy.scan')
-  scanStocksRmq(@Payload() body: ScanBodyDto) {
-    return this.backtestService.scanAllStocks(
-      body.excludeCodes ?? [],
-      body.topN ?? 10,
-      body.investmentAmount ?? 10_000_000,
-      body.tradeRatioPct ?? 10,
-      body.commissionPct ?? 0.015,
-      body.autoTakeProfitPct ?? 5,
-      body.autoStopLossPct ?? -3,
+  /**
+   * 전 종목 스캔 요청 (RMQ event, fire-and-forget)
+   * - 백엔드가 `strategy.scan.request` 이벤트를 emit하면 비동기로 처리
+   * - 완료/실패 결과는 `strategy.scan.completed` / `strategy.scan.failed` 이벤트로 백엔드에 통지
+   * - RPC 응답 대기 없이 실행되므로 긴 스캔이 RMQ heartbeat/채널을 블록하지 않는다
+   */
+  @Public()
+  @EventPattern('strategy.scan.request')
+  async handleScanRequest(
+    @Payload() body: ScanBodyDto & { userId: number; requestId: string },
+  ): Promise<void> {
+    const { userId, requestId } = body;
+    this.logger.log(
+      `scan.request 수신 userId=${userId} requestId=${requestId} exclude=${body.excludeCodes?.length ?? 0}`,
     );
+    try {
+      const response = await this.backtestService.scanAllStocks(
+        body.excludeCodes ?? [],
+        body.topN ?? 10,
+        body.investmentAmount ?? 10_000_000,
+        body.tradeRatioPct ?? 10,
+        body.commissionPct ?? 0.015,
+        body.autoTakeProfitPct ?? 5,
+        body.autoStopLossPct ?? -3,
+      );
+      this.backendClient.emit('strategy.scan.completed', {
+        userId,
+        requestId,
+        response,
+      });
+      this.logger.log(
+        `scan.completed 전송 userId=${userId} requestId=${requestId} results=${response.results.length}`,
+      );
+    } catch (err: any) {
+      const message = err?.message ?? String(err);
+      this.logger.error(
+        `scan.request 실패 userId=${userId} requestId=${requestId}: ${message}`,
+      );
+      this.backendClient.emit('strategy.scan.failed', {
+        userId,
+        requestId,
+        error: message,
+      });
+    }
   }
 
   /** 단일 종목 추천 전략 (RMQ) — 4개 전략 백테스트 후 최고 수익률 전략 반환 */

@@ -350,6 +350,11 @@ export class BacktestService {
           allResults.push(result.value);
         }
       }
+
+      // 배치 사이 이벤트 루프 yield — RMQ heartbeat/타이머가 실행될 틈을 보장한다.
+      // CPU-bound 백테스팅이 수초 이상 루프를 블록하면 heartbeat 미전송으로
+      // RabbitMQ 서버가 connection을 강제 종료할 수 있다.
+      await new Promise((resolve) => setImmediate(resolve));
     }
 
     // 5. 수익률 기준 정렬 후 Top N

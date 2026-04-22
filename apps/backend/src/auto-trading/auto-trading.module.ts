@@ -7,6 +7,7 @@ import { AutoTradingController } from './auto-trading.controller';
 import { AutoTradingService } from './auto-trading.service';
 import { AutoTradingGateway } from './auto-trading.gateway';
 import { ScheduledScannerService } from './scheduled-scanner.service';
+import { ScheduledScannerController } from './scheduled-scanner.controller';
 import { AutoTradingSessionEntity } from './entities/auto-trading-session.entity';
 
 @Module({
@@ -16,7 +17,7 @@ import { AutoTradingSessionEntity } from './entities/auto-trading-session.entity
     NotificationModule,
     MikroOrmModule.forFeature([AutoTradingSessionEntity]),
   ],
-  controllers: [AutoTradingController],
+  controllers: [AutoTradingController, ScheduledScannerController],
   providers: [AutoTradingService, AutoTradingGateway, ScheduledScannerService],
   exports: [AutoTradingService],
 })
