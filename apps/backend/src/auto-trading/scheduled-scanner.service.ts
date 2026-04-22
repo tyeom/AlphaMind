@@ -224,15 +224,16 @@ export class ScheduledScannerService {
    */
   private async isCurrentLockOwner(requestId: string): Promise<boolean> {
     try {
-      const rows = await this.em.getConnection().execute<
-        Array<{ owner: string }>
+      const rows = await this.em
+        .getConnection()
+        .execute<Array<{ owner: string }>>(
           `
           select "owner"
             from scheduled_job_locks
            where "job_name" = '${SCAN_JOB_NAME}'
              and "locked_until" > now();
         `,
-      );
+        );
       const currentOwner = rows[0]?.owner;
       if (currentOwner === this.lockOwner) {
         return true;
