@@ -226,8 +226,7 @@ export class ScheduledScannerService {
     try {
       const rows = await this.em.getConnection().execute<
         Array<{ owner: string }>
-      >(
-        `
+          `
           select "owner"
             from scheduled_job_locks
            where "job_name" = '${SCAN_JOB_NAME}'

@@ -169,6 +169,8 @@ export class AutoTradingSessionEntity {
   /** 실보유/매수대기 상태 — holdingQty 에서 파생, API 응답에만 포함 (DB 컬럼 없음) */
   @Property({ persist: false })
   get positionStatus(): PositionStatus {
-    return this.holdingQty > 0 ? PositionStatus.HOLDING : PositionStatus.WAITING;
+    return this.holdingQty > 0
+      ? PositionStatus.HOLDING
+      : PositionStatus.WAITING;
   }
 }
