@@ -52,6 +52,7 @@ import { UserEntity } from '../user/entities/user.entity';
 import { NotificationService } from '../notification/notification.service';
 import { NotificationType } from '../notification/entities/notification.entity';
 import { MARKET_DATA_SERVICE } from '../rmq/rmq.module';
+import { AiMeetingResultEntity } from '../ai-meeting-result/entities/ai-meeting-result.entity';
 
 const STRATEGY_MAP: Record<
   string,
@@ -611,8 +612,35 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
     // KIS 실잔고와 동기화 — 포지션 상태를 정확하게 반영
     await this.syncSessionsWithBalance(sessions);
+    await this.applyLatestAiMeetingScores(userId, sessions);
 
     return sessions;
+  }
+
+  /**
+   * 자동매매 세션 목록에 최신 AI 전문가 회의 점수를 덮어쓴다.
+   * - ai_meeting_results 의 최신 결과를 우선 사용해 목록/새로고침 이후에도 점수 버튼을 유지한다.
+   * - 응답용 보강이며 여기서 flush 하지는 않는다.
+   */
+  private async applyLatestAiMeetingScores(
+    userId: number,
+    sessions: AutoTradingSessionEntity[],
+  ): Promise<void> {
+    if (sessions.length === 0) return;
+
+    const stockCodes = Array.from(new Set(sessions.map((session) => session.stockCode)));
+    const results = await this.em.find(AiMeetingResultEntity, {
+      user: userId,
+      stockCode: { $in: stockCodes },
+    });
+    const scoreMap = new Map(results.map((result) => [result.stockCode, result.score]));
+
+    for (const session of sessions) {
+      const latestScore = scoreMap.get(session.stockCode);
+      if (latestScore !== undefined) {
+        session.aiScore = latestScore;
+      }
+    }
   }
 
   /**

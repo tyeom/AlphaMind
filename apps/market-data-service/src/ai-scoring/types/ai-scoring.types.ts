@@ -3,7 +3,7 @@ export interface AiScoreRequestItem {
   stockName: string;
   strategyId: string;
   strategyName: string;
-  totalReturnPct: number;
+  totalReturnPct?: number | null;
   sector?: string;
 }
 

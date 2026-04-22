@@ -125,6 +125,16 @@ function mergeSessions(
   return sortSessions(Array.from(merged.values()));
 }
 
+function upsertSessionAiScore(
+  items: AutoTradingSession[],
+  sessionId: number,
+  score: number,
+): AutoTradingSession[] {
+  return items.map((session) =>
+    session.id === sessionId ? { ...session, aiScore: score } : session,
+  );
+}
+
 function getLiveCurrentPrice(
   session: AutoTradingSession,
   prices: Map<string, number>,
@@ -677,6 +687,79 @@ function ManualOrderModal({
   );
 }
 
+function MonitoringMeetingProviderModal({
+  session,
+  selectedProvider,
+  agentStatuses,
+  onSelect,
+  onCancel,
+  onConfirm,
+}: {
+  session: AutoTradingSession;
+  selectedProvider: AiMeetingProvider;
+  agentStatuses: AgentStatuses | null;
+  onSelect: (provider: AiMeetingProvider) => void;
+  onCancel: () => void;
+  onConfirm: () => void;
+}) {
+  const providers: AiMeetingProvider[] = ['claude', 'gpt'];
+
+  return (
+    <div className="modal-overlay" onClick={onCancel}>
+      <div
+        className="modal-content monitoring-ai-provider-modal"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="modal-header">
+          <h3>
+            AI 회의 에이전트 선택 - {session.stockName} ({session.stockCode})
+          </h3>
+          <button className="btn btn-text modal-close" onClick={onCancel}>
+            닫기
+          </button>
+        </div>
+        <div className="modal-body">
+          <p className="text-muted modal-description">
+            자동 매매 모니터링에서 실행할 AI 전문가 회의 에이전트를 선택하세요.
+          </p>
+          <div className="meeting-provider-options">
+            {providers.map((provider) => {
+              const configured = agentStatuses?.[provider].configured ?? false;
+              const active = selectedProvider === provider;
+              return (
+                <button
+                  key={provider}
+                  className={`meeting-provider-option${active ? ' active' : ''}`}
+                  onClick={() => onSelect(provider)}
+                  disabled={!configured}
+                  title={
+                    configured
+                      ? undefined
+                      : `${provider === 'claude' ? 'Claude' : 'GPT'} 연동이 필요합니다`
+                  }
+                >
+                  <strong>{provider === 'claude' ? 'Claude' : 'GPT'}</strong>
+                  <small className="text-muted">
+                    {configured ? '사용 가능' : '미설정'}
+                  </small>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button className="btn btn-text" onClick={onCancel}>
+            취소
+          </button>
+          <button className="btn btn-primary" onClick={onConfirm}>
+            AI 회의 시작
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function AiScanner() {
   const [searchParams] = useSearchParams();
   const [step, setStep] = useState<Step>('idle');
@@ -736,11 +819,18 @@ export function AiScanner() {
   const [meetingResultCache, setMeetingResultCache] = useState<
     Map<string, AiMeetingResult>
   >(new Map());
+  const [monitoringMeetingModalSession, setMonitoringMeetingModalSession] =
+    useState<AutoTradingSession | null>(null);
+  const [monitoringMeetingModalProvider, setMonitoringMeetingModalProvider] =
+    useState<AiMeetingProvider>('claude');
   const [agentStatuses, setAgentStatuses] = useState<AgentStatuses | null>(
     null,
   );
   const [meetingProvider, setMeetingProvider] =
     useState<AiMeetingProvider>('claude');
+  const [monitoringMeetingSessionId, setMonitoringMeetingSessionId] = useState<number | null>(null);
+  const [monitoringMeetingProgress, setMonitoringMeetingProgress] = useState<SseProgress | null>(null);
+  const monitoringMeetingAbortRef = useRef<(() => void) | null>(null);
 
   const [, setAiSessionId] = useState<string | null>(null);
   const seededPriceStockCodesRef = useRef<Set<string>>(new Set());
@@ -1091,6 +1181,23 @@ export function AiScanner() {
     [],
   );
 
+  const openMeetingResult = useCallback(async (stockCode: string) => {
+    const cached = meetingResultCache.get(stockCode);
+    if (cached) {
+      setMeetingResultModal(cached);
+      return;
+    }
+    try {
+      const result = await getAiMeetingResult(stockCode);
+      if (result) {
+        setMeetingResultCache((prev) => new Map(prev).set(stockCode, result));
+        setMeetingResultModal(result);
+      }
+    } catch {
+      /* ignore */
+    }
+  }, [meetingResultCache]);
+
   const openMonitoring = useCallback(async () => {
     const list = await getSessions();
     setSessions(sortSessions(list));
@@ -1424,6 +1531,109 @@ export function AiScanner() {
     }
   };
 
+  const handleOpenMonitoringAiMeetingModal = async (
+    session: AutoTradingSession,
+  ) => {
+    if (monitoringMeetingSessionId === session.id) {
+      monitoringMeetingAbortRef.current?.();
+      return;
+    }
+    setError('');
+    const latestStatuses = agentStatuses ?? (await fetchAgentStatuses());
+    const configuredProviders = (['claude', 'gpt'] as const).filter(
+      (provider) => latestStatuses?.[provider].configured,
+    );
+    if (configuredProviders.length === 0) {
+      setError(
+        'AI 전문가 회의를 시작하려면 Claude 또는 GPT 연동 설정을 먼저 완료해주세요.',
+      );
+      return;
+    }
+    const provider = latestStatuses?.[meetingProvider].configured
+      ? meetingProvider
+      : configuredProviders[0];
+    setMonitoringMeetingModalProvider(provider);
+    setMonitoringMeetingModalSession(session);
+  };
+
+  const handleMonitoringAiMeeting = async (
+    session: AutoTradingSession,
+    provider: AiMeetingProvider,
+  ) => {
+    setError('');
+    try {
+      setMeetingProvider(provider);
+      setMonitoringMeetingModalSession(null);
+      setMonitoringMeetingSessionId(session.id);
+      setMonitoringMeetingProgress(null);
+      const { sessionId } = await startAiSession(
+        [
+          {
+            stockCode: session.stockCode,
+            stockName: session.stockName,
+            totalReturnPct: null,
+            strategyId: session.strategyId,
+            strategyName: STRATEGY_NAMES[session.strategyId] || session.strategyId,
+          },
+        ],
+        provider,
+      );
+      const abort = streamAiSession(sessionId, {
+        onProgress: (progress) => setMonitoringMeetingProgress(progress),
+        onScore: (score) => {
+          setSessions((prev) => upsertSessionAiScore(prev, session.id, score.score));
+        },
+        onDone: async () => {
+          monitoringMeetingAbortRef.current = null;
+          setMonitoringMeetingProgress(null);
+          setMonitoringMeetingSessionId(null);
+          createMeetingNotification('completed');
+          try {
+            const list = await getSessions();
+            setSessions(sortSessions(list));
+          } catch { /* ignore */ }
+          try {
+            const result = await getAiMeetingResult(session.stockCode);
+            if (result) {
+              setSessions((prev) =>
+                upsertSessionAiScore(prev, session.id, result.score),
+              );
+              setMeetingResultCache((prev) =>
+                new Map(prev).set(session.stockCode, result),
+              );
+              setMeetingResultModal(result);
+            }
+          } catch { /* ignore */ }
+        },
+        onCancelled: () => {
+          monitoringMeetingAbortRef.current = null;
+          setMonitoringMeetingProgress(null);
+          setMonitoringMeetingSessionId(null);
+          createMeetingNotification('cancelled');
+        },
+        onError: (message) => {
+          monitoringMeetingAbortRef.current = null;
+          setMonitoringMeetingProgress(null);
+          setMonitoringMeetingSessionId(null);
+          setError(message || 'AI 전문가 회의 중 오류가 발생했습니다.');
+        },
+      });
+      monitoringMeetingAbortRef.current = () => {
+        abort();
+        cancelAiSession(sessionId)
+          .then(() => createMeetingNotification('cancelled'))
+          .catch(() => {});
+        setMonitoringMeetingProgress(null);
+        setMonitoringMeetingSessionId(null);
+        monitoringMeetingAbortRef.current = null;
+      };
+    } catch (err: any) {
+      setMonitoringMeetingModalSession(null);
+      setMonitoringMeetingSessionId(null);
+      setError(err.message || 'AI 세션 시작에 실패했습니다.');
+    }
+  };
+
   const handleStartTrading = () => {
     setError('');
     const selectedResults = scanResults.filter((r) =>
@@ -1722,6 +1932,22 @@ export function AiScanner() {
         <AiMeetingResultModal
           result={meetingResultModal}
           onClose={() => setMeetingResultModal(null)}
+        />
+      )}
+
+      {monitoringMeetingModalSession && (
+        <MonitoringMeetingProviderModal
+          session={monitoringMeetingModalSession}
+          selectedProvider={monitoringMeetingModalProvider}
+          agentStatuses={agentStatuses}
+          onSelect={setMonitoringMeetingModalProvider}
+          onCancel={() => setMonitoringMeetingModalSession(null)}
+          onConfirm={() =>
+            void handleMonitoringAiMeeting(
+              monitoringMeetingModalSession,
+              monitoringMeetingModalProvider,
+            )
+          }
         />
       )}
 
@@ -2572,6 +2798,8 @@ export function AiScanner() {
                   </tr>
                 )}
                 {sessions.map((s) => {
+                  const cachedMeetingResult = meetingResultCache.get(s.stockCode);
+                  const meetingScore = s.aiScore ?? cachedMeetingResult?.score;
                   const cp = getLiveCurrentPrice(s, prices);
                   const unr = getLiveUnrealizedPnl(s, cp);
                   const rowToneClass = getLiveRowToneClass(s, unr);
@@ -2660,31 +2888,26 @@ export function AiScanner() {
                         {fmt(Number(s.realizedPnl))}원
                       </td>
                       <td>
-                        {s.aiScore ? (
+                        {monitoringMeetingSessionId === s.id ? (
+                          <div className="ai-meeting-running">
+                            <div className="spinner spinner-sm" />
+                            {monitoringMeetingProgress && (
+                              <small className="text-muted">
+                                {monitoringMeetingProgress.phase === 'phase1'
+                                  ? 'P1'
+                                  : monitoringMeetingProgress.phase === 'phase2'
+                                    ? 'P2'
+                                    : 'P3'}
+                              </small>
+                            )}
+                          </div>
+                        ) : meetingScore != null ? (
                           <button
-                            className={`ai-score-btn ${s.aiScore >= 7 ? 'score-high' : s.aiScore >= 4 ? 'score-mid' : 'score-low'}`}
+                            className={`ai-score-btn ${meetingScore >= 7 ? 'score-high' : meetingScore >= 4 ? 'score-mid' : 'score-low'}`}
                             title="AI 전문가 회의 결과 보기"
-                            onClick={() => {
-                              const cached = meetingResultCache.get(
-                                s.stockCode,
-                              );
-                              if (cached) {
-                                setMeetingResultModal(cached);
-                              } else {
-                                getAiMeetingResult(s.stockCode)
-                                  .then((r) => {
-                                    if (r) {
-                                      setMeetingResultCache((prev) =>
-                                        new Map(prev).set(s.stockCode, r),
-                                      );
-                                      setMeetingResultModal(r);
-                                    }
-                                  })
-                                  .catch(() => {});
-                              }
-                            }}
+                            onClick={() => openMeetingResult(s.stockCode)}
                           >
-                            {s.aiScore.toFixed(1)}
+                            {meetingScore.toFixed(1)}
                           </button>
                         ) : (
                           '-'
@@ -2704,6 +2927,25 @@ export function AiScanner() {
                               onClick={() => setEditSession(s)}
                             >
                               수정
+                            </button>
+                            <button
+                              className="btn btn-sm btn-ai-meeting"
+                              onClick={() =>
+                                void handleOpenMonitoringAiMeetingModal(s)
+                              }
+                              disabled={
+                                monitoringMeetingSessionId !== null &&
+                                monitoringMeetingSessionId !== s.id
+                              }
+                              title={
+                                monitoringMeetingSessionId === s.id
+                                  ? 'AI 전문가 회의 중단'
+                                  : '이 종목에 대해 AI 전문가 회의를 진행합니다'
+                              }
+                            >
+                              {monitoringMeetingSessionId === s.id
+                                ? '중단'
+                                : 'AI 회의'}
                             </button>
                             <button
                               className="btn btn-sm btn-warning"
@@ -2744,6 +2986,25 @@ export function AiScanner() {
                               onClick={() => setEditSession(s)}
                             >
                               수정
+                            </button>
+                            <button
+                              className="btn btn-sm btn-ai-meeting"
+                              onClick={() =>
+                                void handleOpenMonitoringAiMeetingModal(s)
+                              }
+                              disabled={
+                                monitoringMeetingSessionId !== null &&
+                                monitoringMeetingSessionId !== s.id
+                              }
+                              title={
+                                monitoringMeetingSessionId === s.id
+                                  ? 'AI 전문가 회의 중단'
+                                  : '이 종목에 대해 AI 전문가 회의를 진행합니다'
+                              }
+                            >
+                              {monitoringMeetingSessionId === s.id
+                                ? '중단'
+                                : 'AI 회의'}
                             </button>
                             <button
                               className="btn btn-sm btn-primary"

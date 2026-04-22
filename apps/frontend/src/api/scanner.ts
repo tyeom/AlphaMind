@@ -48,13 +48,21 @@ export interface AiScoreStreamCallbacks {
   onCancelled?: (info: { elapsedMs: number; completedCount: number }) => void;
 }
 
+export interface AiSessionStock {
+  stockCode: string;
+  stockName: string;
+  totalReturnPct?: number | null;
+  strategyName: string;
+  strategyId?: string;
+}
+
 /**
  * SSE로 AI 점수를 스트리밍 수신합니다.
  * 종목별로 완료될 때마다 onScore가 호출됩니다.
  * 반환값: abort 함수
  */
 export async function startAiSession(
-  stocks: { stockCode: string; stockName: string; totalReturnPct: number; strategyName: string; strategyId?: string }[],
+  stocks: AiSessionStock[],
   provider: AiMeetingProvider,
 ): Promise<{ sessionId: string }> {
   const res = await fetch(`${MARKET_API}/ai-scoring/session/start`, {
@@ -176,7 +184,7 @@ export function streamAiSession(
 }
 
 export function streamAiScores(
-  stocks: { stockCode: string; stockName: string; totalReturnPct: number; strategyName: string; strategyId?: string }[],
+  stocks: AiSessionStock[],
   callbacks: AiScoreStreamCallbacks,
 ): () => void {
   const controller = new AbortController();

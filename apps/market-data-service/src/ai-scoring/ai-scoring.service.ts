@@ -333,6 +333,7 @@ export class AiScoringService {
     signal?: AbortSignal,
     provider: AiMeetingProvider = 'claude',
   ): Promise<{ newsData: NewsAgentResult; chartData: ChartAgentResult }> {
+    const backtestSummary = this.formatBacktestSummary(item);
     const today = new Date();
     const fmt = (d: Date) => d.toISOString().split('T')[0];
     const threeDaysAgo = new Date(today); threeDaysAgo.setDate(today.getDate() - 3);
@@ -373,7 +374,7 @@ sentimentScore: -1.0(매우 부정) ~ 1.0(매우 긍정)`;
 
 종목: ${item.stockName} (${item.stockCode})
 섹터: ${item.sector || '미분류'}
-백테스트 결과: ${item.strategyName} 전략 3개월 수익률 ${item.totalReturnPct}%
+${backtestSummary}
 
 차트 데이터 (최근 3개월):
 ${chartSummary}
@@ -532,11 +533,12 @@ confidence: 0.0(확신 없음) ~ 1.0(매우 확신)`;
     signal?: AbortSignal,
     provider: AiMeetingProvider = 'claude',
   ): Promise<MeetingConclusion> {
+    const backtestSummary = this.formatBacktestSummary(item, '백테스트 수익률');
     const meetingPrompt = `당신은 투자위원회 의장입니다. 두 전문가의 분석을 종합하여 최종 투자 결정을 내려야 합니다.
 
 ═══ 종목 정보 ═══
 종목: ${item.stockName} (${item.stockCode})
-백테스트 수익률: ${item.totalReturnPct}%
+${backtestSummary}
 
 ═══ 수집된 데이터 ═══
 뉴스 감성: ${newsData.sentiment} (${newsData.sentimentScore})
@@ -605,10 +607,11 @@ finalScore: 1.00(강력 매도) ~ 10.00(강력 매수)`;
     newsData: NewsAgentResult,
     chartData: ChartAgentResult,
   ): string {
+    const backtestSummary = this.formatBacktestSummary(item, '백테스트');
     return `═══ 종목 정보 ═══
 종목: ${item.stockName} (${item.stockCode})
 섹터: ${item.sector || '미분류'}
-백테스트: ${item.strategyName} 전략, 3개월 수익률 ${item.totalReturnPct}%
+${backtestSummary}
 
 ═══ 차트 데이터 (최근 3개월) ═══
 ${chartSummary}
@@ -654,6 +657,16 @@ ${newsData.newsHighlights.map((n, i) => `  ${i + 1}. ${n}`).join('\n')}
     return provider === 'gpt'
       ? spawnParallelGptAgents(agents, onAgentProgress, signal)
       : spawnParallelAgents(agents, onAgentProgress, signal);
+  }
+
+  private formatBacktestSummary(
+    item: AiScoreRequestItem,
+    label = '백테스트 결과',
+  ): string {
+    if (item.totalReturnPct == null || !Number.isFinite(item.totalReturnPct)) {
+      return `${label}: ${item.strategyName} 전략 수익률 정보 없음`;
+    }
+    return `${label}: ${item.strategyName} 전략 3개월 수익률 ${item.totalReturnPct}%`;
   }
 
   /** 회의 실패 시 두 전문가 점수의 가중 평균으로 폴백 */
