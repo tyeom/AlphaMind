@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { Cron } from '@nestjs/schedule';
 import { ClientProxy } from '@nestjs/microservices';
 import { EntityManager } from '@mikro-orm/postgresql';
+import { firstValueFrom } from 'rxjs';
 import {
   AutoTradingSessionEntity,
   PauseReason,
@@ -23,6 +24,7 @@ const SESSION_TAKE_PROFIT_PCT = 1.3;
 const SESSION_STOP_LOSS_PCT = -2;
 const SCAN_JOB_NAME = 'scheduled-ai-scan';
 const SCAN_LOCK_TTL_MINUTES = 30;
+const SCAN_RESULT_CLAIM_TTL_MINUTES = 5;
 
 interface ScanResult {
   stockCode: string;
@@ -53,7 +55,7 @@ export interface ScanFailedEvent {
 @Injectable()
 export class ScheduledScannerService {
   private readonly logger = new Logger(ScheduledScannerService.name);
-  private readonly lockOwner = `${process.pid}:${Math.random().toString(36).slice(2, 10)}`;
+  private readonly handlerInstanceId = `${process.pid}:${Math.random().toString(36).slice(2, 10)}`;
 
   constructor(
     private readonly configService: ConfigService,
@@ -90,7 +92,9 @@ export class ScheduledScannerService {
       return { triggered: false, reason: 'no_user_id' };
     }
 
-    const locked = await this.acquireScanLock();
+    // requestId를 락 owner로 사용해 완료/실패 이벤트와 DB 락을 직접 매칭한다.
+    const requestId = randomUUID();
+    const locked = await this.acquireScanLock(requestId);
     if (!locked) {
       return { triggered: false, reason: 'already_running' };
     }
@@ -98,21 +102,21 @@ export class ScheduledScannerService {
     this.logger.log(`예약 스캔 트리거 (source=${source})`);
 
     try {
-      await this.requestScan(userId);
+      await this.requestScan(userId, requestId);
       return { triggered: true, userId };
     } catch (err: any) {
       this.logger.error(`예약 스캔 요청 실패: ${err.message ?? err}`);
-      await this.releaseScanLock();
+      await this.releaseScanLock(requestId, requestId);
       throw err;
     }
   }
 
   /**
-   * 예약 스캔 요청 단계 — cleanup + market-data-service로 스캔 이벤트 emit (fire-and-forget).
+   * 예약 스캔 요청 단계 — cleanup + market-data-service로 스캔 이벤트 publish.
    * 실제 후처리(resume/start)는 {@link handleScanCompleted}가 완료 이벤트 수신 시 수행한다.
    * 락은 완료/실패 이벤트 수신 시점 또는 TTL(30분)으로 해제된다.
    */
-  private async requestScan(userId: number): Promise<void> {
+  private async requestScan(userId: number, requestId: string): Promise<void> {
     this.logger.log(`예약 스캔 요청 시작 (userId=${userId})`);
 
     const cleanup =
@@ -147,16 +151,18 @@ export class ScheduledScannerService {
       ),
     );
 
-    const requestId = randomUUID();
-    this.marketDataClient.emit('strategy.scan.request', {
-      userId,
-      requestId,
-      excludeCodes: activeCodes,
-      topN: SCAN_TOP_N,
-      investmentAmount: SCAN_INVESTMENT_AMOUNT,
-      autoTakeProfitPct: SCAN_AUTO_TAKE_PROFIT_PCT,
-      autoStopLossPct: SCAN_AUTO_STOP_LOSS_PCT,
-    });
+    await firstValueFrom(
+      this.marketDataClient.emit('strategy.scan.request', {
+        userId,
+        requestId,
+        excludeCodes: activeCodes,
+        topN: SCAN_TOP_N,
+        investmentAmount: SCAN_INVESTMENT_AMOUNT,
+        autoTakeProfitPct: SCAN_AUTO_TAKE_PROFIT_PCT,
+        autoStopLossPct: SCAN_AUTO_STOP_LOSS_PCT,
+      }),
+      { defaultValue: undefined },
+    );
 
     this.logger.log(
       `예약 스캔 이벤트 emit 완료 — requestId=${requestId} exclude=${activeCodes.length}건, 완료 이벤트 대기`,
@@ -174,7 +180,8 @@ export class ScheduledScannerService {
       `scan.completed 수신 userId=${userId} requestId=${requestId} results=${response.results.length}`,
     );
 
-    if (!(await this.isCurrentLockOwner(requestId))) {
+    const claimedOwner = await this.claimResultHandlingLock(requestId);
+    if (!claimedOwner) {
       return;
     }
 
@@ -183,7 +190,7 @@ export class ScheduledScannerService {
     } catch (err: any) {
       this.logger.error(`예약 스캔 후처리 실패: ${err.message ?? err}`);
     } finally {
-      await this.releaseScanLock();
+      await this.releaseScanLock(claimedOwner, requestId);
     }
   }
 
@@ -194,7 +201,8 @@ export class ScheduledScannerService {
       `scan.failed 수신 userId=${userId} requestId=${requestId} error=${error}`,
     );
 
-    if (!(await this.isCurrentLockOwner(requestId))) {
+    const claimedOwner = await this.claimResultHandlingLock(requestId);
+    if (!claimedOwner) {
       return;
     }
 
@@ -214,40 +222,54 @@ export class ScheduledScannerService {
     } catch (err: any) {
       this.logger.warn(`스캔 실패 알림 생성 실패: ${err.message ?? err}`);
     } finally {
-      await this.releaseScanLock();
+      await this.releaseScanLock(claimedOwner, requestId);
     }
   }
 
   /**
-   * scan 완료/실패 이벤트는 모든 backend 인스턴스가 수신하므로
-   * 실제 락 owner 인스턴스만 후처리를 진행한다.
+   * 완료/실패 이벤트는 여러 backend 인스턴스가 동시에 받을 수 있으므로
+   * owner=requestId 상태를 원자적으로 handling owner로 바꾸는 인스턴스만 후처리한다.
+   * 오래 걸린 스캔의 완료 이벤트도 새 요청이 owner를 덮어쓰기 전까지는 처리할 수 있어야 하므로
+   * locked_until 대신 owner(requestId) 일치 여부를 claim 기준으로 사용한다.
    */
-  private async isCurrentLockOwner(requestId: string): Promise<boolean> {
+  private async claimResultHandlingLock(
+    requestId: string,
+  ): Promise<string | null> {
+    const claimedOwner = `handling:${requestId}:${this.handlerInstanceId}`;
+
     try {
       const rows = await this.em
         .getConnection()
-        .execute<Array<{ owner: string }>>(
+        .execute<Array<{ job_name: string }>>(
           `
-          select "owner"
-            from scheduled_job_locks
+          update scheduled_job_locks
+             set "owner" = '${claimedOwner}',
+                 "locked_until" = greatest(
+                   "locked_until",
+                   now() + interval '${SCAN_RESULT_CLAIM_TTL_MINUTES} minutes'
+                 ),
+                 "updated_at" = now()
            where "job_name" = '${SCAN_JOB_NAME}'
-             and "locked_until" > now();
+             and "owner" = '${requestId}'
+         returning "job_name";
         `,
         );
-      const currentOwner = rows[0]?.owner;
-      if (currentOwner === this.lockOwner) {
-        return true;
+      if (rows.length > 0) {
+        this.logger.log(
+          `scan 이벤트 후처리 claim 성공 requestId=${requestId} owner=${claimedOwner}`,
+        );
+        return claimedOwner;
       }
 
       this.logger.log(
-        `scan 이벤트 후처리 스킵 requestId=${requestId} owner=${currentOwner ?? 'none'} current=${this.lockOwner}`,
+        `scan 이벤트 후처리 스킵 requestId=${requestId} (이미 처리 중이거나 다른 요청이 락을 점유 중)`,
       );
-      return false;
+      return null;
     } catch (err: any) {
       this.logger.warn(
-        `scan 이벤트 owner 확인 실패 requestId=${requestId}: ${err.message ?? err}`,
+        `scan 이벤트 claim 실패 requestId=${requestId}: ${err.message ?? err}`,
       );
-      return false;
+      return null;
     }
   }
 
@@ -360,11 +382,11 @@ export class ScheduledScannerService {
     );
   }
 
-  private async acquireScanLock(): Promise<boolean> {
+  private async acquireScanLock(requestId: string): Promise<boolean> {
     const rows = await this.em.getConnection().execute<{ job_name: string }[]>(
       `
         insert into scheduled_job_locks ("job_name", "locked_until", "owner", "updated_at")
-        values ('${SCAN_JOB_NAME}', now() + interval '${SCAN_LOCK_TTL_MINUTES} minutes', '${this.lockOwner}', now())
+        values ('${SCAN_JOB_NAME}', now() + interval '${SCAN_LOCK_TTL_MINUTES} minutes', '${requestId}', now())
         on conflict ("job_name") do update
           set "locked_until" = excluded."locked_until",
               "owner" = excluded."owner",
@@ -376,15 +398,23 @@ export class ScheduledScannerService {
     return rows.length > 0;
   }
 
-  private async releaseScanLock(): Promise<void> {
+  private createReleasedLockOwner(requestId: string): string {
+    return `released:${requestId}`;
+  }
+
+  private async releaseScanLock(
+    lockOwner: string,
+    requestId: string,
+  ): Promise<void> {
     try {
       await this.em.getConnection().execute(
         `
           update scheduled_job_locks
              set "locked_until" = now(),
+                 "owner" = '${this.createReleasedLockOwner(requestId)}',
                  "updated_at" = now()
            where "job_name" = '${SCAN_JOB_NAME}'
-             and "owner" = '${this.lockOwner}';
+             and "owner" = '${lockOwner}';
         `,
       );
     } catch (err: any) {

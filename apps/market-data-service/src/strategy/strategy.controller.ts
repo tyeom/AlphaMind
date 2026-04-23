@@ -1,6 +1,21 @@
-import { Controller, Get, Post, Body, Param, Query, Inject, Logger } from '@nestjs/common';
-import { ClientProxy, EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Query,
+  Inject,
+  Logger,
+} from '@nestjs/common';
+import {
+  ClientProxy,
+  EventPattern,
+  MessagePattern,
+  Payload,
+} from '@nestjs/microservices';
 import { Public } from '@alpha-mind/common';
+import { firstValueFrom } from 'rxjs';
 import { StrategyService } from './strategy.service';
 import { BacktestService } from './backtest.service';
 import {
@@ -13,7 +28,10 @@ import { BacktestQueryDto } from './dto/backtest-query.dto';
 import { ScanBodyDto } from './dto/scan-query.dto';
 import { BACKEND_SERVICE } from '../rmq/rmq.module';
 
-function parseNumberOrDefault(value: string | undefined, defaultValue: number): number {
+function parseNumberOrDefault(
+  value: string | undefined,
+  defaultValue: number,
+): number {
   if (value == null || value.trim() === '') {
     return defaultValue;
   }
@@ -104,8 +122,12 @@ export class StrategyController {
       ...(query.totalAmount && { totalAmount: parseFloat(query.totalAmount) }),
       ...(query.maxRounds && { maxRounds: parseInt(query.maxRounds) }),
       ...(query.roundPct && { roundPct: parseFloat(query.roundPct) }),
-      ...(query.dipTriggerPct && { dipTriggerPct: parseFloat(query.dipTriggerPct) }),
-      ...(query.takeProfitPct && { takeProfitPct: parseFloat(query.takeProfitPct) }),
+      ...(query.dipTriggerPct && {
+        dipTriggerPct: parseFloat(query.dipTriggerPct),
+      }),
+      ...(query.takeProfitPct && {
+        takeProfitPct: parseFloat(query.takeProfitPct),
+      }),
     });
   }
 
@@ -180,11 +202,14 @@ export class StrategyController {
         body.autoTakeProfitPct ?? 5,
         body.autoStopLossPct ?? -3,
       );
-      this.backendClient.emit('strategy.scan.completed', {
-        userId,
-        requestId,
-        response,
-      });
+      await firstValueFrom(
+        this.backendClient.emit('strategy.scan.completed', {
+          userId,
+          requestId,
+          response,
+        }),
+        { defaultValue: undefined },
+      );
       this.logger.log(
         `scan.completed 전송 userId=${userId} requestId=${requestId} results=${response.results.length}`,
       );
@@ -193,11 +218,20 @@ export class StrategyController {
       this.logger.error(
         `scan.request 실패 userId=${userId} requestId=${requestId}: ${message}`,
       );
-      this.backendClient.emit('strategy.scan.failed', {
-        userId,
-        requestId,
-        error: message,
-      });
+      try {
+        await firstValueFrom(
+          this.backendClient.emit('strategy.scan.failed', {
+            userId,
+            requestId,
+            error: message,
+          }),
+          { defaultValue: undefined },
+        );
+      } catch (notifyErr: any) {
+        this.logger.error(
+          `scan.failed 전송 실패 userId=${userId} requestId=${requestId}: ${notifyErr?.message ?? notifyErr}`,
+        );
+      }
     }
   }
 
@@ -222,14 +256,14 @@ export class StrategyController {
 
   /** 백테스팅 */
   @Get(':code/backtest')
-  runBacktest(
-    @Param('code') code: string,
-    @Query() query: BacktestQueryDto,
-  ) {
+  runBacktest(@Param('code') code: string, @Query() query: BacktestQueryDto) {
     return this.backtestService.runBacktest(code, {
       strategyId: query.strategyId,
       variant: query.variant,
-      investmentAmount: parseNumberOrDefault(query.investmentAmount, 10_000_000),
+      investmentAmount: parseNumberOrDefault(
+        query.investmentAmount,
+        10_000_000,
+      ),
       tradeRatioPct: parseNumberOrDefault(query.tradeRatioPct, 10),
       commissionPct: parseNumberOrDefault(query.commissionPct, 0.015),
       autoTakeProfitPct: parseNumberOrDefault(query.autoTakeProfitPct, 5),
