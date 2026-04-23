@@ -72,11 +72,12 @@ const STRATEGY_MAP: Record<
 };
 
 /** 기본 익절/손절/매매비율 — 세션에 값이 없을 때만 사용 */
-const DEFAULT_TAKE_PROFIT_PCT = 5;
+const DEFAULT_TAKE_PROFIT_PCT = 2;
 const DEFAULT_STOP_LOSS_PCT = -3;
 const DEFAULT_STRATEGY_ID = 'day-trading';
 const TRADE_RATIO_PCT = 10;
 const PRICE_POLL_INTERVAL_MS = 5_000;
+const PRICE_TRIGGERED_SELL_CHECK_DEBOUNCE_MS = 1_000;
 const SUBSCRIPTION_RETRY_BASE_DELAY_MS = 5_000;
 const SUBSCRIPTION_RETRY_MAX_DELAY_MS = 60_000;
 const SCHEDULED_CLEANUP_BALANCE_MAX_ATTEMPTS = 2;
@@ -112,6 +113,25 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   >();
   /** 기타 구독 실패 재시도 횟수 */
   private subscriptionRetryAttempts = new Map<string, number>();
+  /** 현재가 기반 익절/손절 검사 디바운스 타이머 */
+  private priceTriggeredSellCheckTimers = new Map<
+    string,
+    ReturnType<typeof setTimeout>
+  >();
+  /** 현재가 기반 익절/손절 검사 중복 실행 방지 */
+  private priceTriggeredSellCheckInFlight = new Set<string>();
+  /**
+   * 보유 수량이 있는 ACTIVE 세션의 stockCode 캐시.
+   * 현재가 기반 익절/손절 트리거 판단에 사용해 보유 없는 종목의 DB 조회를 피한다.
+   * 30초 루프의 잔고 동기화 직후 전체 재계산되며, 매수 이벤트 시 즉시 add 된다.
+   */
+  private holdingStockCodes = new Set<string>();
+  /**
+   * 매도 주문 접수가 진행 중인 세션 ID.
+   * 동일 세션에 대해 실시간 트리거와 30초 루프가 동시에 executeSell 을
+   * 호출해 이중 매도되는 것을 막기 위한 프로세스 내 락.
+   */
+  private sellInFlightSessionIds = new Set<number>();
 
   private gateway?: import('./auto-trading.gateway').AutoTradingGateway;
 
@@ -191,6 +211,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     session.holdingQty += qty;
     session.avgBuyPrice = totalCost / session.holdingQty;
     session.totalBuys += 1;
+    if (session.holdingQty > 0) {
+      this.holdingStockCodes.add(session.stockCode);
+    }
   }
 
   private applyOptimisticSellFill(
@@ -213,11 +236,11 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   private async getOpenOrderMap(
     sessions: AutoTradingSessionEntity[],
   ): Promise<Map<string, TradeHistoryEntity[]>> {
-    const stockCodes = [...new Set(sessions.map((session) => session.stockCode))];
+    const stockCodes = [
+      ...new Set(sessions.map((session) => session.stockCode)),
+    ];
     const userIds = [
-      ...new Set(
-        sessions.map((session) => this.getEntityUserId(session.user)),
-      ),
+      ...new Set(sessions.map((session) => this.getEntityUserId(session.user))),
     ].filter((id) => Number.isFinite(id));
 
     if (stockCodes.length === 0 || userIds.length === 0) {
@@ -276,6 +299,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     options?: { volume?: number; broadcast?: boolean },
   ) {
     this.latestPrices.set(stockCode, price);
+    this.schedulePriceTriggeredSellCheck(stockCode);
 
     if (options?.broadcast && this.activeStockCodes.has(stockCode)) {
       this.gateway?.broadcastPriceUpdate({
@@ -303,6 +327,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     for (const s of activeSessions) {
       this.activeStockCodes.add(s.stockCode);
     }
+    this.refreshHoldingStockCodes(activeSessions);
     if (activeSessions.length > 0) {
       this.logger.log(`활성 자동매매 세션 ${activeSessions.length}개 복원`);
       this.startMonitoring(activeSessions);
@@ -628,12 +653,16 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   ): Promise<void> {
     if (sessions.length === 0) return;
 
-    const stockCodes = Array.from(new Set(sessions.map((session) => session.stockCode)));
+    const stockCodes = Array.from(
+      new Set(sessions.map((session) => session.stockCode)),
+    );
     const results = await this.em.find(AiMeetingResultEntity, {
       user: userId,
       stockCode: { $in: stockCodes },
     });
-    const scoreMap = new Map(results.map((result) => [result.stockCode, result.score]));
+    const scoreMap = new Map(
+      results.map((result) => [result.stockCode, result.score]),
+    );
 
     for (const session of sessions) {
       const latestScore = scoreMap.get(session.stockCode);
@@ -986,6 +1015,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     const sessions = await this.em.find(AutoTradingSessionEntity, {
       status: SessionStatus.ACTIVE,
     });
+    await this.syncSessionsWithBalance(sessions);
+    this.refreshHoldingStockCodes(sessions);
     await this.reconcilePendingAutoPauses(sessions);
     const openOrders = await this.getOpenOrderMap(sessions);
 
@@ -1000,25 +1031,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
         // 보유 중이면 익절/손절 체크 (세션별 목표 수익/손절 기준)
         if (session.holdingQty > 0 && session.avgBuyPrice > 0) {
-          const returnPct =
-            ((price - session.avgBuyPrice) / session.avgBuyPrice) * 100;
-
-          if (returnPct >= session.takeProfitPct) {
-            await this.executeSell(
-              session,
-              price,
-              `자동 익절 (${returnPct.toFixed(1)}%)`,
-            );
-            continue;
-          }
-          if (returnPct <= session.stopLossPct) {
-            await this.executeSell(
-              session,
-              price,
-              `자동 손절 (${returnPct.toFixed(1)}%)`,
-            );
-            continue;
-          }
+          const sold = await this.evaluateAndExecuteSell(session, price);
+          if (sold) continue;
 
           // 미실현 손익 갱신
           session.unrealizedPnl = Math.round(
@@ -1235,66 +1249,75 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     reason: string,
   ) {
     if (session.holdingQty <= 0) return;
-    const trackingReady = await this.ensureOrderNotificationTrackingReady();
-    if (!trackingReady) {
-      await this.warnOrderTrackingUnavailable(session);
-    }
+    if (session.autoPausePending) return;
+    if (this.sellInFlightSessionIds.has(session.id)) return;
 
-    this.logger.log(
-      `매도 실행: ${session.stockCode} ${session.holdingQty}주 @ ${price} (${reason})`,
-    );
-
+    this.sellInFlightSessionIds.add(session.id);
     try {
-      const result = await this.kisOrderService.orderCash({
-        stockCode: session.stockCode,
-        orderType: 'sell',
-        orderDvsn: '01', // 시장가
-        quantity: session.holdingQty,
-        price: 0,
-        userId: session.user.id,
-        metadata: {
-          sessionId: session.id,
-          source: 'auto-sell',
-          reason,
-          pauseAfterSell: true,
-          trackingMode: trackingReady ? 'notification' : 'optimistic-fallback',
-        },
-      });
-
-      if (result.rt_cd !== '0') {
-        this.logger.error(
-          `매도 주문 거부: ${session.stockCode} - ${result.msg1}`,
-        );
-        return;
+      const trackingReady = await this.ensureOrderNotificationTrackingReady();
+      if (!trackingReady) {
+        await this.warnOrderTrackingUnavailable(session);
       }
 
       this.logger.log(
-        `매도 주문 접수: ${session.stockCode} ${session.holdingQty}주 (${reason}) ` +
-          `(주문번호 ${result.output?.ODNO ?? 'N/A'})`,
+        `매도 실행: ${session.stockCode} ${session.holdingQty}주 @ ${price} (${reason})`,
       );
-      session.autoPausePending = true;
-      session.pauseReason = undefined;
-      if (!trackingReady) {
-        const sellQty = session.holdingQty;
-        const pnl = this.applyOptimisticSellFill(session, price, sellQty);
-        await this.em.flush();
-        this.broadcastSessionUpdate(session);
-        this.createSignalNotification(
-          session,
-          'sell',
-          price,
-          sellQty,
-          reason,
-          pnl,
+
+      try {
+        const result = await this.kisOrderService.orderCash({
+          stockCode: session.stockCode,
+          orderType: 'sell',
+          orderDvsn: '01', // 시장가
+          quantity: session.holdingQty,
+          price: 0,
+          userId: session.user.id,
+          metadata: {
+            sessionId: session.id,
+            source: 'auto-sell',
+            reason,
+            pauseAfterSell: true,
+            trackingMode: trackingReady
+              ? 'notification'
+              : 'optimistic-fallback',
+          },
+        });
+
+        if (result.rt_cd !== '0') {
+          this.logger.error(
+            `매도 주문 거부: ${session.stockCode} - ${result.msg1}`,
+          );
+          return;
+        }
+
+        this.logger.log(
+          `매도 주문 접수: ${session.stockCode} ${session.holdingQty}주 (${reason}) ` +
+            `(주문번호 ${result.output?.ODNO ?? 'N/A'})`,
         );
-        await this.pauseSessionAfterAutoSell(session, reason);
-      } else {
-        await this.em.flush();
-        this.broadcastSessionUpdate(session);
+        session.autoPausePending = true;
+        session.pauseReason = undefined;
+        if (!trackingReady) {
+          const sellQty = session.holdingQty;
+          const pnl = this.applyOptimisticSellFill(session, price, sellQty);
+          await this.em.flush();
+          this.broadcastSessionUpdate(session);
+          this.createSignalNotification(
+            session,
+            'sell',
+            price,
+            sellQty,
+            reason,
+            pnl,
+          );
+          await this.pauseSessionAfterAutoSell(session, reason);
+        } else {
+          await this.em.flush();
+          this.broadcastSessionUpdate(session);
+        }
+      } catch (err: any) {
+        this.logger.error(`매도 실패: ${session.stockCode} - ${err.message}`);
       }
-    } catch (err: any) {
-      this.logger.error(`매도 실패: ${session.stockCode} - ${err.message}`);
-      return;
+    } finally {
+      this.sellInFlightSessionIds.delete(session.id);
     }
   }
 
@@ -1302,13 +1325,14 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     notification: KisRealtimeOrderNotification,
   ): Promise<void> {
     if (notification.isRejected) {
-      const history = await this.kisOrderService.markOrderRejected(notification);
+      const history =
+        await this.kisOrderService.markOrderRejected(notification);
       const sessionId = Number(history?.rawResponse?.meta?.sessionId ?? 0);
-      if (
-        history?.rawResponse?.meta?.pauseAfterSell &&
-        sessionId > 0
-      ) {
-        const session = await this.em.findOne(AutoTradingSessionEntity, sessionId);
+      if (history?.rawResponse?.meta?.pauseAfterSell && sessionId > 0) {
+        const session = await this.em.findOne(
+          AutoTradingSessionEntity,
+          sessionId,
+        );
         if (session?.autoPausePending) {
           session.autoPausePending = false;
           await this.em.flush();
@@ -1322,9 +1346,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       return;
     }
 
-    const execution = await this.kisOrderService.recordExecutionNotification(
-      notification,
-    );
+    const execution =
+      await this.kisOrderService.recordExecutionNotification(notification);
     if (!execution) {
       return;
     }
@@ -1363,6 +1386,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         session.holdingQty > 0 ? totalCost / session.holdingQty : 0;
       if (wasFirstExecution) {
         session.totalBuys += 1;
+      }
+      if (session.holdingQty > 0) {
+        this.holdingStockCodes.add(session.stockCode);
       }
       const latestPrice = this.latestPrices.get(session.stockCode);
       if (latestPrice) {
@@ -1545,6 +1571,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     for (const timer of this.subscriptionRetryTimers.values()) {
       clearTimeout(timer);
     }
+    for (const timer of this.priceTriggeredSellCheckTimers.values()) {
+      clearTimeout(timer);
+    }
     this.executionSub = undefined;
     this.subscriptionResultSub = undefined;
     this.monitorInterval = undefined;
@@ -1552,6 +1581,122 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     this.pollingInFlight.clear();
     this.subscriptionRetryTimers.clear();
     this.subscriptionRetryAttempts.clear();
+    this.priceTriggeredSellCheckTimers.clear();
+    this.priceTriggeredSellCheckInFlight.clear();
+    this.holdingStockCodes.clear();
+    this.sellInFlightSessionIds.clear();
+  }
+
+  private schedulePriceTriggeredSellCheck(stockCode: string) {
+    // 보유 수량 없는 종목은 DB 조회까지 갈 필요 없이 스킵한다.
+    // 매수 이벤트는 applyOptimisticBuyFill/handleOrderNotification 에서 add 되고,
+    // 30초 루프의 refreshHoldingStockCodes 가 주기적으로 전체 재계산한다.
+    if (
+      !this.activeStockCodes.has(stockCode) ||
+      !this.holdingStockCodes.has(stockCode) ||
+      this.priceTriggeredSellCheckTimers.has(stockCode)
+    ) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      this.priceTriggeredSellCheckTimers.delete(stockCode);
+      void this.checkSellThresholdsForStock(stockCode);
+    }, PRICE_TRIGGERED_SELL_CHECK_DEBOUNCE_MS);
+
+    this.priceTriggeredSellCheckTimers.set(stockCode, timer);
+  }
+
+  private async checkSellThresholdsForStock(stockCode: string): Promise<void> {
+    if (
+      this.priceTriggeredSellCheckInFlight.has(stockCode) ||
+      !this.activeStockCodes.has(stockCode)
+    ) {
+      return;
+    }
+
+    const price = this.latestPrices.get(stockCode);
+    if (!price) {
+      return;
+    }
+
+    this.priceTriggeredSellCheckInFlight.add(stockCode);
+
+    try {
+      const sessions = await this.em.find(AutoTradingSessionEntity, {
+        stockCode,
+        status: SessionStatus.ACTIVE,
+      });
+
+      for (const session of sessions) {
+        await this.evaluateAndExecuteSell(session, price);
+      }
+    } catch (err: any) {
+      this.logger.error(
+        `현재가 기반 익절/손절 검사 오류: ${stockCode} - ${err.message ?? err}`,
+      );
+    } finally {
+      this.priceTriggeredSellCheckInFlight.delete(stockCode);
+    }
+  }
+
+  /**
+   * 세션의 현재 보유 상태에서 익절/손절 조건을 평가하고 해당 시 executeSell 호출.
+   * 30초 루프와 실시간 체결가 트리거가 공유하는 단일 진입점.
+   * @returns 매도 실행이 일어난 경우 true
+   */
+  private async evaluateAndExecuteSell(
+    session: AutoTradingSessionEntity,
+    price: number,
+  ): Promise<boolean> {
+    if (
+      session.autoPausePending ||
+      session.holdingQty <= 0 ||
+      session.avgBuyPrice <= 0
+    ) {
+      return false;
+    }
+
+    const returnPct =
+      ((price - session.avgBuyPrice) / session.avgBuyPrice) * 100;
+
+    if (returnPct >= session.takeProfitPct) {
+      await this.executeSell(
+        session,
+        price,
+        `자동 익절 (${returnPct.toFixed(1)}%)`,
+      );
+      return true;
+    }
+    if (returnPct <= session.stopLossPct) {
+      await this.executeSell(
+        session,
+        price,
+        `자동 손절 (${returnPct.toFixed(1)}%)`,
+      );
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * 전체 ACTIVE 세션 기준으로 보유 종목 캐시를 재계산한다.
+   * 매도 체결로 인한 holdingQty 감소는 이 경로에서만 반영되므로 — 30초 루프에서
+   * 호출해 이벤트 기반 add 와의 오차를 주기적으로 교정한다.
+   */
+  private refreshHoldingStockCodes(
+    sessions: AutoTradingSessionEntity[],
+  ): void {
+    const next = new Set<string>();
+    for (const session of sessions) {
+      if (
+        session.status === SessionStatus.ACTIVE &&
+        session.holdingQty > 0
+      ) {
+        next.add(session.stockCode);
+      }
+    }
+    this.holdingStockCodes = next;
   }
 
   private subscribeStock(stockCode: string, options?: { force?: boolean }) {
