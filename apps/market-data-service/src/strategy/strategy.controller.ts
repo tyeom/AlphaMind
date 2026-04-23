@@ -28,6 +28,9 @@ import { BacktestQueryDto } from './dto/backtest-query.dto';
 import { ScanBodyDto } from './dto/scan-query.dto';
 import { BACKEND_SERVICE } from '../rmq/rmq.module';
 
+const SCAN_RESULT_EMIT_MAX_ATTEMPTS = 10;
+const SCAN_RESULT_EMIT_RETRY_DELAY_MS = 1000;
+
 function parseNumberOrDefault(
   value: string | undefined,
   defaultValue: number,
@@ -49,6 +52,66 @@ export class StrategyController {
     private readonly backtestService: BacktestService,
     @Inject(BACKEND_SERVICE) private readonly backendClient: ClientProxy,
   ) {}
+
+  private getErrorMessage(err: unknown): string {
+    if (err instanceof Error) {
+      return err.message;
+    }
+    return String(err);
+  }
+
+  private isRetryableEmitError(err: unknown): boolean {
+    const message = this.getErrorMessage(err).toLowerCase();
+    return (
+      message.includes('connection lost') ||
+      message.includes('trying to reconnect') ||
+      message.includes('disconnected') ||
+      message.includes('channel closed') ||
+      message.includes('socket closed') ||
+      message.includes('econnreset')
+    );
+  }
+
+  private async wait(ms: number): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  private async emitBackendEventWithRetry(
+    pattern: 'strategy.scan.completed' | 'strategy.scan.failed',
+    payload: Record<string, unknown>,
+    requestId: string,
+  ): Promise<void> {
+    let lastError: unknown;
+
+    for (let attempt = 1; attempt <= SCAN_RESULT_EMIT_MAX_ATTEMPTS; attempt++) {
+      try {
+        await firstValueFrom(this.backendClient.emit(pattern, payload), {
+          defaultValue: undefined,
+        });
+        if (attempt > 1) {
+          this.logger.log(
+            `${pattern} 전송 재시도 성공 requestId=${requestId} attempt=${attempt}`,
+          );
+        }
+        return;
+      } catch (err: unknown) {
+        lastError = err;
+        const message = this.getErrorMessage(err);
+        const retryable = this.isRetryableEmitError(err);
+
+        if (!retryable || attempt === SCAN_RESULT_EMIT_MAX_ATTEMPTS) {
+          throw err;
+        }
+
+        this.logger.warn(
+          `${pattern} 전송 재시도 대기 requestId=${requestId} attempt=${attempt}/${SCAN_RESULT_EMIT_MAX_ATTEMPTS}: ${message}`,
+        );
+        await this.wait(SCAN_RESULT_EMIT_RETRY_DELAY_MS);
+      }
+    }
+
+    throw lastError instanceof Error ? lastError : new Error(String(lastError));
+  }
 
   /** 사용 가능한 전략 목록 */
   @Get()
@@ -192,8 +255,10 @@ export class StrategyController {
     this.logger.log(
       `scan.request 수신 userId=${userId} requestId=${requestId} exclude=${body.excludeCodes?.length ?? 0}`,
     );
+
+    let response;
     try {
-      const response = await this.backtestService.scanAllStocks(
+      response = await this.backtestService.scanAllStocks(
         body.excludeCodes ?? [],
         body.topN ?? 10,
         body.investmentAmount ?? 10_000_000,
@@ -202,36 +267,46 @@ export class StrategyController {
         body.autoTakeProfitPct ?? 5,
         body.autoStopLossPct ?? -3,
       );
-      await firstValueFrom(
-        this.backendClient.emit('strategy.scan.completed', {
+    } catch (err: any) {
+      const message = this.getErrorMessage(err);
+      this.logger.error(
+        `scan.request 실패 userId=${userId} requestId=${requestId}: ${message}`,
+      );
+      try {
+        await this.emitBackendEventWithRetry(
+          'strategy.scan.failed',
+          {
+            userId,
+            requestId,
+            error: message,
+          },
+          requestId,
+        );
+      } catch (notifyErr: any) {
+        this.logger.error(
+          `scan.failed 전송 실패 userId=${userId} requestId=${requestId}: ${this.getErrorMessage(notifyErr)}`,
+        );
+      }
+      return;
+    }
+
+    try {
+      await this.emitBackendEventWithRetry(
+        'strategy.scan.completed',
+        {
           userId,
           requestId,
           response,
-        }),
-        { defaultValue: undefined },
+        },
+        requestId,
       );
       this.logger.log(
         `scan.completed 전송 userId=${userId} requestId=${requestId} results=${response.results.length}`,
       );
     } catch (err: any) {
-      const message = err?.message ?? String(err);
       this.logger.error(
-        `scan.request 실패 userId=${userId} requestId=${requestId}: ${message}`,
+        `scan.completed 전송 실패 userId=${userId} requestId=${requestId}: ${this.getErrorMessage(err)}`,
       );
-      try {
-        await firstValueFrom(
-          this.backendClient.emit('strategy.scan.failed', {
-            userId,
-            requestId,
-            error: message,
-          }),
-          { defaultValue: undefined },
-        );
-      } catch (notifyErr: any) {
-        this.logger.error(
-          `scan.failed 전송 실패 userId=${userId} requestId=${requestId}: ${notifyErr?.message ?? notifyErr}`,
-        );
-      }
     }
   }
 

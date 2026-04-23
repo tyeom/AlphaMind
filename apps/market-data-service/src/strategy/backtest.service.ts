@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Stock } from '../stock/entities/stock.entity';
 import { StockDailyPrice } from '../stock/entities/stock-daily-price.entity';
@@ -16,7 +20,11 @@ import {
   analyzeMomentumPower,
   analyzeMomentumSurge,
 } from '@alpha-mind/strategies';
-import { BacktestConfig, BacktestResult, BacktestTrade } from './types/backtest.types';
+import {
+  BacktestConfig,
+  BacktestResult,
+  BacktestTrade,
+} from './types/backtest.types';
 import { ScanResult, ScanResponse } from './types/scan.types';
 import { Logger } from '@nestjs/common';
 
@@ -30,14 +38,19 @@ function toDateKey(d: Date): string {
 }
 
 /** 자동 익절/손절 기본 설정 */
-const DEFAULT_AUTO_TAKE_PROFIT_PCT = 5; // 5% 이상 수익 시 자동 익절
-const DEFAULT_AUTO_STOP_LOSS_PCT = -3;  // -3% 이하 손실 시 자동 손절
+const DEFAULT_AUTO_TAKE_PROFIT_PCT = 2; // 2% 이상 수익 시 자동 익절
+const DEFAULT_AUTO_STOP_LOSS_PCT = -3; // -3% 이하 손실 시 자동 손절
+const SCAN_YIELD_INTERVAL_MS = 50;
 
 const STRATEGY_MAP: Record<
   string,
   {
     name: string;
-    analyze: (candles: CandleData[], config?: any, stockCode?: string) => StrategyAnalysisResult;
+    analyze: (
+      candles: CandleData[],
+      config?: any,
+      stockCode?: string,
+    ) => StrategyAnalysisResult;
   }
 > = {
   'day-trading': { name: '일간 모멘텀 통합 전략', analyze: analyzeDayTrading },
@@ -78,7 +91,10 @@ const STRATEGY_VARIANTS: Record<string, (string | undefined)[]> = {
 export class BacktestService {
   constructor(private readonly em: EntityManager) {}
 
-  async runBacktest(code: string, config: BacktestConfig): Promise<BacktestResult> {
+  async runBacktest(
+    code: string,
+    config: BacktestConfig,
+  ): Promise<BacktestResult> {
     const strategy = STRATEGY_MAP[config.strategyId];
     if (!strategy) {
       throw new BadRequestException(
@@ -94,7 +110,9 @@ export class BacktestService {
     const signals = analysis.signals;
 
     // SELL 신호 존재 여부 확인
-    const hasSellSignals = signals.some((s) => s.direction === SignalDirection.Sell);
+    const hasSellSignals = signals.some(
+      (s) => s.direction === SignalDirection.Sell,
+    );
 
     // 신호를 날짜 기준 Map으로 변환 (로컬 타임존 안전)
     const signalByDate = new Map<string, Signal>();
@@ -103,7 +121,14 @@ export class BacktestService {
     }
 
     // 시뮬레이션 실행
-    return this.simulate(stock, candles, signalByDate, config, strategy.name, hasSellSignals);
+    return this.simulate(
+      stock,
+      candles,
+      signalByDate,
+      config,
+      strategy.name,
+      hasSellSignals,
+    );
   }
 
   private simulate(
@@ -136,7 +161,10 @@ export class BacktestService {
       // 보유 중이고 SELL 신호가 없는 전략일 때: 자동 익절/손절 체크
       if (!hasSellSignals && quantity > 0 && avgBuyPrice > 0) {
         const returnPct = ((candle.close - avgBuyPrice) / avgBuyPrice) * 100;
-        if (returnPct >= config.autoTakeProfitPct || returnPct <= config.autoStopLossPct) {
+        if (
+          returnPct >= config.autoTakeProfitPct ||
+          returnPct <= config.autoStopLossPct
+        ) {
           const sellAmount = quantity * candle.close;
           const commission = sellAmount * commissionRate;
           const pnl = (candle.close - avgBuyPrice) * quantity - commission;
@@ -147,9 +175,10 @@ export class BacktestService {
 
           cash += sellAmount - commission;
 
-          const reason = returnPct >= config.autoTakeProfitPct
-            ? `자동 익절 (수익률 ${returnPct.toFixed(1)}%)`
-            : `자동 손절 (수익률 ${returnPct.toFixed(1)}%)`;
+          const reason =
+            returnPct >= config.autoTakeProfitPct
+              ? `자동 익절 (수익률 ${returnPct.toFixed(1)}%)`
+              : `자동 손절 (수익률 ${returnPct.toFixed(1)}%)`;
 
           trades.push({
             date: candle.date,
@@ -169,7 +198,11 @@ export class BacktestService {
         }
       }
 
-      if (signal && signal.direction === SignalDirection.Buy && signal.strength >= 0.3) {
+      if (
+        signal &&
+        signal.direction === SignalDirection.Buy &&
+        signal.strength >= 0.3
+      ) {
         // 매수: tradeAmount 만큼 매수 (현금 충분 시)
         const buyAmount = Math.min(tradeAmount, cash);
         if (buyAmount > 0) {
@@ -197,7 +230,11 @@ export class BacktestService {
             });
           }
         }
-      } else if (signal && signal.direction === SignalDirection.Sell && signal.strength >= 0.3) {
+      } else if (
+        signal &&
+        signal.direction === SignalDirection.Sell &&
+        signal.strength >= 0.3
+      ) {
         // 매도: 보유 수량 전체 매도
         if (quantity > 0) {
           const sellAmount = quantity * candle.close;
@@ -240,9 +277,13 @@ export class BacktestService {
     const lastPrice = candles[candles.length - 1].close;
     const holdingValue = quantity * lastPrice;
     const finalValue = cash + holdingValue;
-    const unrealizedPnl = quantity > 0 ? (lastPrice - avgBuyPrice) * quantity : 0;
-    const totalReturnPct = ((finalValue - config.investmentAmount) / config.investmentAmount) * 100;
-    const totalTrades = trades.filter((t) => t.direction === SignalDirection.Sell).length;
+    const unrealizedPnl =
+      quantity > 0 ? (lastPrice - avgBuyPrice) * quantity : 0;
+    const totalReturnPct =
+      ((finalValue - config.investmentAmount) / config.investmentAmount) * 100;
+    const totalTrades = trades.filter(
+      (t) => t.direction === SignalDirection.Sell,
+    ).length;
 
     return {
       stockCode: stock.code,
@@ -262,7 +303,10 @@ export class BacktestService {
       totalTrades,
       winTrades,
       lossTrades,
-      winRate: totalTrades > 0 ? Math.round((winTrades / totalTrades) * 10000) / 100 : 0,
+      winRate:
+        totalTrades > 0
+          ? Math.round((winTrades / totalTrades) * 10000) / 100
+          : 0,
       maxDrawdownPct: Math.round(maxDrawdownPct * 100) / 100,
       remainingCash: Math.round(cash),
       remainingQuantity: quantity,
@@ -325,36 +369,41 @@ export class BacktestService {
       pricesByStockId.get(sid)!.push(p);
     }
 
-    // 4. 배치 병렬 처리 (50개씩)
-    const BATCH_SIZE = 50;
+    // 4. 종목별 처리
+    // scanSingleStock()은 현재 CPU-bound 동기 계산이므로 Promise.all로 묶어도
+    // 실제 병렬화는 되지 않고 이벤트 루프만 더 오래 점유한다.
+    // 마지막 yield 이후 일정 시간이 지나면 명시적으로 양보해 RMQ heartbeat/
+    // 재연결 타이머가 돌 수 있게 한다. 종목당 처리 시간이 편차가 커서
+    // 개수 기반보다 시간 기반이 더 견고하다.
     const allResults: ScanResult[] = [];
+    let lastYieldAt = Date.now();
 
-    for (let i = 0; i < eligibleStocks.length; i += BATCH_SIZE) {
-      const batch = eligibleStocks.slice(i, i + BATCH_SIZE);
-      const batchResults = await Promise.allSettled(
-        batch.map((stock) =>
-          this.scanSingleStock(
-            stock,
-            pricesByStockId,
-            investmentAmount,
-            tradeRatioPct,
-            commissionPct,
-            autoTakeProfitPct,
-            autoStopLossPct,
-          ),
-        ),
-      );
-
-      for (const result of batchResults) {
-        if (result.status === 'fulfilled' && result.value) {
-          allResults.push(result.value);
+    for (let i = 0; i < eligibleStocks.length; i++) {
+      const stock = eligibleStocks[i];
+      try {
+        const result = this.scanSingleStock(
+          stock,
+          pricesByStockId,
+          investmentAmount,
+          tradeRatioPct,
+          commissionPct,
+          autoTakeProfitPct,
+          autoStopLossPct,
+        );
+        if (result) {
+          allResults.push(result);
         }
+      } catch (err) {
+        logger.debug(
+          `scan skip ${stock.code}: ${err instanceof Error ? err.message : String(err)}`,
+        );
       }
 
-      // 배치 사이 이벤트 루프 yield — RMQ heartbeat/타이머가 실행될 틈을 보장한다.
-      // CPU-bound 백테스팅이 수초 이상 루프를 블록하면 heartbeat 미전송으로
-      // RabbitMQ 서버가 connection을 강제 종료할 수 있다.
-      await new Promise((resolve) => setImmediate(resolve));
+      if (Date.now() - lastYieldAt >= SCAN_YIELD_INTERVAL_MS) {
+        // CPU-bound 루프가 heartbeat/재연결 타이머를 막지 않도록 주기적으로 양보한다.
+        await new Promise((resolve) => setImmediate(resolve));
+        lastYieldAt = Date.now();
+      }
     }
 
     // 5. 수익률 기준 정렬 후 Top N
@@ -362,7 +411,9 @@ export class BacktestService {
     const topResults = allResults.slice(0, topN);
 
     const elapsedMs = Date.now() - startTime;
-    logger.log(`스캔 완료: ${elapsedMs}ms, 결과 ${allResults.length}개 중 Top ${topResults.length}`);
+    logger.log(
+      `스캔 완료: ${elapsedMs}ms, 결과 ${allResults.length}개 중 Top ${topResults.length}`,
+    );
 
     return {
       scannedStocks: allStocks.length,
@@ -411,7 +462,7 @@ export class BacktestService {
     const pricesByStockId = new Map<number, StockDailyPrice[]>();
     pricesByStockId.set(stock.id, prices);
 
-    const result = await this.scanSingleStock(
+    const result = this.scanSingleStock(
       stock,
       pricesByStockId,
       investmentAmount,
@@ -435,7 +486,7 @@ export class BacktestService {
   }
 
   /** 단일 종목에 대해 6가지 전략 백테스트 → 최고 수익률 전략 선택 */
-  private async scanSingleStock(
+  private scanSingleStock(
     stock: Stock,
     pricesByStockId: Map<number, StockDailyPrice[]>,
     investmentAmount: number,
@@ -443,7 +494,7 @@ export class BacktestService {
     commissionPct: number,
     autoTakeProfitPct = DEFAULT_AUTO_TAKE_PROFIT_PCT,
     autoStopLossPct = DEFAULT_AUTO_STOP_LOSS_PCT,
-  ): Promise<ScanResult | null> {
+  ): ScanResult | null {
     const prices = pricesByStockId.get(stock.id);
     if (!prices || prices.length < 20) return null;
 
@@ -480,7 +531,9 @@ export class BacktestService {
           const analyzeConfig = variant ? { variant } : {};
           const analysis = strategy.analyze(candles, analyzeConfig, stock.code);
           const signals = analysis.signals;
-          const hasSellSignals = signals.some((s) => s.direction === SignalDirection.Sell);
+          const hasSellSignals = signals.some(
+            (s) => s.direction === SignalDirection.Sell,
+          );
 
           const signalByDate = new Map<string, Signal>();
           for (const signal of signals) {
@@ -497,9 +550,19 @@ export class BacktestService {
             autoStopLossPct,
           };
 
-          const result = this.simulate(stock, candles, signalByDate, config, strategy.name, hasSellSignals);
+          const result = this.simulate(
+            stock,
+            candles,
+            signalByDate,
+            config,
+            strategy.name,
+            hasSellSignals,
+          );
 
-          if (!bestResult || result.totalReturnPct > bestResult.totalReturnPct) {
+          if (
+            !bestResult ||
+            result.totalReturnPct > bestResult.totalReturnPct
+          ) {
             bestResult = {
               strategyId,
               strategyName: strategy.name,
@@ -547,7 +610,9 @@ export class BacktestService {
     };
   }
 
-  private async loadCandles(code: string): Promise<{ stock: Stock; candles: CandleData[] }> {
+  private async loadCandles(
+    code: string,
+  ): Promise<{ stock: Stock; candles: CandleData[] }> {
     const stock = await this.em.findOne(Stock, { code });
     if (!stock) {
       throw new NotFoundException(`종목 코드 ${code}를 찾을 수 없습니다.`);
@@ -563,7 +628,9 @@ export class BacktestService {
     );
 
     if (prices.length === 0) {
-      throw new NotFoundException(`종목 ${code}의 최근 3개월 가격 데이터가 없습니다.`);
+      throw new NotFoundException(
+        `종목 ${code}의 최근 3개월 가격 데이터가 없습니다.`,
+      );
     }
 
     const candles: CandleData[] = prices
