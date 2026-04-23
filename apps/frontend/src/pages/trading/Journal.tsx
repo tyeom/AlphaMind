@@ -10,17 +10,29 @@ function formatPercent(n: number): string {
   return `${n >= 0 ? '+' : ''}${n.toFixed(2)}%`;
 }
 
+function formatSignedAmount(n: number): string {
+  return `${n >= 0 ? '+' : ''}${n.toLocaleString('ko-KR')}원`;
+}
+
 function formatDate(d: string): string {
   if (d.length !== 8) return d;
   return `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}`;
 }
 
 function getTodayString(): string {
-  const now = new Date();
-  const y = now.getFullYear();
-  const m = String(now.getMonth() + 1).padStart(2, '0');
-  const d = String(now.getDate()).padStart(2, '0');
-  return `${y}${m}${d}`;
+  const formatter = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Seoul',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+  const parts = formatter.formatToParts(new Date());
+  const values = Object.fromEntries(
+    parts
+      .filter((part) => part.type !== 'literal')
+      .map((part) => [part.type, part.value]),
+  ) as Record<'year' | 'month' | 'day', string>;
+  return `${values.year}${values.month}${values.day}`;
 }
 
 export function Journal() {
@@ -90,6 +102,11 @@ export function Journal() {
       {journal?.isAvailable && (
         <>
           <div className="journal-date-label">{formatDate(journal.date)} 매매 일지</div>
+          {journal.message && (
+            <div className="journal-message">
+              <p>{journal.message}</p>
+            </div>
+          )}
 
           {/* 전체 요약 카드 */}
           <div className="summary-cards">
@@ -111,6 +128,14 @@ export function Journal() {
                 className={`summary-value ${journal.totalProfitLossRate >= 0 ? 'text-profit' : 'text-loss'}`}
               >
                 {formatPercent(journal.totalProfitLossRate)}
+              </span>
+            </div>
+            <div className="summary-card">
+              <span className="summary-label">오늘 전체 손익금</span>
+              <span
+                className={`summary-value ${journal.totalEvalProfitLoss >= 0 ? 'text-profit' : 'text-loss'}`}
+              >
+                {formatSignedAmount(journal.totalEvalProfitLoss)}
               </span>
             </div>
             {journal.dayOverDayChange !== undefined && (

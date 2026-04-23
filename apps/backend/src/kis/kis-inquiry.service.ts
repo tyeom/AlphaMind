@@ -27,7 +27,9 @@ export class KisInquiryService {
 
     const { data } = await firstValueFrom(
       this.httpService.get<
-        KisApiResponse<KisBalanceItem[]> & { output2: KisBalanceSummary[] }
+        KisApiResponse<KisBalanceItem[]> & {
+          output2: KisBalanceSummary[] | KisBalanceSummary;
+        }
       >(
         `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/inquire-balance`,
         {
@@ -49,13 +51,17 @@ export class KisInquiryService {
       ),
     );
 
+    if (data.rt_cd !== '0') {
+      throw new Error(`KIS 잔고 조회 실패: [${data.msg_cd}] ${data.msg1}`);
+    }
+
     return {
       items: data.output1 ?? [],
-      summary: data.output2?.[0] ?? ({} as KisBalanceSummary),
+      summary: this.normalizeSummary<KisBalanceSummary>(data.output2),
     };
   }
 
-  /** 실현손익 포함 주식 잔고 조회 */
+  /** 실현손익 포함 주식 잔고 조회 (실전 계좌 전용 - TTTC8494R, VTS 미지원) */
   async getBalanceWithRealized(): Promise<{
     items: KisBalanceItem[];
     summary: KisBalanceRealizedSummary;
@@ -65,7 +71,7 @@ export class KisInquiryService {
     const { data } = await firstValueFrom(
       this.httpService.get<
         KisApiResponse<KisBalanceItem[]> & {
-          output2: KisBalanceRealizedSummary[];
+          output2: KisBalanceRealizedSummary[] | KisBalanceRealizedSummary;
         }
       >(
         `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/inquire-balance-rlz-pl`,
@@ -89,9 +95,15 @@ export class KisInquiryService {
       ),
     );
 
+    if (data.rt_cd !== '0') {
+      throw new Error(
+        `KIS 실현손익 잔고 조회 실패: [${data.msg_cd}] ${data.msg1}`,
+      );
+    }
+
     return {
       items: data.output1 ?? [],
-      summary: data.output2?.[0] ?? ({} as KisBalanceRealizedSummary),
+      summary: this.normalizeSummary<KisBalanceRealizedSummary>(data.output2),
     };
   }
 
@@ -174,5 +186,13 @@ export class KisInquiryService {
     );
 
     return data.output1 ?? [];
+  }
+
+  private normalizeSummary<T extends object>(output?: T[] | T): T {
+    if (Array.isArray(output)) {
+      return (output[0] ?? {}) as T;
+    }
+
+    return (output ?? {}) as T;
   }
 }

@@ -119,6 +119,7 @@ export interface StockJournalSummary {
 export interface JournalResponse {
   date: string;
   isAvailable: boolean;
+  isPartial?: boolean;
   message?: string;
   stockSummaries: StockJournalSummary[];
   totalBuyAmount: number;

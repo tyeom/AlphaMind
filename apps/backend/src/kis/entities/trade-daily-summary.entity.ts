@@ -66,6 +66,9 @@ export class TradeDailySummaryEntity {
   @Property({ type: 'decimal', precision: 15, scale: 0, default: 0 })
   cashBalance!: number;
 
+  @Property({ default: true })
+  hasBalanceSnapshot: boolean = true;
+
   @Property({ type: 'jsonb', nullable: true })
   stockSummaries?: StockSummary[];
 
