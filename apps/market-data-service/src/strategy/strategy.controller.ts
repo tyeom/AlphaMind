@@ -43,6 +43,14 @@ function parseNumberOrDefault(
   return Number.isFinite(parsed) ? parsed : defaultValue;
 }
 
+function parseBooleanOptional(value: string | undefined): boolean | undefined {
+  if (value == null || value.trim() === '') {
+    return undefined;
+  }
+
+  return value === 'true';
+}
+
 @Controller('strategies')
 export class StrategyController {
   private readonly logger = new Logger(StrategyController.name);
@@ -235,8 +243,11 @@ export class StrategyController {
       body.investmentAmount ?? 10_000_000,
       body.tradeRatioPct ?? 10,
       body.commissionPct ?? 0.015,
-      body.autoTakeProfitPct ?? 5,
+      body.autoTakeProfitPct ?? 2.5,
       body.autoStopLossPct ?? -3,
+      body.maxHoldingDays ?? 7,
+      body.minCurrentSignalStrength ?? 0.6,
+      body.minTotalTrades ?? 3,
     );
   }
 
@@ -264,8 +275,11 @@ export class StrategyController {
         body.investmentAmount ?? 10_000_000,
         body.tradeRatioPct ?? 10,
         body.commissionPct ?? 0.015,
-        body.autoTakeProfitPct ?? 5,
+        body.autoTakeProfitPct ?? 2.5,
         body.autoStopLossPct ?? -3,
+        body.maxHoldingDays ?? 7,
+        body.minCurrentSignalStrength ?? 0.6,
+        body.minTotalTrades ?? 3,
       );
     } catch (err: any) {
       const message = this.getErrorMessage(err);
@@ -310,7 +324,7 @@ export class StrategyController {
     }
   }
 
-  /** 단일 종목 추천 전략 (RMQ) — 4개 전략 백테스트 후 최고 수익률 전략 반환 */
+  /** 단일 종목 추천 전략 (RMQ) — 단기 전략 백테스트 후 위험조정 최고 전략 반환 */
   @MessagePattern('strategy.recommend')
   recommendStrategyRmq(
     @Payload()
@@ -319,6 +333,9 @@ export class StrategyController {
       investmentAmount?: number;
       tradeRatioPct?: number;
       commissionPct?: number;
+      autoTakeProfitPct?: number;
+      autoStopLossPct?: number;
+      maxHoldingDays?: number;
     },
   ) {
     return this.backtestService.recommendStrategy(
@@ -326,12 +343,17 @@ export class StrategyController {
       body.investmentAmount,
       body.tradeRatioPct,
       body.commissionPct,
+      body.autoTakeProfitPct,
+      body.autoStopLossPct,
+      body.maxHoldingDays,
     );
   }
 
   /** 백테스팅 */
   @Get(':code/backtest')
   runBacktest(@Param('code') code: string, @Query() query: BacktestQueryDto) {
+    const allowAddOnBuy = parseBooleanOptional(query.allowAddOnBuy);
+
     return this.backtestService.runBacktest(code, {
       strategyId: query.strategyId,
       variant: query.variant,
@@ -341,8 +363,10 @@ export class StrategyController {
       ),
       tradeRatioPct: parseNumberOrDefault(query.tradeRatioPct, 10),
       commissionPct: parseNumberOrDefault(query.commissionPct, 0.015),
-      autoTakeProfitPct: parseNumberOrDefault(query.autoTakeProfitPct, 5),
+      autoTakeProfitPct: parseNumberOrDefault(query.autoTakeProfitPct, 2.5),
       autoStopLossPct: parseNumberOrDefault(query.autoStopLossPct, -3),
+      maxHoldingDays: parseNumberOrDefault(query.maxHoldingDays, 7),
+      ...(allowAddOnBuy !== undefined && { allowAddOnBuy }),
     });
   }
 }

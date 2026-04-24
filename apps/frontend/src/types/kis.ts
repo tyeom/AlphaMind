@@ -30,6 +30,7 @@ export interface BalanceAutoTradingInfo {
   variant?: string;
   takeProfitPct: number;
   stopLossPct: number;
+  maxHoldingDays: number;
 }
 
 /** 잔고 항목의 진입 경로 — 'auto': 자동매매 세션으로 추가, 'manual': 수동 매수 */

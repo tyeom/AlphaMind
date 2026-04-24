@@ -31,8 +31,9 @@ export function Backtest() {
   const [investmentAmount, setInvestmentAmount] = useState('10000000');
   const [tradeRatioPct, setTradeRatioPct] = useState('10');
   const [commissionPct, setCommissionPct] = useState('0.015');
-  const [autoTakeProfitPct, setAutoTakeProfitPct] = useState('5');
+  const [autoTakeProfitPct, setAutoTakeProfitPct] = useState('2.5');
   const [autoStopLossPct, setAutoStopLossPct] = useState('-3');
+  const [maxHoldingDays, setMaxHoldingDays] = useState('7');
   const [result, setResult] = useState<BacktestResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -63,6 +64,7 @@ export function Backtest() {
         commissionPct: toOptionalNumber(commissionPct),
         autoTakeProfitPct: toOptionalNumber(autoTakeProfitPct),
         autoStopLossPct: toOptionalNumber(autoStopLossPct),
+        maxHoldingDays: toOptionalNumber(maxHoldingDays),
       });
       setResult(data);
     } catch (err: any) {
@@ -75,7 +77,9 @@ export function Backtest() {
   return (
     <div className="page-container">
       <h1>전략 백테스팅</h1>
-      <p className="page-desc">3개월 차트 데이터 기반으로 전략의 과거 성과를 시뮬레이션합니다.</p>
+      <p className="page-desc">
+        3개월 차트 데이터 기반으로 전략의 과거 성과를 시뮬레이션합니다.
+      </p>
 
       <form className="backtest-form" onSubmit={handleSubmit}>
         <div className="form-row">
@@ -109,19 +113,23 @@ export function Backtest() {
             </select>
           </label>
 
-          {selectedStrategy?.variants && selectedStrategy.variants.length > 0 && (
-            <label>
-              변형
-              <select value={variant} onChange={(e) => setVariant(e.target.value)}>
-                <option value="">기본</option>
-                {selectedStrategy.variants.map((v) => (
-                  <option key={v} value={v}>
-                    {v}
-                  </option>
-                ))}
-              </select>
-            </label>
-          )}
+          {selectedStrategy?.variants &&
+            selectedStrategy.variants.length > 0 && (
+              <label>
+                변형
+                <select
+                  value={variant}
+                  onChange={(e) => setVariant(e.target.value)}
+                >
+                  <option value="">기본</option>
+                  {selectedStrategy.variants.map((v) => (
+                    <option key={v} value={v}>
+                      {v}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
         </div>
 
         <div className="form-row">
@@ -182,6 +190,17 @@ export function Backtest() {
               step="0.1"
             />
           </label>
+
+          <label>
+            최대 보유일
+            <input
+              type="number"
+              value={maxHoldingDays}
+              onChange={(e) => setMaxHoldingDays(e.target.value)}
+              min="0"
+              step="1"
+            />
+          </label>
         </div>
 
         <button type="submit" className="btn-primary" disabled={loading}>
@@ -210,16 +229,21 @@ export function Backtest() {
               <div className="summary-card">
                 <span className="label">기간</span>
                 <span className="value">
-                  {formatDate(result.period.from)} ~ {formatDate(result.period.to)}
+                  {formatDate(result.period.from)} ~{' '}
+                  {formatDate(result.period.to)}
                 </span>
               </div>
               <div className="summary-card">
                 <span className="label">투자 금액</span>
-                <span className="value">{formatNumber(result.investmentAmount)}원</span>
+                <span className="value">
+                  {formatNumber(result.investmentAmount)}원
+                </span>
               </div>
               <div className="summary-card">
                 <span className="label">최종 평가액</span>
-                <span className="value">{formatNumber(result.finalValue)}원</span>
+                <span className="value">
+                  {formatNumber(result.finalValue)}원
+                </span>
               </div>
               <div className="summary-card highlight">
                 <span className="label">총 수익률</span>
@@ -258,15 +282,21 @@ export function Backtest() {
               </div>
               <div className="summary-card">
                 <span className="label">최대 낙폭 (MDD)</span>
-                <span className="value negative">-{result.maxDrawdownPct}%</span>
+                <span className="value negative">
+                  -{result.maxDrawdownPct}%
+                </span>
               </div>
               <div className="summary-card">
                 <span className="label">잔여 현금</span>
-                <span className="value">{formatNumber(result.remainingCash)}원</span>
+                <span className="value">
+                  {formatNumber(result.remainingCash)}원
+                </span>
               </div>
               <div className="summary-card">
                 <span className="label">잔여 보유 수량</span>
-                <span className="value">{formatNumber(result.remainingQuantity)}주</span>
+                <span className="value">
+                  {formatNumber(result.remainingQuantity)}주
+                </span>
               </div>
             </div>
           </div>
@@ -290,9 +320,18 @@ export function Backtest() {
                   </thead>
                   <tbody>
                     {result.trades.map((trade, i) => (
-                      <tr key={i} className={trade.direction === 'BUY' ? 'trade-buy' : 'trade-sell'}>
+                      <tr
+                        key={i}
+                        className={
+                          trade.direction === 'BUY' ? 'trade-buy' : 'trade-sell'
+                        }
+                      >
                         <td>{formatDate(trade.date)}</td>
-                        <td className={trade.direction === 'BUY' ? 'positive' : 'negative'}>
+                        <td
+                          className={
+                            trade.direction === 'BUY' ? 'positive' : 'negative'
+                          }
+                        >
                           {trade.direction === 'BUY' ? '매수' : '매도'}
                         </td>
                         <td>{formatNumber(trade.price)}원</td>

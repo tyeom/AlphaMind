@@ -37,9 +37,14 @@ function toDateKey(d: Date): string {
   return `${y}-${m}-${day}`;
 }
 
-/** 자동 익절/손절 기본 설정 */
-const DEFAULT_AUTO_TAKE_PROFIT_PCT = 2; // 2% 이상 수익 시 자동 익절
+/** 단기 자동매매 기본 설정 */
+const DEFAULT_AUTO_TAKE_PROFIT_PCT = 2.5; // 2~3% 단기 목표의 중앙값
 const DEFAULT_AUTO_STOP_LOSS_PCT = -3; // -3% 이하 손실 시 자동 손절
+const DEFAULT_MAX_HOLDING_DAYS = 7; // 7거래일 이내 청산
+const DEFAULT_MIN_CURRENT_SIGNAL_STRENGTH = 0.6;
+const DEFAULT_MIN_TOTAL_TRADES = 3;
+const BACKTEST_MIN_BUY_SIGNAL_STRENGTH = 0.6;
+const INFINITY_BOT_MIN_BUY_SIGNAL_STRENGTH = 0.3;
 const SCAN_YIELD_INTERVAL_MS = 50;
 
 const STRATEGY_MAP: Record<
@@ -87,6 +92,22 @@ const STRATEGY_VARIANTS: Record<string, (string | undefined)[]> = {
   'momentum-surge': [undefined],
 };
 
+/**
+ * 단타/중단타 스캔에서는 장기 보유나 피라미딩 성격이 강한 전략을 제외한다.
+ * 전체 전략 분석/단일 백테스트 API에서는 기존처럼 모든 전략을 사용할 수 있다.
+ */
+const SHORT_TERM_SCAN_STRATEGY_IDS = [
+  'day-trading',
+  'mean-reversion',
+  'candle-pattern',
+];
+
+const SHORT_TERM_SCAN_VARIANTS: Record<string, (string | undefined)[]> = {
+  'day-trading': STRATEGY_VARIANTS['day-trading'],
+  'mean-reversion': [MeanReversionVariant.RSI, MeanReversionVariant.Bollinger],
+  'candle-pattern': [undefined],
+};
+
 @Injectable()
 export class BacktestService {
   constructor(private readonly em: EntityManager) {}
@@ -116,13 +137,7 @@ export class BacktestService {
     }
 
     // 시뮬레이션 실행
-    return this.simulate(
-      stock,
-      candles,
-      signalByDate,
-      config,
-      strategy.name,
-    );
+    return this.simulate(stock, candles, signalByDate, config, strategy.name);
   }
 
   private simulate(
@@ -135,6 +150,7 @@ export class BacktestService {
     let cash = config.investmentAmount;
     let quantity = 0;
     let avgBuyPrice = 0;
+    let entryIndex: number | null = null;
     const trades: BacktestTrade[] = [];
     let totalRealizedPnl = 0;
     let winTrades = 0;
@@ -146,62 +162,104 @@ export class BacktestService {
 
     const tradeAmount = config.investmentAmount * (config.tradeRatioPct / 100);
     const commissionRate = config.commissionPct / 100;
+    const maxHoldingDays = config.maxHoldingDays ?? DEFAULT_MAX_HOLDING_DAYS;
+    const isInfinityBot = config.strategyId === 'infinity-bot';
+    const allowAddOnBuy = config.allowAddOnBuy ?? isInfinityBot;
+    const minBuySignalStrength =
+      config.minBuySignalStrength ??
+      (isInfinityBot
+        ? INFINITY_BOT_MIN_BUY_SIGNAL_STRENGTH
+        : BACKTEST_MIN_BUY_SIGNAL_STRENGTH);
 
-    for (const candle of candles) {
+    const closePosition = (
+      candle: CandleData,
+      price: number,
+      reason: string,
+    ) => {
+      const sellAmount = quantity * price;
+      const commission = sellAmount * commissionRate;
+      const pnl = (price - avgBuyPrice) * quantity - commission;
+
+      totalRealizedPnl += pnl;
+      if (pnl > 0) winTrades++;
+      else lossTrades++;
+
+      cash += sellAmount - commission;
+
+      trades.push({
+        date: candle.date,
+        direction: SignalDirection.Sell,
+        price,
+        quantity,
+        amount: sellAmount,
+        commission,
+        reason,
+        realizedPnl: pnl,
+      });
+
+      quantity = 0;
+      avgBuyPrice = 0;
+      entryIndex = null;
+    };
+
+    for (let candleIndex = 0; candleIndex < candles.length; candleIndex++) {
+      const candle = candles[candleIndex];
       const dateKey = toDateKey(candle.date);
       const signal = signalByDate.get(dateKey);
+      let exitedThisCandle = false;
 
-      // 보유 중일 때: 자동 익절/손절 체크 (전략 신호와 무관하게 항상 적용)
+      // 보유 중일 때: 실매매에 가깝게 일중 고가/저가로 익절/손절을 판정한다.
+      // 일봉만으로는 고가/저가 도달 순서를 알 수 없으므로 양쪽이 모두 닿으면 보수적으로 손절 우선.
       if (quantity > 0 && avgBuyPrice > 0) {
-        const returnPct = ((candle.close - avgBuyPrice) / avgBuyPrice) * 100;
-        if (
-          returnPct >= config.autoTakeProfitPct ||
-          returnPct <= config.autoStopLossPct
+        const takeProfitPrice =
+          avgBuyPrice * (1 + config.autoTakeProfitPct / 100);
+        const stopLossPrice = avgBuyPrice * (1 + config.autoStopLossPct / 100);
+        const takeProfitHit = candle.high >= takeProfitPrice;
+        const stopLossHit = candle.low <= stopLossPrice;
+
+        if (stopLossHit) {
+          closePosition(
+            candle,
+            stopLossPrice,
+            `자동 손절 (수익률 ${config.autoStopLossPct.toFixed(1)}%)`,
+          );
+          exitedThisCandle = true;
+        } else if (takeProfitHit) {
+          closePosition(
+            candle,
+            takeProfitPrice,
+            `자동 익절 (수익률 ${config.autoTakeProfitPct.toFixed(1)}%)`,
+          );
+          exitedThisCandle = true;
+        } else if (
+          maxHoldingDays > 0 &&
+          entryIndex != null &&
+          candleIndex - entryIndex >= maxHoldingDays
         ) {
-          const sellAmount = quantity * candle.close;
-          const commission = sellAmount * commissionRate;
-          const pnl = (candle.close - avgBuyPrice) * quantity - commission;
-
-          totalRealizedPnl += pnl;
-          if (pnl > 0) winTrades++;
-          else lossTrades++;
-
-          cash += sellAmount - commission;
-
-          const reason =
-            returnPct >= config.autoTakeProfitPct
-              ? `자동 익절 (수익률 ${returnPct.toFixed(1)}%)`
-              : `자동 손절 (수익률 ${returnPct.toFixed(1)}%)`;
-
-          trades.push({
-            date: candle.date,
-            direction: SignalDirection.Sell,
-            price: candle.close,
-            quantity,
-            amount: sellAmount,
-            commission,
-            reason,
-            realizedPnl: pnl,
-          });
-
-          quantity = 0;
-          avgBuyPrice = 0;
-          // 같은 날 재매수 방지
-          continue;
+          const returnPct = ((candle.close - avgBuyPrice) / avgBuyPrice) * 100;
+          closePosition(
+            candle,
+            candle.close,
+            `최대 보유기간 ${maxHoldingDays}일 도달 (수익률 ${returnPct.toFixed(1)}%)`,
+          );
+          exitedThisCandle = true;
         }
       }
 
       if (
+        !exitedThisCandle &&
         signal &&
         signal.direction === SignalDirection.Buy &&
-        signal.strength >= 0.3
+        signal.strength >= minBuySignalStrength &&
+        (quantity === 0 || allowAddOnBuy)
       ) {
-        // 매수: tradeAmount 만큼 매수 (현금 충분 시)
-        const buyAmount = Math.min(tradeAmount, cash);
+        // 매수: 수수료까지 포함해 현금이 음수로 내려가지 않게 주문 가능 금액을 산정한다.
+        const buyAmount = Math.min(tradeAmount, cash / (1 + commissionRate));
         if (buyAmount > 0) {
           const qty = Math.floor(buyAmount / candle.close);
 
           if (qty > 0) {
+            const wasFlat = quantity === 0;
             const cost = qty * candle.close;
             const actualCommission = cost * commissionRate;
 
@@ -209,6 +267,9 @@ export class BacktestService {
             const totalCost = avgBuyPrice * quantity + cost;
             quantity += qty;
             avgBuyPrice = totalCost / quantity;
+            if (wasFlat) {
+              entryIndex = candleIndex;
+            }
 
             cash -= cost + actualCommission;
 
@@ -224,35 +285,14 @@ export class BacktestService {
           }
         }
       } else if (
+        !exitedThisCandle &&
         signal &&
         signal.direction === SignalDirection.Sell &&
         signal.strength >= 0.3
       ) {
         // 매도: 보유 수량 전체 매도
         if (quantity > 0) {
-          const sellAmount = quantity * candle.close;
-          const commission = sellAmount * commissionRate;
-          const pnl = (candle.close - avgBuyPrice) * quantity - commission;
-
-          totalRealizedPnl += pnl;
-          if (pnl > 0) winTrades++;
-          else lossTrades++;
-
-          cash += sellAmount - commission;
-
-          trades.push({
-            date: candle.date,
-            direction: SignalDirection.Sell,
-            price: candle.close,
-            quantity,
-            amount: sellAmount,
-            commission,
-            reason: signal.reason,
-            realizedPnl: pnl,
-          });
-
-          quantity = 0;
-          avgBuyPrice = 0;
+          closePosition(candle, candle.close, signal.reason);
         }
       }
 
@@ -307,7 +347,7 @@ export class BacktestService {
     };
   }
 
-  /** 전 종목 스캔: 6가지 전략으로 백테스팅 후 Top N 추출 */
+  /** 전 종목 스캔: 단기 전략으로 백테스팅 후 Top N 추출 */
   async scanAllStocks(
     excludeCodes: string[],
     topN: number,
@@ -316,6 +356,9 @@ export class BacktestService {
     commissionPct: number,
     autoTakeProfitPct = DEFAULT_AUTO_TAKE_PROFIT_PCT,
     autoStopLossPct = DEFAULT_AUTO_STOP_LOSS_PCT,
+    maxHoldingDays = DEFAULT_MAX_HOLDING_DAYS,
+    minCurrentSignalStrength = DEFAULT_MIN_CURRENT_SIGNAL_STRENGTH,
+    minTotalTrades = DEFAULT_MIN_TOTAL_TRADES,
   ): Promise<ScanResponse> {
     const logger = new Logger('BacktestService');
     const startTime = Date.now();
@@ -382,6 +425,9 @@ export class BacktestService {
           commissionPct,
           autoTakeProfitPct,
           autoStopLossPct,
+          maxHoldingDays,
+          minCurrentSignalStrength,
+          minTotalTrades,
         );
         if (result) {
           allResults.push(result);
@@ -399,8 +445,8 @@ export class BacktestService {
       }
     }
 
-    // 5. 수익률 기준 정렬 후 Top N
-    allResults.sort((a, b) => b.totalReturnPct - a.totalReturnPct);
+    // 5. 단기 운용 적합도 기반 위험조정 점수로 정렬 후 Top N
+    allResults.sort((a, b) => b.rankScore - a.rankScore);
     const topResults = allResults.slice(0, topN);
 
     const elapsedMs = Date.now() - startTime;
@@ -419,7 +465,7 @@ export class BacktestService {
 
   /**
    * 특정 종목에 대한 추천 전략 산출
-   * - 6가지 전략 모두 백테스팅 후 최고 수익률 전략 반환
+   * - 단기 전략 백테스팅 후 위험조정 점수 최고 전략 반환
    * - 자동매매 세션 시작 시 디폴트 전략 결정에 사용
    */
   async recommendStrategy(
@@ -427,6 +473,9 @@ export class BacktestService {
     investmentAmount = 10_000_000,
     tradeRatioPct = 10,
     commissionPct = 0.015,
+    autoTakeProfitPct = DEFAULT_AUTO_TAKE_PROFIT_PCT,
+    autoStopLossPct = DEFAULT_AUTO_STOP_LOSS_PCT,
+    maxHoldingDays = DEFAULT_MAX_HOLDING_DAYS,
   ): Promise<{
     stockCode: string;
     stockName: string;
@@ -461,6 +510,11 @@ export class BacktestService {
       investmentAmount,
       tradeRatioPct,
       commissionPct,
+      autoTakeProfitPct,
+      autoStopLossPct,
+      maxHoldingDays,
+      DEFAULT_MIN_CURRENT_SIGNAL_STRENGTH,
+      DEFAULT_MIN_TOTAL_TRADES,
     );
 
     if (!result) return null;
@@ -478,7 +532,7 @@ export class BacktestService {
     };
   }
 
-  /** 단일 종목에 대해 6가지 전략 백테스트 → 최고 수익률 전략 선택 */
+  /** 단일 종목에 대해 단기 전략 백테스트 → 위험조정 점수 최고 전략 선택 */
   private scanSingleStock(
     stock: Stock,
     pricesByStockId: Map<number, StockDailyPrice[]>,
@@ -487,6 +541,9 @@ export class BacktestService {
     commissionPct: number,
     autoTakeProfitPct = DEFAULT_AUTO_TAKE_PROFIT_PCT,
     autoStopLossPct = DEFAULT_AUTO_STOP_LOSS_PCT,
+    maxHoldingDays = DEFAULT_MAX_HOLDING_DAYS,
+    minCurrentSignalStrength = DEFAULT_MIN_CURRENT_SIGNAL_STRENGTH,
+    minTotalTrades = DEFAULT_MIN_TOTAL_TRADES,
   ): ScanResult | null {
     const prices = pricesByStockId.get(stock.id);
     if (!prices || prices.length < 20) return null;
@@ -512,12 +569,15 @@ export class BacktestService {
       winRate: number;
       maxDrawdownPct: number;
       totalTrades: number;
+      rankScore: number;
       finalValue: number;
       analysis: StrategyAnalysisResult;
     } | null = null;
 
-    for (const [strategyId, strategy] of Object.entries(STRATEGY_MAP)) {
-      const variants = STRATEGY_VARIANTS[strategyId] ?? [undefined];
+    for (const strategyId of SHORT_TERM_SCAN_STRATEGY_IDS) {
+      const strategy = STRATEGY_MAP[strategyId];
+      if (!strategy) continue;
+      const variants = SHORT_TERM_SCAN_VARIANTS[strategyId] ?? [undefined];
 
       for (const variant of variants) {
         try {
@@ -538,6 +598,9 @@ export class BacktestService {
             commissionPct,
             autoTakeProfitPct,
             autoStopLossPct,
+            maxHoldingDays,
+            allowAddOnBuy: false,
+            minBuySignalStrength: BACKTEST_MIN_BUY_SIGNAL_STRENGTH,
           };
 
           const result = this.simulate(
@@ -547,11 +610,28 @@ export class BacktestService {
             config,
             strategy.name,
           );
+          if (result.totalTrades < minTotalTrades) {
+            continue;
+          }
 
+          const currentSignal = analysis.currentSignal;
           if (
-            !bestResult ||
-            result.totalReturnPct > bestResult.totalReturnPct
+            currentSignal.direction !== SignalDirection.Buy ||
+            currentSignal.strength < minCurrentSignalStrength
           ) {
+            continue;
+          }
+
+          if (result.totalReturnPct <= 0) {
+            continue;
+          }
+
+          const rankScore = this.calculateScanRankScore(
+            result,
+            currentSignal.strength,
+          );
+
+          if (!bestResult || rankScore > bestResult.rankScore) {
             bestResult = {
               strategyId,
               strategyName: strategy.name,
@@ -560,6 +640,7 @@ export class BacktestService {
               winRate: result.winRate,
               maxDrawdownPct: result.maxDrawdownPct,
               totalTrades: result.totalTrades,
+              rankScore,
               finalValue: result.finalValue,
               analysis,
             };
@@ -570,7 +651,7 @@ export class BacktestService {
       }
     }
 
-    if (!bestResult || bestResult.totalTrades === 0) return null;
+    if (!bestResult) return null;
 
     const { analysis } = bestResult;
 
@@ -587,6 +668,7 @@ export class BacktestService {
       winRate: bestResult.winRate,
       maxDrawdownPct: bestResult.maxDrawdownPct,
       totalTrades: bestResult.totalTrades,
+      rankScore: bestResult.rankScore,
       finalValue: bestResult.finalValue,
       investmentAmount,
       summary: analysis.summary,
@@ -597,6 +679,29 @@ export class BacktestService {
       },
       indicators: analysis.indicators,
     };
+  }
+
+  private calculateScanRankScore(
+    result: BacktestResult,
+    currentSignalStrength: number,
+  ): number {
+    const tradeFrequencyBonus = Math.min(result.totalTrades, 8) * 0.15;
+    const winRateBonus = (result.winRate - 50) * 0.05;
+    const signalBonus = currentSignalStrength * 3;
+    const drawdownPenalty = result.maxDrawdownPct * 0.35;
+    const openPositionPenalty = result.remainingQuantity > 0 ? 1.5 : 0;
+
+    return (
+      Math.round(
+        (result.totalReturnPct +
+          winRateBonus +
+          signalBonus +
+          tradeFrequencyBonus -
+          drawdownPenalty -
+          openPositionPenalty) *
+          100,
+      ) / 100
+    );
   }
 
   private async loadCandles(

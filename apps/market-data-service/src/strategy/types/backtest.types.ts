@@ -12,10 +12,16 @@ export interface BacktestConfig {
   tradeRatioPct: number;
   /** 매매 수수료율 % (기본 0.015) */
   commissionPct: number;
-  /** 자동 익절 수익률 % (기본 5) */
+  /** 자동 익절 수익률 % (기본 2.5) */
   autoTakeProfitPct: number;
   /** 자동 손절 수익률 % (기본 -3) */
   autoStopLossPct: number;
+  /** 최대 보유 거래일 수 (기본 7, 0 이하이면 비활성) */
+  maxHoldingDays?: number;
+  /** 보유 중 추가 매수 신호를 반영할지 여부 (기본은 전략별 설정) */
+  allowAddOnBuy?: boolean;
+  /** 매수 신호 최소 강도 (기본은 전략별 설정) */
+  minBuySignalStrength?: number;
 }
 
 /** 개별 거래 기록 */

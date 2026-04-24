@@ -29,10 +29,7 @@ import {
 } from '../api/auto-trading';
 import { getBalance, getCurrentPrice } from '../api/kis';
 import { ApiError } from '../api/client';
-import {
-  LOGIN_REQUIRED_MESSAGE,
-  marketRequest,
-} from '../api/market-client';
+import { LOGIN_REQUIRED_MESSAGE, marketRequest } from '../api/market-client';
 import {
   useAutoTradingWebSocket,
   type PriceUpdate,
@@ -771,8 +768,9 @@ export function AiScanner() {
   const [sessions, setSessions] = useState<AutoTradingSession[]>([]);
   const [prices, setPrices] = useState<Map<string, number>>(new Map());
   const [investmentAmount, setInvestmentAmount] = useState('10000000');
-  const [autoTakeProfitPct, setAutoTakeProfitPct] = useState('5');
+  const [autoTakeProfitPct, setAutoTakeProfitPct] = useState('2.5');
   const [autoStopLossPct, setAutoStopLossPct] = useState('-3');
+  const [maxHoldingDays, setMaxHoldingDays] = useState('7');
   const [topN, setTopN] = useState('10');
   const [error, setError] = useState('');
   const [scanInfo, setScanInfo] = useState({
@@ -828,8 +826,11 @@ export function AiScanner() {
   );
   const [meetingProvider, setMeetingProvider] =
     useState<AiMeetingProvider>('claude');
-  const [monitoringMeetingSessionId, setMonitoringMeetingSessionId] = useState<number | null>(null);
-  const [monitoringMeetingProgress, setMonitoringMeetingProgress] = useState<SseProgress | null>(null);
+  const [monitoringMeetingSessionId, setMonitoringMeetingSessionId] = useState<
+    number | null
+  >(null);
+  const [monitoringMeetingProgress, setMonitoringMeetingProgress] =
+    useState<SseProgress | null>(null);
   const monitoringMeetingAbortRef = useRef<(() => void) | null>(null);
 
   const [, setAiSessionId] = useState<string | null>(null);
@@ -1181,22 +1182,25 @@ export function AiScanner() {
     [],
   );
 
-  const openMeetingResult = useCallback(async (stockCode: string) => {
-    const cached = meetingResultCache.get(stockCode);
-    if (cached) {
-      setMeetingResultModal(cached);
-      return;
-    }
-    try {
-      const result = await getAiMeetingResult(stockCode);
-      if (result) {
-        setMeetingResultCache((prev) => new Map(prev).set(stockCode, result));
-        setMeetingResultModal(result);
+  const openMeetingResult = useCallback(
+    async (stockCode: string) => {
+      const cached = meetingResultCache.get(stockCode);
+      if (cached) {
+        setMeetingResultModal(cached);
+        return;
       }
-    } catch {
-      /* ignore */
-    }
-  }, [meetingResultCache]);
+      try {
+        const result = await getAiMeetingResult(stockCode);
+        if (result) {
+          setMeetingResultCache((prev) => new Map(prev).set(stockCode, result));
+          setMeetingResultModal(result);
+        }
+      } catch {
+        /* ignore */
+      }
+    },
+    [meetingResultCache],
+  );
 
   const openMonitoring = useCallback(async () => {
     const list = await getSessions();
@@ -1234,6 +1238,7 @@ export function AiScanner() {
               winRate: 0,
               maxDrawdownPct: 0,
               totalTrades: 0,
+              rankScore: 0,
               summary: '',
               currentSignal: { direction: 'NEUTRAL', strength: 0, reason: '' },
               indicators: {},
@@ -1277,6 +1282,7 @@ export function AiScanner() {
                 winRate: 0,
                 maxDrawdownPct: 0,
                 totalTrades: 0,
+                rankScore: 0,
                 summary: '',
                 currentSignal: {
                   direction: 'NEUTRAL',
@@ -1397,6 +1403,7 @@ export function AiScanner() {
         investmentAmount: toOptionalNumber(investmentAmount),
         autoTakeProfitPct: toOptionalNumber(autoTakeProfitPct),
         autoStopLossPct: toOptionalNumber(autoStopLossPct),
+        maxHoldingDays: toOptionalNumber(maxHoldingDays),
       });
 
       // KIS 현재가 조회로 각 종목의 상태/경고 코드 수집.
@@ -1573,7 +1580,8 @@ export function AiScanner() {
             stockName: session.stockName,
             totalReturnPct: null,
             strategyId: session.strategyId,
-            strategyName: STRATEGY_NAMES[session.strategyId] || session.strategyId,
+            strategyName:
+              STRATEGY_NAMES[session.strategyId] || session.strategyId,
           },
         ],
         provider,
@@ -1581,7 +1589,9 @@ export function AiScanner() {
       const abort = streamAiSession(sessionId, {
         onProgress: (progress) => setMonitoringMeetingProgress(progress),
         onScore: (score) => {
-          setSessions((prev) => upsertSessionAiScore(prev, session.id, score.score));
+          setSessions((prev) =>
+            upsertSessionAiScore(prev, session.id, score.score),
+          );
         },
         onDone: async () => {
           monitoringMeetingAbortRef.current = null;
@@ -1591,7 +1601,9 @@ export function AiScanner() {
           try {
             const list = await getSessions();
             setSessions(sortSessions(list));
-          } catch { /* ignore */ }
+          } catch {
+            /* ignore */
+          }
           try {
             const result = await getAiMeetingResult(session.stockCode);
             if (result) {
@@ -1603,7 +1615,9 @@ export function AiScanner() {
               );
               setMeetingResultModal(result);
             }
-          } catch { /* ignore */ }
+          } catch {
+            /* ignore */
+          }
         },
         onCancelled: () => {
           monitoringMeetingAbortRef.current = null;
@@ -1650,8 +1664,9 @@ export function AiScanner() {
       stockName: r.stockName,
       strategyId: r.bestStrategy.strategyId,
       variant: r.bestStrategy.variant,
-      takeProfitPct: 5,
+      takeProfitPct: 2.5,
       stopLossPct: -3,
+      maxHoldingDays: 7,
       addOnBuyMode: 'skip',
     }));
     setConfigModalItems(items);
@@ -1697,6 +1712,7 @@ export function AiScanner() {
       investmentAmount: Number(investmentAmount),
       takeProfitPct: item.takeProfitPct,
       stopLossPct: item.stopLossPct,
+      maxHoldingDays: item.maxHoldingDays,
       addOnBuyMode: item.addOnBuyMode,
       aiScore: aiScores.get(item.stockCode)?.score,
     }));
@@ -1782,8 +1798,9 @@ export function AiScanner() {
         stockCode: manualLookupStock.stockCode,
         stockName: manualLookupStock.stockName,
         strategyId: '',
-        takeProfitPct: 5,
+        takeProfitPct: 2.5,
         stopLossPct: -3,
+        maxHoldingDays: 7,
         addOnBuyMode: 'skip',
       },
     ]);
@@ -1843,6 +1860,7 @@ export function AiScanner() {
         variant: item.variant,
         takeProfitPct: item.takeProfitPct,
         stopLossPct: item.stopLossPct,
+        maxHoldingDays: item.maxHoldingDays,
         addOnBuyMode: item.addOnBuyMode,
       });
       setSessions((prev) =>
@@ -1974,6 +1992,7 @@ export function AiScanner() {
               variant: editSession.variant,
               takeProfitPct: editSession.takeProfitPct,
               stopLossPct: editSession.stopLossPct,
+              maxHoldingDays: editSession.maxHoldingDays,
               addOnBuyMode: editSession.addOnBuyMode,
             },
           ]}
@@ -1987,7 +2006,8 @@ export function AiScanner() {
         <div className="scanner-config card">
           <h2>1. 최적 종목 스캔</h2>
           <p className="text-muted">
-            전체 KRX 종목을 6가지 전략으로 백테스팅하여 최적 종목을 추출합니다.
+            전체 KRX 종목을 단기 전략으로 백테스팅하여 현재 매수 신호가 강한
+            종목을 추출합니다.
           </p>
           <div className="form-row">
             <label>
@@ -2018,6 +2038,17 @@ export function AiScanner() {
                 onChange={(e) => setAutoStopLossPct(e.target.value)}
                 max="0"
                 step="0.1"
+                disabled={step === 'scanning'}
+              />
+            </label>
+            <label>
+              최대 보유일
+              <input
+                type="number"
+                value={maxHoldingDays}
+                onChange={(e) => setMaxHoldingDays(e.target.value)}
+                min="0"
+                step="1"
                 disabled={step === 'scanning'}
               />
             </label>
@@ -2798,7 +2829,9 @@ export function AiScanner() {
                   </tr>
                 )}
                 {sessions.map((s) => {
-                  const cachedMeetingResult = meetingResultCache.get(s.stockCode);
+                  const cachedMeetingResult = meetingResultCache.get(
+                    s.stockCode,
+                  );
                   const meetingScore = s.aiScore ?? cachedMeetingResult?.score;
                   const cp = getLiveCurrentPrice(s, prices);
                   const unr = getLiveUnrealizedPnl(s, cp);
@@ -2840,6 +2873,10 @@ export function AiScanner() {
                         <span className="text-profit">+{s.takeProfitPct}%</span>
                         <small className="text-muted"> / </small>
                         <span className="text-loss">{s.stopLossPct}%</span>
+                        <small className="text-muted">
+                          {' '}
+                          / {s.maxHoldingDays}일
+                        </small>
                       </td>
                       <td>
                         <span

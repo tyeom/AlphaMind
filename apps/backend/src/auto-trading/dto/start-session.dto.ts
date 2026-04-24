@@ -27,6 +27,8 @@ export interface StartSessionDto {
   takeProfitPct?: number;
   /** 손절 기준 (%) — 음수값, 기본 -3 */
   stopLossPct?: number;
+  /** 최대 보유일 수 — 기본 7, 0 이하이면 비활성 */
+  maxHoldingDays?: number;
   /**
    * 보유 종목에 추가 매수 신호 발생 시 동작 — 미지정시 'skip'
    */
@@ -61,6 +63,7 @@ export interface UpdateSessionDto {
   variant?: string;
   takeProfitPct?: number;
   stopLossPct?: number;
+  maxHoldingDays?: number;
   addOnBuyMode?: AddOnBuyMode;
 }
 

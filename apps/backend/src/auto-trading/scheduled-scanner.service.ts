@@ -17,11 +17,13 @@ import { MARKET_DATA_SERVICE } from '../rmq/rmq.module';
 
 const SCAN_INVESTMENT_AMOUNT = 500_000;
 const SCAN_TOP_N = 35;
-const SCAN_AUTO_TAKE_PROFIT_PCT = 1.3;
-const SCAN_AUTO_STOP_LOSS_PCT = -3;
+const SCAN_AUTO_TAKE_PROFIT_PCT = 1.75;
+const SCAN_AUTO_STOP_LOSS_PCT = -2.5;
+const SCAN_MAX_HOLDING_DAYS = 7;
 const MIN_BUY_SIGNAL_STRENGTH = 0.65;
-const SESSION_TAKE_PROFIT_PCT = 1.3;
-const SESSION_STOP_LOSS_PCT = -2;
+const SESSION_TAKE_PROFIT_PCT = 1.75;
+const SESSION_STOP_LOSS_PCT = -2.5;
+const SESSION_MAX_HOLDING_DAYS = 7;
 const SCAN_JOB_NAME = 'scheduled-ai-scan';
 const SCAN_LOCK_TTL_MINUTES = 30;
 const SCAN_RESULT_CLAIM_TTL_MINUTES = 5;
@@ -160,6 +162,8 @@ export class ScheduledScannerService {
         investmentAmount: SCAN_INVESTMENT_AMOUNT,
         autoTakeProfitPct: SCAN_AUTO_TAKE_PROFIT_PCT,
         autoStopLossPct: SCAN_AUTO_STOP_LOSS_PCT,
+        maxHoldingDays: SCAN_MAX_HOLDING_DAYS,
+        minCurrentSignalStrength: MIN_BUY_SIGNAL_STRENGTH,
       }),
       { defaultValue: undefined },
     );
@@ -326,6 +330,7 @@ export class ScheduledScannerService {
           variant: candidate.bestStrategy.variant,
           takeProfitPct: SESSION_TAKE_PROFIT_PCT,
           stopLossPct: SESSION_STOP_LOSS_PCT,
+          maxHoldingDays: SESSION_MAX_HOLDING_DAYS,
           scheduledScan: true,
         });
         await this.autoTradingService.resumeSession(session.id, userId);
@@ -366,6 +371,7 @@ export class ScheduledScannerService {
             investmentAmount: SCAN_INVESTMENT_AMOUNT,
             takeProfitPct: SESSION_TAKE_PROFIT_PCT,
             stopLossPct: SESSION_STOP_LOSS_PCT,
+            maxHoldingDays: SESSION_MAX_HOLDING_DAYS,
             onConflict: 'update',
             scheduledScan: true,
           })),

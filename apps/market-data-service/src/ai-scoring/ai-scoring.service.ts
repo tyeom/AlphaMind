@@ -2,8 +2,17 @@ import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Stock } from '../stock/entities/stock.entity';
 import { StockDailyPrice } from '../stock/entities/stock-daily-price.entity';
-import { spawnClaude, spawnParallelAgents, TOKEN_LIMIT_MSG, ABORT_MSG } from './claude-pty';
-import { GPT_AUTH_EXPIRED_MSG, spawnGpt, spawnParallelGptAgents } from './gpt-pty';
+import {
+  spawnClaude,
+  spawnParallelAgents,
+  TOKEN_LIMIT_MSG,
+  ABORT_MSG,
+} from './claude-pty';
+import {
+  GPT_AUTH_EXPIRED_MSG,
+  spawnGpt,
+  spawnParallelGptAgents,
+} from './gpt-pty';
 import { AgentConfigService } from '../agent-config/agent-config.service';
 import {
   AiMeetingProvider,
@@ -16,7 +25,8 @@ import {
   MeetingConclusion,
 } from './types/ai-scoring.types';
 
-export const OAUTH_EXPIRED_MSG = 'Claude OAuth 토큰이 만료되었습니다. 재로그인이 필요합니다.';
+export const OAUTH_EXPIRED_MSG =
+  'Claude OAuth 토큰이 만료되었습니다. 재로그인이 필요합니다.';
 
 export interface AiMeetingSession {
   id: string;
@@ -137,7 +147,9 @@ export class AiScoringService {
       for (let i = 0; i < session.stocks.length; i++) {
         // 취소 요청 확인
         if (session.status !== 'running') {
-          this.logger.log(`AI 회의 세션 중단됨: ${session.id} (${i}/${session.stocks.length} 완료)`);
+          this.logger.log(
+            `AI 회의 세션 중단됨: ${session.id} (${i}/${session.stocks.length} 완료)`,
+          );
           return;
         }
 
@@ -151,19 +163,26 @@ export class AiScoringService {
           phase: 'starting',
         };
 
-        const score = await this.scoreSingleStock(stock, (phase) => {
-          session.progress = {
-            current: i + 1,
-            total: session.stocks.length,
-            stockCode: stock.stockCode,
-            stockName: stock.stockName,
-            phase,
-          };
-        }, signal, session.provider);
+        const score = await this.scoreSingleStock(
+          stock,
+          (phase) => {
+            session.progress = {
+              current: i + 1,
+              total: session.stocks.length,
+              stockCode: stock.stockCode,
+              stockName: stock.stockName,
+              phase,
+            };
+          },
+          signal,
+          session.provider,
+        );
 
         // 분석 완료 후에도 취소 확인
         if (session.status !== 'running') {
-          this.logger.log(`AI 회의 세션 중단됨: ${session.id} (${i + 1}/${session.stocks.length} 완료)`);
+          this.logger.log(
+            `AI 회의 세션 중단됨: ${session.id} (${i + 1}/${session.stocks.length} 완료)`,
+          );
           return;
         }
 
@@ -179,7 +198,9 @@ export class AiScoringService {
       session.completedAt = Date.now();
       session.elapsedMs = session.completedAt - session.startedAt;
       session.progress = null;
-      this.logger.log(`백그라운드 AI 회의 완료: ${session.id} (${session.elapsedMs}ms)`);
+      this.logger.log(
+        `백그라운드 AI 회의 완료: ${session.id} (${session.elapsedMs}ms)`,
+      );
 
       // 1시간 후 세션 정리
       setTimeout(() => this.sessions.delete(session.id), 3_600_000);
@@ -221,13 +242,23 @@ export class AiScoringService {
       await this.ensureAuth(provider);
     } catch (err: any) {
       this.logger.error(err.message);
-      return { scores: stocks.map((s) => this.fallbackScore(s, err.message)), elapsedMs: Date.now() - startTime };
+      return {
+        scores: stocks.map((s) => this.fallbackScore(s, err.message)),
+        elapsedMs: Date.now() - startTime,
+      };
     }
 
     for (const stock of stocks) {
       try {
-        this.logger.log(`=== ${stock.stockName}(${stock.stockCode}) 멀티 에이전트 분석 시작 ===`);
-        const score = await this.analyzeStock(stock, undefined, undefined, provider);
+        this.logger.log(
+          `=== ${stock.stockName}(${stock.stockCode}) 멀티 에이전트 분석 시작 ===`,
+        );
+        const score = await this.analyzeStock(
+          stock,
+          undefined,
+          undefined,
+          provider,
+        );
         scores.push(score);
         this.logger.log(`=== ${stock.stockName} 최종 점수: ${score.score} ===`);
       } catch (err: any) {
@@ -253,7 +284,9 @@ export class AiScoringService {
   ): Promise<AiStockScore> {
     try {
       await this.ensureAuth(provider);
-      this.logger.log(`=== ${item.stockName}(${item.stockCode}) 멀티 에이전트 분석 시작 ===`);
+      this.logger.log(
+        `=== ${item.stockName}(${item.stockCode}) 멀티 에이전트 분석 시작 ===`,
+      );
       const score = await this.analyzeStock(item, onPhase, signal, provider);
       this.logger.log(`=== ${item.stockName} 최종 점수: ${score.score} ===`);
       return score;
@@ -284,25 +317,43 @@ export class AiScoringService {
     // ── Phase 1: 데이터 수집 (병렬) ──
     onPhase?.('phase1');
     this.logger.log(`[Phase 1] 데이터 수집 시작: ${item.stockCode}`);
-    const { newsData, chartData } = await this.phase1DataCollection(item, chartSummary, signal, provider);
-    this.logger.log(`[Phase 1] 완료 — 뉴스 감성: ${newsData.sentiment}, 기술 점수: ${chartData.technicalScore}`);
+    const { newsData, chartData } = await this.phase1DataCollection(
+      item,
+      chartSummary,
+      signal,
+      provider,
+    );
+    this.logger.log(
+      `[Phase 1] 완료 — 뉴스 감성: ${newsData.sentiment}, 기술 점수: ${chartData.technicalScore}`,
+    );
 
     // ── Phase 2: 전문가 분석 (병렬) ──
     onPhase?.('phase2');
     this.logger.log(`[Phase 2] 전문가 분석 시작: ${item.stockCode}`);
     const { traderOpinion, economistOpinion } = await this.phase2ExpertAnalysis(
-      item, chartSummary, newsData, chartData, signal, provider,
+      item,
+      chartSummary,
+      newsData,
+      chartData,
+      signal,
+      provider,
     );
     this.logger.log(
       `[Phase 2] 완료 — 트레이더: ${traderOpinion.recommendation}(${traderOpinion.score}), ` +
-      `분석가: ${economistOpinion.recommendation}(${economistOpinion.score})`,
+        `분석가: ${economistOpinion.recommendation}(${economistOpinion.score})`,
     );
 
     // ── Phase 3: 회의 종합 ──
     onPhase?.('phase3');
     this.logger.log(`[Phase 3] 전문가 회의 시작: ${item.stockCode}`);
     const conclusion = await this.phase3Meeting(
-      item, newsData, chartData, traderOpinion, economistOpinion, signal, provider,
+      item,
+      newsData,
+      chartData,
+      traderOpinion,
+      economistOpinion,
+      signal,
+      provider,
     );
     this.logger.log(`[Phase 3] 완료 — 최종 점수: ${conclusion.finalScore}`);
 
@@ -336,8 +387,10 @@ export class AiScoringService {
     const backtestSummary = this.formatBacktestSummary(item);
     const today = new Date();
     const fmt = (d: Date) => d.toISOString().split('T')[0];
-    const threeDaysAgo = new Date(today); threeDaysAgo.setDate(today.getDate() - 3);
-    const sevenDaysAgo = new Date(today); sevenDaysAgo.setDate(today.getDate() - 7);
+    const threeDaysAgo = new Date(today);
+    threeDaysAgo.setDate(today.getDate() - 3);
+    const sevenDaysAgo = new Date(today);
+    sevenDaysAgo.setDate(today.getDate() - 7);
 
     const newsPrompt = `당신은 한국 주식시장 뉴스 전문 수집가입니다.
 
@@ -382,11 +435,11 @@ ${chartSummary}
 작업:
 1. 추세, 지지/저항선, 모멘텀을 분석하세요
 2. 기술적 관점에서 매수 적합도를 1~10점으로 평가하세요
-3. 향후 1~3개월 방향성을 예측하세요
+3. 당일~7거래일 안에 +2~3% 익절 가능성과 -3% 손절 리스크를 평가하세요
 
 반드시 아래 JSON 형식으로만 응답하세요 (다른 텍스트 없이):
 {
-  "chartAnalysis": "기술적 분석 요약 2~3문장",
+  "chartAnalysis": "7거래일 이내 단기 매매 관점의 기술적 분석 요약 2~3문장",
   "technicalScore": 7.5,
   "trendDirection": "상승",
   "supportLevel": 50000,
@@ -402,18 +455,34 @@ momentum: "강함" | "보통" | "약함"`;
         { name: 'news', prompt: newsPrompt, timeoutMs: 240_000 },
         { name: 'chart', prompt: chartPrompt, timeoutMs: 180_000 },
       ],
-      (name, p) => { if (p.done) this.logger.log(`  [Phase 1] ${name} 에이전트 완료`); },
+      (name, p) => {
+        if (p.done) this.logger.log(`  [Phase 1] ${name} 에이전트 완료`);
+      },
       signal,
     );
 
     const newsData = this.safeParseJson<NewsAgentResult>(
       results.get('news')?.output || '',
-      { newsItems: [], newsHighlights: [], sentiment: 'neutral', sentimentScore: 0, keyIssues: [], riskFactors: [] },
+      {
+        newsItems: [],
+        newsHighlights: [],
+        sentiment: 'neutral',
+        sentimentScore: 0,
+        keyIssues: [],
+        riskFactors: [],
+      },
     );
 
     const chartData = this.safeParseJson<ChartAgentResult>(
       results.get('chart')?.output || '',
-      { chartAnalysis: '', technicalScore: 5, trendDirection: '횡보', supportLevel: 0, resistanceLevel: 0, momentum: '보통' },
+      {
+        chartAnalysis: '',
+        technicalScore: 5,
+        trendDirection: '횡보',
+        supportLevel: 0,
+        resistanceLevel: 0,
+        momentum: '보통',
+      },
     );
 
     return { newsData, chartData };
@@ -430,22 +499,30 @@ momentum: "강함" | "보통" | "약함"`;
     chartData: ChartAgentResult,
     signal?: AbortSignal,
     provider: AiMeetingProvider = 'claude',
-  ): Promise<{ traderOpinion: ExpertOpinion; economistOpinion: ExpertOpinion }> {
-    const dataContext = this.buildDataContext(item, chartSummary, newsData, chartData);
+  ): Promise<{
+    traderOpinion: ExpertOpinion;
+    economistOpinion: ExpertOpinion;
+  }> {
+    const dataContext = this.buildDataContext(
+      item,
+      chartSummary,
+      newsData,
+      chartData,
+    );
 
     const traderPrompt = `당신은 15년 경력의 한국 주식시장 전문 트레이더입니다.
-단기 매매(스윙/데이트레이딩)에 특화되어 있으며, 기술적 분석과 수급 분석을 중시합니다.
+단기 매매(데이트레이딩/7거래일 이내 스윙)에 특화되어 있으며, 기술적 분석과 수급 분석을 중시합니다.
 리스크 관리에 엄격하고, 손익비(Risk-Reward Ratio)를 항상 계산합니다.
 
-아래 데이터를 바탕으로 이 종목의 단기(1~3개월) 투자 의견을 제시하세요.
+아래 데이터를 바탕으로 이 종목의 단기(당일~7거래일) 투자 의견을 제시하세요.
 
 ${dataContext}
 
 트레이더 관점에서 분석하세요:
 1. 현재 매수 타이밍이 적절한가?
 2. 기술적 패턴상 기대 수익률은?
-3. 손절선은 어디에 설정해야 하는가?
-4. 수급 측면에서 유리한가?
+3. +2~3% 익절 전에 -3% 손절이 먼저 나올 가능성은?
+4. 수급 측면에서 7거래일 이내 진입이 유리한가?
 
 반드시 아래 JSON 형식으로만 응답하세요 (다른 텍스트 없이):
 {
@@ -454,7 +531,7 @@ ${dataContext}
   "analysis": "트레이더 관점 분석 요약 3~4문장",
   "keyPoints": ["매수 근거 1", "매수 근거 2", "매수 근거 3"],
   "concerns": ["우려사항 1", "우려사항 2"],
-  "targetReturnPct": 15.0,
+  "targetReturnPct": 3.0,
   "confidence": 0.7
 }
 recommendation: "strong_buy" | "buy" | "hold" | "sell" | "strong_sell"
@@ -463,7 +540,7 @@ confidence: 0.0(확신 없음) ~ 1.0(매우 확신)`;
 
     const economistPrompt = `당신은 20년 경력의 경제 전문 분석가입니다.
 거시경제, 산업 동향, 기업 펀더멘탈 분석에 특화되어 있습니다.
-중장기 투자 관점을 중시하며, 뉴스와 시장 환경의 영향을 깊이 분석합니다.
+단기 매매에 필요한 뉴스/시장 환경의 즉시성을 중시하며, 펀더멘탈 이슈가 7거래일 안에 주가에 반영될 가능성을 분석합니다.
 
 아래 데이터를 바탕으로 이 종목의 투자 의견을 제시하세요.
 
@@ -472,8 +549,8 @@ ${dataContext}
 경제 분석가 관점에서 분석하세요:
 1. 현재 경제 환경에서 이 섹터/종목이 유리한가?
 2. 뉴스 이벤트가 주가에 미칠 중장기 영향은?
-3. 기업의 펀더멘탈 대비 현재 가격은 적절한가?
-4. 거시경제 리스크는 무엇인가?
+3. 기업의 펀더멘탈/뉴스 이슈가 7거래일 이내 촉매가 될 수 있는가?
+4. 단기 매매에 불리한 거시경제/섹터 리스크는 무엇인가?
 
 반드시 아래 JSON 형식으로만 응답하세요 (다른 텍스트 없이):
 {
@@ -482,7 +559,7 @@ ${dataContext}
   "analysis": "경제 분석가 관점 분석 요약 3~4문장",
   "keyPoints": ["투자 근거 1", "투자 근거 2", "투자 근거 3"],
   "concerns": ["우려사항 1", "우려사항 2"],
-  "targetReturnPct": 10.0,
+  "targetReturnPct": 3.0,
   "confidence": 0.6
 }
 recommendation: "strong_buy" | "buy" | "hold" | "sell" | "strong_sell"
@@ -495,7 +572,9 @@ confidence: 0.0(확신 없음) ~ 1.0(매우 확신)`;
         { name: 'trader', prompt: traderPrompt, timeoutMs: 180_000 },
         { name: 'economist', prompt: economistPrompt, timeoutMs: 180_000 },
       ],
-      (name, p) => { if (p.done) this.logger.log(`  [Phase 2] ${name} 전문가 완료`); },
+      (name, p) => {
+        if (p.done) this.logger.log(`  [Phase 2] ${name} 전문가 완료`);
+      },
       signal,
     );
 
@@ -510,11 +589,13 @@ confidence: 0.0(확신 없음) ~ 1.0(매우 확신)`;
     };
 
     const traderOpinion = this.safeParseJson<ExpertOpinion>(
-      results.get('trader')?.output || '', defaultOpinion,
+      results.get('trader')?.output || '',
+      defaultOpinion,
     );
 
     const economistOpinion = this.safeParseJson<ExpertOpinion>(
-      results.get('economist')?.output || '', defaultOpinion,
+      results.get('economist')?.output || '',
+      defaultOpinion,
     );
 
     return { traderOpinion, economistOpinion };
@@ -564,7 +645,7 @@ ${backtestSummary}
 1. 두 전문가의 의견이 일치하는 부분을 정리하세요
 2. 의견이 다른 부분을 정리하고, 어느 쪽이 더 타당한지 판단하세요
 3. 최종 투자 점수를 결정하세요 (1.00~10.00)
-4. 최종 추천 의견을 한 문장으로 작성하세요
+4. +2~3% 익절 / -3% 손절 / 최대 7거래일 보유 기준에서 최종 추천 의견을 한 문장으로 작성하세요
 5. 종합 분석 근거를 3~4문장으로 작성하세요
 
 반드시 아래 JSON 형식으로만 응답하세요 (다른 텍스트 없이):
@@ -579,7 +660,9 @@ finalScore: 1.00(강력 매도) ~ 10.00(강력 매수)`;
 
     const result = await this.spawnSingleByProvider(provider, meetingPrompt, {
       timeoutMs: 180_000,
-      onProgress: (p) => { if (p.done) this.logger.log(`  [Phase 3] 회의 종합 완료`); },
+      onProgress: (p) => {
+        if (p.done) this.logger.log(`  [Phase 3] 회의 종합 완료`);
+      },
       signal,
     });
 
@@ -588,11 +671,18 @@ finalScore: 1.00(강력 매도) ~ 10.00(강력 매수)`;
       finalRecommendation: '전문가 회의 결과를 도출하지 못했습니다.',
       consensusPoints: [],
       disagreements: [],
-      reasoning: this.buildFallbackReasoning(item, traderOpinion, economistOpinion),
+      reasoning: this.buildFallbackReasoning(
+        item,
+        traderOpinion,
+        economistOpinion,
+      ),
     });
 
     // 점수 범위 보정
-    conclusion.finalScore = Math.max(1, Math.min(10, Math.round(conclusion.finalScore * 100) / 100));
+    conclusion.finalScore = Math.max(
+      1,
+      Math.min(10, Math.round(conclusion.finalScore * 100) / 100),
+    );
 
     return conclusion;
   }
@@ -651,7 +741,10 @@ ${newsData.newsHighlights.map((n, i) => `  ${i + 1}. ${n}`).join('\n')}
       prompt: string;
       timeoutMs?: number;
     }[],
-    onAgentProgress?: (agentName: string, progress: { output: string; done: boolean }) => void,
+    onAgentProgress?: (
+      agentName: string,
+      progress: { output: string; done: boolean },
+    ) => void,
     signal?: AbortSignal,
   ) {
     return provider === 'gpt'
@@ -670,11 +763,16 @@ ${newsData.newsHighlights.map((n, i) => `  ${i + 1}. ${n}`).join('\n')}
   }
 
   /** 회의 실패 시 두 전문가 점수의 가중 평균으로 폴백 */
-  private calculateFallbackScore(trader: ExpertOpinion, economist: ExpertOpinion): number {
+  private calculateFallbackScore(
+    trader: ExpertOpinion,
+    economist: ExpertOpinion,
+  ): number {
     const traderWeight = trader.confidence || 0.5;
     const economistWeight = economist.confidence || 0.5;
     const totalWeight = traderWeight + economistWeight;
-    const score = (trader.score * traderWeight + economist.score * economistWeight) / totalWeight;
+    const score =
+      (trader.score * traderWeight + economist.score * economistWeight) /
+      totalWeight;
     return Math.max(1, Math.min(10, Math.round(score * 100) / 100));
   }
 
@@ -683,9 +781,11 @@ ${newsData.newsHighlights.map((n, i) => `  ${i + 1}. ${n}`).join('\n')}
     trader: ExpertOpinion,
     economist: ExpertOpinion,
   ): string {
-    return `${item.stockName}에 대해 트레이더는 ${trader.recommendation}(${trader.score}점), ` +
+    return (
+      `${item.stockName}에 대해 트레이더는 ${trader.recommendation}(${trader.score}점), ` +
       `분석가는 ${economist.recommendation}(${economist.score}점)을 제시했습니다. ` +
-      `두 전문가 의견의 가중 평균으로 최종 점수를 산출했습니다.`;
+      `두 전문가 의견의 가중 평균으로 최종 점수를 산출했습니다.`
+    );
   }
 
   private async buildChartSummary(stockCode: string): Promise<string> {
@@ -712,28 +812,36 @@ ${newsData.newsHighlights.map((n, i) => `  ${i + 1}. ${n}`).join('\n')}
     const low = Math.min(...closes);
     const changePct = ((last - first) / first) * 100;
 
-    const volumes = prices.slice(-5).filter((p) => p.volume != null).map((p) => p.volume!);
-    const avgVolume = volumes.length > 0
-      ? Math.round(volumes.reduce((a, b) => a + b, 0) / volumes.length)
-      : 0;
+    const volumes = prices
+      .slice(-5)
+      .filter((p) => p.volume != null)
+      .map((p) => p.volume!);
+    const avgVolume =
+      volumes.length > 0
+        ? Math.round(volumes.reduce((a, b) => a + b, 0) / volumes.length)
+        : 0;
 
     const volatility =
-      (Math.sqrt(
+      Math.sqrt(
         closes.slice(1).reduce((sum, c, i) => {
           const ret = (c - closes[i]) / closes[i];
           return sum + ret * ret;
-        }, 0) / (closes.length - 1),
-      ) * 100) || 0;
+        }, 0) /
+          (closes.length - 1),
+      ) * 100 || 0;
 
-    const sma20 = closes.length >= 20
-      ? Math.round(closes.slice(-20).reduce((a, b) => a + b, 0) / 20)
-      : null;
+    const sma20 =
+      closes.length >= 20
+        ? Math.round(closes.slice(-20).reduce((a, b) => a + b, 0) / 20)
+        : null;
 
-    const sma5 = closes.length >= 5
-      ? Math.round(closes.slice(-5).reduce((a, b) => a + b, 0) / 5)
-      : null;
+    const sma5 =
+      closes.length >= 5
+        ? Math.round(closes.slice(-5).reduce((a, b) => a + b, 0) / 5)
+        : null;
 
-    const trend = changePct > 5 ? '상승 추세' : changePct < -5 ? '하락 추세' : '횡보';
+    const trend =
+      changePct > 5 ? '상승 추세' : changePct < -5 ? '하락 추세' : '횡보';
 
     return [
       `- 기간: ${prices.length}거래일`,
@@ -743,9 +851,15 @@ ${newsData.newsHighlights.map((n, i) => `  ${i + 1}. ${n}`).join('\n')}
       `- 변동성(일간): ${volatility.toFixed(2)}%`,
       `- 추세: ${trend}`,
       sma5 ? `- 5일 이동평균: ${sma5.toLocaleString()}원` : '',
-      sma20 ? `- 20일 이동평균: ${sma20.toLocaleString()}원 (현재가 ${last > sma20 ? '위' : '아래'})` : '',
-      avgVolume ? `- 최근 5일 평균 거래량: ${avgVolume.toLocaleString()}주` : '',
-    ].filter(Boolean).join('\n');
+      sma20
+        ? `- 20일 이동평균: ${sma20.toLocaleString()}원 (현재가 ${last > sma20 ? '위' : '아래'})`
+        : '',
+      avgVolume
+        ? `- 최근 5일 평균 거래량: ${avgVolume.toLocaleString()}주`
+        : '',
+    ]
+      .filter(Boolean)
+      .join('\n');
   }
 
   private safeParseJson<T>(output: string, fallback: T): T {
@@ -757,14 +871,20 @@ ${newsData.newsHighlights.map((n, i) => `  ${i + 1}. ${n}`).join('\n')}
       const clean = output.replace(/\x1B\[[0-9;]*[A-Za-z]/g, '').trim();
       const jsonMatch = clean.match(/\{[\s\S]*\}/);
       if (!jsonMatch) {
-        this.logger.warn(`safeParseJson: JSON 미발견. 출력 미리보기(300자): ${clean.slice(0, 300)}`);
+        this.logger.warn(
+          `safeParseJson: JSON 미발견. 출력 미리보기(300자): ${clean.slice(0, 300)}`,
+        );
         return fallback;
       }
       const parsed = JSON.parse(jsonMatch[0]);
-      this.logger.debug(`safeParseJson: 파싱 성공 — keys: ${Object.keys(parsed).join(', ')}`);
+      this.logger.debug(
+        `safeParseJson: 파싱 성공 — keys: ${Object.keys(parsed).join(', ')}`,
+      );
       return { ...fallback, ...parsed };
     } catch (err: any) {
-      this.logger.warn(`safeParseJson: JSON 파싱 실패 — ${err.message}. 출력 미리보기: ${output.slice(0, 200)}`);
+      this.logger.warn(
+        `safeParseJson: JSON 파싱 실패 — ${err.message}. 출력 미리보기: ${output.slice(0, 200)}`,
+      );
       return fallback;
     }
   }
@@ -813,7 +933,10 @@ ${newsData.newsHighlights.map((n, i) => `  ${i + 1}. ${n}`).join('\n')}
     }
   }
 
-  private fallbackScore(item: AiScoreRequestItem, errorMsg: string): AiStockScore {
+  private fallbackScore(
+    item: AiScoreRequestItem,
+    errorMsg: string,
+  ): AiStockScore {
     return {
       stockCode: item.stockCode,
       stockName: item.stockName,

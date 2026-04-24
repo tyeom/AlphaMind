@@ -61,6 +61,7 @@ export class AutoTradingSessionEntity {
     | 'autoPausePending'
     | 'takeProfitPct'
     | 'stopLossPct'
+    | 'maxHoldingDays'
     | 'addOnBuyMode'
     | 'scheduledScan'
     | 'positionStatus'
@@ -104,12 +105,16 @@ export class AutoTradingSessionEntity {
   investmentAmount!: number;
 
   /** 목표 수익률 (%) — 자동 익절 기준 */
-  @Property({ type: 'float', default: 5 })
-  takeProfitPct: number = 5;
+  @Property({ type: 'float', default: 2.5 })
+  takeProfitPct: number = 2.5;
 
   /** 손절 기준 (%) — 음수값, 자동 손절 기준 */
   @Property({ type: 'float', default: -3 })
   stopLossPct: number = -3;
+
+  /** 최대 보유일 수 — 0 이하이면 비활성 */
+  @Property({ default: 7 })
+  maxHoldingDays: number = 7;
 
   /**
    * 보유 종목에서 매수 신호가 추가로 발생했을 때의 처리 방식.
@@ -165,6 +170,10 @@ export class AutoTradingSessionEntity {
 
   @Property({ nullable: true })
   stoppedAt?: Date;
+
+  /** 현재 포지션 최초 진입 시각 */
+  @Property({ nullable: true })
+  enteredAt?: Date;
 
   /** 실보유/매수대기 상태 — holdingQty 에서 파생, API 응답에만 포함 (DB 컬럼 없음) */
   @Property({ persist: false })

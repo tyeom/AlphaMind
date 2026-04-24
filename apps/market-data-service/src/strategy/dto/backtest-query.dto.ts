@@ -9,8 +9,12 @@ export interface BacktestQueryDto {
   tradeRatioPct?: string;
   /** 매매 수수료율 % (기본 0.015) */
   commissionPct?: string;
-  /** 자동 익절 수익률 % (기본 5) */
+  /** 자동 익절 수익률 % (기본 2.5) */
   autoTakeProfitPct?: string;
   /** 자동 손절 수익률 % (기본 -3) */
   autoStopLossPct?: string;
+  /** 최대 보유 거래일 수 (기본 7) */
+  maxHoldingDays?: string;
+  /** 보유 중 추가 매수 허용 여부 (미지정 시 전략별 기본값) */
+  allowAddOnBuy?: string;
 }

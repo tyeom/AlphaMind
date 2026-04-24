@@ -11,6 +11,8 @@ export interface ScanResult {
   winRate: number;
   maxDrawdownPct: number;
   totalTrades: number;
+  /** 단기 운용 적합도 기반 위험조정 랭킹 점수 */
+  rankScore: number;
   finalValue: number;
   investmentAmount: number;
   /** 추천 근거 요약 */

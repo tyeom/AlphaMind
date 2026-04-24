@@ -107,4 +107,31 @@ describe('AutoTradingService', () => {
 
     expect((service as any).executeSell).not.toHaveBeenCalled();
   });
+
+  it('triggers auto sell when max holding days has elapsed', async () => {
+    const { service } = createService();
+    const session = {
+      id: 3,
+      stockCode: '035420',
+      status: SessionStatus.ACTIVE,
+      holdingQty: 5,
+      avgBuyPrice: 100,
+      takeProfitPct: 2.5,
+      stopLossPct: -3,
+      maxHoldingDays: 7,
+      enteredAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
+      autoPausePending: false,
+    } as AutoTradingSessionEntity;
+
+    jest.spyOn(service as any, 'executeSell').mockResolvedValue(undefined);
+
+    const sold = await (service as any).evaluateAndExecuteSell(session, 101);
+
+    expect(sold).toBe(true);
+    expect((service as any).executeSell).toHaveBeenCalledWith(
+      session,
+      101,
+      '최대 보유기간 7일 도달 (1.0%)',
+    );
+  });
 });

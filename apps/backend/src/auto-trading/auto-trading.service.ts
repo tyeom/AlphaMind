@@ -72,10 +72,12 @@ const STRATEGY_MAP: Record<
 };
 
 /** 기본 익절/손절/매매비율 — 세션에 값이 없을 때만 사용 */
-const DEFAULT_TAKE_PROFIT_PCT = 2;
+const DEFAULT_TAKE_PROFIT_PCT = 2.5;
 const DEFAULT_STOP_LOSS_PCT = -3;
+const DEFAULT_MAX_HOLDING_DAYS = 7;
 const DEFAULT_STRATEGY_ID = 'day-trading';
 const TRADE_RATIO_PCT = 20;
+const MIN_BUY_SIGNAL_STRENGTH = 0.6;
 const PRICE_POLL_INTERVAL_MS = 5_000;
 const PRICE_TRIGGERED_SELL_CHECK_DEBOUNCE_MS = 1_000;
 const SUBSCRIPTION_RETRY_BASE_DELAY_MS = 5_000;
@@ -207,9 +209,13 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     price: number,
     qty: number,
   ) {
+    const wasFlat = session.holdingQty <= 0;
     const totalCost = session.avgBuyPrice * session.holdingQty + price * qty;
     session.holdingQty += qty;
     session.avgBuyPrice = totalCost / session.holdingQty;
+    if (wasFlat && session.holdingQty > 0) {
+      session.enteredAt = new Date();
+    }
     session.totalBuys += 1;
     if (session.holdingQty > 0) {
       this.holdingStockCodes.add(session.stockCode);
@@ -228,6 +234,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       session.holdingQty = 0;
       session.avgBuyPrice = 0;
       session.unrealizedPnl = 0;
+      session.enteredAt = undefined;
     }
     session.totalSells += 1;
     return Math.round(pnl);
@@ -361,6 +368,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         variant?: string;
         takeProfitPct: number;
         stopLossPct: number;
+        maxHoldingDays: number;
       };
     }> = [];
 
@@ -383,6 +391,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
             variant: existing.variant,
             takeProfitPct: existing.takeProfitPct,
             stopLossPct: existing.stopLossPct,
+            maxHoldingDays: existing.maxHoldingDays,
           },
         });
       }
@@ -448,6 +457,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         existing.investmentAmount = dto.investmentAmount;
         existing.takeProfitPct = dto.takeProfitPct ?? existing.takeProfitPct;
         existing.stopLossPct = dto.stopLossPct ?? existing.stopLossPct;
+        existing.maxHoldingDays = dto.maxHoldingDays ?? existing.maxHoldingDays;
         if (dto.addOnBuyMode !== undefined) {
           existing.addOnBuyMode = dto.addOnBuyMode as AddOnBuyMode;
         }
@@ -458,7 +468,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         await this.em.flush();
         this.logger.log(
           `자동매매 업데이트: ${dto.stockName}(${dto.stockCode}) - ${strategyId} ` +
-            `(목표 ${existing.takeProfitPct}%, 손절 ${existing.stopLossPct}%)`,
+            `(목표 ${existing.takeProfitPct}%, 손절 ${existing.stopLossPct}%, ` +
+            `최대보유 ${existing.maxHoldingDays}일)`,
         );
         await this.syncStockActivity(dto.stockCode);
         this.broadcastSessionUpdate(existing);
@@ -479,6 +490,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
               variant: existing.variant,
               takeProfitPct: existing.takeProfitPct,
               stopLossPct: existing.stopLossPct,
+              maxHoldingDays: existing.maxHoldingDays,
             },
           },
         ],
@@ -496,6 +508,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       investmentAmount: dto.investmentAmount,
       takeProfitPct: dto.takeProfitPct ?? DEFAULT_TAKE_PROFIT_PCT,
       stopLossPct: dto.stopLossPct ?? DEFAULT_STOP_LOSS_PCT,
+      maxHoldingDays: dto.maxHoldingDays ?? DEFAULT_MAX_HOLDING_DAYS,
       addOnBuyMode:
         (dto.addOnBuyMode as AddOnBuyMode | undefined) ?? AddOnBuyMode.SKIP,
       aiScore: dto.aiScore,
@@ -509,6 +522,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     this.logger.log(
       `자동매매 시작: ${dto.stockName}(${dto.stockCode}) - ${strategyId} ` +
         `(목표 ${session.takeProfitPct}%, 손절 ${session.stopLossPct}%, ` +
+        `최대보유 ${session.maxHoldingDays}일, ` +
         `진입 ${dto.entryMode ?? 'monitor'})`,
     );
 
@@ -600,7 +614,13 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     try {
       const response = await firstValueFrom(
         this.marketDataClient
-          .send('strategy.recommend', { stockCode, investmentAmount })
+          .send('strategy.recommend', {
+            stockCode,
+            investmentAmount,
+            autoTakeProfitPct: DEFAULT_TAKE_PROFIT_PCT,
+            autoStopLossPct: DEFAULT_STOP_LOSS_PCT,
+            maxHoldingDays: DEFAULT_MAX_HOLDING_DAYS,
+          })
           .pipe(timeout(15_000)),
       );
       return response ?? null;
@@ -718,6 +738,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       const real = balanceMap.get(session.stockCode);
       const realQty = real?.qty ?? 0;
       const realAvg = real?.avgPrice ?? 0;
+      const previousQty = session.holdingQty;
 
       if (session.holdingQty !== realQty || session.avgBuyPrice !== realAvg) {
         this.logger.log(
@@ -728,7 +749,11 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         if (realQty <= 0) {
           session.avgBuyPrice = 0;
           session.unrealizedPnl = 0;
+          session.enteredAt = undefined;
         } else {
+          if (!session.enteredAt || previousQty <= 0) {
+            session.enteredAt = new Date();
+          }
           const latestPrice = this.latestPrices.get(session.stockCode);
           if (latestPrice) {
             session.unrealizedPnl = Math.round(
@@ -736,6 +761,15 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
             );
           }
         }
+        changed = true;
+      }
+
+      if (realQty > 0 && !session.enteredAt) {
+        session.enteredAt = new Date();
+        changed = true;
+      }
+      if (realQty <= 0 && session.enteredAt) {
+        session.enteredAt = undefined;
         changed = true;
       }
 
@@ -825,13 +859,18 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       const real = balanceMap.get(session.stockCode);
       const realQty = real?.qty ?? 0;
       const realAvg = real?.avgPrice ?? 0;
+      const previousQty = session.holdingQty;
 
       if (session.holdingQty !== realQty || session.avgBuyPrice !== realAvg) {
         session.holdingQty = realQty;
         session.avgBuyPrice = realQty > 0 ? realAvg : 0;
         if (realQty <= 0) {
           session.unrealizedPnl = 0;
+          session.enteredAt = undefined;
         } else {
+          if (!session.enteredAt || previousQty <= 0) {
+            session.enteredAt = new Date();
+          }
           const latestPrice = this.latestPrices.get(session.stockCode);
           if (latestPrice) {
             session.unrealizedPnl = Math.round(
@@ -839,6 +878,15 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
             );
           }
         }
+        changed = true;
+      }
+
+      if (realQty > 0 && !session.enteredAt) {
+        session.enteredAt = new Date();
+        changed = true;
+      }
+      if (realQty <= 0 && session.enteredAt) {
+        session.enteredAt = undefined;
         changed = true;
       }
 
@@ -974,6 +1022,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     if (dto.stopLossPct !== undefined) {
       session.stopLossPct = dto.stopLossPct;
     }
+    if (dto.maxHoldingDays !== undefined) {
+      session.maxHoldingDays = dto.maxHoldingDays;
+    }
     if (dto.addOnBuyMode !== undefined) {
       session.addOnBuyMode = dto.addOnBuyMode as AddOnBuyMode;
     }
@@ -984,7 +1035,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     await this.em.flush();
     this.logger.log(
       `자동매매 설정 수정: ${session.stockName}(${session.stockCode}) - ${session.strategyId}` +
-        ` (목표 ${session.takeProfitPct}%, 손절 ${session.stopLossPct}%)`,
+        ` (목표 ${session.takeProfitPct}%, 손절 ${session.stopLossPct}%, ` +
+        `최대보유 ${session.maxHoldingDays}일)`,
     );
     this.broadcastSessionUpdate(session);
     return session;
@@ -1108,7 +1160,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
       return (
         lastSignal.direction === SignalDirection.Buy &&
-        lastSignal.strength >= 0.3
+        lastSignal.strength >= MIN_BUY_SIGNAL_STRENGTH
       );
     } catch {
       return false;
@@ -1379,11 +1431,15 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     const wasFirstExecution = execution.previousExecutedQty === 0;
 
     if (execution.history.tradeType === TradeType.BUY) {
+      const wasFlat = session.holdingQty <= 0;
       const totalCost =
         session.avgBuyPrice * session.holdingQty + executedPrice * executedQty;
       session.holdingQty += executedQty;
       session.avgBuyPrice =
         session.holdingQty > 0 ? totalCost / session.holdingQty : 0;
+      if (wasFlat && session.holdingQty > 0) {
+        session.enteredAt = new Date();
+      }
       if (wasFirstExecution) {
         session.totalBuys += 1;
       }
@@ -1409,6 +1465,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         session.holdingQty = 0;
         session.avgBuyPrice = 0;
         session.unrealizedPnl = 0;
+        session.enteredAt = undefined;
       } else {
         const latestPrice = this.latestPrices.get(session.stockCode);
         if (latestPrice) {
@@ -1659,6 +1716,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
     const returnPct =
       ((price - session.avgBuyPrice) / session.avgBuyPrice) * 100;
+    const maxHoldingDays = session.maxHoldingDays ?? DEFAULT_MAX_HOLDING_DAYS;
 
     if (returnPct >= session.takeProfitPct) {
       await this.executeSell(
@@ -1676,6 +1734,19 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       );
       return true;
     }
+    if (
+      maxHoldingDays > 0 &&
+      session.enteredAt &&
+      Date.now() - session.enteredAt.getTime() >=
+        maxHoldingDays * 24 * 60 * 60 * 1000
+    ) {
+      await this.executeSell(
+        session,
+        price,
+        `최대 보유기간 ${maxHoldingDays}일 도달 (${returnPct.toFixed(1)}%)`,
+      );
+      return true;
+    }
     return false;
   }
 
@@ -1684,15 +1755,10 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
    * 매도 체결로 인한 holdingQty 감소는 이 경로에서만 반영되므로 — 30초 루프에서
    * 호출해 이벤트 기반 add 와의 오차를 주기적으로 교정한다.
    */
-  private refreshHoldingStockCodes(
-    sessions: AutoTradingSessionEntity[],
-  ): void {
+  private refreshHoldingStockCodes(sessions: AutoTradingSessionEntity[]): void {
     const next = new Set<string>();
     for (const session of sessions) {
-      if (
-        session.status === SessionStatus.ACTIVE &&
-        session.holdingQty > 0
-      ) {
+      if (session.status === SessionStatus.ACTIVE && session.holdingQty > 0) {
         next.add(session.stockCode);
       }
     }

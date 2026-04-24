@@ -261,6 +261,7 @@ export class KisController {
               variant: session.variant,
               takeProfitPct: session.takeProfitPct,
               stopLossPct: session.stopLossPct,
+              maxHoldingDays: session.maxHoldingDays,
             }
           : null,
       };

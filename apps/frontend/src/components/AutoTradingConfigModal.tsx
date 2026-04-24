@@ -9,6 +9,7 @@ export interface TradingConfigItem {
   variant?: string;
   takeProfitPct: number;
   stopLossPct: number;
+  maxHoldingDays: number;
   /** 보유 종목에 추가 매수 신호 발생 시 동작 — 기본 'skip' */
   addOnBuyMode: AddOnBuyMode;
 }
@@ -87,7 +88,7 @@ export function AutoTradingConfigModal({
         <div className="modal-body">
           <p className="text-muted modal-description">
             {description ??
-              '각 종목별로 사용할 전략과 목표 수익/손절 기준을 설정하세요. 기본값은 백테스트 기반 추천 전략 및 +5% / -3% 입니다.'}
+              '각 종목별로 사용할 전략과 목표 수익/손절/최대 보유일을 설정하세요. 기본값은 백테스트 기반 추천 전략 및 +2.5% / -3% / 7일입니다.'}
           </p>
 
           {showEntryMode && (
@@ -120,7 +121,8 @@ export function AutoTradingConfigModal({
                   <span>
                     바로 매수 후 운용
                     <small className="entry-mode-hint">
-                      세션 생성 직후 시장가로 전액 매수, 이후 익절/손절 자동 운용
+                      세션 생성 직후 시장가로 전액 매수, 이후 익절/손절 자동
+                      운용
                     </small>
                   </span>
                 </label>
@@ -129,73 +131,89 @@ export function AutoTradingConfigModal({
           )}
 
           {configs.length > 1 && (
-          <div className="bulk-apply-row">
-            <span className="bulk-apply-label">일괄 적용:</span>
-            <label>
-              전략
-              <select
-                defaultValue="__none__"
-                onChange={(e) => {
-                  if (e.target.value !== '__none__') {
-                    // 전략 변경 시 stale variant 방지를 위해 함께 비움
-                    applyToAll({ strategyId: e.target.value, variant: undefined });
-                  }
-                  e.target.value = '__none__';
-                }}
-              >
-                <option value="__none__">선택</option>
-                {STRATEGY_OPTIONS.map((s) => (
-                  <option key={s.id || '__auto__'} value={s.id}>
-                    {s.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              목표수익(%)
-              <input
-                type="number"
-                step="0.5"
-                placeholder="5"
-                onBlur={(e) => {
-                  const v = parseFloat(e.target.value);
-                  if (!isNaN(v)) applyToAll({ takeProfitPct: v });
-                  e.target.value = '';
-                }}
-              />
-            </label>
-            <label>
-              손절(%)
-              <input
-                type="number"
-                step="0.5"
-                placeholder="-3"
-                onBlur={(e) => {
-                  const v = parseFloat(e.target.value);
-                  if (!isNaN(v)) applyToAll({ stopLossPct: v });
-                  e.target.value = '';
-                }}
-              />
-            </label>
-            <label>
-              추가매수
-              <select
-                defaultValue="__none__"
-                onChange={(e) => {
-                  if (e.target.value !== '__none__') {
-                    applyToAll({
-                      addOnBuyMode: e.target.value as AddOnBuyMode,
-                    });
-                  }
-                  e.target.value = '__none__';
-                }}
-              >
-                <option value="__none__">선택</option>
-                <option value="skip">스킵</option>
-                <option value="add">추가매수</option>
-              </select>
-            </label>
-          </div>
+            <div className="bulk-apply-row">
+              <span className="bulk-apply-label">일괄 적용:</span>
+              <label>
+                전략
+                <select
+                  defaultValue="__none__"
+                  onChange={(e) => {
+                    if (e.target.value !== '__none__') {
+                      // 전략 변경 시 stale variant 방지를 위해 함께 비움
+                      applyToAll({
+                        strategyId: e.target.value,
+                        variant: undefined,
+                      });
+                    }
+                    e.target.value = '__none__';
+                  }}
+                >
+                  <option value="__none__">선택</option>
+                  {STRATEGY_OPTIONS.map((s) => (
+                    <option key={s.id || '__auto__'} value={s.id}>
+                      {s.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                목표수익(%)
+                <input
+                  type="number"
+                  step="0.5"
+                  placeholder="2.5"
+                  onBlur={(e) => {
+                    const v = parseFloat(e.target.value);
+                    if (!isNaN(v)) applyToAll({ takeProfitPct: v });
+                    e.target.value = '';
+                  }}
+                />
+              </label>
+              <label>
+                손절(%)
+                <input
+                  type="number"
+                  step="0.5"
+                  placeholder="-3"
+                  onBlur={(e) => {
+                    const v = parseFloat(e.target.value);
+                    if (!isNaN(v)) applyToAll({ stopLossPct: v });
+                    e.target.value = '';
+                  }}
+                />
+              </label>
+              <label>
+                최대보유(일)
+                <input
+                  type="number"
+                  step="1"
+                  placeholder="7"
+                  onBlur={(e) => {
+                    const v = parseInt(e.target.value, 10);
+                    if (!isNaN(v)) applyToAll({ maxHoldingDays: v });
+                    e.target.value = '';
+                  }}
+                />
+              </label>
+              <label>
+                추가매수
+                <select
+                  defaultValue="__none__"
+                  onChange={(e) => {
+                    if (e.target.value !== '__none__') {
+                      applyToAll({
+                        addOnBuyMode: e.target.value as AddOnBuyMode,
+                      });
+                    }
+                    e.target.value = '__none__';
+                  }}
+                >
+                  <option value="__none__">선택</option>
+                  <option value="skip">스킵</option>
+                  <option value="add">추가매수</option>
+                </select>
+              </label>
+            </div>
           )}
 
           <div className="modal-table-container">
@@ -206,6 +224,7 @@ export function AutoTradingConfigModal({
                   <th>전략</th>
                   <th className="text-right">목표수익(%)</th>
                   <th className="text-right">손절(%)</th>
+                  <th className="text-right">최대보유</th>
                   <th>보유 시 매수신호</th>
                 </tr>
               </thead>
@@ -259,6 +278,21 @@ export function AutoTradingConfigModal({
                             stopLossPct: parseFloat(e.target.value) || 0,
                           })
                         }
+                      />
+                    </td>
+                    <td className="text-right">
+                      <input
+                        className="config-num-input"
+                        type="number"
+                        step="1"
+                        min="0"
+                        value={item.maxHoldingDays}
+                        onChange={(e) =>
+                          updateItem(i, {
+                            maxHoldingDays: parseInt(e.target.value, 10) || 0,
+                          })
+                        }
+                        title="0이면 최대 보유일 제한을 사용하지 않습니다"
                       />
                     </td>
                     <td>

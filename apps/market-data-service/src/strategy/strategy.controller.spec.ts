@@ -97,4 +97,35 @@ describe('StrategyController', () => {
       }),
     );
   });
+
+  it('does not force allowAddOnBuy when the backtest query omits it', () => {
+    const { controller, backtestService } = createController();
+
+    controller.runBacktest('005930', {
+      strategyId: 'infinity-bot',
+    } as any);
+
+    expect(backtestService.runBacktest).toHaveBeenCalledWith(
+      '005930',
+      expect.not.objectContaining({
+        allowAddOnBuy: expect.any(Boolean),
+      }),
+    );
+  });
+
+  it('passes explicit allowAddOnBuy backtest query values', () => {
+    const { controller, backtestService } = createController();
+
+    controller.runBacktest('005930', {
+      strategyId: 'infinity-bot',
+      allowAddOnBuy: 'false',
+    } as any);
+
+    expect(backtestService.runBacktest).toHaveBeenCalledWith(
+      '005930',
+      expect.objectContaining({
+        allowAddOnBuy: false,
+      }),
+    );
+  });
 });

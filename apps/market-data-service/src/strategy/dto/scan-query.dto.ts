@@ -6,4 +6,7 @@ export interface ScanBodyDto {
   commissionPct?: number;
   autoTakeProfitPct?: number;
   autoStopLossPct?: number;
+  maxHoldingDays?: number;
+  minCurrentSignalStrength?: number;
+  minTotalTrades?: number;
 }

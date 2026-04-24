@@ -23,6 +23,7 @@ export interface AutoTradingSession {
   investmentAmount: number;
   takeProfitPct: number;
   stopLossPct: number;
+  maxHoldingDays: number;
   addOnBuyMode: AddOnBuyMode;
   realizedPnl: number;
   unrealizedPnl: number;
@@ -41,6 +42,7 @@ export interface AutoTradingSession {
   aiScore?: number;
   createdAt: string;
   stoppedAt?: string;
+  enteredAt?: string;
 }
 
 /** 활성 세션이 이미 있을 때의 처리 방식 */
@@ -61,10 +63,12 @@ export interface StartSessionRequest {
   variant?: string;
   investmentAmount: number;
   aiScore?: number;
-  /** 목표 수익률 (%) — 미지정시 백엔드 기본값 5 */
+  /** 목표 수익률 (%) — 미지정시 백엔드 기본값 2.5 */
   takeProfitPct?: number;
   /** 손절 기준 (%) — 음수값, 미지정시 백엔드 기본값 -3 */
   stopLossPct?: number;
+  /** 최대 보유일 수 — 미지정시 백엔드 기본값 7 */
+  maxHoldingDays?: number;
   /** 보유 종목에 추가 매수 신호 발생 시 동작 — 미지정시 'skip' */
   addOnBuyMode?: AddOnBuyMode;
   /**
@@ -90,6 +94,7 @@ export interface UpdateSessionRequest {
   variant?: string;
   takeProfitPct?: number;
   stopLossPct?: number;
+  maxHoldingDays?: number;
   addOnBuyMode?: AddOnBuyMode;
 }
 
@@ -113,6 +118,7 @@ export interface SessionConflictItem {
     variant?: string;
     takeProfitPct: number;
     stopLossPct: number;
+    maxHoldingDays: number;
   };
 }
 

@@ -10,6 +10,7 @@ export interface ScanResult {
   winRate: number;
   maxDrawdownPct: number;
   totalTrades: number;
+  rankScore: number;
   /** 추천 근거 요약 */
   summary: string;
   /** 최신 신호 */

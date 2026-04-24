@@ -1,6 +1,10 @@
 import { useState, useEffect, useMemo } from 'react';
 import { getBalance } from '../../api/kis';
-import type { BalanceItem, BalanceItemSource, BalanceResponse } from '../../types/kis';
+import type {
+  BalanceItem,
+  BalanceItemSource,
+  BalanceResponse,
+} from '../../types/kis';
 
 function formatNumber(n: number): string {
   return n.toLocaleString('ko-KR');
@@ -132,12 +136,13 @@ export function Balance() {
                   <th>자동매매 전략</th>
                   <th className="text-right">목표수익</th>
                   <th className="text-right">손절</th>
+                  <th className="text-right">최대보유</th>
                 </tr>
               </thead>
               <tbody>
                 {visibleItems.length === 0 ? (
                   <tr>
-                    <td colSpan={12} className="text-center">
+                    <td colSpan={13} className="text-center">
                       {balance.items.length === 0
                         ? '보유 종목이 없습니다.'
                         : '선택한 구분에 해당하는 종목이 없습니다.'}
@@ -161,10 +166,18 @@ export function Balance() {
                         </td>
                         <td>{item.stockCode}</td>
                         <td>{item.stockName}</td>
-                        <td className="text-right">{formatNumber(item.holdingQty)}</td>
-                        <td className="text-right">{formatNumber(item.avgBuyPrice)}</td>
-                        <td className="text-right">{formatNumber(item.currentPrice)}</td>
-                        <td className="text-right">{formatNumber(item.evalAmount)}</td>
+                        <td className="text-right">
+                          {formatNumber(item.holdingQty)}
+                        </td>
+                        <td className="text-right">
+                          {formatNumber(item.avgBuyPrice)}
+                        </td>
+                        <td className="text-right">
+                          {formatNumber(item.currentPrice)}
+                        </td>
+                        <td className="text-right">
+                          {formatNumber(item.evalAmount)}
+                        </td>
                         <td
                           className={`text-right ${item.profitLoss >= 0 ? 'text-profit' : 'text-loss'}`}
                         >
@@ -180,7 +193,10 @@ export function Balance() {
                             <>
                               {STRATEGY_NAMES[at.strategyId] || at.strategyId}
                               {at.variant && (
-                                <small className="text-muted"> ({at.variant})</small>
+                                <small className="text-muted">
+                                  {' '}
+                                  ({at.variant})
+                                </small>
                               )}
                             </>
                           ) : (
@@ -189,7 +205,9 @@ export function Balance() {
                         </td>
                         <td className="text-right">
                           {at ? (
-                            <span className="text-profit">+{at.takeProfitPct}%</span>
+                            <span className="text-profit">
+                              +{at.takeProfitPct}%
+                            </span>
                           ) : (
                             <span className="text-muted">-</span>
                           )}
@@ -197,6 +215,13 @@ export function Balance() {
                         <td className="text-right">
                           {at ? (
                             <span className="text-loss">{at.stopLossPct}%</span>
+                          ) : (
+                            <span className="text-muted">-</span>
+                          )}
+                        </td>
+                        <td className="text-right">
+                          {at ? (
+                            <span>{at.maxHoldingDays}일</span>
                           ) : (
                             <span className="text-muted">-</span>
                           )}

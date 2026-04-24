@@ -18,6 +18,7 @@ export async function scanStocks(params: {
   investmentAmount?: number;
   autoTakeProfitPct?: number;
   autoStopLossPct?: number;
+  maxHoldingDays?: number;
 }): Promise<ScanResponse> {
   return marketRequest<ScanResponse>('/strategies/scan', {
     method: 'POST',
@@ -26,8 +27,9 @@ export async function scanStocks(params: {
       excludeCodes: params.excludeCodes ?? [],
       topN: params.topN ?? 10,
       investmentAmount: params.investmentAmount ?? 10_000_000,
-      autoTakeProfitPct: params.autoTakeProfitPct ?? 5,
+      autoTakeProfitPct: params.autoTakeProfitPct ?? 2.5,
       autoStopLossPct: params.autoStopLossPct ?? -3,
+      maxHoldingDays: params.maxHoldingDays ?? 7,
     }),
   });
 }
@@ -97,7 +99,9 @@ export async function getActiveAiSession(): Promise<{
   return res.json();
 }
 
-export async function cancelAiSession(sessionId: string): Promise<{ cancelled: boolean }> {
+export async function cancelAiSession(
+  sessionId: string,
+): Promise<{ cancelled: boolean }> {
   const res = await fetch(`${MARKET_API}/ai-scoring/session/${sessionId}`, {
     method: 'DELETE',
     headers: authHeaders(),
@@ -116,13 +120,18 @@ export function streamAiSession(
 
   (async () => {
     try {
-      const res = await fetch(`${MARKET_API}/ai-scoring/session/${sessionId}/stream`, {
-        headers: authHeaders(),
-        signal: controller.signal,
-      });
+      const res = await fetch(
+        `${MARKET_API}/ai-scoring/session/${sessionId}/stream`,
+        {
+          headers: authHeaders(),
+          signal: controller.signal,
+        },
+      );
 
       if (!res.ok) {
-        const body = await res.json().catch(() => ({ message: res.statusText }));
+        const body = await res
+          .json()
+          .catch(() => ({ message: res.statusText }));
         callbacks.onError(body.message || res.statusText);
         return;
       }
@@ -168,7 +177,9 @@ export function streamAiSession(
                   callbacks.onError(data.message);
                   break;
               }
-            } catch { /* ignore parse errors */ }
+            } catch {
+              /* ignore parse errors */
+            }
             currentEvent = '';
           }
         }
@@ -199,7 +210,9 @@ export function streamAiScores(
       });
 
       if (!res.ok) {
-        const body = await res.json().catch(() => ({ message: res.statusText }));
+        const body = await res
+          .json()
+          .catch(() => ({ message: res.statusText }));
         callbacks.onError(body.message || res.statusText);
         return;
       }
@@ -245,7 +258,9 @@ export function streamAiScores(
                   callbacks.onError(data.message);
                   break;
               }
-            } catch { /* ignore parse errors */ }
+            } catch {
+              /* ignore parse errors */
+            }
             currentEvent = '';
           }
         }
