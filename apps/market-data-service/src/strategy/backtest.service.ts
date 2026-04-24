@@ -109,11 +109,6 @@ export class BacktestService {
     const analysis = strategy.analyze(candles, strategyConfig, stock.code);
     const signals = analysis.signals;
 
-    // SELL 신호 존재 여부 확인
-    const hasSellSignals = signals.some(
-      (s) => s.direction === SignalDirection.Sell,
-    );
-
     // 신호를 날짜 기준 Map으로 변환 (로컬 타임존 안전)
     const signalByDate = new Map<string, Signal>();
     for (const signal of signals) {
@@ -127,7 +122,6 @@ export class BacktestService {
       signalByDate,
       config,
       strategy.name,
-      hasSellSignals,
     );
   }
 
@@ -137,7 +131,6 @@ export class BacktestService {
     signalByDate: Map<string, Signal>,
     config: BacktestConfig,
     strategyName: string,
-    hasSellSignals: boolean,
   ): BacktestResult {
     let cash = config.investmentAmount;
     let quantity = 0;
@@ -158,8 +151,8 @@ export class BacktestService {
       const dateKey = toDateKey(candle.date);
       const signal = signalByDate.get(dateKey);
 
-      // 보유 중이고 SELL 신호가 없는 전략일 때: 자동 익절/손절 체크
-      if (!hasSellSignals && quantity > 0 && avgBuyPrice > 0) {
+      // 보유 중일 때: 자동 익절/손절 체크 (전략 신호와 무관하게 항상 적용)
+      if (quantity > 0 && avgBuyPrice > 0) {
         const returnPct = ((candle.close - avgBuyPrice) / avgBuyPrice) * 100;
         if (
           returnPct >= config.autoTakeProfitPct ||
@@ -531,9 +524,6 @@ export class BacktestService {
           const analyzeConfig = variant ? { variant } : {};
           const analysis = strategy.analyze(candles, analyzeConfig, stock.code);
           const signals = analysis.signals;
-          const hasSellSignals = signals.some(
-            (s) => s.direction === SignalDirection.Sell,
-          );
 
           const signalByDate = new Map<string, Signal>();
           for (const signal of signals) {
@@ -556,7 +546,6 @@ export class BacktestService {
             signalByDate,
             config,
             strategy.name,
-            hasSellSignals,
           );
 
           if (
