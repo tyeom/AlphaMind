@@ -17,4 +17,10 @@ export interface BacktestQueryDto {
   maxHoldingDays?: string;
   /** 보유 중 추가 매수 허용 여부 (미지정 시 전략별 기본값) */
   allowAddOnBuy?: string;
+  /** 매도 시 거래세 % (기본 0.18) */
+  sellTaxPct?: string;
+  /** 슬리피지 % (양방향 적용, 기본 0.05) */
+  slippagePct?: string;
+  /** 매수를 다음봉 시가에 실행할지 (기본 true). false면 신호봉 종가에 즉시 매수. */
+  useNextOpenForBuy?: string;
 }

@@ -6,11 +6,18 @@ import { RmqModule } from '../rmq/rmq.module';
 import { StrategyController } from './strategy.controller';
 import { StrategyService } from './strategy.service';
 import { BacktestService } from './backtest.service';
+import { OptimalParamsService } from './optimal-params.service';
+import { WeeklyOptimizerService } from './weekly-optimizer.service';
 
 @Module({
   imports: [MikroOrmModule.forFeature([Stock, StockDailyPrice]), RmqModule],
   controllers: [StrategyController],
-  providers: [StrategyService, BacktestService],
-  exports: [StrategyService, BacktestService],
+  providers: [
+    StrategyService,
+    BacktestService,
+    OptimalParamsService,
+    WeeklyOptimizerService,
+  ],
+  exports: [StrategyService, BacktestService, OptimalParamsService],
 })
 export class StrategyModule {}

@@ -9,7 +9,13 @@ export class AiMeetingResultService {
 
   async upsertBatch(
     userId: number,
-    items: { stockCode: string; stockName: string; score: number; reasoning: string; data: Record<string, any> }[],
+    items: {
+      stockCode: string;
+      stockName: string;
+      score: number;
+      reasoning: string;
+      data: Record<string, any>;
+    }[],
   ): Promise<AiMeetingResultEntity[]> {
     const user = await this.em.findOneOrFail(UserEntity, userId);
     const results: AiMeetingResultEntity[] = [];

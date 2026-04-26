@@ -37,7 +37,7 @@ export class AuthService {
     const accessToken = await this.jwtService.signAsync(payload);
 
     // 토큰 DB 저장
-    const decoded = this.jwtService.decode(accessToken) as { exp: number };
+    const decoded = this.jwtService.decode(accessToken);
     const authToken = this.em.create(UserAuthTokenEntity, {
       user,
       token: accessToken,

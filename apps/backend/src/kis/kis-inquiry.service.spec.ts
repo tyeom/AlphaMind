@@ -14,7 +14,9 @@ describe('KisInquiryService', () => {
       accountNo: '12345678',
       accountProdCd: '01',
       getTrId: jest.fn().mockReturnValue('VTTC8434R'),
-      getAuthHeaders: jest.fn().mockResolvedValue({ authorization: 'Bearer token' }),
+      getAuthHeaders: jest
+        .fn()
+        .mockResolvedValue({ authorization: 'Bearer token' }),
     } as unknown as KisService & {
       getTrId: jest.Mock;
       getAuthHeaders: jest.Mock;
@@ -59,7 +61,9 @@ describe('KisInquiryService', () => {
   it('accepts realized balance summary when output2 is an object', async () => {
     const { service, httpService, kisService } = createService();
 
-    kisService.getAuthHeaders.mockResolvedValueOnce({ authorization: 'Bearer token' });
+    kisService.getAuthHeaders.mockResolvedValueOnce({
+      authorization: 'Bearer token',
+    });
     httpService.get.mockReturnValue(
       of({
         data: {

@@ -17,6 +17,11 @@ describe('StrategyController', () => {
       scanAllStocks: jest.fn(),
       recommendStrategy: jest.fn(),
       runBacktest: jest.fn(),
+      gridSearchOptimalTpSl: jest.fn(),
+      getActiveShortTermTpSl: jest.fn(),
+    };
+    const weeklyOptimizerService = {
+      runOptimization: jest.fn(),
     };
     const backendClient = {
       emit: jest.fn(),
@@ -25,6 +30,7 @@ describe('StrategyController', () => {
     const controller = new StrategyController(
       strategyService as any,
       backtestService as any,
+      weeklyOptimizerService as any,
       backendClient as any,
     );
 

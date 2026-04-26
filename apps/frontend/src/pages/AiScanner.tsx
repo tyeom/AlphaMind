@@ -12,6 +12,7 @@ import {
   getActiveAiSession,
   streamAiSession,
   cancelAiSession,
+  getOptimalShortTermTpSl,
   type AiMeetingProvider,
 } from '../api/scanner';
 import type { SseProgress } from '../api/scanner';
@@ -768,8 +769,23 @@ export function AiScanner() {
   const [sessions, setSessions] = useState<AutoTradingSession[]>([]);
   const [prices, setPrices] = useState<Map<string, number>>(new Map());
   const [investmentAmount, setInvestmentAmount] = useState('10000000');
-  const [autoTakeProfitPct, setAutoTakeProfitPct] = useState('2.5');
-  const [autoStopLossPct, setAutoStopLossPct] = useState('-3');
+  // TP/SL 초기값은 빈 문자열. 마운트 시 backend 그리드 서치 optimal 값을 가져와 채운다.
+  // 비어 있는 상태로 스캔하면 backend 가 다시 optimal 을 fallback 으로 적용한다 (이중 안전장치).
+  const [autoTakeProfitPct, setAutoTakeProfitPct] = useState('');
+  const [autoStopLossPct, setAutoStopLossPct] = useState('');
+  const [optimalTpSlSource, setOptimalTpSlSource] = useState<
+    'optimized' | 'default' | null
+  >(null);
+  const [optimalTpSlUpdatedAt, setOptimalTpSlUpdatedAt] = useState<
+    string | null
+  >(null);
+  // 자동매매 시작 모달 seed 의 fallback (사용자가 입력 폼을 비웠을 때 사용).
+  const [optimalTpFallback, setOptimalTpFallback] = useState<number | null>(
+    null,
+  );
+  const [optimalSlFallback, setOptimalSlFallback] = useState<number | null>(
+    null,
+  );
   const [maxHoldingDays, setMaxHoldingDays] = useState('7');
   const [topN, setTopN] = useState('10');
   const [error, setError] = useState('');
@@ -911,6 +927,28 @@ export function AiScanner() {
         clearTimeout(timer);
       }
       priceFlashTimersRef.current.clear();
+    };
+  }, []);
+
+  // 마운트 시 backend 의 단타 optimal TP/SL 조회 → 입력 폼 초기값 주입.
+  // 그리드 서치 미실행 시 source='default'(코드 기본값), 실행됐으면 'optimized'.
+  useEffect(() => {
+    let cancelled = false;
+    getOptimalShortTermTpSl()
+      .then((opt) => {
+        if (cancelled) return;
+        setAutoTakeProfitPct(String(opt.tpPct));
+        setAutoStopLossPct(String(opt.slPct));
+        setOptimalTpSlSource(opt.source);
+        setOptimalTpSlUpdatedAt(opt.updatedAt ?? null);
+        setOptimalTpFallback(opt.tpPct);
+        setOptimalSlFallback(opt.slPct);
+      })
+      .catch(() => {
+        // 조회 실패 시 폼 비워둠 — 사용자가 직접 입력하거나, 비운 채 제출하면 backend 가 기본값 fallback
+      });
+    return () => {
+      cancelled = true;
     };
   }, []);
 
@@ -1658,15 +1696,22 @@ export function AiScanner() {
       return;
     }
 
+    // 모달 seed 우선순위: 스캔 폼 입력값 → optimal(그리드 서치 결과) → 코드 기본값
+    const tpSeed =
+      toOptionalNumber(autoTakeProfitPct) ?? optimalTpFallback ?? 2.5;
+    const slSeed =
+      toOptionalNumber(autoStopLossPct) ?? optimalSlFallback ?? -3;
+    const holdingSeed = toOptionalNumber(maxHoldingDays) ?? 7;
+
     // 단일/복수 모두 설정 팝업을 열어 진입 방식(모니터링/즉시매수) 및 설정을 확정
     const items: TradingConfigItem[] = selectedResults.map((r) => ({
       stockCode: r.stockCode,
       stockName: r.stockName,
       strategyId: r.bestStrategy.strategyId,
       variant: r.bestStrategy.variant,
-      takeProfitPct: 2.5,
-      stopLossPct: -3,
-      maxHoldingDays: 7,
+      takeProfitPct: tpSeed,
+      stopLossPct: slSeed,
+      maxHoldingDays: holdingSeed,
       addOnBuyMode: 'skip',
     }));
     setConfigModalItems(items);
@@ -1793,14 +1838,21 @@ export function AiScanner() {
 
   const handleManualRegister = () => {
     if (!manualLookupStock) return;
+    // 모달 seed 우선순위: 스캔 폼 입력값 → optimal(그리드 서치 결과) → 코드 기본값
+    const tpSeed =
+      toOptionalNumber(autoTakeProfitPct) ?? optimalTpFallback ?? 2.5;
+    const slSeed =
+      toOptionalNumber(autoStopLossPct) ?? optimalSlFallback ?? -3;
+    const holdingSeed = toOptionalNumber(maxHoldingDays) ?? 7;
+
     setConfigModalItems([
       {
         stockCode: manualLookupStock.stockCode,
         stockName: manualLookupStock.stockName,
         strategyId: '',
-        takeProfitPct: 2.5,
-        stopLossPct: -3,
-        maxHoldingDays: 7,
+        takeProfitPct: tpSeed,
+        stopLossPct: slSeed,
+        maxHoldingDays: holdingSeed,
         addOnBuyMode: 'skip',
       },
     ]);
@@ -2009,6 +2061,20 @@ export function AiScanner() {
             전체 KRX 종목을 단기 전략으로 백테스팅하여 현재 매수 신호가 강한
             종목을 추출합니다.
           </p>
+          {optimalTpSlSource === 'optimized' && (
+            <p className="text-muted" style={{ fontSize: '0.85em' }}>
+              ※ TP/SL 입력값은 주간 자동 최적화(그리드 서치) 결과로 채워졌습니다.
+              {optimalTpSlUpdatedAt &&
+                ` (갱신: ${new Date(optimalTpSlUpdatedAt).toLocaleString('ko-KR')})`}
+              {' '}원하시면 직접 수정하세요.
+            </p>
+          )}
+          {optimalTpSlSource === 'default' && (
+            <p className="text-muted" style={{ fontSize: '0.85em' }}>
+              ※ 그리드 서치 미실행 — 코드 기본값 표시. 비워서 제출하면 backend
+              기본값 자동 적용.
+            </p>
+          )}
           <div className="form-row">
             <label>
               투자 금액
@@ -2027,6 +2093,7 @@ export function AiScanner() {
                 onChange={(e) => setAutoTakeProfitPct(e.target.value)}
                 min="0"
                 step="0.1"
+                placeholder="자동 적용"
                 disabled={step === 'scanning'}
               />
             </label>
@@ -2038,6 +2105,7 @@ export function AiScanner() {
                 onChange={(e) => setAutoStopLossPct(e.target.value)}
                 max="0"
                 step="0.1"
+                placeholder="자동 적용"
                 disabled={step === 'scanning'}
               />
             </label>

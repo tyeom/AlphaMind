@@ -190,7 +190,7 @@ export class KisInquiryService {
 
   private normalizeSummary<T extends object>(output?: T[] | T): T {
     if (Array.isArray(output)) {
-      return (output[0] ?? {}) as T;
+      return output[0] ?? {};
     }
 
     return (output ?? {}) as T;

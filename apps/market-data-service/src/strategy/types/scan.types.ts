@@ -15,6 +15,29 @@ export interface ScanResult {
   rankScore: number;
   finalValue: number;
   investmentAmount: number;
+  /**
+   * 종목 변동성 — 최근 ATR(14) / 종가 × 100 (%).
+   * 분산 배분(역가중)에 사용한다.
+   */
+  volatilityPct?: number;
+  /**
+   * In-sample(전반부) 검증 결과. 전략 선정에 사용.
+   */
+  inSample?: {
+    totalReturnPct: number;
+    winRate: number;
+    totalTrades: number;
+    maxDrawdownPct: number;
+  };
+  /**
+   * Out-of-sample(후반부) 검증 결과. 랭킹 점수 산출 + 통과 필터에 사용.
+   */
+  outOfSample?: {
+    totalReturnPct: number;
+    winRate: number;
+    totalTrades: number;
+    maxDrawdownPct: number;
+  };
   /** 추천 근거 요약 */
   summary: string;
   /** 최신 신호 */

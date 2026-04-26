@@ -14,9 +14,15 @@ export class Migration20260413000000 extends Migration {
         "created_at" timestamptz not null default now()
       );
     `);
-    this.addSql(`create index "notifications_user_id_index" on "notifications" ("user_id");`);
-    this.addSql(`create index "notifications_type_index" on "notifications" ("type");`);
-    this.addSql(`create index "notifications_is_read_index" on "notifications" ("is_read");`);
+    this.addSql(
+      `create index "notifications_user_id_index" on "notifications" ("user_id");`,
+    );
+    this.addSql(
+      `create index "notifications_type_index" on "notifications" ("type");`,
+    );
+    this.addSql(
+      `create index "notifications_is_read_index" on "notifications" ("is_read");`,
+    );
   }
 
   override async down(): Promise<void> {

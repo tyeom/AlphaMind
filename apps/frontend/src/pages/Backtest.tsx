@@ -5,6 +5,7 @@ import {
   type BacktestResult,
   type StrategyInfo,
 } from '../api/backtest';
+import { getOptimalShortTermTpSl } from '../api/scanner';
 
 function formatNumber(n: number): string {
   return n.toLocaleString('ko-KR');
@@ -31,8 +32,13 @@ export function Backtest() {
   const [investmentAmount, setInvestmentAmount] = useState('10000000');
   const [tradeRatioPct, setTradeRatioPct] = useState('10');
   const [commissionPct, setCommissionPct] = useState('0.015');
-  const [autoTakeProfitPct, setAutoTakeProfitPct] = useState('2.5');
-  const [autoStopLossPct, setAutoStopLossPct] = useState('-3');
+  // TP/SL 초기값은 빈 문자열 — 마운트 시 backend 그리드 서치 optimal 로 주입.
+  // 비워서 제출하면 backend 가 코드 기본값 fallback (단일 백테스트는 optimal auto-apply 안 함, 사용자 의도 존중).
+  const [autoTakeProfitPct, setAutoTakeProfitPct] = useState('');
+  const [autoStopLossPct, setAutoStopLossPct] = useState('');
+  const [optimalTpSlSource, setOptimalTpSlSource] = useState<
+    'optimized' | 'default' | null
+  >(null);
   const [maxHoldingDays, setMaxHoldingDays] = useState('7');
   const [result, setResult] = useState<BacktestResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -42,6 +48,24 @@ export function Backtest() {
     getStrategies()
       .then(setStrategies)
       .catch(() => setError('전략 목록을 불러올 수 없습니다.'));
+  }, []);
+
+  // 마운트 시 단타 optimal TP/SL 조회 → 입력 폼 초기값으로 사용.
+  useEffect(() => {
+    let cancelled = false;
+    getOptimalShortTermTpSl()
+      .then((opt) => {
+        if (cancelled) return;
+        setAutoTakeProfitPct(String(opt.tpPct));
+        setAutoStopLossPct(String(opt.slPct));
+        setOptimalTpSlSource(opt.source);
+      })
+      .catch(() => {
+        // 실패 시 빈 채로 둠 — 사용자가 직접 입력
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const selectedStrategy = strategies.find((s) => s.id === strategyId);
@@ -168,6 +192,12 @@ export function Backtest() {
           </label>
         </div>
 
+        {optimalTpSlSource === 'optimized' && (
+          <p className="text-muted" style={{ fontSize: '0.85em', margin: 0 }}>
+            ※ 자동 익절/손절은 주간 그리드 서치 결과로 채워졌습니다. 직접 수정
+            가능.
+          </p>
+        )}
         <div className="form-row">
           <label>
             자동 익절 (%)
@@ -177,6 +207,7 @@ export function Backtest() {
               onChange={(e) => setAutoTakeProfitPct(e.target.value)}
               min="0"
               step="0.1"
+              placeholder="예: 2.5"
             />
           </label>
 
@@ -188,6 +219,7 @@ export function Backtest() {
               onChange={(e) => setAutoStopLossPct(e.target.value)}
               max="0"
               step="0.1"
+              placeholder="예: -3"
             />
           </label>
 

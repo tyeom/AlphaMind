@@ -7,7 +7,10 @@ export class OrderCancelDto {
   @ApiProperty({ example: '00000', description: '한국거래소전송주문조직번호' })
   krxOrgNo!: string;
 
-  @ApiPropertyOptional({ example: true, description: '전량 취소 여부 (기본 true)' })
+  @ApiPropertyOptional({
+    example: true,
+    description: '전량 취소 여부 (기본 true)',
+  })
   allQty?: boolean;
 
   @ApiPropertyOptional({ example: 5, description: '취소 수량 (일부 취소 시)' })

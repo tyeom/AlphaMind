@@ -14,9 +14,15 @@ export class Migration20260413100000 extends Migration {
         "updated_at" timestamptz not null default now()
       );
     `);
-    this.addSql(`create index "ai_meeting_results_user_id_index" on "ai_meeting_results" ("user_id");`);
-    this.addSql(`create index "ai_meeting_results_stock_code_index" on "ai_meeting_results" ("stock_code");`);
-    this.addSql(`create unique index "ai_meeting_results_user_id_stock_code_unique" on "ai_meeting_results" ("user_id", "stock_code");`);
+    this.addSql(
+      `create index "ai_meeting_results_user_id_index" on "ai_meeting_results" ("user_id");`,
+    );
+    this.addSql(
+      `create index "ai_meeting_results_stock_code_index" on "ai_meeting_results" ("stock_code");`,
+    );
+    this.addSql(
+      `create unique index "ai_meeting_results_user_id_stock_code_unique" on "ai_meeting_results" ("user_id", "stock_code");`,
+    );
   }
 
   override async down(): Promise<void> {

@@ -260,11 +260,12 @@ export function AutoTradingConfigModal({
                         type="number"
                         step="0.5"
                         value={item.takeProfitPct}
-                        onChange={(e) =>
-                          updateItem(i, {
-                            takeProfitPct: parseFloat(e.target.value) || 0,
-                          })
-                        }
+                        onChange={(e) => {
+                          // 빈 입력은 NaN → 기존 값 유지 (0 으로 강제 변경되는 버그 방지).
+                          // 0 을 원하는 사용자는 "0" 을 직접 입력해야 함.
+                          const v = parseFloat(e.target.value);
+                          if (!isNaN(v)) updateItem(i, { takeProfitPct: v });
+                        }}
                       />
                     </td>
                     <td className="text-right">
@@ -273,11 +274,10 @@ export function AutoTradingConfigModal({
                         type="number"
                         step="0.5"
                         value={item.stopLossPct}
-                        onChange={(e) =>
-                          updateItem(i, {
-                            stopLossPct: parseFloat(e.target.value) || 0,
-                          })
-                        }
+                        onChange={(e) => {
+                          const v = parseFloat(e.target.value);
+                          if (!isNaN(v)) updateItem(i, { stopLossPct: v });
+                        }}
                       />
                     </td>
                     <td className="text-right">
@@ -287,11 +287,10 @@ export function AutoTradingConfigModal({
                         step="1"
                         min="0"
                         value={item.maxHoldingDays}
-                        onChange={(e) =>
-                          updateItem(i, {
-                            maxHoldingDays: parseInt(e.target.value, 10) || 0,
-                          })
-                        }
+                        onChange={(e) => {
+                          const v = parseInt(e.target.value, 10);
+                          if (!isNaN(v)) updateItem(i, { maxHoldingDays: v });
+                        }}
                         title="0이면 최대 보유일 제한을 사용하지 않습니다"
                       />
                     </td>

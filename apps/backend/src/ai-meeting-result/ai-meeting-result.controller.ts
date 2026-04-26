@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Param,
-  Body,
-} from '@nestjs/common';
+import { Controller, Get, Post, Param, Body } from '@nestjs/common';
 import { AiMeetingResultService } from './ai-meeting-result.service';
 import { User } from '../decorator/user.decorator';
 

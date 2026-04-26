@@ -9,6 +9,7 @@ import {
   StrategyAnalysisResult,
 } from '../types/strategy.types';
 import { calculateSMA } from '../indicators/technical-indicators';
+import { pickFreshCurrentSignal } from '../utils/signal-freshness';
 
 const DEFAULT_EXIT_CONFIG: ExitConfig = {
   stopLossEnabled: true,
@@ -187,19 +188,13 @@ function buildCurrentSignal(
   lastCandle: CandleData,
   currentMode: MomentumPowerMode | null,
 ): Signal {
-  const recent = signals.slice(-5);
-  if (recent.length === 0) {
-    return {
-      direction: SignalDirection.Neutral,
-      strength: 0,
-      reason: currentMode
-        ? `현재 모드: ${currentMode} (신호 없음)`
-        : '분석에 필요한 데이터 부족',
-      date: lastCandle.date,
-      price: lastCandle.close,
-    };
-  }
-  return recent[recent.length - 1];
+  const emptyReason = currentMode
+    ? `현재 모드: ${currentMode} (신호 없음)`
+    : '분석에 필요한 데이터 부족';
+  const staleReason = currentMode
+    ? `현재 모드: ${currentMode} (최근 1거래일 이내 신호 없음)`
+    : '최근 1거래일 이내 신호 없음 (stale)';
+  return pickFreshCurrentSignal(signals, lastCandle, staleReason, emptyReason);
 }
 
 function buildSummary(

@@ -17,20 +17,31 @@ import { MARKET_DATA_SERVICE } from '../rmq/rmq.module';
 
 const SCAN_INVESTMENT_AMOUNT = 500_000;
 const SCAN_TOP_N = 35;
+/** market-data 그리드 서치 결과 미수신/실패 시 fallback. TP/SL 둘 다 동일 fallback 사용. */
 const SCAN_AUTO_TAKE_PROFIT_PCT = 1.75;
 const SCAN_AUTO_STOP_LOSS_PCT = -2.5;
 const SCAN_MAX_HOLDING_DAYS = 7;
 const MIN_BUY_SIGNAL_STRENGTH = 0.65;
-const SESSION_TAKE_PROFIT_PCT = 1.75;
-const SESSION_STOP_LOSS_PCT = -2.5;
 const SESSION_MAX_HOLDING_DAYS = 7;
 const SCAN_JOB_NAME = 'scheduled-ai-scan';
 const SCAN_LOCK_TTL_MINUTES = 30;
 const SCAN_RESULT_CLAIM_TTL_MINUTES = 5;
 
+/** 동시 운용 종목 상한 — 모니터링 부담 + 시장 체제 변화 시 동시 손실 위험 제한 */
+const MAX_CONCURRENT_HOLDINGS = 15;
+/** 한 섹터 동시 보유 상한 — 같은 섹터 클러스터 손실 방지 */
+const MAX_PER_SECTOR = 5;
+/** 변동성 역가중 시 한 종목당 최소/최대 가중치 — 극단 배분 방지 */
+const VOL_WEIGHT_MIN = 0.5;
+const VOL_WEIGHT_MAX = 2.0;
+/** 변동성 정보 결손 시 가정값 (%) — 한국 일반 종목 ATR/가격 중앙값 */
+const FALLBACK_VOLATILITY_PCT = 3.0;
+
 interface ScanResult {
   stockCode: string;
   stockName: string;
+  sector?: string;
+  volatilityPct?: number;
   bestStrategy: { strategyId: string; strategyName: string; variant?: string };
   currentSignal: { direction: string; strength: number; reason: string };
 }
@@ -153,6 +164,10 @@ export class ScheduledScannerService {
       ),
     );
 
+    // 단타 최적 TP/SL — market-data-service 의 그리드 서치 결과를 가져온다.
+    // 영속화된 결과가 없거나 RMQ 실패 시 코드 기본값으로 자동 fallback.
+    const optimal = await this.fetchOptimalShortTermTpSl();
+
     await firstValueFrom(
       this.marketDataClient.emit('strategy.scan.request', {
         userId,
@@ -160,8 +175,8 @@ export class ScheduledScannerService {
         excludeCodes: activeCodes,
         topN: SCAN_TOP_N,
         investmentAmount: SCAN_INVESTMENT_AMOUNT,
-        autoTakeProfitPct: SCAN_AUTO_TAKE_PROFIT_PCT,
-        autoStopLossPct: SCAN_AUTO_STOP_LOSS_PCT,
+        autoTakeProfitPct: optimal.tpPct,
+        autoStopLossPct: optimal.slPct,
         maxHoldingDays: SCAN_MAX_HOLDING_DAYS,
         minCurrentSignalStrength: MIN_BUY_SIGNAL_STRENGTH,
       }),
@@ -169,8 +184,48 @@ export class ScheduledScannerService {
     );
 
     this.logger.log(
-      `예약 스캔 이벤트 emit 완료 — requestId=${requestId} exclude=${activeCodes.length}건, 완료 이벤트 대기`,
+      `예약 스캔 이벤트 emit 완료 — requestId=${requestId} exclude=${activeCodes.length}건, ` +
+        `TP=${optimal.tpPct}% SL=${optimal.slPct}% (${optimal.source}), 완료 이벤트 대기`,
     );
+  }
+
+  /**
+   * 단타 최적 TP/SL 을 market-data-service 에 RMQ 로 조회.
+   * 그리드 서치가 한 번도 안 돌았거나 RMQ 가 끊긴 환경에서도 안전하도록
+   * 결과 없음/에러 시 코드 기본값으로 fallback.
+   */
+  private async fetchOptimalShortTermTpSl(): Promise<{
+    tpPct: number;
+    slPct: number;
+    source: 'optimized' | 'default' | 'fallback';
+  }> {
+    try {
+      const result = await firstValueFrom(
+        this.marketDataClient.send<{
+          tpPct: number;
+          slPct: number;
+          source: 'optimized' | 'default';
+        }>('strategy.optimal-params', {}),
+        { defaultValue: null },
+      );
+      if (
+        result &&
+        typeof result.tpPct === 'number' &&
+        typeof result.slPct === 'number'
+      ) {
+        return result;
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      this.logger.warn(
+        `optimal TP/SL 조회 실패 — 코드 기본값(TP=${SCAN_AUTO_TAKE_PROFIT_PCT}/SL=${SCAN_AUTO_STOP_LOSS_PCT})으로 진행: ${msg}`,
+      );
+    }
+    return {
+      tpPct: SCAN_AUTO_TAKE_PROFIT_PCT,
+      slPct: SCAN_AUTO_STOP_LOSS_PCT,
+      source: 'fallback',
+    };
   }
 
   /**
@@ -281,14 +336,19 @@ export class ScheduledScannerService {
     userId: number,
     response: ScanResponse,
   ): Promise<void> {
+    // 세션 TP/SL 도 같은 optimal 값을 사용 — 스캔 시점과 후처리 시점 사이에
+    // 영속화된 값이 바뀌었더라도 OptimalParamsService 의 60s 캐시 덕분에 일관성 유지.
+    const optimal = await this.fetchOptimalShortTermTpSl();
+    const sessionTakeProfitPct = optimal.tpPct;
+    const sessionStopLossPct = optimal.slPct;
+
     const existing = await this.em.find(AutoTradingSessionEntity, {
       user: userId,
     });
-    const activeCodes = new Set(
-      existing
-        .filter((s) => s.status === SessionStatus.ACTIVE)
-        .map((s) => s.stockCode),
+    const activeSessions = existing.filter(
+      (s) => s.status === SessionStatus.ACTIVE,
     );
+    const activeCodes = new Set(activeSessions.map((s) => s.stockCode));
     const pausedByCode = new Map(
       existing
         .filter(
@@ -299,28 +359,66 @@ export class ScheduledScannerService {
         .map((s) => [s.stockCode, s]),
     );
 
-    const candidates = response.results.filter(
+    const buyCandidates = response.results.filter(
       (r) =>
         r.currentSignal.direction.toUpperCase() === 'BUY' &&
         r.currentSignal.strength >= MIN_BUY_SIGNAL_STRENGTH,
     );
 
     this.logger.log(
-      `스캔 결과: ${response.results.length}건 → 매수 후보 ${candidates.length}건 ` +
+      `스캔 결과: ${response.results.length}건 → 매수 후보 ${buyCandidates.length}건 ` +
         `(strength >= ${MIN_BUY_SIGNAL_STRENGTH})`,
     );
+
+    // 분산 필터: 동시 보유 상한 + 섹터 캡 적용
+    // - 활성 세션 + 신규/재개 합계가 MAX_CONCURRENT_HOLDINGS 를 넘지 않도록 슬롯 제한.
+    // - 한 섹터에 MAX_PER_SECTOR 초과 종목이 몰리면 그 이상은 스킵.
+    // - 입력은 rankScore 내림차순(scanAllStocks 에서 정렬됨) 가정 → 상위 우선 채택.
+    const activeSectorCounts = this.countSectors(activeSessions, response);
+    const availableSlots = Math.max(
+      0,
+      MAX_CONCURRENT_HOLDINGS - activeCodes.size,
+    );
+    const sectorCounts = new Map(activeSectorCounts);
+    const filteredCandidates: ScanResult[] = [];
+    let skippedBySectorCap = 0;
+    let skippedByConcurrencyCap = 0;
+    for (const c of buyCandidates) {
+      if (activeCodes.has(c.stockCode)) continue;
+      if (filteredCandidates.length >= availableSlots) {
+        skippedByConcurrencyCap++;
+        continue;
+      }
+      const sector = c.sector ?? '미분류';
+      const count = sectorCounts.get(sector) ?? 0;
+      if (count >= MAX_PER_SECTOR) {
+        skippedBySectorCap++;
+        continue;
+      }
+      sectorCounts.set(sector, count + 1);
+      filteredCandidates.push(c);
+    }
+
+    if (skippedBySectorCap > 0 || skippedByConcurrencyCap > 0) {
+      this.logger.log(
+        `분산 필터 — 섹터캡(${MAX_PER_SECTOR}/섹터) 초과 ${skippedBySectorCap}건, ` +
+          `동시보유 상한(${MAX_CONCURRENT_HOLDINGS}) 초과 ${skippedByConcurrencyCap}건 스킵`,
+      );
+    }
 
     const toResume: Array<{
       session: AutoTradingSessionEntity;
       candidate: ScanResult;
     }> = [];
     const toStart: ScanResult[] = [];
-    for (const c of candidates) {
-      if (activeCodes.has(c.stockCode)) continue;
+    for (const c of filteredCandidates) {
       const paused = pausedByCode.get(c.stockCode);
       if (paused) toResume.push({ session: paused, candidate: c });
       else toStart.push(c);
     }
+
+    // 변동성 역가중 — 한 종목당 투자금을 ATR% 역수에 비례해 배분 (평균 = SCAN_INVESTMENT_AMOUNT)
+    const investmentByCode = this.computeVolatilityWeightedInvestments(toStart);
 
     const resumedCodes: string[] = [];
     for (const { session, candidate } of toResume) {
@@ -328,8 +426,8 @@ export class ScheduledScannerService {
         await this.autoTradingService.updateSession(session.id, userId, {
           strategyId: candidate.bestStrategy.strategyId,
           variant: candidate.bestStrategy.variant,
-          takeProfitPct: SESSION_TAKE_PROFIT_PCT,
-          stopLossPct: SESSION_STOP_LOSS_PCT,
+          takeProfitPct: sessionTakeProfitPct,
+          stopLossPct: sessionStopLossPct,
           maxHoldingDays: SESSION_MAX_HOLDING_DAYS,
           scheduledScan: true,
         });
@@ -342,7 +440,7 @@ export class ScheduledScannerService {
           NotificationType.BUY_SIGNAL,
           `${session.stockName} 자동매매 재개`,
           `최적 종목 추출 => 모니터링 종목으로 변경 — 일시정지 세션을 자동 재개합니다 ` +
-            `(신호강도 ${strengthPct}%, 목표 ${SESSION_TAKE_PROFIT_PCT}% / 손절 ${SESSION_STOP_LOSS_PCT}%)`,
+            `(신호강도 ${strengthPct}%, 목표 ${sessionTakeProfitPct}% / 손절 ${sessionStopLossPct}%)`,
           {
             stockCode: session.stockCode,
             stockName: session.stockName,
@@ -368,9 +466,10 @@ export class ScheduledScannerService {
             stockName: c.stockName,
             strategyId: c.bestStrategy.strategyId,
             variant: c.bestStrategy.variant,
-            investmentAmount: SCAN_INVESTMENT_AMOUNT,
-            takeProfitPct: SESSION_TAKE_PROFIT_PCT,
-            stopLossPct: SESSION_STOP_LOSS_PCT,
+            investmentAmount:
+              investmentByCode.get(c.stockCode) ?? SCAN_INVESTMENT_AMOUNT,
+            takeProfitPct: sessionTakeProfitPct,
+            stopLossPct: sessionStopLossPct,
             maxHoldingDays: SESSION_MAX_HOLDING_DAYS,
             onConflict: 'update',
             scheduledScan: true,
@@ -384,8 +483,59 @@ export class ScheduledScannerService {
     }
 
     this.logger.log(
-      `예약 스캔 완료 — 신규 ${startedCodes.length}건, 재개 ${resumedCodes.length}건`,
+      `예약 스캔 완료 — 신규 ${startedCodes.length}건, 재개 ${resumedCodes.length}건 ` +
+        `(TP=${sessionTakeProfitPct}%/SL=${sessionStopLossPct}% ${optimal.source})`,
     );
+  }
+
+  /**
+   * 활성 세션의 섹터 분포 카운트.
+   * scan 응답 결과에서 각 종목의 섹터 정보를 가져와 매칭한다.
+   * 결과에 없는 종목(예: 활성 세션이지만 이번 스캔에서 제외된 종목)은 '미분류'로 집계.
+   */
+  private countSectors(
+    activeSessions: AutoTradingSessionEntity[],
+    response: ScanResponse,
+  ): Map<string, number> {
+    const sectorByCode = new Map<string, string>();
+    for (const r of response.results) {
+      if (r.sector) sectorByCode.set(r.stockCode, r.sector);
+    }
+    const counts = new Map<string, number>();
+    for (const s of activeSessions) {
+      const sector = sectorByCode.get(s.stockCode) ?? '미분류';
+      counts.set(sector, (counts.get(sector) ?? 0) + 1);
+    }
+    return counts;
+  }
+
+  /**
+   * 변동성 역가중 배분: 평균 = SCAN_INVESTMENT_AMOUNT, 종목별 weight = (1/vol) / mean(1/vol).
+   * 변동성 큰 종목엔 적게, 작은 종목엔 많이. 극단 배분 방지를 위해 [0.5, 2.0]x 클램프.
+   */
+  private computeVolatilityWeightedInvestments(
+    candidates: ScanResult[],
+  ): Map<string, number> {
+    const map = new Map<string, number>();
+    if (candidates.length === 0) return map;
+
+    const vols = candidates.map((c) =>
+      Math.max(c.volatilityPct ?? FALLBACK_VOLATILITY_PCT, 0.5),
+    );
+    const invVols = vols.map((v) => 1 / v);
+    const sumInv = invVols.reduce((a, b) => a + b, 0);
+    const n = candidates.length;
+
+    for (let i = 0; i < candidates.length; i++) {
+      const rawWeight = (invVols[i] / sumInv) * n; // 평균 = 1
+      const weight = Math.max(
+        VOL_WEIGHT_MIN,
+        Math.min(VOL_WEIGHT_MAX, rawWeight),
+      );
+      const amount = Math.round(SCAN_INVESTMENT_AMOUNT * weight);
+      map.set(candidates[i].stockCode, amount);
+    }
+    return map;
   }
 
   private async acquireScanLock(requestId: string): Promise<boolean> {

@@ -13,7 +13,13 @@ const config: Options = {
   user: process.env.DB_USERNAME ?? 'alpha',
   password: process.env.DB_PASSWORD ?? 'alpha1234',
   dbName: process.env.DB_DATABASE ?? 'alpha_mind',
-  entities: [UserEntity, TradeHistoryEntity, TradeDailySummaryEntity, NotificationEntity, AiMeetingResultEntity],
+  entities: [
+    UserEntity,
+    TradeHistoryEntity,
+    TradeDailySummaryEntity,
+    NotificationEntity,
+    AiMeetingResultEntity,
+  ],
   extensions: [Migrator],
   migrations: {
     path: './dist/migrations',

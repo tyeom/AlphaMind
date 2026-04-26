@@ -18,6 +18,7 @@ import { Public } from '@alpha-mind/common';
 import { firstValueFrom } from 'rxjs';
 import { StrategyService } from './strategy.service';
 import { BacktestService } from './backtest.service';
+import { WeeklyOptimizerService } from './weekly-optimizer.service';
 import {
   DayTradingQueryDto,
   MeanReversionQueryDto,
@@ -58,6 +59,7 @@ export class StrategyController {
   constructor(
     private readonly strategyService: StrategyService,
     private readonly backtestService: BacktestService,
+    private readonly weeklyOptimizerService: WeeklyOptimizerService,
     @Inject(BACKEND_SERVICE) private readonly backendClient: ClientProxy,
   ) {}
 
@@ -234,20 +236,25 @@ export class StrategyController {
     return this.strategyService.analyzeMomentumSurge(code);
   }
 
-  /** 전 종목 스캔 — Top N 추출 (HTTP) */
+  /**
+   * 전 종목 스캔 — Top N 추출 (HTTP).
+   * body 에서 TP/SL 미지정 시 그리드 서치 결과(`getActiveShortTermTpSl`) 자동 적용.
+   * minTotalTrades 도 walk-forward 기준(in-sample 5 + OOS 5)에 맞춰 10 으로 통일.
+   */
   @Post('scan')
-  scanStocks(@Body() body: ScanBodyDto) {
+  async scanStocks(@Body() body: ScanBodyDto) {
+    const optimal = await this.backtestService.getActiveShortTermTpSl();
     return this.backtestService.scanAllStocks(
       body.excludeCodes ?? [],
       body.topN ?? 10,
       body.investmentAmount ?? 10_000_000,
       body.tradeRatioPct ?? 10,
       body.commissionPct ?? 0.015,
-      body.autoTakeProfitPct ?? 2.5,
-      body.autoStopLossPct ?? -3,
+      body.autoTakeProfitPct ?? optimal.tpPct,
+      body.autoStopLossPct ?? optimal.slPct,
       body.maxHoldingDays ?? 7,
       body.minCurrentSignalStrength ?? 0.6,
-      body.minTotalTrades ?? 3,
+      body.minTotalTrades ?? 10,
     );
   }
 
@@ -349,10 +356,57 @@ export class StrategyController {
     );
   }
 
+  /**
+   * 단타용 최적 TP/SL 조회 (RMQ) — ScheduledScannerService 가 스캔 직전 호출.
+   * 영속화된 그리드 서치 결과가 있으면 그 값을, 없으면 fallback 기본값을 반환.
+   */
+  @MessagePattern('strategy.optimal-params')
+  getOptimalShortTermTpSlRmq() {
+    return this.backtestService.getActiveShortTermTpSl();
+  }
+
+  /**
+   * TP/SL 그리드 서치 트리거.
+   * - 표본 종목 × (tpRange × slRange) 조합을 walk-forward 백테스트해 최적 TP/SL 산출.
+   * - 결과는 data/optimal_params.json 에 영속화되어 다음 스캔부터 자동 적용.
+   */
+  @Post('optimize-tp-sl')
+  async optimizeTpSl(
+    @Body()
+    body: {
+      tpRange?: number[];
+      slRange?: number[];
+      stockSampleSize?: number;
+      investmentAmount?: number;
+      maxHoldingDays?: number;
+    },
+  ) {
+    return this.backtestService.gridSearchOptimalTpSl(body ?? {});
+  }
+
+  /**
+   * 현재 적용 중인 단타 TP/SL (HTTP) — 프론트 입력 폼 초기값 주입에 사용.
+   * 그리드 서치 결과가 있으면 그 값, 없으면 코드 기본값(source='default').
+   */
+  @Get('optimal-params/short-term-tp-sl')
+  getOptimalShortTermTpSl() {
+    return this.backtestService.getActiveShortTermTpSl();
+  }
+
+  /**
+   * 주간 자동 최적화를 지금 즉시 실행 (cron 대기 없이) — 첫 적용 / 임시 재계산용.
+   * cron 동일 로직을 호출하므로 결과는 data/optimal_params.json + history 파일에 동일하게 기록.
+   */
+  @Post('optimize-tp-sl/run-weekly-now')
+  runWeeklyOptimizerNow() {
+    return this.weeklyOptimizerService.runOptimization('manual');
+  }
+
   /** 백테스팅 */
   @Get(':code/backtest')
   runBacktest(@Param('code') code: string, @Query() query: BacktestQueryDto) {
     const allowAddOnBuy = parseBooleanOptional(query.allowAddOnBuy);
+    const useNextOpenForBuy = parseBooleanOptional(query.useNextOpenForBuy);
 
     return this.backtestService.runBacktest(code, {
       strategyId: query.strategyId,
@@ -366,7 +420,10 @@ export class StrategyController {
       autoTakeProfitPct: parseNumberOrDefault(query.autoTakeProfitPct, 2.5),
       autoStopLossPct: parseNumberOrDefault(query.autoStopLossPct, -3),
       maxHoldingDays: parseNumberOrDefault(query.maxHoldingDays, 7),
+      sellTaxPct: parseNumberOrDefault(query.sellTaxPct, 0.18),
+      slippagePct: parseNumberOrDefault(query.slippagePct, 0.05),
       ...(allowAddOnBuy !== undefined && { allowAddOnBuy }),
+      ...(useNextOpenForBuy !== undefined && { useNextOpenForBuy }),
     });
   }
 }

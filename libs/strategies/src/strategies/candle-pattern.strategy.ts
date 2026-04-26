@@ -9,6 +9,7 @@ import {
   StrategyAnalysisResult,
 } from '../types/strategy.types';
 import { calculateSMA } from '../indicators/technical-indicators';
+import { pickFreshCurrentSignal } from '../utils/signal-freshness';
 
 const DEFAULT_CONFIG: CandlePatternConfig = {
   minPatternStrength: 0.6,
@@ -123,16 +124,12 @@ export function analyzeCandlePattern(
 
   const lastCandle = candles[candles.length - 1];
   const recentPatterns = allPatterns.slice(-10);
-  const currentSignal: Signal =
-    signals.length > 0
-      ? signals[signals.length - 1]
-      : {
-          direction: SignalDirection.Neutral,
-          strength: 0,
-          reason: '패턴 미감지',
-          date: lastCandle.date,
-          price: lastCandle.close,
-        };
+  const currentSignal: Signal = pickFreshCurrentSignal(
+    signals,
+    lastCandle,
+    '최근 1거래일 이내 패턴 신호 없음 (stale)',
+    '패턴 미감지',
+  );
 
   // 패턴 통계
   const patternStats: Record<string, number> = {};

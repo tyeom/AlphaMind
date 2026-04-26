@@ -13,6 +13,7 @@ import {
   calculateAvgVolume,
   countConsecutiveUpCandles,
 } from '../indicators/technical-indicators';
+import { pickFreshCurrentSignal } from '../utils/signal-freshness';
 
 const DEFAULT_CONFIG: DayTradingConfig = {
   variant: DayTradingVariant.Breakout,
@@ -265,17 +266,7 @@ function mergeConfig(partial: Partial<DayTradingConfig>): DayTradingConfig {
 }
 
 function buildCurrentSignal(signals: Signal[], lastCandle: CandleData): Signal {
-  const recentSignals = signals.slice(-5);
-  if (recentSignals.length === 0) {
-    return {
-      direction: SignalDirection.Neutral,
-      strength: 0,
-      reason: '분석 기간 내 신호 없음',
-      date: lastCandle.date,
-      price: lastCandle.close,
-    };
-  }
-  return recentSignals[recentSignals.length - 1];
+  return pickFreshCurrentSignal(signals, lastCandle);
 }
 
 function buildSummary(name: string, current: Signal, signals: Signal[]): string {

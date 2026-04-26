@@ -81,7 +81,11 @@ export class KisJournalService {
         };
       }
 
-      const generated = await this.generateAndSaveJournal(userId, targetDate, true);
+      const generated = await this.generateAndSaveJournal(
+        userId,
+        targetDate,
+        true,
+      );
       if (generated.isAvailable || !existing) {
         return generated;
       }
@@ -113,10 +117,12 @@ export class KisJournalService {
     isToday: boolean,
   ): Promise<JournalResponse> {
     let orders: any[];
-    let balanceData: Awaited<ReturnType<KisInquiryService['getBalance']>> | null;
-    let realizedBalanceData:
-      | Awaited<ReturnType<KisInquiryService['getBalanceWithRealized']>>
-      | null;
+    let balanceData: Awaited<
+      ReturnType<KisInquiryService['getBalance']>
+    > | null;
+    let realizedBalanceData: Awaited<
+      ReturnType<KisInquiryService['getBalanceWithRealized']>
+    > | null;
 
     try {
       if (isToday) {
@@ -163,8 +169,10 @@ export class KisJournalService {
 
     // getBalance() 실패 시 getBalanceWithRealized()로 대체
     // (KisBalanceRealizedSummary extends KisBalanceSummary이므로 동일 필드 포함)
-    const effectiveItems = balanceData?.items ?? realizedBalanceData?.items ?? [];
-    const effectiveSummary = balanceData?.summary ?? realizedBalanceData?.summary;
+    const effectiveItems =
+      balanceData?.items ?? realizedBalanceData?.items ?? [];
+    const effectiveSummary =
+      balanceData?.summary ?? realizedBalanceData?.summary;
     const hasBalanceSnapshot = Boolean(effectiveSummary);
 
     const stockSummaries = this.buildStockSummaries(
@@ -184,7 +192,8 @@ export class KisJournalService {
       this.estimateRealizedProfitLoss(stockSummaries);
     const totalEval = Number(effectiveSummary?.evlu_amt_smtl_amt) || 0;
     const totalPurchase = Number(effectiveSummary?.pchs_amt_smtl_amt) || 0;
-    const totalEvalProfitLoss = Number(effectiveSummary?.evlu_pfls_smtl_amt) || 0;
+    const totalEvalProfitLoss =
+      Number(effectiveSummary?.evlu_pfls_smtl_amt) || 0;
     const totalProfitLossRate = this.calculateTotalProfitLossRate(
       totalEvalProfitLoss,
       totalPurchase,
@@ -377,8 +386,10 @@ export class KisJournalService {
     }
 
     if (prevDay && (prevDay.hasBalanceSnapshot ?? true)) {
-      const prevEval = Number(prevDay.totalEvalAmount) + Number(prevDay.cashBalance);
-      const todayEval = Number(summary.totalEvalAmount) + Number(summary.cashBalance);
+      const prevEval =
+        Number(prevDay.totalEvalAmount) + Number(prevDay.cashBalance);
+      const todayEval =
+        Number(summary.totalEvalAmount) + Number(summary.cashBalance);
       response.previousDay = {
         date: prevDay.date,
         totalEvalAmount: Number(prevDay.totalEvalAmount),

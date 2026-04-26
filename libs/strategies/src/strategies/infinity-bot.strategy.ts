@@ -7,6 +7,7 @@ import {
   SignalDirection,
 } from '../types/strategy.types';
 import { calculateSMA } from '../indicators/technical-indicators';
+import { pickFreshCurrentSignal } from '../utils/signal-freshness';
 
 const DEFAULT_CONFIG: InfinityBotConfig = {
   totalAmount: 10_000_000,
@@ -124,16 +125,12 @@ export function analyzeInfinityBot(
   const currentReturn =
     finalAvgPrice != null ? ((lastCandle.close - finalAvgPrice) / finalAvgPrice) * 100 : null;
 
-  const currentSignal: Signal =
-    signals.length > 0
-      ? signals[signals.length - 1]
-      : {
-          direction: SignalDirection.Neutral,
-          strength: 0,
-          reason: '신호 없음',
-          date: lastCandle.date,
-          price: lastCandle.close,
-        };
+  const currentSignal: Signal = pickFreshCurrentSignal(
+    signals,
+    lastCandle,
+    '최근 1거래일 이내 라운드 신호 없음 (stale)',
+    '신호 없음',
+  );
 
   const buys = signals.filter((s) => s.direction === SignalDirection.Buy).length;
   const sells = signals.filter((s) => s.direction === SignalDirection.Sell).length;

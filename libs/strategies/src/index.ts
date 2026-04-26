@@ -20,3 +20,6 @@ export { analyzeInfinityBot } from './strategies/infinity-bot.strategy';
 export { analyzeCandlePattern } from './strategies/candle-pattern.strategy';
 export { analyzeMomentumPower } from './strategies/momentum-power.strategy';
 export { analyzeMomentumSurge } from './strategies/momentum-surge.strategy';
+
+// Utils
+export { isFreshSignal, pickFreshCurrentSignal } from './utils/signal-freshness';

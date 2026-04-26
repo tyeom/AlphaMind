@@ -20,18 +20,45 @@ export async function scanStocks(params: {
   autoStopLossPct?: number;
   maxHoldingDays?: number;
 }): Promise<ScanResponse> {
+  // TP/SL/maxHoldingDays 는 undefined 면 객체에서 생략 (JSON.stringify 가 omit).
+  // 그래야 backend 의 `?? optimal.tpPct` fallback 이 발동해 그리드 서치 결과가 적용된다.
+  const body: Record<string, unknown> = {
+    excludeCodes: params.excludeCodes ?? [],
+    topN: params.topN ?? 10,
+    investmentAmount: params.investmentAmount ?? 10_000_000,
+  };
+  if (params.autoTakeProfitPct !== undefined)
+    body.autoTakeProfitPct = params.autoTakeProfitPct;
+  if (params.autoStopLossPct !== undefined)
+    body.autoStopLossPct = params.autoStopLossPct;
+  if (params.maxHoldingDays !== undefined)
+    body.maxHoldingDays = params.maxHoldingDays;
+
   return marketRequest<ScanResponse>('/strategies/scan', {
     method: 'POST',
     headers: authHeaders(),
-    body: JSON.stringify({
-      excludeCodes: params.excludeCodes ?? [],
-      topN: params.topN ?? 10,
-      investmentAmount: params.investmentAmount ?? 10_000_000,
-      autoTakeProfitPct: params.autoTakeProfitPct ?? 2.5,
-      autoStopLossPct: params.autoStopLossPct ?? -3,
-      maxHoldingDays: params.maxHoldingDays ?? 7,
-    }),
+    body: JSON.stringify(body),
   });
+}
+
+/**
+ * 현재 적용 중인 단타 TP/SL 조회.
+ * source='optimized' 면 그리드 서치 결과, 'default' 면 코드 기본값 (그리드 미실행).
+ */
+export interface OptimalShortTermTpSl {
+  tpPct: number;
+  slPct: number;
+  source: 'optimized' | 'default';
+  updatedAt?: string;
+  score?: number;
+  sampleSize?: number;
+}
+
+export async function getOptimalShortTermTpSl(): Promise<OptimalShortTermTpSl> {
+  return marketRequest<OptimalShortTermTpSl>(
+    '/strategies/optimal-params/short-term-tp-sl',
+    { headers: authHeaders() },
+  );
 }
 
 export interface SseProgress {

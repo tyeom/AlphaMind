@@ -12,6 +12,7 @@ import {
   calculateRSI,
   calculateOBV,
 } from '../indicators/technical-indicators';
+import { pickFreshCurrentSignal } from '../utils/signal-freshness';
 
 const DEFAULT_EXIT_CONFIG: ExitConfig = {
   stopLossEnabled: true,
@@ -281,17 +282,7 @@ function resolveEtfKind(
 }
 
 function buildCurrentSignal(signals: Signal[], lastCandle: CandleData): Signal {
-  const recent = signals.slice(-5);
-  if (recent.length === 0) {
-    return {
-      direction: SignalDirection.Neutral,
-      strength: 0,
-      reason: '분석 기간 내 신호 없음',
-      date: lastCandle.date,
-      price: lastCandle.close,
-    };
-  }
-  return recent[recent.length - 1];
+  return pickFreshCurrentSignal(signals, lastCandle);
 }
 
 function buildSummary(

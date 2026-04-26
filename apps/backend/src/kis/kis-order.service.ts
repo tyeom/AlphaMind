@@ -83,7 +83,10 @@ export class KisOrderService {
       // KIS 응답 바디에 에러 메시지가 담겨 오는 경우가 많음 — 함께 로깅/저장
       const kisBody = err?.response?.data;
       const detailedMessage =
-        (kisBody && (kisBody.msg1 || kisBody.error_description || JSON.stringify(kisBody))) ||
+        (kisBody &&
+          (kisBody.msg1 ||
+            kisBody.error_description ||
+            JSON.stringify(kisBody))) ||
         err.message ||
         'KIS 주문 요청 실패';
       this.logger.error(
@@ -133,7 +136,9 @@ export class KisOrderService {
   }
 
   /** 체결통보 기준으로 주문 이력을 체결 상태로 갱신 */
-  async recordExecutionNotification(notification: KisRealtimeOrderNotification): Promise<{
+  async recordExecutionNotification(
+    notification: KisRealtimeOrderNotification,
+  ): Promise<{
     history: TradeHistoryEntity;
     appliedQty: number;
     previousExecutedQty: number;

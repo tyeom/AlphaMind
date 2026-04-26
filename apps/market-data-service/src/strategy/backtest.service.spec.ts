@@ -23,6 +23,11 @@ describe('BacktestService simulate', () => {
     autoTakeProfitPct: 2.5,
     autoStopLossPct: -3,
     maxHoldingDays: 7,
+    // simulate() mechanic 검증이 목적인 테스트이므로
+    // 비용/슬리피지는 0, 매수는 신호봉 종가에 즉시 체결로 단순화한다.
+    sellTaxPct: 0,
+    slippagePct: 0,
+    useNextOpenForBuy: false,
   };
 
   it('uses daily high/low for automatic take profit', () => {

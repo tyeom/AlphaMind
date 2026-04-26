@@ -54,9 +54,9 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
   private orderNotificationSubscriptionResolver?:
     | ((value: boolean) => void)
     | undefined;
-  private orderNotificationSubscriptionTimer:
-    | ReturnType<typeof setTimeout>
-    | null = null;
+  private orderNotificationSubscriptionTimer: ReturnType<
+    typeof setTimeout
+  > | null = null;
   private lastOrderNotificationSubscriptionError?: string;
 
   /** 실시간 체결가 스트림 */
@@ -273,9 +273,7 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
   }
 
   /** 계좌 체결통보 구독 */
-  async ensureOrderNotificationsSubscribed(
-    timeoutMs = 5000,
-  ): Promise<boolean> {
+  async ensureOrderNotificationsSubscribed(timeoutMs = 5000): Promise<boolean> {
     const htsId = this.configService.get<string>('KIS_HTS_ID')?.trim();
     if (!htsId) {
       if (!this.hasWarnedMissingHtsId) {
@@ -472,7 +470,9 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
             Boolean(rtCd)) ||
           (this.orderNotificationSubscriptionState === 'pending' &&
             msgCd === 'OPSP0017' &&
-            String(msg1 ?? '').toLowerCase().includes('htsid'));
+            String(msg1 ?? '')
+              .toLowerCase()
+              .includes('htsid'));
 
         if (isOrderNotificationSubscriptionResult && rtCd) {
           if (!trId || !trKey) {
