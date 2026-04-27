@@ -1049,6 +1049,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   ): Promise<AutoTradingSessionEntity> {
     const session = await this.getSession(sessionId, userId);
     session.status = SessionStatus.STOPPED;
+    session.scheduledScan = false;
     session.pauseReason = undefined;
     session.autoPausePending = false;
     session.stoppedAt = new Date();
