@@ -156,13 +156,17 @@ export class ScheduledScannerService {
     const existing = await this.em.find(AutoTradingSessionEntity, {
       user: userId,
     });
-    const activeCodes = Array.from(
-      new Set(
-        existing
-          .filter((s) => s.status === SessionStatus.ACTIVE)
-          .map((s) => s.stockCode),
-      ),
+    const activeCodes = new Set(
+      existing
+        .filter((s) => s.status === SessionStatus.ACTIVE)
+        .map((s) => s.stockCode),
     );
+    // 수동 등록(scheduledScan=false) 세션과 중복되는 종목은 상태와 무관하게 스캔 대상에서 제외.
+    // 스케줄러가 수동 운용 종목을 덮어쓰지 않도록 보호한다.
+    const manualCodes = new Set(
+      existing.filter((s) => !s.scheduledScan).map((s) => s.stockCode),
+    );
+    const excludeCodes = Array.from(new Set([...activeCodes, ...manualCodes]));
 
     // 단타 최적 TP/SL — market-data-service 의 그리드 서치 결과를 가져온다.
     // 영속화된 결과가 없거나 RMQ 실패 시 코드 기본값으로 자동 fallback.
@@ -172,7 +176,7 @@ export class ScheduledScannerService {
       this.marketDataClient.emit('strategy.scan.request', {
         userId,
         requestId,
-        excludeCodes: activeCodes,
+        excludeCodes,
         topN: SCAN_TOP_N,
         investmentAmount: SCAN_INVESTMENT_AMOUNT,
         autoTakeProfitPct: optimal.tpPct,
@@ -184,7 +188,8 @@ export class ScheduledScannerService {
     );
 
     this.logger.log(
-      `예약 스캔 이벤트 emit 완료 — requestId=${requestId} exclude=${activeCodes.length}건, ` +
+      `예약 스캔 이벤트 emit 완료 — requestId=${requestId} exclude=${excludeCodes.length}건 ` +
+        `(active=${activeCodes.size}, manual=${manualCodes.size}), ` +
         `TP=${optimal.tpPct}% SL=${optimal.slPct}% (${optimal.source}), 완료 이벤트 대기`,
     );
   }
@@ -349,21 +354,40 @@ export class ScheduledScannerService {
       (s) => s.status === SessionStatus.ACTIVE,
     );
     const activeCodes = new Set(activeSessions.map((s) => s.stockCode));
+    // 수동 등록(scheduledScan=false) 세션은 상태 무관하게 보호 — onConflict:update 로
+    // 덮어써서 scheduledScan=true 로 바뀌는 사고를 막는다.
+    const manualCodes = new Set(
+      existing.filter((s) => !s.scheduledScan).map((s) => s.stockCode),
+    );
     const pausedByCode = new Map(
       existing
         .filter(
           (s) =>
             s.status === SessionStatus.PAUSED &&
-            s.pauseReason === PauseReason.AUTO_SELL,
+            s.pauseReason === PauseReason.AUTO_SELL &&
+            s.scheduledScan,
         )
         .map((s) => [s.stockCode, s]),
     );
 
-    const buyCandidates = response.results.filter(
+    const rawBuyCandidates = response.results.filter(
       (r) =>
         r.currentSignal.direction.toUpperCase() === 'BUY' &&
         r.currentSignal.strength >= MIN_BUY_SIGNAL_STRENGTH,
     );
+    const skippedByManual = rawBuyCandidates.filter((r) =>
+      manualCodes.has(r.stockCode),
+    );
+    const buyCandidates = rawBuyCandidates.filter(
+      (r) => !manualCodes.has(r.stockCode),
+    );
+
+    if (skippedByManual.length > 0) {
+      this.logger.log(
+        `수동 등록 종목과 중복되어 스킵 ${skippedByManual.length}건: ` +
+          skippedByManual.map((r) => r.stockCode).join(', '),
+      );
+    }
 
     this.logger.log(
       `스캔 결과: ${response.results.length}건 → 매수 후보 ${buyCandidates.length}건 ` +
