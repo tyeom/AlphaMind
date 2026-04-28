@@ -63,6 +63,7 @@ export class AutoTradingSessionEntity {
     | 'stopLossPct'
     | 'maxHoldingDays'
     | 'addOnBuyMode'
+    | 'addOnBuyCount'
     | 'scheduledScan'
     | 'positionStatus'
     | 'createdAt';
@@ -122,6 +123,14 @@ export class AutoTradingSessionEntity {
    */
   @Enum({ items: () => AddOnBuyMode, default: AddOnBuyMode.SKIP })
   addOnBuyMode: AddOnBuyMode = AddOnBuyMode.SKIP;
+
+  /**
+   * 현재 포지션에서 발생한 추가 매수 횟수.
+   * addOnBuyMode === 'add' 일 때 전략별 maxAddOnCount 와 비교해 추매 한도를 강제한다.
+   * 포지션 청산(holdingQty → 0) 시 0 으로 리셋.
+   */
+  @Property({ default: 0 })
+  addOnBuyCount: number = 0;
 
   @Property({ type: 'decimal', precision: 15, scale: 0, default: 0 })
   realizedPnl: number = 0;

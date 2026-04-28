@@ -20,6 +20,7 @@ import {
   analyzeMomentumPower,
   analyzeMomentumSurge,
   StrategyAnalysisResult,
+  getStrategyTradeMeta,
 } from '@alpha-mind/strategies';
 import {
   AddOnBuyMode,
@@ -71,12 +72,11 @@ const STRATEGY_MAP: Record<
     analyzeMomentumSurge(candles, config, stockCode ?? ''),
 };
 
-/** 기본 익절/손절/매매비율 — 세션에 값이 없을 때만 사용 */
+/** 기본 익절/손절 — 세션에 값이 없을 때만 사용 */
 const DEFAULT_TAKE_PROFIT_PCT = 2.5;
 const DEFAULT_STOP_LOSS_PCT = -3;
 const DEFAULT_MAX_HOLDING_DAYS = 7;
 const DEFAULT_STRATEGY_ID = 'day-trading';
-const TRADE_RATIO_PCT = 20;
 const MIN_BUY_SIGNAL_STRENGTH = 0.6;
 const PRICE_POLL_INTERVAL_MS = 5_000;
 const PRICE_TRIGGERED_SELL_CHECK_DEBOUNCE_MS = 1_000;
@@ -215,6 +215,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     session.avgBuyPrice = totalCost / session.holdingQty;
     if (wasFlat && session.holdingQty > 0) {
       session.enteredAt = new Date();
+      session.addOnBuyCount = 0;
+    } else {
+      session.addOnBuyCount += 1;
     }
     session.totalBuys += 1;
     if (session.holdingQty > 0) {
@@ -235,6 +238,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       session.avgBuyPrice = 0;
       session.unrealizedPnl = 0;
       session.enteredAt = undefined;
+      session.addOnBuyCount = 0;
     }
     session.totalSells += 1;
     return Math.round(pnl);
@@ -750,6 +754,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           session.avgBuyPrice = 0;
           session.unrealizedPnl = 0;
           session.enteredAt = undefined;
+          session.addOnBuyCount = 0;
         } else {
           if (!session.enteredAt || previousQty <= 0) {
             session.enteredAt = new Date();
@@ -867,6 +872,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         if (realQty <= 0) {
           session.unrealizedPnl = 0;
           session.enteredAt = undefined;
+          session.addOnBuyCount = 0;
         } else {
           if (!session.enteredAt || previousQty <= 0) {
             session.enteredAt = new Date();
@@ -1175,7 +1181,41 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       await this.warnOrderTrackingUnavailable(session);
     }
 
-    const tradeAmount = session.investmentAmount * (TRADE_RATIO_PCT / 100);
+    const isAddOn = session.holdingQty > 0;
+    const meta = getStrategyTradeMeta(session.strategyId, session.variant);
+
+    // 추매는 addOnBuyMode === 'add' 일 때만 maxAddOnCount 한도 내에서 허용
+    if (isAddOn) {
+      if (session.addOnBuyMode !== AddOnBuyMode.ADD) {
+        return;
+      }
+      if (session.addOnBuyCount >= meta.maxAddOnCount) {
+        this.logger.log(
+          `추매 한도 초과 — skip: ${session.stockCode} ` +
+            `(${session.addOnBuyCount}/${meta.maxAddOnCount}, 전략 ${session.strategyId}${session.variant ? `:${session.variant}` : ''})`,
+        );
+        return;
+      }
+    }
+
+    const ratioPct = isAddOn ? meta.addOnBuyRatioPct : meta.initialBuyRatioPct;
+    let tradeAmount = Number(session.investmentAmount) * (ratioPct / 100);
+
+    // 누적 매수금액이 investmentAmount 를 넘지 않도록 가드 (이중 안전망)
+    const alreadySpent =
+      Number(session.avgBuyPrice) * Number(session.holdingQty);
+    const remainingBudget = Number(session.investmentAmount) - alreadySpent;
+    if (remainingBudget <= 0) {
+      this.logger.log(
+        `투자금 한도 도달 — skip: ${session.stockCode} ` +
+          `(누적 ${Math.round(alreadySpent)} / 한도 ${session.investmentAmount})`,
+      );
+      return;
+    }
+    if (tradeAmount > remainingBudget) {
+      tradeAmount = remainingBudget;
+    }
+
     const qty = Math.floor(tradeAmount / price);
     if (qty <= 0) return;
 
@@ -1440,6 +1480,11 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         session.holdingQty > 0 ? totalCost / session.holdingQty : 0;
       if (wasFlat && session.holdingQty > 0) {
         session.enteredAt = new Date();
+        if (wasFirstExecution) {
+          session.addOnBuyCount = 0;
+        }
+      } else if (wasFirstExecution) {
+        session.addOnBuyCount += 1;
       }
       if (wasFirstExecution) {
         session.totalBuys += 1;
@@ -1467,6 +1512,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         session.avgBuyPrice = 0;
         session.unrealizedPnl = 0;
         session.enteredAt = undefined;
+        session.addOnBuyCount = 0;
       } else {
         const latestPrice = this.latestPrices.get(session.stockCode);
         if (latestPrice) {

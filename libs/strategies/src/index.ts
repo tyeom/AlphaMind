@@ -23,3 +23,6 @@ export { analyzeMomentumSurge } from './strategies/momentum-surge.strategy';
 
 // Utils
 export { isFreshSignal, pickFreshCurrentSignal } from './utils/signal-freshness';
+
+// Trade meta
+export { getStrategyTradeMeta, type TradeMeta } from './trade-meta';
