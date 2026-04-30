@@ -54,6 +54,7 @@ export class AutoTradingSessionEntity {
     | 'unrealizedPnl'
     | 'holdingQty'
     | 'avgBuyPrice'
+    | 'highestPriceAfterEntry'
     | 'totalBuys'
     | 'totalSells'
     | 'status'
@@ -106,12 +107,12 @@ export class AutoTradingSessionEntity {
   investmentAmount!: number;
 
   /** 목표 수익률 (%) — 자동 익절 기준 */
-  @Property({ type: 'float', default: 2.5 })
-  takeProfitPct: number = 2.5;
+  @Property({ type: 'float', default: 2.0 })
+  takeProfitPct: number = 2.0;
 
   /** 손절 기준 (%) — 음수값, 자동 손절 기준 */
-  @Property({ type: 'float', default: -3 })
-  stopLossPct: number = -3;
+  @Property({ type: 'float', default: -2.0 })
+  stopLossPct: number = -2.0;
 
   /** 최대 보유일 수 — 0 이하이면 비활성 */
   @Property({ default: 7 })
@@ -143,6 +144,13 @@ export class AutoTradingSessionEntity {
 
   @Property({ type: 'float', default: 0 })
   avgBuyPrice: number = 0;
+
+  /**
+   * 현재 포지션 진입 이후 확인한 최고가.
+   * 수익 반납 방지용 트레일링/본전 보호 청산 기준으로 사용한다.
+   */
+  @Property({ type: 'float', default: 0 })
+  highestPriceAfterEntry: number = 0;
 
   @Property({ default: 0 })
   totalBuys: number = 0;

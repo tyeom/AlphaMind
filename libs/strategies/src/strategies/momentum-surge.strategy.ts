@@ -29,7 +29,7 @@ const DEFAULT_EXIT_CONFIG: ExitConfig = {
  * Momentum Surge 전략 기본 설정.
  *
  * 원본 Rust 구현은 MA 60일 장기선을 사용하지만,
- * alpha-mind 백테스트 3개월 윈도우에 맞춰 ma_long 기본값을 40으로 조정한다.
+ * alpha-mind의 단기 매매 스캔에서는 반응 속도를 위해 ma_long 기본값을 40으로 둔다.
  */
 const DEFAULT_CONFIG: MomentumSurgeConfig = {
   etfKind: MomentumSurgeEtfKind.Auto,
@@ -236,10 +236,14 @@ export function analyzeMomentumSurge(
       currentRSI: rsi[lastIdx],
       currentOBV: obv[lastIdx],
       obvDelta:
-        lastIdx >= cfg.obvPeriod ? obv[lastIdx] - obv[lastIdx - cfg.obvPeriod] : null,
+        lastIdx >= cfg.obvPeriod
+          ? obv[lastIdx] - obv[lastIdx - cfg.obvPeriod]
+          : null,
       totalSignals: signals.length,
-      buySignals: signals.filter((s) => s.direction === SignalDirection.Buy).length,
-      sellSignals: signals.filter((s) => s.direction === SignalDirection.Sell).length,
+      buySignals: signals.filter((s) => s.direction === SignalDirection.Buy)
+        .length,
+      sellSignals: signals.filter((s) => s.direction === SignalDirection.Sell)
+        .length,
     },
     summary: buildSummary('Momentum Surge', currentSignal, signals, kind),
   };
@@ -247,7 +251,9 @@ export function analyzeMomentumSurge(
 
 // ─── Helpers ───
 
-function mergeConfig(partial: Partial<MomentumSurgeConfig>): MomentumSurgeConfig {
+function mergeConfig(
+  partial: Partial<MomentumSurgeConfig>,
+): MomentumSurgeConfig {
   return {
     etfKind: partial.etfKind ?? DEFAULT_CONFIG.etfKind,
     kospiLeverage: partial.kospiLeverage ?? DEFAULT_CONFIG.kospiLeverage,
@@ -270,8 +276,10 @@ function resolveEtfKind(
   cfg: MomentumSurgeConfig,
   stockCode: string,
 ): MomentumSurgeEtfKind.Leverage | MomentumSurgeEtfKind.Inverse {
-  if (cfg.etfKind === MomentumSurgeEtfKind.Leverage) return MomentumSurgeEtfKind.Leverage;
-  if (cfg.etfKind === MomentumSurgeEtfKind.Inverse) return MomentumSurgeEtfKind.Inverse;
+  if (cfg.etfKind === MomentumSurgeEtfKind.Leverage)
+    return MomentumSurgeEtfKind.Leverage;
+  if (cfg.etfKind === MomentumSurgeEtfKind.Inverse)
+    return MomentumSurgeEtfKind.Inverse;
 
   // Auto: 설정된 티커와 매칭
   if (stockCode === cfg.kospiInverse || stockCode === cfg.kosdaqInverse) {
@@ -291,8 +299,12 @@ function buildSummary(
   signals: Signal[],
   kind: MomentumSurgeEtfKind,
 ): string {
-  const buys = signals.filter((s) => s.direction === SignalDirection.Buy).length;
-  const sells = signals.filter((s) => s.direction === SignalDirection.Sell).length;
+  const buys = signals.filter(
+    (s) => s.direction === SignalDirection.Buy,
+  ).length;
+  const sells = signals.filter(
+    (s) => s.direction === SignalDirection.Sell,
+  ).length;
   return `[${name}] (${kind}) 총 ${signals.length}개 신호 (매수 ${buys}, 매도 ${sells}). 현재: ${current.direction} (강도 ${(current.strength * 100).toFixed(0)}%)`;
 }
 

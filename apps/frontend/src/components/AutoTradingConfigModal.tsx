@@ -88,7 +88,7 @@ export function AutoTradingConfigModal({
         <div className="modal-body">
           <p className="text-muted modal-description">
             {description ??
-              '각 종목별로 사용할 전략과 목표 수익/손절/최대 보유일을 설정하세요. 기본값은 백테스트 기반 추천 전략 및 +2.5% / -3% / 7일입니다.'}
+              '각 종목별로 사용할 전략과 목표 수익/손절/최대 보유일을 설정하세요. 기본값은 백테스트 기반 추천 전략 및 +2.0% / -2.0% / 7일입니다.'}
           </p>
 
           {showEntryMode && (
@@ -121,8 +121,8 @@ export function AutoTradingConfigModal({
                   <span>
                     바로 매수 후 운용
                     <small className="entry-mode-hint">
-                      세션 생성 직후 시장가로 전액 매수, 이후 익절/손절 자동
-                      운용
+                      세션 생성 직후 시장가로 전략별 첫 진입 비중 매수, 이후
+                      익절/손절 자동 운용
                     </small>
                   </span>
                 </label>
@@ -161,7 +161,7 @@ export function AutoTradingConfigModal({
                 <input
                   type="number"
                   step="0.5"
-                  placeholder="2.5"
+                  placeholder="2.0"
                   onBlur={(e) => {
                     const v = parseFloat(e.target.value);
                     if (!isNaN(v)) applyToAll({ takeProfitPct: v });
@@ -174,7 +174,7 @@ export function AutoTradingConfigModal({
                 <input
                   type="number"
                   step="0.5"
-                  placeholder="-3"
+                  placeholder="-2.0"
                   onBlur={(e) => {
                     const v = parseFloat(e.target.value);
                     if (!isNaN(v)) applyToAll({ stopLossPct: v });

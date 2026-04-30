@@ -25,16 +25,19 @@ Alpha Mind는 **다양한 기술적 지표 기반의 6가지 매매 전략**과 
 ## 주요 기능
 
 ### 1. AI 추천 종목 기반의 전략적 자동매매
+
 AI 에이전트 분석을 통해 추천된 종목 중 사용자가 직접 선택한 종목들을 대상으로 **세션 단위** 자동매매를 실행합니다.
+
 - 한국투자증권(KIS) OpenAPI 실시간 WebSocket으로 체결·가격 스트리밍
 - 전략이 생성한 매수/매도 시그널에 따라 실계좌/모의계좌 주문 자동 집행
-- **자동 익절 +2.5% / 손절 -3% / 최대 7거래일 보유** (SELL 시그널을 생성하지 않는 전략의 경우 강제 청산)
+- **자동 익절 +2.0% / 손절 -2.0% / 최대 7거래일 보유** (SELL 시그널을 생성하지 않는 전략의 경우 강제 청산)
 - 세션 상태(ACTIVE/PAUSED/STOPPED)를 DB에 영속 → 서버 재시작 후 자동 복원
 - 프론트엔드 WebSocket으로 실시간 가격·체결 알림 스트리밍
 
-### 2. 모든 종목 과거 3개월 차트 데이터 자동 수집
+### 2. 모든 종목 과거 6개월 차트 데이터 자동 수집
+
 - **KRX 전 종목**의 일봉 데이터를 Yahoo Finance v8 API로 자동 수집
-- **3개월 rolling window**: 3개월 이전 데이터는 자동 삭제되어 항상 최신 상태 유지
+- **6개월 rolling window**: 6개월 이전 데이터는 자동 삭제되어 항상 최신 상태 유지
 - **SavePoint 기반 이어서 수집**: 중단된 지점부터 재개 (`last_collected_date + 1일`부터 조회)
 - **스케줄**:
   - `onModuleInit` 시 누락 종목/미수집 기간 감지 → 백그라운드 수집 (HTTP 서버는 즉시 기동)
@@ -42,22 +45,23 @@ AI 에이전트 분석을 통해 추천된 종목 중 사용자가 직접 선택
 - **수집 상태 조회**: `/stocks/collection-status` (@Public) 엔드포인트로 `{ collecting, progress:{done,total}, lastCompletedAt }` 노출 → 프론트엔드 상단바에서 5초 폴링으로 표시
 
 ### 3. 매매 전략별 백테스팅
-- 저장된 3개월 차트 데이터로 **전략/변형(variant)별 시뮬레이션**
+
+- 저장된 6개월 차트 데이터로 **전략/변형(variant)별 시뮬레이션**
 - 단일 종목 백테스트: `POST /strategies/backtest` — 거래 내역, 수익률, MDD, 승률, 평균 체결가, 수수료 반영
 - **전 종목 스캔**: `POST /strategies/scan` — 모든 전략을 전 종목에 적용해 수익률 기준 Top N 추출
-  - 데이터가 20일 미만인 종목은 자동 제외
-  - 50개씩 배치 병렬 처리(`Promise.allSettled`)
+  - 최근 6개월 내 60거래일 미만인 종목은 자동 제외
   - 결과: `bestStrategy`, `totalReturnPct`, `winRate`, `maxDrawdownPct`, `currentSignal`, `summary`
 - 자동 익절/손절 규칙을 실제 자동매매 로직과 동일하게 적용해 **백테스트와 실매매의 결과 차이 최소화**
 
 ### 4. 멀티 에이전트 AI 종목 추천
+
 Claude Code CLI를 `child_process.spawn`으로 실행해 **3단계 멀티 에이전트 회의 시스템**을 구현합니다. Claude 공식 CLI를 통해 WebSearch·WebFetch 도구를 활용해 실제 뉴스와 시장 데이터를 가져옵니다.
 
-| 단계 | 에이전트 | 역할 | 방식 |
-|---|---|---|---|
-| **Phase 1** | 뉴스 에이전트 + 차트 에이전트 | 최근 뉴스 감성 분석 + 기술적 분석 | **병렬** |
-| **Phase 2** | 주식 전문가 트레이더 + 경제 전문 분석가 | 단기/중장기 관점 의견 | **병렬** |
-| **Phase 3** | 투자위원회 의장 | 두 전문가 의견 종합 + 최종 점수/추천 | 직렬 |
+| 단계        | 에이전트                                | 역할                                 | 방식     |
+| ----------- | --------------------------------------- | ------------------------------------ | -------- |
+| **Phase 1** | 뉴스 에이전트 + 차트 에이전트           | 최근 뉴스 감성 분석 + 기술적 분석    | **병렬** |
+| **Phase 2** | 주식 전문가 트레이더 + 경제 전문 분석가 | 단기/중장기 관점 의견                | **병렬** |
+| **Phase 3** | 투자위원회 의장                         | 두 전문가 의견 종합 + 최종 점수/추천 | 직렬     |
 
 - 각 종목마다 분석 결과는 **SSE(Server-Sent Events)** 로 실시간 스트리밍 (`/ai-scoring/score-stream`)
 - 프론트엔드는 현재 단계(Phase 1/2/3) 진행 상황을 실시간 표시
@@ -68,14 +72,14 @@ Claude Code CLI를 `child_process.spawn`으로 실행해 **3단계 멀티 에이
 
 ## 기술 스택
 
-| Layer | Tech |
-|---|---|
-| **Monorepo** | pnpm workspace (`apps/*`, `libs/*`) |
-| **Backend** | NestJS 11, MikroORM 6, PostgreSQL 17, RabbitMQ 3, JWT |
+| Layer           | Tech                                                         |
+| --------------- | ------------------------------------------------------------ |
+| **Monorepo**    | pnpm workspace (`apps/*`, `libs/*`)                          |
+| **Backend**     | NestJS 11, MikroORM 6, PostgreSQL 17, RabbitMQ 3, JWT        |
 | **Market Data** | NestJS 11, Yahoo Finance v8 API, Claude Code CLI, OAuth PKCE |
-| **Frontend** | React 19, React Router 7, Vite 6, 순수 CSS(라이트/다크 테마) |
-| **Broker API** | 한국투자증권(KIS) OpenAPI, WebSocket 실시간 시세 |
-| **Infra** | Docker Compose, nginx reverse proxy |
+| **Frontend**    | React 19, React Router 7, Vite 6, 순수 CSS(라이트/다크 테마) |
+| **Broker API**  | 한국투자증권(KIS) OpenAPI, WebSocket 실시간 시세             |
+| **Infra**       | Docker Compose, nginx reverse proxy                          |
 
 ---
 
@@ -175,7 +179,7 @@ alpha-mind/
 - **Monorepo + 서비스 분리**: `backend`(트레이딩 실행)와 `market-data-service`(데이터 수집/분석)를 분리해 무거운 I/O 부하가 실매매 주문 실행에 영향을 주지 않도록 분리
 - **libs 공유**: 매매 전략 로직(`libs/strategies`)은 **백테스트**(market-data)와 **실매매**(backend)에서 동일하게 재사용 → 백테스트 결과와 실매매 결과의 로직 일관성 보장
 - **공통 인증 가드**: `libs/common`의 `AuthGuard`/`RbacGuard`를 두 서비스에서 공유, `@Public()` 데코레이터로 예외 경로 선언
-- **3개월 rolling window**: 저장 공간 최적화 + 오래된 데이터로 인한 전략 왜곡 방지
+- **6개월 rolling window**: walk-forward 검증에 필요한 표본 확보 + 오래된 데이터로 인한 전략 왜곡 방지
 - **SSE 기반 진행 상황 스트리밍**: AI 분석은 분당 단위 소요 → 단계별(Phase 1/2/3) 진행을 실시간 표시
 - **OAuth PKCE 직접 구현**: Claude CLI의 `claude login` 서브프로세스를 띄우지 않고, 서버가 PKCE 플로우를 직접 수행 → 웹 UI에서 매끄러운 인증 경험 제공
 
@@ -269,24 +273,24 @@ docker compose down
 
 ### 포트 매핑
 
-| 서비스 | 포트 | 설명 |
-|---|---|---|
-| **frontend** (nginx) | `80` | 메인 접근 URL — `http://localhost` |
-| **backend** | `3000` | REST API (`/api`), WebSocket (`/ws`) |
-| **market-data** | `3001` | 차트 수집 / 백테스트 / AI 분석 |
-| **postgres** | `5432` | PostgreSQL 17 |
-| **rabbitmq** | `5672`, `15672` | AMQP + 관리 콘솔 |
+| 서비스               | 포트            | 설명                                 |
+| -------------------- | --------------- | ------------------------------------ |
+| **frontend** (nginx) | `80`            | 메인 접근 URL — `http://localhost`   |
+| **backend**          | `3000`          | REST API (`/api`), WebSocket (`/ws`) |
+| **market-data**      | `3001`          | 차트 수집 / 백테스트 / AI 분석       |
+| **postgres**         | `5432`          | PostgreSQL 17                        |
+| **rabbitmq**         | `5672`, `15672` | AMQP + 관리 콘솔                     |
 
 ### Docker 볼륨
 
-| 볼륨 | 마운트 위치 | 용도 |
-|---|---|---|
-| `postgres_data` | `/var/lib/postgresql/data` | DB 데이터 |
-| `rabbitmq_data` | `/var/lib/rabbitmq` | RabbitMQ 상태 |
-| `backend_logs` | `/app/apps/backend/logs` | Backend 로그 |
-| `market_data_logs` | `/app/apps/market-data-service/logs` | Market Data 로그 |
-| `agents_data` | `/app/.agents` | Claude 인증 config.json |
-| `claude_credentials` | `/root/.claude` | Claude CLI `.credentials.json` (OAuth) |
+| 볼륨                 | 마운트 위치                          | 용도                                   |
+| -------------------- | ------------------------------------ | -------------------------------------- |
+| `postgres_data`      | `/var/lib/postgresql/data`           | DB 데이터                              |
+| `rabbitmq_data`      | `/var/lib/rabbitmq`                  | RabbitMQ 상태                          |
+| `backend_logs`       | `/app/apps/backend/logs`             | Backend 로그                           |
+| `market_data_logs`   | `/app/apps/market-data-service/logs` | Market Data 로그                       |
+| `agents_data`        | `/app/.agents`                       | Claude 인증 config.json                |
+| `claude_credentials` | `/root/.claude`                      | Claude CLI `.credentials.json` (OAuth) |
 
 ### nginx 라우팅
 
@@ -380,18 +384,19 @@ Claude Pro / Max / Team / Enterprise 구독 계정을 가지고 있다면, **별
 
 `libs/strategies`에는 6가지 전략이 구현되어 있으며, 각 전략은 여러 **variant**를 가집니다. 모든 전략은 동일한 `(candles, config) → StrategyAnalysisResult` 인터페이스를 준수해 **백테스트와 실매매에서 동일 로직**이 사용됩니다.
 
-| 전략 ID | 이름 | Variants |
-|---|---|---|
-| `day-trading` | 일간 모멘텀 통합 전략 | `breakout` (래리 윌리엄스 변동성 돌파), `crossover` (이동평균 교차), `volume_surge` (거래량 급증) |
-| `mean-reversion` | 평균회귀 전략 | `rsi`, `bollinger`, `grid`, `magic_split` (마법의 분할매수) |
-| `infinity-bot` | 무한매수봇 | 분할매수 + 장기 홀딩 |
-| `candle-pattern` | 캔들 패턴 인식 | 18종 패턴 (망치형, 샛별, 장악형 등) |
-| `momentum-power` | 시장 안전도 기반 자산 전환 전략 | 모멘텀 기반 ETF 조합 + MA 필터 (구 Snow) |
-| `momentum-surge` | OBV + 단/중/장기 MA 정배열 + RSI 조합 | 레버리지 계열(정배열)과 인버스 계열(역배열) 각각 진입/청산 신호를 산출 |
+| 전략 ID          | 이름                                  | Variants                                                                                          |
+| ---------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `day-trading`    | 일간 모멘텀 통합 전략                 | `breakout` (래리 윌리엄스 변동성 돌파), `crossover` (이동평균 교차), `volume_surge` (거래량 급증) |
+| `mean-reversion` | 평균회귀 전략                         | `rsi`, `bollinger`, `grid`, `magic_split` (마법의 분할매수)                                       |
+| `infinity-bot`   | 무한매수봇                            | 분할매수 + 장기 홀딩                                                                              |
+| `candle-pattern` | 캔들 패턴 인식                        | 18종 패턴 (망치형, 샛별, 장악형 등)                                                               |
+| `momentum-power` | 시장 안전도 기반 자산 전환 전략       | 모멘텀 기반 ETF 조합 + MA 필터 (구 Snow)                                                          |
+| `momentum-surge` | OBV + 단/중/장기 MA 정배열 + RSI 조합 | 레버리지 계열(정배열)과 인버스 계열(역배열) 각각 진입/청산 신호를 산출                            |
 
 **공통 자동 익절/손절** (SELL 시그널을 생성하지 않는 전략은 시뮬레이션/실매매 양쪽에서 적용):
-- 익절: `+2.5%`
-- 손절: `-3%`
+
+- 익절: `+2.0%`
+- 손절: `-2.0%`
 - 최대 보유: `7거래일`
 
 ---
@@ -400,48 +405,48 @@ Claude Pro / Max / Team / Enterprise 구독 계정을 가지고 있다면, **별
 
 ### Backend (`:3000`, prefix `/api`)
 
-| Method | Path | 설명 |
-|---|---|---|
-| `POST` | `/api/auth/sign-up` | 회원가입 |
-| `POST` | `/api/auth/sign-in` | 로그인 (JWT 발급) |
-| `POST` | `/api/auth/refresh` | 리프레시 토큰 |
-| `GET` | `/api/users/me` | 내 정보 |
-| `PATCH` | `/api/users/me` | 내 정보 수정 |
-| `GET` | `/api/users` | 사용자 목록 (관리자) |
-| `PATCH` | `/api/users/:id` | 사용자 수정 (관리자) |
-| `POST` | `/api/kis/orders` | KIS 매수/매도 주문 |
-| `GET` | `/api/kis/balance` | KIS 잔고 조회 |
-| `GET` | `/api/kis/quote/:code` | KIS 시세 조회 |
-| `GET` | `/api/kis/journal` | 매매 일지 |
-| `POST` | `/api/auto-trading/sessions` | 자동매매 세션 시작 |
-| `POST` | `/api/auto-trading/sessions/batch` | 복수 세션 일괄 시작 |
-| `GET` | `/api/auto-trading/sessions` | 세션 목록 |
-| `PATCH` | `/api/auto-trading/sessions/:id/pause` | 일시정지 |
-| `PATCH` | `/api/auto-trading/sessions/:id/resume` | 재개 |
-| `DELETE` | `/api/auto-trading/sessions/:id` | 종료 |
-| `GET` | `/api/health` | 헬스체크 (Terminus) |
-| WS | `/ws/kis` | KIS 실시간 시세 |
-| WS | `/ws/auto-trading` | 자동매매 실시간 가격/체결 |
+| Method   | Path                                    | 설명                      |
+| -------- | --------------------------------------- | ------------------------- |
+| `POST`   | `/api/auth/sign-up`                     | 회원가입                  |
+| `POST`   | `/api/auth/sign-in`                     | 로그인 (JWT 발급)         |
+| `POST`   | `/api/auth/refresh`                     | 리프레시 토큰             |
+| `GET`    | `/api/users/me`                         | 내 정보                   |
+| `PATCH`  | `/api/users/me`                         | 내 정보 수정              |
+| `GET`    | `/api/users`                            | 사용자 목록 (관리자)      |
+| `PATCH`  | `/api/users/:id`                        | 사용자 수정 (관리자)      |
+| `POST`   | `/api/kis/orders`                       | KIS 매수/매도 주문        |
+| `GET`    | `/api/kis/balance`                      | KIS 잔고 조회             |
+| `GET`    | `/api/kis/quote/:code`                  | KIS 시세 조회             |
+| `GET`    | `/api/kis/journal`                      | 매매 일지                 |
+| `POST`   | `/api/auto-trading/sessions`            | 자동매매 세션 시작        |
+| `POST`   | `/api/auto-trading/sessions/batch`      | 복수 세션 일괄 시작       |
+| `GET`    | `/api/auto-trading/sessions`            | 세션 목록                 |
+| `PATCH`  | `/api/auto-trading/sessions/:id/pause`  | 일시정지                  |
+| `PATCH`  | `/api/auto-trading/sessions/:id/resume` | 재개                      |
+| `DELETE` | `/api/auto-trading/sessions/:id`        | 종료                      |
+| `GET`    | `/api/health`                           | 헬스체크 (Terminus)       |
+| WS       | `/ws/kis`                               | KIS 실시간 시세           |
+| WS       | `/ws/auto-trading`                      | 자동매매 실시간 가격/체결 |
 
 ### Market Data (`:3001`, nginx 경로 `/market-api`)
 
-| Method | Path | 설명 |
-|---|---|---|
-| `GET` | `/stocks` | 전 종목 목록 (10일 캐시) |
-| `GET` | `/stocks/:code` | 종목 상세 |
-| `GET` | `/stocks/:code/prices?limit=30` | 일봉 데이터 |
-| `GET` | `/stocks/collection-status` | 수집 상태 (@Public) |
-| `POST` | `/stocks/collect` | 수동 수집 트리거 |
-| `POST` | `/strategies/backtest` | 단일 종목 백테스트 |
-| `POST` | `/strategies/scan` | 전 종목 전략 스캔 (Top N) |
-| `POST` | `/ai-scoring/score-stream` | **AI 종목 분석 (SSE)** |
-| `POST` | `/ai-scoring/score` | AI 분석 (동기) |
-| `GET` | `/agents/status` | 인증 상태 (@Public) |
-| `POST` | `/agents/config` | 인증 설정 저장 |
-| `POST` | `/agents/verify` | API 키 검증 |
-| `POST` | `/agents/login` | OAuth PKCE URL 생성 |
-| `POST` | `/agents/login/code` | Authorization code → 토큰 교환 |
-| `GET` | `/agents/login/status` | 구독 로그인 상태 (@Public) |
+| Method | Path                            | 설명                           |
+| ------ | ------------------------------- | ------------------------------ |
+| `GET`  | `/stocks`                       | 전 종목 목록 (10일 캐시)       |
+| `GET`  | `/stocks/:code`                 | 종목 상세                      |
+| `GET`  | `/stocks/:code/prices?limit=30` | 일봉 데이터                    |
+| `GET`  | `/stocks/collection-status`     | 수집 상태 (@Public)            |
+| `POST` | `/stocks/collect`               | 수동 수집 트리거               |
+| `POST` | `/strategies/backtest`          | 단일 종목 백테스트             |
+| `POST` | `/strategies/scan`              | 전 종목 전략 스캔 (Top N)      |
+| `POST` | `/ai-scoring/score-stream`      | **AI 종목 분석 (SSE)**         |
+| `POST` | `/ai-scoring/score`             | AI 분석 (동기)                 |
+| `GET`  | `/agents/status`                | 인증 상태 (@Public)            |
+| `POST` | `/agents/config`                | 인증 설정 저장                 |
+| `POST` | `/agents/verify`                | API 키 검증                    |
+| `POST` | `/agents/login`                 | OAuth PKCE URL 생성            |
+| `POST` | `/agents/login/code`            | Authorization code → 토큰 교환 |
+| `GET`  | `/agents/login/status`          | 구독 로그인 상태 (@Public)     |
 
 ---
 

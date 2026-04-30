@@ -22,7 +22,15 @@ export { analyzeMomentumPower } from './strategies/momentum-power.strategy';
 export { analyzeMomentumSurge } from './strategies/momentum-surge.strategy';
 
 // Utils
-export { isFreshSignal, pickFreshCurrentSignal } from './utils/signal-freshness';
+export {
+  isFreshSignal,
+  pickFreshCurrentSignal,
+} from './utils/signal-freshness';
+export {
+  evaluateLongBuyRisk,
+  type LongBuyRiskFilterOptions,
+  type LongBuyRiskProfile,
+} from './utils/buy-risk-filter';
 
 // Trade meta
 export { getStrategyTradeMeta, type TradeMeta } from './trade-meta';

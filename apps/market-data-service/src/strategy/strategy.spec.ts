@@ -11,9 +11,13 @@ import {
   analyzeMeanReversion,
   analyzeInfinityBot,
   analyzeCandlePattern,
+  evaluateLongBuyRisk,
 } from '@alpha-mind/strategies';
 
-function generateMockCandles(days: number = 60, startPrice: number = 50000): CandleData[] {
+function generateMockCandles(
+  days: number = 60,
+  startPrice: number = 50000,
+): CandleData[] {
   const candles: CandleData[] = [];
   let price = startPrice;
   const baseDate = new Date('2026-01-02');
@@ -44,7 +48,10 @@ function generateMockCandles(days: number = 60, startPrice: number = 50000): Can
   return candles;
 }
 
-function generateDowntrendCandles(days: number = 60, startPrice: number = 50000): CandleData[] {
+function generateDowntrendCandles(
+  days: number = 60,
+  startPrice: number = 50000,
+): CandleData[] {
   const candles: CandleData[] = [];
   let price = startPrice;
   const baseDate = new Date('2026-01-02');
@@ -121,7 +128,10 @@ describe('Technical Indicators', () => {
   });
 
   test('볼린저 밴드: upper > middle > lower', () => {
-    const prices = Array.from({ length: 30 }, (_, i) => 100 + Math.sin(i * 0.5) * 10);
+    const prices = Array.from(
+      { length: 30 },
+      (_, i) => 100 + Math.sin(i * 0.5) * 10,
+    );
     const bb = calculateBollingerBands(prices, 20, 2);
     const lastBB = bb[bb.length - 1];
 
@@ -141,11 +151,27 @@ describe('Technical Indicators', () => {
   });
 });
 
+describe('Long Buy Risk Filter', () => {
+  test('blocks thin and falling setups', () => {
+    const candles = generateDowntrendCandles(60, 50000).map((c) => ({
+      ...c,
+      volume: 1000,
+    }));
+
+    const result = evaluateLongBuyRisk(candles);
+
+    expect(result.passed).toBe(false);
+    expect(result.reasons).toContain('low_liquidity');
+  });
+});
+
 describe('Day Trading Strategy', () => {
   const candles = generateMockCandles(60);
 
   test('Breakout 전략: 결과 구조 확인', () => {
-    const result = analyzeDayTrading(candles, { variant: DayTradingVariant.Breakout });
+    const result = analyzeDayTrading(candles, {
+      variant: DayTradingVariant.Breakout,
+    });
 
     expect(result.strategyName).toContain('변동성 돌파');
     expect(result.analyzedPeriod.from).toEqual(candles[0].date);
@@ -158,7 +184,9 @@ describe('Day Trading Strategy', () => {
   });
 
   test('Crossover 전략: SMA 지표 포함', () => {
-    const result = analyzeDayTrading(candles, { variant: DayTradingVariant.Crossover });
+    const result = analyzeDayTrading(candles, {
+      variant: DayTradingVariant.Crossover,
+    });
 
     expect(result.strategyName).toContain('SMA 크로스오버');
     expect(result.indicators).toHaveProperty('currentShortSMA');
@@ -167,7 +195,9 @@ describe('Day Trading Strategy', () => {
   });
 
   test('Volume Surge 전략: 볼륨/RSI 지표 포함', () => {
-    const result = analyzeDayTrading(candles, { variant: DayTradingVariant.VolumeSurge });
+    const result = analyzeDayTrading(candles, {
+      variant: DayTradingVariant.VolumeSurge,
+    });
 
     expect(result.strategyName).toContain('거래량 급증');
     expect(result.indicators).toHaveProperty('currentRSI');
@@ -177,7 +207,11 @@ describe('Day Trading Strategy', () => {
 
   test('신호 방향은 유효한 값만 포함', () => {
     const result = analyzeDayTrading(candles);
-    const validDirections = [SignalDirection.Buy, SignalDirection.Sell, SignalDirection.Neutral];
+    const validDirections = [
+      SignalDirection.Buy,
+      SignalDirection.Sell,
+      SignalDirection.Neutral,
+    ];
 
     for (const signal of result.signals) {
       expect(validDirections).toContain(signal.direction);
@@ -192,7 +226,9 @@ describe('Mean Reversion Strategy', () => {
   const candles = generateDowntrendCandles(60);
 
   test('RSI 전략: 과매도/과매수 판단', () => {
-    const result = analyzeMeanReversion(candles, { variant: MeanReversionVariant.RSI });
+    const result = analyzeMeanReversion(candles, {
+      variant: MeanReversionVariant.RSI,
+    });
 
     expect(result.strategyName).toContain('RSI');
     expect(result.indicators).toHaveProperty('currentRSI');
@@ -200,7 +236,9 @@ describe('Mean Reversion Strategy', () => {
   });
 
   test('Bollinger 전략: 밴드 값 포함', () => {
-    const result = analyzeMeanReversion(candles, { variant: MeanReversionVariant.Bollinger });
+    const result = analyzeMeanReversion(candles, {
+      variant: MeanReversionVariant.Bollinger,
+    });
 
     expect(result.strategyName).toContain('볼린저');
     expect(result.indicators).toHaveProperty('currentBands');
@@ -209,7 +247,9 @@ describe('Mean Reversion Strategy', () => {
   });
 
   test('Grid 전략: 그리드 라인 포함', () => {
-    const result = analyzeMeanReversion(candles, { variant: MeanReversionVariant.Grid });
+    const result = analyzeMeanReversion(candles, {
+      variant: MeanReversionVariant.Grid,
+    });
 
     expect(result.strategyName).toContain('그리드');
     expect(result.indicators).toHaveProperty('basePrice');
@@ -218,7 +258,9 @@ describe('Mean Reversion Strategy', () => {
   });
 
   test('Magic Split 전략: 분할 레벨 상태 추적', () => {
-    const result = analyzeMeanReversion(candles, { variant: MeanReversionVariant.MagicSplit });
+    const result = analyzeMeanReversion(candles, {
+      variant: MeanReversionVariant.MagicSplit,
+    });
 
     expect(result.strategyName).toContain('매직 분할');
     expect(result.indicators).toHaveProperty('levels');
@@ -260,7 +302,10 @@ describe('Infinity Bot Strategy', () => {
 
   test('maxRounds 제한 준수', () => {
     const candles = generateDowntrendCandles(100, 50000);
-    const result = analyzeInfinityBot(candles, { maxRounds: 5, dipTriggerPct: 0.5 });
+    const result = analyzeInfinityBot(candles, {
+      maxRounds: 5,
+      dipTriggerPct: 0.5,
+    });
 
     expect(result.simulation.currentRound).toBeLessThanOrEqual(5);
   });

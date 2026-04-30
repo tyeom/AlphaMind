@@ -20,6 +20,18 @@ export interface ScanResult {
    * 분산 배분(역가중)에 사용한다.
    */
   volatilityPct?: number;
+  /** OOS 손익비. 1보다 크면 이익 합계가 손실 합계보다 큼. */
+  profitFactor?: number;
+  /** OOS 거래당 기대값 (% of investmentAmount). */
+  expectancyPct?: number;
+  /** 매수 리스크 필터 지표 */
+  riskProfile?: {
+    avgTurnover20?: number;
+    sma20Slope5dPct?: number;
+    priceFromSma20Pct?: number;
+    priceFromSma60Pct?: number;
+    recent5dReturnPct?: number;
+  };
   /**
    * In-sample(전반부) 검증 결과. 전략 선정에 사용.
    */

@@ -4,7 +4,7 @@ export type SessionConflictAction = 'update' | 'skip';
 /**
  * 세션 진입 방식
  * - 'monitor': 매수 신호 감지 시까지 대기 (기본)
- * - 'immediate': 세션 생성 즉시 시장가 매수 후 운용
+ * - 'immediate': 세션 생성 즉시 시장가로 전략별 첫 진입 비중 매수 후 운용
  */
 export type SessionEntryMode = 'monitor' | 'immediate';
 
@@ -23,9 +23,9 @@ export interface StartSessionDto {
   variant?: string;
   investmentAmount: number;
   aiScore?: number;
-  /** 목표 수익률 (%) — 기본 5 */
+  /** 목표 수익률 (%) — 기본 2.0 */
   takeProfitPct?: number;
-  /** 손절 기준 (%) — 음수값, 기본 -3 */
+  /** 손절 기준 (%) — 음수값, 기본 -2.0 */
   stopLossPct?: number;
   /** 최대 보유일 수 — 기본 7, 0 이하이면 비활성 */
   maxHoldingDays?: number;
@@ -43,7 +43,7 @@ export interface StartSessionDto {
   /**
    * 세션 진입 방식
    * - 'monitor' (기본): 전략 매수 신호 대기
-   * - 'immediate': 세션 생성 직후 시장가로 즉시 매수하고 운용 진입
+   * - 'immediate': 세션 생성 직후 시장가로 전략별 첫 진입 비중 매수
    */
   entryMode?: SessionEntryMode;
 }

@@ -253,7 +253,7 @@ export class StrategyController {
       body.autoTakeProfitPct ?? optimal.tpPct,
       body.autoStopLossPct ?? optimal.slPct,
       body.maxHoldingDays ?? 7,
-      body.minCurrentSignalStrength ?? 0.6,
+      body.minCurrentSignalStrength ?? 0.65,
       body.minTotalTrades ?? 10,
     );
   }
@@ -282,10 +282,10 @@ export class StrategyController {
         body.investmentAmount ?? 10_000_000,
         body.tradeRatioPct ?? 10,
         body.commissionPct ?? 0.015,
-        body.autoTakeProfitPct ?? 2.5,
-        body.autoStopLossPct ?? -3,
+        body.autoTakeProfitPct ?? 2.0,
+        body.autoStopLossPct ?? -2.0,
         body.maxHoldingDays ?? 7,
-        body.minCurrentSignalStrength ?? 0.6,
+        body.minCurrentSignalStrength ?? 0.65,
         body.minTotalTrades ?? 3,
       );
     } catch (err: any) {
@@ -417,11 +417,21 @@ export class StrategyController {
       ),
       tradeRatioPct: parseNumberOrDefault(query.tradeRatioPct, 10),
       commissionPct: parseNumberOrDefault(query.commissionPct, 0.015),
-      autoTakeProfitPct: parseNumberOrDefault(query.autoTakeProfitPct, 2.5),
-      autoStopLossPct: parseNumberOrDefault(query.autoStopLossPct, -3),
+      autoTakeProfitPct: parseNumberOrDefault(query.autoTakeProfitPct, 2.0),
+      autoStopLossPct: parseNumberOrDefault(query.autoStopLossPct, -2.0),
       maxHoldingDays: parseNumberOrDefault(query.maxHoldingDays, 7),
       sellTaxPct: parseNumberOrDefault(query.sellTaxPct, 0.18),
       slippagePct: parseNumberOrDefault(query.slippagePct, 0.05),
+      trailingStopTriggerPct: parseNumberOrDefault(
+        query.trailingStopTriggerPct,
+        1.2,
+      ),
+      trailingStopGivebackPct: parseNumberOrDefault(
+        query.trailingStopGivebackPct,
+        0.8,
+      ),
+      breakevenTriggerPct: parseNumberOrDefault(query.breakevenTriggerPct, 1.0),
+      breakevenFloorPct: parseNumberOrDefault(query.breakevenFloorPct, 0.1),
       ...(allowAddOnBuy !== undefined && { allowAddOnBuy }),
       ...(useNextOpenForBuy !== undefined && { useNextOpenForBuy }),
     });

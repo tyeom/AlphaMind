@@ -12,10 +12,12 @@ describe('AutoTradingService', () => {
       find: jest.fn(),
       findOne: jest.fn(),
       count: jest.fn(),
+      flush: jest.fn(),
     } as unknown as EntityManager & {
       find: jest.Mock;
       findOne: jest.Mock;
       count: jest.Mock;
+      flush: jest.Mock;
     };
 
     const kisOrderService = {
@@ -132,6 +134,33 @@ describe('AutoTradingService', () => {
       session,
       101,
       '최대 보유기간 7일 도달 (1.0%)',
+    );
+  });
+
+  it('triggers trailing stop after a profitable move gives back gains', async () => {
+    const { service } = createService();
+    const session = {
+      id: 4,
+      stockCode: '051910',
+      status: SessionStatus.ACTIVE,
+      holdingQty: 3,
+      avgBuyPrice: 100,
+      highestPriceAfterEntry: 102,
+      takeProfitPct: 3,
+      stopLossPct: -2,
+      maxHoldingDays: 7,
+      autoPausePending: false,
+    } as AutoTradingSessionEntity;
+
+    jest.spyOn(service as any, 'executeSell').mockResolvedValue(undefined);
+
+    const sold = await (service as any).evaluateAndExecuteSell(session, 101.1);
+
+    expect(sold).toBe(true);
+    expect((service as any).executeSell).toHaveBeenCalledWith(
+      session,
+      101.1,
+      '트레일링 스톱 (현재 1.1%, 최고 2.0%)',
     );
   });
 });

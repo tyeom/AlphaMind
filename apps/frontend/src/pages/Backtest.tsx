@@ -102,7 +102,7 @@ export function Backtest() {
     <div className="page-container">
       <h1>전략 백테스팅</h1>
       <p className="page-desc">
-        3개월 차트 데이터 기반으로 전략의 과거 성과를 시뮬레이션합니다.
+        6개월 차트 데이터 기반으로 전략의 과거 성과를 시뮬레이션합니다.
       </p>
 
       <form className="backtest-form" onSubmit={handleSubmit}>
@@ -207,7 +207,7 @@ export function Backtest() {
               onChange={(e) => setAutoTakeProfitPct(e.target.value)}
               min="0"
               step="0.1"
-              placeholder="예: 2.5"
+              placeholder="예: 2.0"
             />
           </label>
 
@@ -219,7 +219,7 @@ export function Backtest() {
               onChange={(e) => setAutoStopLossPct(e.target.value)}
               max="0"
               step="0.1"
-              placeholder="예: -3"
+              placeholder="예: -2.0"
             />
           </label>
 

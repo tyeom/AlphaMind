@@ -18,6 +18,10 @@ export interface BacktestParams {
   autoStopLossPct?: number;
   maxHoldingDays?: number;
   allowAddOnBuy?: boolean;
+  trailingStopTriggerPct?: number;
+  trailingStopGivebackPct?: number;
+  breakevenTriggerPct?: number;
+  breakevenFloorPct?: number;
 }
 
 export interface BacktestTrade {
@@ -79,6 +83,21 @@ export async function runBacktest(
   }
   if (params.allowAddOnBuy !== undefined) {
     query.set('allowAddOnBuy', String(params.allowAddOnBuy));
+  }
+  if (params.trailingStopTriggerPct !== undefined) {
+    query.set('trailingStopTriggerPct', String(params.trailingStopTriggerPct));
+  }
+  if (params.trailingStopGivebackPct !== undefined) {
+    query.set(
+      'trailingStopGivebackPct',
+      String(params.trailingStopGivebackPct),
+    );
+  }
+  if (params.breakevenTriggerPct !== undefined) {
+    query.set('breakevenTriggerPct', String(params.breakevenTriggerPct));
+  }
+  if (params.breakevenFloorPct !== undefined) {
+    query.set('breakevenFloorPct', String(params.breakevenFloorPct));
   }
 
   return marketRequest<BacktestResult>(

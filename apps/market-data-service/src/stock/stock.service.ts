@@ -19,6 +19,8 @@ interface SectorMap {
   [code: string]: string;
 }
 
+const COLLECTION_LOOKBACK_MONTHS = 6;
+
 export interface CollectionStatus {
   collecting: boolean;
   progress: { done: number; total: number } | null;
@@ -51,13 +53,19 @@ export class StockService implements OnModuleInit {
   }
 
   async findAllStocks(): Promise<Stock[]> {
-    const cached = await this.cacheManager.get<Stock[]>(StockService.CACHE_KEY_STOCKS);
+    const cached = await this.cacheManager.get<Stock[]>(
+      StockService.CACHE_KEY_STOCKS,
+    );
     if (cached) {
       return cached;
     }
 
     const stocks = await this.em.find(Stock, {}, { orderBy: { code: 'ASC' } });
-    await this.cacheManager.set(StockService.CACHE_KEY_STOCKS, stocks, StockService.CACHE_TTL_MS);
+    await this.cacheManager.set(
+      StockService.CACHE_KEY_STOCKS,
+      stocks,
+      StockService.CACHE_TTL_MS,
+    );
     return stocks;
   }
 
@@ -114,9 +122,11 @@ export class StockService implements OnModuleInit {
     const krxCodeSet = new Set(krxCodes.map((k) => k.code));
 
     // savepoint가 있는 종목 코드 조회
-    const rows = await this.em.getConnection().execute<{ code: string }[]>(
-      'SELECT s.code FROM stock_collection_savepoints sp JOIN stocks s ON sp.stock_id = s.id',
-    );
+    const rows = await this.em
+      .getConnection()
+      .execute<
+        { code: string }[]
+      >('SELECT s.code FROM stock_collection_savepoints sp JOIN stocks s ON sp.stock_id = s.id');
     const spCodeSet = new Set(rows.map((r) => r.code));
     const missingCount = krxCodes.filter((k) => !spCodeSet.has(k.code)).length;
 
@@ -142,9 +152,14 @@ export class StockService implements OnModuleInit {
   }
 
   // 평일(월~금) KST 17:00 에 수집
-  @Cron('0 0 17 * * 1-5', { name: 'daily-stock-collection', timeZone: 'Asia/Seoul' })
+  @Cron('0 0 17 * * 1-5', {
+    name: 'daily-stock-collection',
+    timeZone: 'Asia/Seoul',
+  })
   async handleDailyCollection() {
-    this.logger.log('[Scheduled] Daily stock data collection triggered (KST 17:00)');
+    this.logger.log(
+      '[Scheduled] Daily stock data collection triggered (KST 17:00)',
+    );
     await this.collectAll();
   }
 
@@ -204,9 +219,11 @@ export class StockService implements OnModuleInit {
     const targetDate = this.getLatestCollectionTargetDate();
     const targetStr = targetDate.toISOString().split('T')[0];
 
-    const rows = await this.em.getConnection().execute<{ max_date: string }[]>(
-      `SELECT MAX(last_collected_date)::text AS max_date FROM stock_collection_savepoints`,
-    );
+    const rows = await this.em
+      .getConnection()
+      .execute<
+        { max_date: string }[]
+      >(`SELECT MAX(last_collected_date)::text AS max_date FROM stock_collection_savepoints`);
 
     const maxDateStr = rows[0]?.max_date;
     if (!maxDateStr) return true;
@@ -220,23 +237,59 @@ export class StockService implements OnModuleInit {
       return true;
     }
 
+    if (await this.needsLookbackBackfill()) {
+      return true;
+    }
+
     this.logger.log(
       `Savepoint check: last collected ${maxDateStr}, target ${targetStr} → up-to-date`,
     );
     return false;
   }
 
-  private getThreeMonthsAgo(): Date {
+  private async needsLookbackBackfill(): Promise<boolean> {
+    const lookbackDate = this.getCollectionLookbackDate();
+    const acceptableStartDate = new Date(lookbackDate);
+    acceptableStartDate.setUTCDate(acceptableStartDate.getUTCDate() + 7);
+
+    const rows = await this.em
+      .getConnection()
+      .execute<
+        { min_date: string | null }[]
+      >(`SELECT MIN(date)::text AS min_date FROM stock_daily_prices`);
+
+    const minDateStr = rows[0]?.min_date;
+    if (!minDateStr) return true;
+
+    const minDate = new Date(`${minDateStr}T00:00:00Z`);
+    if (minDate > acceptableStartDate) {
+      this.logger.log(
+        `Stored daily prices start at ${minDateStr}; ${COLLECTION_LOOKBACK_MONTHS}-month backfill needed`,
+      );
+      return true;
+    }
+
+    return false;
+  }
+
+  private getCollectionLookbackDate(): Date {
     const now = new Date();
     return new Date(
-      Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 3, now.getUTCDate()),
+      Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth() - COLLECTION_LOOKBACK_MONTHS,
+        now.getUTCDate(),
+      ),
     );
   }
 
   private getNextTradingDate(date: Date): Date {
-    const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+    const d = new Date(
+      Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()),
+    );
     const day = d.getUTCDay();
-    if (day === 6) d.setUTCDate(d.getUTCDate() + 2); // Sat → Mon
+    if (day === 6)
+      d.setUTCDate(d.getUTCDate() + 2); // Sat → Mon
     else if (day === 0) d.setUTCDate(d.getUTCDate() + 1); // Sun → Mon
     return d;
   }
@@ -249,20 +302,31 @@ export class StockService implements OnModuleInit {
     this._collecting = true;
     this._progress = { done: 0, total: krxCodes.length };
 
-    this.logger.log(`=== Stock data collection STARTED (${krxCodes.length} stocks) ===`);
+    this.logger.log(
+      `=== Stock data collection STARTED (${krxCodes.length} stocks) ===`,
+    );
 
     let successCount = 0;
     let failCount = 0;
 
     for (const target of krxCodes) {
       try {
-        await this.collectStock(target.code, target.name, sectorMap[target.code]);
+        await this.collectStock(
+          target.code,
+          target.name,
+          sectorMap[target.code],
+        );
         successCount++;
       } catch (error) {
         failCount++;
-        this.logger.error(`Failed to collect ${target.code} ${target.name}: ${error}`);
+        this.logger.error(
+          `Failed to collect ${target.code} ${target.name}: ${error}`,
+        );
       }
-      this._progress = { done: successCount + failCount, total: krxCodes.length };
+      this._progress = {
+        done: successCount + failCount,
+        total: krxCodes.length,
+      };
     }
 
     this._collecting = false;
@@ -275,26 +339,40 @@ export class StockService implements OnModuleInit {
     );
   }
 
-  private async collectSubset(targets: KrxCode[], sectorMap: SectorMap): Promise<void> {
+  private async collectSubset(
+    targets: KrxCode[],
+    sectorMap: SectorMap,
+  ): Promise<void> {
     const startTime = Date.now();
 
     this._collecting = true;
     this._progress = { done: 0, total: targets.length };
 
-    this.logger.log(`=== Subset collection STARTED (${targets.length} stocks) ===`);
+    this.logger.log(
+      `=== Subset collection STARTED (${targets.length} stocks) ===`,
+    );
 
     let successCount = 0;
     let failCount = 0;
 
     for (const target of targets) {
       try {
-        await this.collectStock(target.code, target.name, sectorMap[target.code]);
+        await this.collectStock(
+          target.code,
+          target.name,
+          sectorMap[target.code],
+        );
         successCount++;
       } catch (error) {
         failCount++;
-        this.logger.error(`Failed to collect ${target.code} ${target.name}: ${error}`);
+        this.logger.error(
+          `Failed to collect ${target.code} ${target.name}: ${error}`,
+        );
       }
-      this._progress = { done: successCount + failCount, total: targets.length };
+      this._progress = {
+        done: successCount + failCount,
+        total: targets.length,
+      };
     }
 
     this._collecting = false;
@@ -315,7 +393,7 @@ export class StockService implements OnModuleInit {
     const yahooSymbol = `${code}.KS`;
     const em = this.em.fork();
     const now = new Date();
-    const threeMonthsAgo = this.getThreeMonthsAgo();
+    const lookbackDate = this.getCollectionLookbackDate();
 
     // 1) upsert stock
     let stock = await em.findOne(Stock, { code });
@@ -334,25 +412,39 @@ export class StockService implements OnModuleInit {
       await em.flush();
     }
 
-    // 2) 3개월 이전 데이터 삭제
+    // 2) 보관 윈도우 이전 데이터 삭제
     const deleteCount = await em.nativeDelete(StockDailyPrice, {
       stock,
-      date: { $lt: threeMonthsAgo },
+      date: { $lt: lookbackDate },
     });
     if (deleteCount > 0) {
-      this.logger.log(`  ${code}: deleted ${deleteCount} records older than 3 months`);
+      this.logger.log(
+        `  ${code}: deleted ${deleteCount} records older than ${COLLECTION_LOOKBACK_MONTHS} months`,
+      );
     }
 
     // 3) SavePoint 확인 → 이어서 수집할 시작일 결정
     let savepoint = await em.findOne(StockCollectionSavepoint, { stock });
-    let fetchFrom = threeMonthsAgo;
+    let fetchFrom = lookbackDate;
+    const oldestDailyPrice = await em.findOne(
+      StockDailyPrice,
+      { stock },
+      { fields: ['date'], orderBy: { date: 'ASC' } },
+    );
+    const oldestDate =
+      oldestDailyPrice?.date instanceof Date
+        ? oldestDailyPrice.date
+        : oldestDailyPrice
+          ? new Date(`${oldestDailyPrice.date}T00:00:00Z`)
+          : null;
+    const needsLookbackBackfill = !oldestDate || oldestDate > lookbackDate;
 
-    if (savepoint) {
+    if (savepoint && !needsLookbackBackfill) {
       // SavePoint 다음 날부터 수집
       const nextDay = new Date(savepoint.lastCollectedDate);
       nextDay.setDate(nextDay.getDate() + 1);
 
-      if (nextDay > threeMonthsAgo) {
+      if (nextDay > lookbackDate) {
         fetchFrom = nextDay;
       }
     }
@@ -364,7 +456,9 @@ export class StockService implements OnModuleInit {
 
     // 주말 최적화: fetchFrom~now 사이에 거래일이 없으면 스킵
     const nextTradingDay = this.getNextTradingDate(fetchFrom);
-    const todayDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+    const todayDate = new Date(
+      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+    );
     if (nextTradingDay > todayDate) {
       return;
     }
@@ -389,7 +483,9 @@ export class StockService implements OnModuleInit {
     );
     const existingDateSet = new Set(
       existingDates.map((d) =>
-        d.date instanceof Date ? d.date.toISOString().split('T')[0] : String(d.date),
+        d.date instanceof Date
+          ? d.date.toISOString().split('T')[0]
+          : String(d.date),
       ),
     );
 
@@ -423,20 +519,23 @@ export class StockService implements OnModuleInit {
 
     // 6) SavePoint 갱신
     if (latestDate) {
+      const latestCollectedDate = new Date(latestDate);
       if (!savepoint) {
         savepoint = em.create(StockCollectionSavepoint, {
           stock,
-          lastCollectedDate: new Date(latestDate),
+          lastCollectedDate: latestCollectedDate,
         });
         em.persist(savepoint);
-      } else {
-        savepoint.lastCollectedDate = new Date(latestDate);
+      } else if (latestCollectedDate > new Date(savepoint.lastCollectedDate)) {
+        savepoint.lastCollectedDate = latestCollectedDate;
       }
       await em.flush();
     }
 
     if (insertCount > 0) {
-      this.logger.log(`  ${code} ${name}: ${insertCount} new records (last: ${latestDate})`);
+      this.logger.log(
+        `  ${code} ${name}: ${insertCount} new records (last: ${latestDate})`,
+      );
     }
   }
 }

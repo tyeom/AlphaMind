@@ -11,6 +11,16 @@ export interface ScanResult {
   maxDrawdownPct: number;
   totalTrades: number;
   rankScore: number;
+  volatilityPct?: number;
+  profitFactor?: number;
+  expectancyPct?: number;
+  riskProfile?: {
+    avgTurnover20?: number;
+    sma20Slope5dPct?: number;
+    priceFromSma20Pct?: number;
+    priceFromSma60Pct?: number;
+    recent5dReturnPct?: number;
+  };
   /** 추천 근거 요약 */
   summary: string;
   /** 최신 신호 */

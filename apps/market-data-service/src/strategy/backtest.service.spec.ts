@@ -64,7 +64,7 @@ describe('BacktestService simulate', () => {
   it('closes positions at max holding days when thresholds are not hit', () => {
     const service = new BacktestService({} as any);
     const candles = Array.from({ length: 8 }, (_, i) =>
-      candle(i + 1, 100 + i * 0.1, 101, 99),
+      candle(i + 1, 100 + i * 0.1, 100 + i * 0.1 + 0.1, 99.5),
     );
     const signals = new Map([
       [
@@ -94,10 +94,45 @@ describe('BacktestService simulate', () => {
     expect(sell.reason).toContain('최대 보유기간 7일');
   });
 
+  it('applies trailing stop in the backtest simulation', () => {
+    const service = new BacktestService({} as any);
+    const candles = [candle(1, 100), candle(2, 101.1, 102, 101.1)];
+    const signals = new Map([
+      [
+        '2026-01-01',
+        {
+          direction: SignalDirection.Buy,
+          strength: 0.7,
+          reason: 'buy',
+          date: candles[0].date,
+          price: 100,
+        },
+      ],
+    ]);
+
+    const result = (service as any).simulate(
+      stock,
+      candles,
+      signals,
+      {
+        ...baseConfig,
+        autoTakeProfitPct: 99,
+        autoStopLossPct: -99,
+      },
+      'test',
+    );
+
+    const sell = result.trades.find(
+      (trade: any) => trade.direction === SignalDirection.Sell,
+    );
+    expect(sell.price).toBeCloseTo(101.184);
+    expect(sell.reason).toContain('트레일링 스톱');
+  });
+
   it('uses the configured max holding days value', () => {
     const service = new BacktestService({} as any);
     const candles = Array.from({ length: 4 }, (_, i) =>
-      candle(i + 1, 100 + i * 0.1, 101, 99),
+      candle(i + 1, 100 + i * 0.1, 100 + i * 0.1 + 0.1, 99.5),
     );
     const signals = new Map([
       [

@@ -28,6 +28,8 @@ import {
 export const OAUTH_EXPIRED_MSG =
   'Claude OAuth 토큰이 만료되었습니다. 재로그인이 필요합니다.';
 
+const CHART_LOOKBACK_MONTHS = 6;
+
 export interface AiMeetingSession {
   id: string;
   status: 'running' | 'completed' | 'error' | 'cancelled';
@@ -429,13 +431,13 @@ sentimentScore: -1.0(매우 부정) ~ 1.0(매우 긍정)`;
 섹터: ${item.sector || '미분류'}
 ${backtestSummary}
 
-차트 데이터 (최근 3개월):
+차트 데이터 (최근 6개월):
 ${chartSummary}
 
 작업:
 1. 추세, 지지/저항선, 모멘텀을 분석하세요
 2. 기술적 관점에서 매수 적합도를 1~10점으로 평가하세요
-3. 당일~7거래일 안에 +2~3% 익절 가능성과 -3% 손절 리스크를 평가하세요
+3. 당일~7거래일 안에 +2% 익절 가능성과 -2% 손절 리스크를 평가하세요
 
 반드시 아래 JSON 형식으로만 응답하세요 (다른 텍스트 없이):
 {
@@ -521,7 +523,7 @@ ${dataContext}
 트레이더 관점에서 분석하세요:
 1. 현재 매수 타이밍이 적절한가?
 2. 기술적 패턴상 기대 수익률은?
-3. +2~3% 익절 전에 -3% 손절이 먼저 나올 가능성은?
+3. +2% 익절 전에 -2% 손절이 먼저 나올 가능성은?
 4. 수급 측면에서 7거래일 이내 진입이 유리한가?
 
 반드시 아래 JSON 형식으로만 응답하세요 (다른 텍스트 없이):
@@ -645,7 +647,7 @@ ${backtestSummary}
 1. 두 전문가의 의견이 일치하는 부분을 정리하세요
 2. 의견이 다른 부분을 정리하고, 어느 쪽이 더 타당한지 판단하세요
 3. 최종 투자 점수를 결정하세요 (1.00~10.00)
-4. +2~3% 익절 / -3% 손절 / 최대 7거래일 보유 기준에서 최종 추천 의견을 한 문장으로 작성하세요
+4. +2% 익절 / -2% 손절 / 최대 7거래일 보유 기준에서 최종 추천 의견을 한 문장으로 작성하세요
 5. 종합 분석 근거를 3~4문장으로 작성하세요
 
 반드시 아래 JSON 형식으로만 응답하세요 (다른 텍스트 없이):
@@ -703,7 +705,7 @@ finalScore: 1.00(강력 매도) ~ 10.00(강력 매수)`;
 섹터: ${item.sector || '미분류'}
 ${backtestSummary}
 
-═══ 차트 데이터 (최근 3개월) ═══
+═══ 차트 데이터 (최근 6개월) ═══
 ${chartSummary}
 
 ═══ 기술적 분석 결과 ═══
@@ -759,7 +761,7 @@ ${newsData.newsHighlights.map((n, i) => `  ${i + 1}. ${n}`).join('\n')}
     if (item.totalReturnPct == null || !Number.isFinite(item.totalReturnPct)) {
       return `${label}: ${item.strategyName} 전략 수익률 정보 없음`;
     }
-    return `${label}: ${item.strategyName} 전략 3개월 수익률 ${item.totalReturnPct}%`;
+    return `${label}: ${item.strategyName} 전략 수익률 ${item.totalReturnPct}%`;
   }
 
   /** 회의 실패 시 두 전문가 점수의 가중 평균으로 폴백 */
@@ -792,12 +794,12 @@ ${newsData.newsHighlights.map((n, i) => `  ${i + 1}. ${n}`).join('\n')}
     const stock = await this.em.findOne(Stock, { code: stockCode });
     if (!stock) return '차트 데이터 없음';
 
-    const threeMonthsAgo = new Date();
-    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+    const lookbackFrom = new Date();
+    lookbackFrom.setMonth(lookbackFrom.getMonth() - CHART_LOOKBACK_MONTHS);
 
     const prices = await this.em.find(
       StockDailyPrice,
-      { stock, date: { $gte: threeMonthsAgo } },
+      { stock, date: { $gte: lookbackFrom } },
       { orderBy: { date: 'ASC' } },
     );
 

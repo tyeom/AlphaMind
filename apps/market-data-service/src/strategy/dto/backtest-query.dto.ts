@@ -9,9 +9,9 @@ export interface BacktestQueryDto {
   tradeRatioPct?: string;
   /** 매매 수수료율 % (기본 0.015) */
   commissionPct?: string;
-  /** 자동 익절 수익률 % (기본 2.5) */
+  /** 자동 익절 수익률 % (기본 2.0) */
   autoTakeProfitPct?: string;
-  /** 자동 손절 수익률 % (기본 -3) */
+  /** 자동 손절 수익률 % (기본 -2.0) */
   autoStopLossPct?: string;
   /** 최대 보유 거래일 수 (기본 7) */
   maxHoldingDays?: string;
@@ -23,4 +23,12 @@ export interface BacktestQueryDto {
   slippagePct?: string;
   /** 매수를 다음봉 시가에 실행할지 (기본 true). false면 신호봉 종가에 즉시 매수. */
   useNextOpenForBuy?: string;
+  /** 트레일링 스톱 시작 수익률 % (기본 1.2) */
+  trailingStopTriggerPct?: string;
+  /** 고점 대비 반납 허용률 % (기본 0.8) */
+  trailingStopGivebackPct?: string;
+  /** 본전 보호 시작 수익률 % (기본 1.0) */
+  breakevenTriggerPct?: string;
+  /** 본전 보호 청산선 % (기본 0.1) */
+  breakevenFloorPct?: string;
 }

@@ -26,8 +26,8 @@ const DEFAULT_EXIT_CONFIG: ExitConfig = {
  * Momentum Power (Snow) 전략 기본 설정.
  *
  * 원본 Rust 구현은 200일 MA(약 10개월) 기반이지만,
- * alpha-mind 백테스트는 3개월(≈60 거래일) 윈도우를 사용하므로
- * 실행 가능한 범위의 기본값(40일/5일/7일)으로 조정한다.
+ * alpha-mind의 단기 매매 스캔에서는 반응 속도를 위해
+ * 실행 가능한 범위의 기본값(40일/5일/7일)을 사용한다.
  */
 const DEFAULT_CONFIG: MomentumPowerConfig = {
   market: MomentumPowerMarket.US,
@@ -118,16 +118,25 @@ export function analyzeMomentumPower(
       currentMode,
       modeCounts: countModes(modeHistory),
       totalSignals: signals.length,
-      buySignals: signals.filter((s) => s.direction === SignalDirection.Buy).length,
-      sellSignals: signals.filter((s) => s.direction === SignalDirection.Sell).length,
+      buySignals: signals.filter((s) => s.direction === SignalDirection.Buy)
+        .length,
+      sellSignals: signals.filter((s) => s.direction === SignalDirection.Sell)
+        .length,
     },
-    summary: buildSummary('Momentum Power', currentSignal, signals, currentMode),
+    summary: buildSummary(
+      'Momentum Power',
+      currentSignal,
+      signals,
+      currentMode,
+    ),
   };
 }
 
 // ─── Helpers ───
 
-function mergeConfig(partial: Partial<MomentumPowerConfig>): MomentumPowerConfig {
+function mergeConfig(
+  partial: Partial<MomentumPowerConfig>,
+): MomentumPowerConfig {
   return {
     market: partial.market ?? DEFAULT_CONFIG.market,
     tipMaPeriod: partial.tipMaPeriod ?? DEFAULT_CONFIG.tipMaPeriod,
@@ -203,8 +212,12 @@ function buildSummary(
   signals: Signal[],
   currentMode: MomentumPowerMode | null,
 ): string {
-  const buys = signals.filter((s) => s.direction === SignalDirection.Buy).length;
-  const sells = signals.filter((s) => s.direction === SignalDirection.Sell).length;
+  const buys = signals.filter(
+    (s) => s.direction === SignalDirection.Buy,
+  ).length;
+  const sells = signals.filter(
+    (s) => s.direction === SignalDirection.Sell,
+  ).length;
   const modeText = currentMode ? ` (모드=${currentMode})` : '';
   return `[${name}] 총 ${signals.length}개 신호 (매수 ${buys}, 매도 ${sells})${modeText}. 현재: ${current.direction} (강도 ${(current.strength * 100).toFixed(0)}%)`;
 }

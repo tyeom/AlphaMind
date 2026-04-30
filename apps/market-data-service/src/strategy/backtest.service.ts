@@ -20,7 +20,8 @@ import {
   analyzeCandlePattern,
   analyzeMomentumPower,
   analyzeMomentumSurge,
-  calculateATR,
+  evaluateLongBuyRisk,
+  LongBuyRiskProfile,
 } from '@alpha-mind/strategies';
 import {
   BacktestConfig,
@@ -42,14 +43,18 @@ function toDateKey(d: Date): string {
 }
 
 /** 단기 자동매매 기본 설정 */
-const DEFAULT_AUTO_TAKE_PROFIT_PCT = 2.5; // 2~3% 단기 목표의 중앙값
-const DEFAULT_AUTO_STOP_LOSS_PCT = -3; // -3% 이하 손실 시 자동 손절
+const DEFAULT_AUTO_TAKE_PROFIT_PCT = 2.0;
+const DEFAULT_AUTO_STOP_LOSS_PCT = -2.0;
 const DEFAULT_MAX_HOLDING_DAYS = 7; // 7거래일 이내 청산
-const DEFAULT_MIN_CURRENT_SIGNAL_STRENGTH = 0.6;
+const DEFAULT_MIN_CURRENT_SIGNAL_STRENGTH = 0.65;
 const DEFAULT_MIN_TOTAL_TRADES = 10; // walk-forward 도입으로 통계 유의성 확보
-const BACKTEST_MIN_BUY_SIGNAL_STRENGTH = 0.6;
+const BACKTEST_MIN_BUY_SIGNAL_STRENGTH = 0.65;
 const INFINITY_BOT_MIN_BUY_SIGNAL_STRENGTH = 0.3;
 const SCAN_YIELD_INTERVAL_MS = 50;
+const DEFAULT_TRAILING_STOP_TRIGGER_PCT = 1.2;
+const DEFAULT_TRAILING_STOP_GIVEBACK_PCT = 0.8;
+const DEFAULT_BREAKEVEN_TRIGGER_PCT = 1.0;
+const DEFAULT_BREAKEVEN_FLOOR_PCT = 0.1;
 
 /** 한국 시장 매도 시 거래세 (%) — KOSPI 0.18 기준. 백테스트 → 실거래 갭 축소용. */
 const DEFAULT_SELL_TAX_PCT = 0.18;
@@ -66,6 +71,11 @@ const OUT_OF_SAMPLE_RATIO = 1 / 3;
 const MIN_IN_SAMPLE_TRADES = 5;
 /** out-of-sample 최소 거래수 */
 const MIN_OUT_OF_SAMPLE_TRADES = 2;
+/** OOS 거래 품질 필터 — 낮은 승률/손익비 후보는 실거래 손실로 이어지기 쉬워 제외 */
+const MIN_OOS_WIN_RATE = 50;
+const MIN_OOS_PROFIT_FACTOR = 1.2;
+const MIN_OOS_EXPECTANCY_PCT = 0;
+const MIN_OOS_RETURN_TO_DRAWDOWN = 0.35;
 
 const STRATEGY_MAP: Record<
   string,
@@ -128,6 +138,14 @@ const SHORT_TERM_SCAN_VARIANTS: Record<string, (string | undefined)[]> = {
   'candle-pattern': [undefined],
 };
 
+interface TradeQuality {
+  profitFactor: number;
+  expectancyPct: number;
+  avgWinPnl: number;
+  avgLossPnl: number;
+  payoffRatio: number;
+}
+
 @Injectable()
 export class BacktestService {
   constructor(
@@ -174,6 +192,7 @@ export class BacktestService {
     let quantity = 0;
     let avgBuyPrice = 0;
     let entryIndex: number | null = null;
+    let highestPriceAfterEntry = 0;
     const trades: BacktestTrade[] = [];
     let totalRealizedPnl = 0;
     let winTrades = 0;
@@ -197,6 +216,14 @@ export class BacktestService {
       (isInfinityBot
         ? INFINITY_BOT_MIN_BUY_SIGNAL_STRENGTH
         : BACKTEST_MIN_BUY_SIGNAL_STRENGTH);
+    const trailingStopTriggerPct =
+      config.trailingStopTriggerPct ?? DEFAULT_TRAILING_STOP_TRIGGER_PCT;
+    const trailingStopGivebackPct =
+      config.trailingStopGivebackPct ?? DEFAULT_TRAILING_STOP_GIVEBACK_PCT;
+    const breakevenTriggerPct =
+      config.breakevenTriggerPct ?? DEFAULT_BREAKEVEN_TRIGGER_PCT;
+    const breakevenFloorPct =
+      config.breakevenFloorPct ?? DEFAULT_BREAKEVEN_FLOOR_PCT;
 
     /**
      * 매도 체결: rawPrice 에서 슬리피지 차감 → 거래세 + 수수료 부과.
@@ -237,6 +264,7 @@ export class BacktestService {
       quantity = 0;
       avgBuyPrice = 0;
       entryIndex = null;
+      highestPriceAfterEntry = 0;
     };
 
     for (let candleIndex = 0; candleIndex < candles.length; candleIndex++) {
@@ -250,9 +278,19 @@ export class BacktestService {
       // 갭상승: 시가가 익절선 위에서 시작하면 시가에 청산.
       // 둘 다 아닐 때만 일중 high/low 로 판정. 동시 도달 시 보수적으로 손절 우선.
       if (quantity > 0 && avgBuyPrice > 0) {
+        highestPriceAfterEntry = Math.max(
+          highestPriceAfterEntry || avgBuyPrice,
+          candle.open,
+          avgBuyPrice,
+        );
         const takeProfitPrice =
           avgBuyPrice * (1 + config.autoTakeProfitPct / 100);
         const stopLossPrice = avgBuyPrice * (1 + config.autoStopLossPct / 100);
+        const breakevenPrice = avgBuyPrice * (1 + breakevenFloorPct / 100);
+        let peakReturnPct =
+          ((highestPriceAfterEntry - avgBuyPrice) / avgBuyPrice) * 100;
+        let trailingStopPrice =
+          highestPriceAfterEntry * (1 - trailingStopGivebackPct / 100);
 
         if (candle.open <= stopLossPrice) {
           closePosition(
@@ -268,9 +306,43 @@ export class BacktestService {
             `갭상승 익절 (시가 ${candle.open.toFixed(0)}, 익절선 ${takeProfitPrice.toFixed(0)})`,
           );
           exitedThisCandle = true;
+        } else if (
+          peakReturnPct >= breakevenTriggerPct &&
+          candle.open <= breakevenPrice
+        ) {
+          closePosition(
+            candle,
+            candle.open,
+            `갭하락 본전 보호 (시가 ${candle.open.toFixed(0)}, 보호선 ${breakevenPrice.toFixed(0)})`,
+          );
+          exitedThisCandle = true;
+        } else if (
+          peakReturnPct >= trailingStopTriggerPct &&
+          candle.open <= trailingStopPrice
+        ) {
+          closePosition(
+            candle,
+            candle.open,
+            `갭하락 트레일링 스톱 (시가 ${candle.open.toFixed(0)}, 추적선 ${trailingStopPrice.toFixed(0)})`,
+          );
+          exitedThisCandle = true;
         } else {
           const takeProfitHit = candle.high >= takeProfitPrice;
           const stopLossHit = candle.low <= stopLossPrice;
+          highestPriceAfterEntry = Math.max(
+            highestPriceAfterEntry,
+            candle.high,
+          );
+          peakReturnPct =
+            ((highestPriceAfterEntry - avgBuyPrice) / avgBuyPrice) * 100;
+          trailingStopPrice =
+            highestPriceAfterEntry * (1 - trailingStopGivebackPct / 100);
+          const breakevenHit =
+            peakReturnPct >= breakevenTriggerPct &&
+            candle.low <= breakevenPrice;
+          const trailingStopHit =
+            peakReturnPct >= trailingStopTriggerPct &&
+            candle.low <= trailingStopPrice;
           if (stopLossHit) {
             closePosition(
               candle,
@@ -283,6 +355,22 @@ export class BacktestService {
               candle,
               takeProfitPrice,
               `자동 익절 (수익률 ${config.autoTakeProfitPct.toFixed(1)}%)`,
+            );
+            exitedThisCandle = true;
+          } else if (breakevenHit) {
+            closePosition(
+              candle,
+              breakevenPrice,
+              `본전 보호 (최고 수익률 ${peakReturnPct.toFixed(1)}%)`,
+            );
+            exitedThisCandle = true;
+          } else if (trailingStopHit) {
+            const trailingReturnPct =
+              ((trailingStopPrice - avgBuyPrice) / avgBuyPrice) * 100;
+            closePosition(
+              candle,
+              trailingStopPrice,
+              `트레일링 스톱 (최고 ${peakReturnPct.toFixed(1)}%, 청산 ${trailingReturnPct.toFixed(1)}%)`,
             );
             exitedThisCandle = true;
           } else if (
@@ -339,6 +427,9 @@ export class BacktestService {
               const totalCost = avgBuyPrice * quantity + cost;
               quantity += qty;
               avgBuyPrice = totalCost / quantity;
+              highestPriceAfterEntry = wasFlat
+                ? fillPrice
+                : Math.max(highestPriceAfterEntry, fillPrice);
               if (wasFlat) {
                 entryIndex = candleIndex;
               }
@@ -650,14 +741,12 @@ export class BacktestService {
       return null;
     }
 
-    // 변동성 (ATR%): 분산 가중에 사용
-    const atr = calculateATR(candles, 14);
-    const lastClose = candles[candles.length - 1].close;
-    const lastAtr = atr[atr.length - 1];
-    const volatilityPct =
-      lastAtr != null && lastClose > 0
-        ? Math.round((lastAtr / lastClose) * 10000) / 100
-        : undefined;
+    // 공통 매수 리스크 필터: 유동성 부족/고변동/하락 추세/과열 후보는 제외.
+    const riskProfile = evaluateLongBuyRisk(candles);
+    if (!riskProfile.passed) {
+      return null;
+    }
+    const volatilityPct = riskProfile.volatilityPct;
 
     let bestResult: {
       strategyId: string;
@@ -667,6 +756,7 @@ export class BacktestService {
       outOfSample: BacktestResult;
       rankScore: number;
       analysis: StrategyAnalysisResult;
+      tradeQuality: TradeQuality;
     } | null = null;
 
     for (const strategyId of SHORT_TERM_SCAN_STRATEGY_IDS) {
@@ -721,10 +811,11 @@ export class BacktestService {
           );
           if (outOfSample.totalTrades < MIN_OUT_OF_SAMPLE_TRADES) continue;
           if (outOfSample.totalReturnPct <= 0) continue;
+          const tradeQuality = this.calculateTradeQuality(outOfSample);
+          if (!this.passesOosQuality(outOfSample, tradeQuality)) continue;
 
           // 합산 거래수 최소치 (튜닝 가능한 통계 신뢰도 임계)
-          const combinedTrades =
-            inSample.totalTrades + outOfSample.totalTrades;
+          const combinedTrades = inSample.totalTrades + outOfSample.totalTrades;
           if (combinedTrades < minTotalTrades) continue;
 
           // currentSignal 검증: 매수 방향 + 최소 강도 + 최근 1거래일 이내
@@ -740,6 +831,8 @@ export class BacktestService {
           const rankScore = this.calculateScanRankScore(
             outOfSample,
             currentSignal.strength,
+            tradeQuality,
+            riskProfile,
           );
 
           if (!bestResult || rankScore > bestResult.rankScore) {
@@ -751,6 +844,7 @@ export class BacktestService {
               outOfSample,
               rankScore,
               analysis,
+              tradeQuality,
             };
           }
         } catch {
@@ -781,6 +875,15 @@ export class BacktestService {
       finalValue: outOfSample.finalValue,
       investmentAmount,
       volatilityPct,
+      profitFactor: bestResult.tradeQuality.profitFactor,
+      expectancyPct: bestResult.tradeQuality.expectancyPct,
+      riskProfile: {
+        avgTurnover20: riskProfile.avgTurnover20,
+        sma20Slope5dPct: riskProfile.sma20Slope5dPct,
+        priceFromSma20Pct: riskProfile.priceFromSma20Pct,
+        priceFromSma60Pct: riskProfile.priceFromSma60Pct,
+        recent5dReturnPct: riskProfile.recent5dReturnPct,
+      },
       inSample: {
         totalReturnPct: inSample.totalReturnPct,
         winRate: inSample.winRate,
@@ -806,24 +909,93 @@ export class BacktestService {
   private calculateScanRankScore(
     result: BacktestResult,
     currentSignalStrength: number,
+    tradeQuality: TradeQuality,
+    riskProfile: LongBuyRiskProfile,
   ): number {
     const tradeFrequencyBonus = Math.min(result.totalTrades, 8) * 0.15;
     const winRateBonus = (result.winRate - 50) * 0.05;
     const signalBonus = currentSignalStrength * 3;
+    const profitFactorBonus =
+      (Math.min(tradeQuality.profitFactor, 3) - 1) * 1.5;
+    const expectancyBonus = tradeQuality.expectancyPct * 4;
     const drawdownPenalty = result.maxDrawdownPct * 0.35;
     const openPositionPenalty = result.remainingQuantity > 0 ? 1.5 : 0;
+    const volatilityPenalty =
+      riskProfile.volatilityPct != null && riskProfile.volatilityPct > 5
+        ? (riskProfile.volatilityPct - 5) * 0.35
+        : 0;
+    const extensionPenalty =
+      riskProfile.priceFromSma20Pct != null && riskProfile.priceFromSma20Pct > 8
+        ? (riskProfile.priceFromSma20Pct - 8) * 0.25
+        : 0;
 
     return (
       Math.round(
         (result.totalReturnPct +
           winRateBonus +
           signalBonus +
+          profitFactorBonus +
+          expectancyBonus +
           tradeFrequencyBonus -
           drawdownPenalty -
-          openPositionPenalty) *
+          openPositionPenalty -
+          volatilityPenalty -
+          extensionPenalty) *
           100,
       ) / 100
     );
+  }
+
+  private calculateTradeQuality(result: BacktestResult): TradeQuality {
+    const sellTrades = result.trades.filter(
+      (t) => t.direction === SignalDirection.Sell && t.realizedPnl != null,
+    );
+    const wins = sellTrades
+      .map((t) => t.realizedPnl ?? 0)
+      .filter((pnl) => pnl > 0);
+    const losses = sellTrades
+      .map((t) => t.realizedPnl ?? 0)
+      .filter((pnl) => pnl < 0);
+
+    const grossProfit = wins.reduce((sum, pnl) => sum + pnl, 0);
+    const grossLoss = Math.abs(losses.reduce((sum, pnl) => sum + pnl, 0));
+    const avgWinPnl = wins.length > 0 ? grossProfit / wins.length : 0;
+    const avgLossPnl = losses.length > 0 ? grossLoss / losses.length : 0;
+    const profitFactor =
+      grossLoss > 0 ? grossProfit / grossLoss : grossProfit > 0 ? 99 : 0;
+    const payoffRatio =
+      avgLossPnl > 0 ? avgWinPnl / avgLossPnl : avgWinPnl > 0 ? 99 : 0;
+    const expectancyPct =
+      sellTrades.length > 0 && result.investmentAmount > 0
+        ? ((grossProfit - grossLoss) /
+            sellTrades.length /
+            result.investmentAmount) *
+          100
+        : 0;
+
+    return {
+      profitFactor: Math.round(profitFactor * 100) / 100,
+      expectancyPct: Math.round(expectancyPct * 1000) / 1000,
+      avgWinPnl: Math.round(avgWinPnl),
+      avgLossPnl: Math.round(avgLossPnl),
+      payoffRatio: Math.round(payoffRatio * 100) / 100,
+    };
+  }
+
+  private passesOosQuality(
+    result: BacktestResult,
+    quality: TradeQuality,
+  ): boolean {
+    if (result.winRate < MIN_OOS_WIN_RATE) return false;
+    if (quality.profitFactor < MIN_OOS_PROFIT_FACTOR) return false;
+    if (quality.expectancyPct <= MIN_OOS_EXPECTANCY_PCT) return false;
+
+    if (result.maxDrawdownPct > 0) {
+      const returnToDrawdown = result.totalReturnPct / result.maxDrawdownPct;
+      if (returnToDrawdown < MIN_OOS_RETURN_TO_DRAWDOWN) return false;
+    }
+
+    return true;
   }
 
   /**
@@ -918,6 +1090,7 @@ export class BacktestService {
     for (const stock of sampledStocks) {
       const candles = candlesByStockId.get(stock.id);
       if (!candles || candles.length < 60) continue;
+      if (!evaluateLongBuyRisk(candles).passed) continue;
 
       const runs: StrategyRun[] = [];
       for (const sid of SHORT_TERM_SCAN_STRATEGY_IDS) {
@@ -960,6 +1133,11 @@ export class BacktestService {
     logger.log(
       `그리드 사전 분석 완료: ${stockData.length}개 종목, ${tpRange.length}×${slRange.length}=${tpRange.length * slRange.length} 조합 평가 시작`,
     );
+    if (stockData.length === 0) {
+      throw new BadRequestException(
+        '그리드 서치 가능한 종목이 없습니다 (리스크 필터/데이터 조건 통과 종목 없음).',
+      );
+    }
 
     // 3) 그리드 평가 — (tp, sl) × stock × strategy run 으로 simulate 만 재실행
     const grid: GridSearchPoint[] = [];
@@ -1003,16 +1181,11 @@ export class BacktestService {
             ? sortedReturns[Math.floor(sortedReturns.length / 2)]
             : 0;
         const avgWinRate =
-          sampledN > 0
-            ? oosWinRates.reduce((a, b) => a + b, 0) / sampledN
-            : 0;
+          sampledN > 0 ? oosWinRates.reduce((a, b) => a + b, 0) / sampledN : 0;
         const avgMaxDrawdown =
-          sampledN > 0
-            ? oosDrawdowns.reduce((a, b) => a + b, 0) / sampledN
-            : 0;
+          sampledN > 0 ? oosDrawdowns.reduce((a, b) => a + b, 0) / sampledN : 0;
         const profitableProp = sampledN > 0 ? profitableCount / sampledN : 0;
-        const score =
-          medianReturn * profitableProp - avgMaxDrawdown * 0.3;
+        const score = medianReturn * profitableProp - avgMaxDrawdown * 0.3;
 
         grid.push({
           tpPct: tp,
@@ -1134,6 +1307,8 @@ export class BacktestService {
           run.strategyName,
         );
         if (oos.totalTrades < MIN_OUT_OF_SAMPLE_TRADES) continue;
+        const oosQuality = this.calculateTradeQuality(oos);
+        if (!this.passesOosQuality(oos, oosQuality)) continue;
 
         if (!bestOos || oos.totalReturnPct > bestOos.totalReturnPct) {
           bestOos = oos;

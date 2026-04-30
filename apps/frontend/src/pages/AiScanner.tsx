@@ -1698,9 +1698,9 @@ export function AiScanner() {
 
     // 모달 seed 우선순위: 스캔 폼 입력값 → optimal(그리드 서치 결과) → 코드 기본값
     const tpSeed =
-      toOptionalNumber(autoTakeProfitPct) ?? optimalTpFallback ?? 2.5;
+      toOptionalNumber(autoTakeProfitPct) ?? optimalTpFallback ?? 2.0;
     const slSeed =
-      toOptionalNumber(autoStopLossPct) ?? optimalSlFallback ?? -3;
+      toOptionalNumber(autoStopLossPct) ?? optimalSlFallback ?? -2.0;
     const holdingSeed = toOptionalNumber(maxHoldingDays) ?? 7;
 
     // 단일/복수 모두 설정 팝업을 열어 진입 방식(모니터링/즉시매수) 및 설정을 확정
@@ -1840,9 +1840,9 @@ export function AiScanner() {
     if (!manualLookupStock) return;
     // 모달 seed 우선순위: 스캔 폼 입력값 → optimal(그리드 서치 결과) → 코드 기본값
     const tpSeed =
-      toOptionalNumber(autoTakeProfitPct) ?? optimalTpFallback ?? 2.5;
+      toOptionalNumber(autoTakeProfitPct) ?? optimalTpFallback ?? 2.0;
     const slSeed =
-      toOptionalNumber(autoStopLossPct) ?? optimalSlFallback ?? -3;
+      toOptionalNumber(autoStopLossPct) ?? optimalSlFallback ?? -2.0;
     const holdingSeed = toOptionalNumber(maxHoldingDays) ?? 7;
 
     setConfigModalItems([
@@ -2063,10 +2063,11 @@ export function AiScanner() {
           </p>
           {optimalTpSlSource === 'optimized' && (
             <p className="text-muted" style={{ fontSize: '0.85em' }}>
-              ※ TP/SL 입력값은 주간 자동 최적화(그리드 서치) 결과로 채워졌습니다.
+              ※ TP/SL 입력값은 주간 자동 최적화(그리드 서치) 결과로
+              채워졌습니다.
               {optimalTpSlUpdatedAt &&
-                ` (갱신: ${new Date(optimalTpSlUpdatedAt).toLocaleString('ko-KR')})`}
-              {' '}원하시면 직접 수정하세요.
+                ` (갱신: ${new Date(optimalTpSlUpdatedAt).toLocaleString('ko-KR')})`}{' '}
+              원하시면 직접 수정하세요.
             </p>
           )}
           {optimalTpSlSource === 'default' && (

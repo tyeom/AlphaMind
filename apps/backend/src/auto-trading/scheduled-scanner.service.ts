@@ -18,19 +18,19 @@ import { MARKET_DATA_SERVICE } from '../rmq/rmq.module';
 const SCAN_INVESTMENT_AMOUNT = 500_000;
 const SCAN_TOP_N = 35;
 /** market-data 그리드 서치 결과 미수신/실패 시 fallback. TP/SL 둘 다 동일 fallback 사용. */
-const SCAN_AUTO_TAKE_PROFIT_PCT = 1.75;
-const SCAN_AUTO_STOP_LOSS_PCT = -2.5;
+const SCAN_AUTO_TAKE_PROFIT_PCT = 1.8;
+const SCAN_AUTO_STOP_LOSS_PCT = -1.8;
 const SCAN_MAX_HOLDING_DAYS = 7;
-const MIN_BUY_SIGNAL_STRENGTH = 0.65;
+const MIN_BUY_SIGNAL_STRENGTH = 0.7;
 const SESSION_MAX_HOLDING_DAYS = 7;
 const SCAN_JOB_NAME = 'scheduled-ai-scan';
 const SCAN_LOCK_TTL_MINUTES = 30;
 const SCAN_RESULT_CLAIM_TTL_MINUTES = 5;
 
 /** 동시 운용 종목 상한 — 모니터링 부담 + 시장 체제 변화 시 동시 손실 위험 제한 */
-const MAX_CONCURRENT_HOLDINGS = 15;
+const MAX_CONCURRENT_HOLDINGS = 10;
 /** 한 섹터 동시 보유 상한 — 같은 섹터 클러스터 손실 방지 */
-const MAX_PER_SECTOR = 5;
+const MAX_PER_SECTOR = 3;
 /** 변동성 역가중 시 한 종목당 최소/최대 가중치 — 극단 배분 방지 */
 const VOL_WEIGHT_MIN = 0.5;
 const VOL_WEIGHT_MAX = 2.0;

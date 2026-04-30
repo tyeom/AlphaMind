@@ -12,9 +12,9 @@ export interface BacktestConfig {
   tradeRatioPct: number;
   /** 매매 수수료율 % (기본 0.015) */
   commissionPct: number;
-  /** 자동 익절 수익률 % (기본 2.5) */
+  /** 자동 익절 수익률 % (기본 2.0) */
   autoTakeProfitPct: number;
-  /** 자동 손절 수익률 % (기본 -3) */
+  /** 자동 손절 수익률 % (기본 -2.0) */
   autoStopLossPct: number;
   /** 최대 보유 거래일 수 (기본 7, 0 이하이면 비활성) */
   maxHoldingDays?: number;
@@ -38,6 +38,14 @@ export interface BacktestConfig {
    * false 로 두면 신호 봉의 종가에 즉시 매수 (이전 동작).
    */
   useNextOpenForBuy?: boolean;
+  /** 트레일링 스톱 시작 수익률 % (기본 1.2) */
+  trailingStopTriggerPct?: number;
+  /** 고점 대비 반납 허용률 % (기본 0.8) */
+  trailingStopGivebackPct?: number;
+  /** 본전 보호 시작 수익률 % (기본 1.0) */
+  breakevenTriggerPct?: number;
+  /** 본전 보호 청산선 % (기본 0.1) */
+  breakevenFloorPct?: number;
 }
 
 /** TP/SL 그리드 서치 한 점 — 한 (TP, SL) 조합의 종목 평균 성과 */
