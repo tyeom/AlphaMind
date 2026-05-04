@@ -48,6 +48,8 @@ ENV CODEX_CLI_PATH=/usr/local/bin/codex
 ENV AGENTS_CONFIG_DIR=/app/.agents
 ENV CLAUDE_CONFIG_DIR=/root/.claude
 ENV CODEX_HOME=/root/.codex
+# 전 종목 스캔(scanAllStocks) 같은 워킹셋이 큰 작업의 OOM 방지용 heap 상한.
+ENV NODE_OPTIONS=--max-old-space-size=3072
 
 EXPOSE 3001
 CMD ["sh", "-c", "node -e \"const c = require('./dist/config/mikro-orm.config').default; const { MikroORM } = require('@mikro-orm/core'); MikroORM.init(c).then(orm => orm.getMigrator().up().then(() => orm.close()))\" && node dist/main.js"]

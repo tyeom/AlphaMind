@@ -1527,6 +1527,23 @@ export function AiScanner() {
       });
       setSelected(new Set(filteredResults.map((r) => r.stockCode)));
       setStep('scanned');
+
+      // 저장된 AI 회의 결과(ai_meeting_results)가 있으면 AI 점수 컬럼에 즉시 표시
+      try {
+        const saved = await getAiMeetingResults();
+        if (saved.length > 0) {
+          const codeSet = new Set(filteredResults.map((r) => r.stockCode));
+          const scoreMap = new Map<string, AiStockScore>();
+          for (const r of saved) {
+            if (codeSet.has(r.stockCode)) {
+              scoreMap.set(r.stockCode, r.data as AiStockScore);
+            }
+          }
+          if (scoreMap.size > 0) setAiScores(scoreMap);
+        }
+      } catch {
+        /* ignore */
+      }
     } catch (err: any) {
       setError(err.message || '스캔에 실패했습니다.');
       setStep('idle');
