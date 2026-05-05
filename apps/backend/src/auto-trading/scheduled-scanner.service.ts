@@ -397,8 +397,12 @@ export class ScheduledScannerService {
     // 분산 필터: 동시 보유 상한 + 섹터 캡 적용
     // - 활성 세션 + 신규/재개 합계가 MAX_CONCURRENT_HOLDINGS 를 넘지 않도록 슬롯 제한.
     // - 한 섹터에 MAX_PER_SECTOR 초과 종목이 몰리면 그 이상은 스킵.
+    // - 섹터 미상 종목은 캡에서 제외(분류 불가 → 클러스터 위험 산정 불가).
     // - 입력은 rankScore 내림차순(scanAllStocks 에서 정렬됨) 가정 → 상위 우선 채택.
-    const activeSectorCounts = this.countSectors(activeSessions, response);
+    const activeSectorCounts = await this.countSectors(
+      activeSessions,
+      response,
+    );
     const availableSlots = Math.max(
       0,
       MAX_CONCURRENT_HOLDINGS - activeCodes.size,
@@ -413,13 +417,15 @@ export class ScheduledScannerService {
         skippedByConcurrencyCap++;
         continue;
       }
-      const sector = c.sector ?? '미분류';
-      const count = sectorCounts.get(sector) ?? 0;
-      if (count >= MAX_PER_SECTOR) {
-        skippedBySectorCap++;
-        continue;
+      const sector = c.sector;
+      if (sector) {
+        const count = sectorCounts.get(sector) ?? 0;
+        if (count >= MAX_PER_SECTOR) {
+          skippedBySectorCap++;
+          continue;
+        }
+        sectorCounts.set(sector, count + 1);
       }
-      sectorCounts.set(sector, count + 1);
       filteredCandidates.push(c);
     }
 
@@ -514,20 +520,43 @@ export class ScheduledScannerService {
 
   /**
    * 활성 세션의 섹터 분포 카운트.
-   * scan 응답 결과에서 각 종목의 섹터 정보를 가져와 매칭한다.
-   * 결과에 없는 종목(예: 활성 세션이지만 이번 스캔에서 제외된 종목)은 '미분류'로 집계.
+   * scan 응답에는 trigger 가 active 종목을 excludeCodes 로 빼서 보내기 때문에
+   * 활성 종목이 들어있지 않다 → stocks 테이블에서 직접 조회로 보충한다.
+   * 섹터를 끝내 알 수 없는 종목은 캡 산정에서 제외한다 (분류 불가는 캡 적용 보류).
    */
-  private countSectors(
+  private async countSectors(
     activeSessions: AutoTradingSessionEntity[],
     response: ScanResponse,
-  ): Map<string, number> {
+  ): Promise<Map<string, number>> {
     const sectorByCode = new Map<string, string>();
     for (const r of response.results) {
       if (r.sector) sectorByCode.set(r.stockCode, r.sector);
     }
+
+    const missing = activeSessions
+      .map((s) => s.stockCode)
+      .filter((code) => !sectorByCode.has(code));
+    if (missing.length > 0) {
+      try {
+        const rows = await this.em
+          .getConnection()
+          .execute<
+            Array<{ code: string; sector: string | null }>
+          >('select "code", "sector" from "stocks" where "code" in (?)', [missing]);
+        for (const r of rows) {
+          if (r.sector) sectorByCode.set(r.code, r.sector);
+        }
+      } catch (err: any) {
+        this.logger.warn(
+          `활성 세션 섹터 조회 실패 — 캡 산정에서 누락 가능: ${err.message ?? err}`,
+        );
+      }
+    }
+
     const counts = new Map<string, number>();
     for (const s of activeSessions) {
-      const sector = sectorByCode.get(s.stockCode) ?? '미분류';
+      const sector = sectorByCode.get(s.stockCode);
+      if (!sector) continue;
       counts.set(sector, (counts.get(sector) ?? 0) + 1);
     }
     return counts;

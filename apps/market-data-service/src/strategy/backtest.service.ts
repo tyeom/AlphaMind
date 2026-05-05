@@ -561,6 +561,7 @@ export class BacktestService {
       id: s.id,
       code: s.code,
       name: s.name,
+      sector: s.sector ?? undefined,
     }));
 
     // 이후 단계에서는 Stock/StockDailyPrice 엔티티가 더 이상 필요 없으므로
