@@ -16,7 +16,7 @@ export interface TradeMeta {
 }
 
 const DEFAULT_TRADE_META: TradeMeta = {
-  initialBuyRatioPct: 20,
+  initialBuyRatioPct: 32,
   addOnBuyRatioPct: 15,
   maxAddOnCount: 3,
 };
@@ -24,12 +24,12 @@ const DEFAULT_TRADE_META: TradeMeta = {
 /** strategyId → TradeMeta (variant 미적용 전략용) */
 const STRATEGY_TRADE_META: Record<string, TradeMeta> = {
   'day-trading': {
-    initialBuyRatioPct: 25,
+    initialBuyRatioPct: 40,
     addOnBuyRatioPct: 15,
     maxAddOnCount: 3,
   },
   'candle-pattern': {
-    initialBuyRatioPct: 20,
+    initialBuyRatioPct: 32,
     addOnBuyRatioPct: 15,
     maxAddOnCount: 3,
   },
@@ -40,12 +40,12 @@ const STRATEGY_TRADE_META: Record<string, TradeMeta> = {
     maxAddOnCount: 19,
   },
   'momentum-power': {
-    initialBuyRatioPct: 30,
+    initialBuyRatioPct: 50,
     addOnBuyRatioPct: 20,
     maxAddOnCount: 2,
   },
   'momentum-surge': {
-    initialBuyRatioPct: 25,
+    initialBuyRatioPct: 40,
     addOnBuyRatioPct: 15,
     maxAddOnCount: 3,
   },
@@ -54,22 +54,22 @@ const STRATEGY_TRADE_META: Record<string, TradeMeta> = {
 /** mean-reversion 은 variant 별로 비율이 다름 (Grid/MagicSplit 은 자체 분할 내장) */
 const MEAN_REVERSION_BY_VARIANT: Record<string, TradeMeta> = {
   [MeanReversionVariant.RSI]: {
-    initialBuyRatioPct: 15,
+    initialBuyRatioPct: 27,
     addOnBuyRatioPct: 10,
     maxAddOnCount: 4,
   },
   [MeanReversionVariant.Bollinger]: {
-    initialBuyRatioPct: 15,
+    initialBuyRatioPct: 27,
     addOnBuyRatioPct: 10,
     maxAddOnCount: 4,
   },
   [MeanReversionVariant.Grid]: {
-    initialBuyRatioPct: 10,
+    initialBuyRatioPct: 20,
     addOnBuyRatioPct: 10,
     maxAddOnCount: 8,
   },
   [MeanReversionVariant.MagicSplit]: {
-    initialBuyRatioPct: 10,
+    initialBuyRatioPct: 20,
     addOnBuyRatioPct: 10,
     maxAddOnCount: 8,
   },

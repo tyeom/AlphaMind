@@ -17,6 +17,8 @@ export enum NotificationType {
   SCHEDULED_SCAN_WARNING = 'scheduled_scan_warning',
   BUY_SIGNAL = 'buy_signal',
   SELL_SIGNAL = 'sell_signal',
+  KIS_WS_DISCONNECTED = 'kis_ws_disconnected',
+  KIS_WS_RECONNECTED = 'kis_ws_reconnected',
 }
 
 @Entity({ tableName: 'notifications' })

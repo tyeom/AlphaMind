@@ -8,10 +8,12 @@ import { KisQuotationService } from './kis-quotation.service';
 import { KisJournalService } from './kis-journal.service';
 import { KisWebSocketService } from './kis-websocket.service';
 import { KisWebSocketGateway } from './kis-websocket.gateway';
+import { KisWsHealthNotifier } from './kis-ws-health.notifier';
 import { KisController } from './kis.controller';
 import { TradeHistoryEntity } from './entities/trade-history.entity';
 import { TradeDailySummaryEntity } from './entities/trade-daily-summary.entity';
 import { AutoTradingSessionEntity } from '../auto-trading/entities/auto-trading-session.entity';
+import { NotificationModule } from '../notification/notification.module';
 
 @Module({
   imports: [
@@ -23,6 +25,7 @@ import { AutoTradingSessionEntity } from '../auto-trading/entities/auto-trading-
       TradeDailySummaryEntity,
       AutoTradingSessionEntity,
     ]),
+    NotificationModule,
   ],
   controllers: [KisController],
   providers: [
@@ -33,6 +36,7 @@ import { AutoTradingSessionEntity } from '../auto-trading/entities/auto-trading-
     KisJournalService,
     KisWebSocketService,
     KisWebSocketGateway,
+    KisWsHealthNotifier,
   ],
   exports: [
     KisService,

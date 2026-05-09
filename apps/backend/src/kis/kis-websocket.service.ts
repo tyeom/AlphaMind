@@ -22,6 +22,26 @@ import {
 const RECONNECT_BASE_DELAY = 1000;
 const RECONNECT_MAX_DELAY = 60000;
 const PINGPONG_TIMEOUT = 90000; // KIS 서버 PING 주기(약 60초) + 여유
+/** 연속 재연결 실패가 이 횟수 이상이면 사용자에게 알림 (≈ 30초~5분 무복구 후 통지) */
+const RECONNECT_ALERT_THRESHOLD = 5;
+/** 외부 헬스 체크 주기 — PINGPONG 모니터의 백업 안전망 */
+const HEALTH_CHECK_INTERVAL = 60_000;
+
+export interface KisWsHealth {
+  connected: boolean;
+  consecutiveFailures: number;
+  alerted: boolean;
+  lastConnectedAt: number | null;
+  lastDisconnectedAt: number | null;
+  reconnectAttempt: number;
+}
+
+export interface KisWsConnectionAlert {
+  kind: 'disconnected' | 'reconnected';
+  failureCount: number;
+  lastError?: string;
+  downSinceMs?: number;
+}
 
 @Injectable()
 export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
@@ -40,10 +60,18 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   private reconnectAttempt = 0;
   private destroyed = false;
+  private consecutiveFailures = 0;
+  private alerted = false;
+  private lastConnectedAt: number | null = null;
+  private lastDisconnectedAt: number | null = null;
+  private lastConnectError: string | undefined;
 
   /** PINGPONG 헬스체크 */
   private pingpongTimer: ReturnType<typeof setTimeout> | null = null;
   private lastPingpongAt: number = 0;
+
+  /** 외부 헬스 모니터 */
+  private healthCheckTimer: ReturnType<typeof setInterval> | null = null;
   private hasWarnedMissingHtsId = false;
   private orderNotificationSubscriptionState:
     | 'idle'
@@ -67,6 +95,8 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
   readonly notification$ = new Subject<KisRealtimeOrderNotification>();
   /** 실시간 구독 결과 스트림 */
   readonly subscriptionResult$ = new Subject<KisRealtimeSubscriptionResult>();
+  /** 연결 상태 변경 알림 — 임계 미충족 시점에서 disconnected, 복구 시 reconnected */
+  readonly connectionAlert$ = new Subject<KisWsConnectionAlert>();
 
   constructor(
     private readonly httpService: HttpService,
@@ -74,6 +104,7 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
   ) {}
 
   async onModuleInit() {
+    this.startHealthCheckMonitor();
     await this.connect();
   }
 
@@ -81,12 +112,26 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
     this.destroyed = true;
     this.clearReconnectTimer();
     this.clearPingpongTimer();
+    this.clearHealthCheckTimer();
     this.clearOrderNotificationSubscriptionTimer();
     this.closeExistingSocket();
     this.execution$.complete();
     this.orderbook$.complete();
     this.notification$.complete();
     this.subscriptionResult$.complete();
+    this.connectionAlert$.complete();
+  }
+
+  /** 현재 연결 상태 스냅샷 — 외부 모니터링/디버그용 */
+  getHealth(): KisWsHealth {
+    return {
+      connected: this.ws?.readyState === WebSocket.OPEN,
+      consecutiveFailures: this.consecutiveFailures,
+      alerted: this.alerted,
+      lastConnectedAt: this.lastConnectedAt,
+      lastDisconnectedAt: this.lastDisconnectedAt,
+      reconnectAttempt: this.reconnectAttempt,
+    };
   }
 
   /** WebSocket 접속키 발급 (REST) */
@@ -135,6 +180,8 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
       this.logger.log('KIS WebSocket 접속키 발급 완료');
     } catch (err: any) {
       this.logger.error(`접속키 발급 실패: ${err.message}`);
+      this.lastConnectError = `approval_key: ${err.message ?? err}`;
+      this.recordFailureAndMaybeAlert();
       this.scheduleReconnect();
       return;
     }
@@ -148,9 +195,11 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
 
     this.ws.on('open', () => {
       this.reconnectAttempt = 0;
+      this.lastConnectedAt = Date.now();
       this.logger.log('KIS WebSocket 연결 성공');
       this.resubscribeAll();
       this.startPingpongMonitor();
+      this.handleConnectionRecovered();
     });
 
     this.ws.on('message', (raw: Buffer) => {
@@ -158,22 +207,67 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
     });
 
     this.ws.on('close', (code: number, reason: Buffer) => {
+      const reasonStr = reason.toString() || 'N/A';
       this.logger.warn(
-        `KIS WebSocket 연결 종료 (code: ${code}, reason: ${reason.toString() || 'N/A'})`,
+        `KIS WebSocket 연결 종료 (code: ${code}, reason: ${reasonStr})`,
       );
+      this.lastDisconnectedAt = Date.now();
+      this.lastConnectError = `close code=${code} reason=${reasonStr}`;
       this.clearPingpongTimer();
       if (this.orderNotificationSubscriptionState === 'pending') {
         this.finishOrderNotificationSubscription(false);
       } else if (this.orderNotificationSubscriptionState === 'subscribed') {
         this.orderNotificationSubscriptionState = 'idle';
       }
+      this.recordFailureAndMaybeAlert();
       this.scheduleReconnect();
     });
 
     this.ws.on('error', (err) => {
       this.logger.error(`KIS WebSocket 오류: ${err.message}`);
+      this.lastConnectError = `error: ${err.message}`;
       // error 이벤트 후 close 이벤트가 자동 발생하므로 여기서 reconnect하지 않음
     });
+  }
+
+  // ── 연결 상태 추적 ──
+
+  /** 연결 실패/끊김을 카운트하고 임계 도달 시 한 번만 알림 발행 */
+  private recordFailureAndMaybeAlert() {
+    this.consecutiveFailures++;
+    if (
+      !this.alerted &&
+      this.consecutiveFailures >= RECONNECT_ALERT_THRESHOLD
+    ) {
+      this.alerted = true;
+      const downSinceMs =
+        this.lastDisconnectedAt != null
+          ? Date.now() - this.lastDisconnectedAt
+          : 0;
+      this.logger.error(
+        `KIS WebSocket 연속 ${this.consecutiveFailures}회 재연결 실패 — 사용자 알림 발행`,
+      );
+      this.connectionAlert$.next({
+        kind: 'disconnected',
+        failureCount: this.consecutiveFailures,
+        lastError: this.lastConnectError,
+        downSinceMs,
+      });
+    }
+  }
+
+  /** 연결 성공 시 카운터 리셋. 직전에 알림이 발행됐으면 복구 알림. */
+  private handleConnectionRecovered() {
+    const failureCount = this.consecutiveFailures;
+    this.consecutiveFailures = 0;
+    if (this.alerted) {
+      this.alerted = false;
+      this.logger.log('KIS WebSocket 재연결 성공 — 복구 알림 발행');
+      this.connectionAlert$.next({
+        kind: 'reconnected',
+        failureCount,
+      });
+    }
   }
 
   // ── 재연결 (Exponential Backoff) ──
@@ -231,6 +325,45 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
     if (this.pingpongTimer) {
       clearInterval(this.pingpongTimer);
       this.pingpongTimer = null;
+    }
+  }
+
+  // ── 외부 헬스체크 ──
+  // PINGPONG 모니터는 정상 연결 후의 무응답을 감지하지만, 소켓이 오픈된 척만
+  // 하면서 PINGPONG 도 안 들어오는 케이스/타이머 누락을 백업하는 안전망.
+
+  private startHealthCheckMonitor() {
+    this.clearHealthCheckTimer();
+    this.healthCheckTimer = setInterval(() => {
+      if (this.destroyed) return;
+      // 재연결이 이미 예약되어 있거나 연결 시도 중이면 패스
+      if (this.reconnectTimer || this.ws?.readyState === WebSocket.CONNECTING) {
+        return;
+      }
+      const open = this.ws?.readyState === WebSocket.OPEN;
+      if (!open) {
+        this.logger.warn(
+          'KIS WebSocket 헬스체크: 연결 미오픈 상태 감지 → 재연결 시도',
+        );
+        this.scheduleReconnect();
+        return;
+      }
+      // OPEN 상태인데 PINGPONG 이 너무 오래 멎어 있다면 강제 재연결
+      const sincePingpong = Date.now() - this.lastPingpongAt;
+      if (this.lastPingpongAt > 0 && sincePingpong > PINGPONG_TIMEOUT) {
+        this.logger.warn(
+          `KIS WebSocket 헬스체크: PINGPONG ${Math.round(sincePingpong / 1000)}초 무응답 → 강제 재연결`,
+        );
+        this.closeExistingSocket();
+        this.scheduleReconnect();
+      }
+    }, HEALTH_CHECK_INTERVAL);
+  }
+
+  private clearHealthCheckTimer() {
+    if (this.healthCheckTimer) {
+      clearInterval(this.healthCheckTimer);
+      this.healthCheckTimer = null;
     }
   }
 
