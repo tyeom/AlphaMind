@@ -79,11 +79,21 @@ const DEFAULT_STOP_LOSS_PCT = -2.0;
 const DEFAULT_MAX_HOLDING_DAYS = 7;
 const DEFAULT_STRATEGY_ID = 'day-trading';
 const MIN_BUY_SIGNAL_STRENGTH = 0.65;
-const MIN_SCHEDULED_BUY_SIGNAL_STRENGTH = 0.7;
-const TRAILING_STOP_TRIGGER_PCT = 1.2;
-const TRAILING_STOP_GIVEBACK_PCT = 0.8;
-const BREAKEVEN_TRIGGER_PCT = 1.0;
-const BREAKEVEN_FLOOR_PCT = 0.1;
+// 스캔 후보가 실거래 진입 시점에 다시 0.7 으로 거름되어 과반이 통과하지 못했다.
+// 스캔 임계(0.65)와 동일하게 맞춰 후보가 실거래로 흘러가지 못하는 누수를 막는다.
+const MIN_SCHEDULED_BUY_SIGNAL_STRENGTH = 0.65;
+// 트레일링은 더 큰 이익(+1.8%) 확보 후에만, 되돌림 허용폭(1.2%)도 늘려 일중 노이즈 흡수.
+const TRAILING_STOP_TRIGGER_PCT = 1.8;
+const TRAILING_STOP_GIVEBACK_PCT = 1.2;
+// 본전 보호는 +1.5% 이상 찍은 뒤 0% 이하로 내려갈 때만 — 작은 이익도 양보하지 않는다.
+const BREAKEVEN_TRIGGER_PCT = 1.5;
+const BREAKEVEN_FLOOR_PCT = 0.0;
+/**
+ * 진입 직후 grace period — 매수 N분 이내에는 본전/트레일링 스톱을 발동하지 않는다.
+ * 단순 stopLossPct 와 takeProfitPct 는 그대로 작동 (큰 손실/익절은 즉시 반응).
+ * 다음봉 시가 매수 직후 일중 흔들림에 의한 즉시 본전 청산을 방지.
+ */
+const POSITION_GRACE_PERIOD_MS = 5 * 60_000;
 const PRICE_POLL_INTERVAL_MS = 5_000;
 const PRICE_TRIGGERED_SELL_CHECK_DEBOUNCE_MS = 1_000;
 const SUBSCRIPTION_RETRY_BASE_DELAY_MS = 5_000;
@@ -1879,7 +1889,13 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       );
       return true;
     }
+    // 본전 보호 / 트레일링은 진입 직후 grace period 동안 비활성화.
+    // 다음봉 시가 매수 직후 일중 흔들림에 의한 즉시 청산을 방지한다.
+    const enteredAtMs = session.enteredAt?.getTime();
+    const inGracePeriod =
+      enteredAtMs != null && Date.now() - enteredAtMs < POSITION_GRACE_PERIOD_MS;
     if (
+      !inGracePeriod &&
       peakReturnPct >= BREAKEVEN_TRIGGER_PCT &&
       returnPct <= BREAKEVEN_FLOOR_PCT
     ) {
@@ -1891,6 +1907,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       return true;
     }
     if (
+      !inGracePeriod &&
       peakReturnPct >= TRAILING_STOP_TRIGGER_PCT &&
       givebackPct >= TRAILING_STOP_GIVEBACK_PCT
     ) {

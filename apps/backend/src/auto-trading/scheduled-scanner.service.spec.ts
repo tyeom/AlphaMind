@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { ClientProxy } from '@nestjs/microservices';
 import { EntityManager } from '@mikro-orm/postgresql';
-import { throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import {
   ScanCompletedEvent,
   ScheduledScannerService,
@@ -32,7 +32,14 @@ describe('ScheduledScannerService', () => {
     };
     const marketDataClient = {
       emit: jest.fn(),
-    } as unknown as ClientProxy & { emit: jest.Mock };
+      send: jest.fn().mockReturnValue(
+        of({
+          tpPct: 2.5,
+          slPct: -2,
+          source: 'default',
+        }),
+      ),
+    } as unknown as ClientProxy & { emit: jest.Mock; send: jest.Mock };
 
     const service = new ScheduledScannerService(
       configService,
@@ -103,6 +110,58 @@ describe('ScheduledScannerService', () => {
     expect(execute.mock.calls[0][0]).toContain('greatest(');
     expect(execute.mock.calls[2][0]).toContain(
       `and "owner" = '${event.requestId}'`,
+    );
+  });
+
+  it('uses scan-validated TP/SL values when starting sessions', async () => {
+    const { service, execute, em, autoTradingService } = createService();
+    const event: ScanCompletedEvent = {
+      userId: 1,
+      requestId: 'req-2',
+      response: {
+        scannedStocks: 1,
+        eligibleStocks: 1,
+        excludedStocks: 0,
+        results: [
+          {
+            stockCode: '005930',
+            stockName: '삼성전자',
+            volatilityPct: 3.2,
+            autoTakeProfitPct: 4.8,
+            autoStopLossPct: -4.16,
+            bestStrategy: {
+              strategyId: 'day-trading',
+              strategyName: '일간 모멘텀 통합 전략',
+            },
+            currentSignal: {
+              direction: 'BUY',
+              strength: 0.8,
+              reason: 'fresh buy',
+            },
+          },
+        ],
+      },
+    };
+
+    execute.mockResolvedValueOnce([{ job_name: 'scheduled-ai-scan' }]);
+    (em.find as jest.Mock).mockResolvedValue([]);
+    autoTradingService.startSessions.mockResolvedValue([
+      { stockCode: '005930' },
+    ]);
+
+    await service.handleScanCompleted(event);
+
+    expect(autoTradingService.startSessions).toHaveBeenCalledWith(
+      1,
+      expect.objectContaining({
+        sessions: [
+          expect.objectContaining({
+            stockCode: '005930',
+            takeProfitPct: 4.8,
+            stopLossPct: -4.16,
+          }),
+        ],
+      }),
     );
   });
 });

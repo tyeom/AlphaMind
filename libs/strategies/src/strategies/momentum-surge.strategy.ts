@@ -215,7 +215,7 @@ export function analyzeMomentumSurge(
 
   const lastIdx = candles.length - 1;
   const lastCandle = candles[lastIdx];
-  const currentSignal = buildCurrentSignal(signals, lastCandle);
+  const currentSignal = buildCurrentSignal(signals, lastCandle, candles);
 
   return {
     strategyName: 'Momentum Surge',
@@ -289,8 +289,14 @@ function resolveEtfKind(
   return MomentumSurgeEtfKind.Leverage;
 }
 
-function buildCurrentSignal(signals: Signal[], lastCandle: CandleData): Signal {
-  return pickFreshCurrentSignal(signals, lastCandle);
+function buildCurrentSignal(
+  signals: Signal[],
+  lastCandle: CandleData,
+  candles: CandleData[],
+): Signal {
+  return pickFreshCurrentSignal(signals, lastCandle, undefined, undefined, {
+    tradingDates: candles,
+  });
 }
 
 function buildSummary(

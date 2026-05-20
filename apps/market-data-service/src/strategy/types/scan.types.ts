@@ -16,6 +16,12 @@ export interface ScanResult {
   finalValue: number;
   investmentAmount: number;
   /**
+   * 스캔 백테스트에 실제 적용된 자동 익절/손절 값.
+   * backend 예약 스캐너가 이 값을 그대로 세션에 반영해 검증 룰과 실전 룰을 일치시킨다.
+   */
+  autoTakeProfitPct?: number;
+  autoStopLossPct?: number;
+  /**
    * 종목 변동성 — 최근 ATR(14) / 종가 × 100 (%).
    * 분산 배분(역가중)에 사용한다.
    */

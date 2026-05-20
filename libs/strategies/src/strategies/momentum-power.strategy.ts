@@ -100,7 +100,12 @@ export function analyzeMomentumPower(
   const lastIdx = candles.length - 1;
   const lastCandle = candles[lastIdx];
   const currentMode = modeHistory[modeHistory.length - 1]?.mode ?? null;
-  const currentSignal = buildCurrentSignal(signals, lastCandle, currentMode);
+  const currentSignal = buildCurrentSignal(
+    signals,
+    lastCandle,
+    currentMode,
+    candles,
+  );
 
   return {
     strategyName: 'Momentum Power (Snow)',
@@ -196,14 +201,17 @@ function buildCurrentSignal(
   signals: Signal[],
   lastCandle: CandleData,
   currentMode: MomentumPowerMode | null,
+  candles: CandleData[],
 ): Signal {
   const emptyReason = currentMode
     ? `현재 모드: ${currentMode} (신호 없음)`
     : '분석에 필요한 데이터 부족';
   const staleReason = currentMode
-    ? `현재 모드: ${currentMode} (최근 1거래일 이내 신호 없음)`
-    : '최근 1거래일 이내 신호 없음 (stale)';
-  return pickFreshCurrentSignal(signals, lastCandle, staleReason, emptyReason);
+    ? `현재 모드: ${currentMode} (최근 2거래일 이내 신호 없음)`
+    : '최근 2거래일 이내 신호 없음 (stale)';
+  return pickFreshCurrentSignal(signals, lastCandle, staleReason, emptyReason, {
+    tradingDates: candles,
+  });
 }
 
 function buildSummary(

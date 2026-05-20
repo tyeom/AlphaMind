@@ -11,6 +11,9 @@ export interface ScanResult {
   maxDrawdownPct: number;
   totalTrades: number;
   rankScore: number;
+  /** 스캔 백테스트에 실제 적용된 자동 익절/손절 값 */
+  autoTakeProfitPct?: number;
+  autoStopLossPct?: number;
   volatilityPct?: number;
   profitFactor?: number;
   expectancyPct?: number;

@@ -38,41 +38,86 @@ export function analyzeCandlePattern(
 
     // 단일 캔들 패턴
     const doji = detectDoji(candles[i], avgBodySize);
-    if (doji) detected.push({ ...doji, date: candles[i].date, price: candles[i].close });
+    if (doji)
+      detected.push({
+        ...doji,
+        date: candles[i].date,
+        price: candles[i].close,
+      });
 
     const hammer = detectHammer(candles, i, trendSMA);
-    if (hammer) detected.push({ ...hammer, date: candles[i].date, price: candles[i].close });
+    if (hammer)
+      detected.push({
+        ...hammer,
+        date: candles[i].date,
+        price: candles[i].close,
+      });
 
     const marubozu = detectMarubozu(candles[i]);
-    if (marubozu) detected.push({ ...marubozu, date: candles[i].date, price: candles[i].close });
+    if (marubozu)
+      detected.push({
+        ...marubozu,
+        date: candles[i].date,
+        price: candles[i].close,
+      });
 
     const spinningTop = detectSpinningTop(candles[i]);
     if (spinningTop)
-      detected.push({ ...spinningTop, date: candles[i].date, price: candles[i].close });
+      detected.push({
+        ...spinningTop,
+        date: candles[i].date,
+        price: candles[i].close,
+      });
 
     // 2봉 패턴
     if (i >= 1) {
       const engulfing = detectEngulfing(candles[i - 1], candles[i]);
       if (engulfing)
-        detected.push({ ...engulfing, date: candles[i].date, price: candles[i].close });
+        detected.push({
+          ...engulfing,
+          date: candles[i].date,
+          price: candles[i].close,
+        });
 
       const harami = detectHarami(candles[i - 1], candles[i]);
-      if (harami) detected.push({ ...harami, date: candles[i].date, price: candles[i].close });
+      if (harami)
+        detected.push({
+          ...harami,
+          date: candles[i].date,
+          price: candles[i].close,
+        });
     }
 
     // 3봉 패턴
     if (i >= 2) {
       const star = detectStar(candles[i - 2], candles[i - 1], candles[i]);
-      if (star) detected.push({ ...star, date: candles[i].date, price: candles[i].close });
+      if (star)
+        detected.push({
+          ...star,
+          date: candles[i].date,
+          price: candles[i].close,
+        });
 
-      const soldiers = detectThreeSoldiersCrows(candles[i - 2], candles[i - 1], candles[i]);
+      const soldiers = detectThreeSoldiersCrows(
+        candles[i - 2],
+        candles[i - 1],
+        candles[i],
+      );
       if (soldiers)
-        detected.push({ ...soldiers, date: candles[i].date, price: candles[i].close });
+        detected.push({
+          ...soldiers,
+          date: candles[i].date,
+          price: candles[i].close,
+        });
     }
 
     // 볼륨 확인
     for (const pattern of detected) {
-      if (cfg.useVolumeConfirmation && avgVolumes[i] != null && avgVolumes[i]! > 0) {
+      if (
+        cfg.useVolumeConfirmation &&
+        avgVolumes[i] != null &&
+        avgVolumes[i]! > 0
+      ) {
         const volRatio = candles[i].volume / avgVolumes[i]!;
         if (volRatio > 1.5) {
           pattern.strength = Math.min(pattern.strength * 1.2, 1);
@@ -127,8 +172,9 @@ export function analyzeCandlePattern(
   const currentSignal: Signal = pickFreshCurrentSignal(
     signals,
     lastCandle,
-    '최근 1거래일 이내 패턴 신호 없음 (stale)',
+    '최근 2거래일 이내 패턴 신호 없음 (stale)',
     '패턴 미감지',
+    { tradingDates: candles },
   );
 
   // 패턴 통계
@@ -137,8 +183,12 @@ export function analyzeCandlePattern(
     patternStats[p.patternType] = (patternStats[p.patternType] ?? 0) + 1;
   }
 
-  const buys = signals.filter((s) => s.direction === SignalDirection.Buy).length;
-  const sells = signals.filter((s) => s.direction === SignalDirection.Sell).length;
+  const buys = signals.filter(
+    (s) => s.direction === SignalDirection.Buy,
+  ).length;
+  const sells = signals.filter(
+    (s) => s.direction === SignalDirection.Sell,
+  ).length;
 
   return {
     strategyName: '캔들 패턴 인식 (Candle Pattern)',
@@ -293,7 +343,9 @@ function detectMarubozu(candle: CandleData): RawPattern | null {
   if (upper < total * 0.05 && lower < total * 0.05) {
     return {
       patternType: CandlePatternType.Marubozu,
-      direction: isBullish(candle) ? PatternDirection.Bullish : PatternDirection.Bearish,
+      direction: isBullish(candle)
+        ? PatternDirection.Bullish
+        : PatternDirection.Bearish,
       strength: body / total,
       confirmation: false,
     };
@@ -313,7 +365,10 @@ function detectSpinningTop(candle: CandleData): RawPattern | null {
   const bodyRatio = body / total;
   // 몸통이 전체의 10~30%, 양쪽 꼬리 비슷
   if (bodyRatio >= 0.1 && bodyRatio <= 0.3) {
-    const shadowRatio = upper > 0 && lower > 0 ? Math.min(upper, lower) / Math.max(upper, lower) : 0;
+    const shadowRatio =
+      upper > 0 && lower > 0
+        ? Math.min(upper, lower) / Math.max(upper, lower)
+        : 0;
     if (shadowRatio > 0.4) {
       return {
         patternType: CandlePatternType.SpinningTop,
@@ -329,7 +384,10 @@ function detectSpinningTop(candle: CandleData): RawPattern | null {
 
 // ─── 2봉 패턴 ───
 
-function detectEngulfing(prev: CandleData, curr: CandleData): RawPattern | null {
+function detectEngulfing(
+  prev: CandleData,
+  curr: CandleData,
+): RawPattern | null {
   const currBody = bodySize(curr);
   const prevBody = bodySize(prev);
 

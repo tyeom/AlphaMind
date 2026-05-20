@@ -25,12 +25,20 @@ export { analyzeMomentumSurge } from './strategies/momentum-surge.strategy';
 export {
   isFreshSignal,
   pickFreshCurrentSignal,
+  pickFreshStrongestSignal,
+  type FreshSignalOptions,
 } from './utils/signal-freshness';
 export {
   evaluateLongBuyRisk,
   type LongBuyRiskFilterOptions,
   type LongBuyRiskProfile,
 } from './utils/buy-risk-filter';
+export {
+  DEFAULT_DYNAMIC_TP_SL_OPTIONS,
+  computeAtrDynamicTpSl,
+  type DynamicTpSlOptions,
+  type DynamicTpSlResult,
+} from './utils/dynamic-tp-sl';
 
 // Trade meta
 export { getStrategyTradeMeta, type TradeMeta } from './trade-meta';

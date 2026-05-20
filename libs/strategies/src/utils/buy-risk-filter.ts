@@ -29,11 +29,15 @@ export interface LongBuyRiskProfile {
 const DEFAULT_OPTIONS: Required<LongBuyRiskFilterOptions> = {
   minCandles: 60,
   minAvgTurnover20: 300_000_000,
-  maxAtrPct: 8,
-  maxRecent5dDropPct: -7,
+  // 단타 종목은 변동성 자체가 alpha 원천 — 8% 상한은 변동성 우량 후보까지 차단했다.
+  maxAtrPct: 10,
+  // 단기 조정 후 반등 후보(-7%~-10% 구간)가 손절 후보가 아니라 좋은 매수 타이밍.
+  maxRecent5dDropPct: -10,
   maxBelowSma60Pct: -8,
-  maxAboveSma20Pct: 12,
-  minSma20Slope5dPct: -0.5,
+  // 강세 추세 종목은 SMA20 대비 +12% 이상이어도 모멘텀 지속 → 18% 까지 허용.
+  maxAboveSma20Pct: 18,
+  // SMA20 살짝 횡보 중인 종목까지 허용 (-1.0% 이상이면 OK).
+  minSma20Slope5dPct: -1.0,
   useCompletedCandlesForTurnover: false,
 };
 

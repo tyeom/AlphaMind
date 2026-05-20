@@ -22,6 +22,8 @@ import {
   analyzeMomentumSurge,
   evaluateLongBuyRisk,
   LongBuyRiskProfile,
+  computeAtrDynamicTpSl,
+  pickFreshStrongestSignal,
 } from '@alpha-mind/strategies';
 import {
   BacktestConfig,
@@ -74,11 +76,15 @@ const OUT_OF_SAMPLE_RATIO = 1 / 3;
 const MIN_IN_SAMPLE_TRADES = 5;
 /** out-of-sample 최소 거래수 */
 const MIN_OUT_OF_SAMPLE_TRADES = 2;
-/** OOS 거래 품질 필터 — 낮은 승률/손익비 후보는 실거래 손실로 이어지기 쉬워 제외 */
-const MIN_OOS_WIN_RATE = 50;
-const MIN_OOS_PROFIT_FACTOR = 1.2;
+/**
+ * OOS 거래 품질 필터 — 낮은 승률/손익비 후보는 실거래 손실로 이어지기 쉬워 제외.
+ * 한국 단타 시장 특성(승률 45~55%, PF 1.0~1.3)에 맞춰 완화: 50/1.2/0.35 → 45/1.1/0.25.
+ * 기존 임계는 통과 종목 수가 극단적으로 적어 매수 후보가 거의 0건으로 수렴하는 부작용.
+ */
+const MIN_OOS_WIN_RATE = 45;
+const MIN_OOS_PROFIT_FACTOR = 1.1;
 const MIN_OOS_EXPECTANCY_PCT = 0;
-const MIN_OOS_RETURN_TO_DRAWDOWN = 0.35;
+const MIN_OOS_RETURN_TO_DRAWDOWN = 0.25;
 
 const STRATEGY_MAP: Record<
   string,
@@ -792,6 +798,13 @@ export class BacktestService {
       return null;
     }
     const volatilityPct = riskProfile.volatilityPct;
+    // 종목별 ATR 보정 TP/SL 을 백테스트부터 적용한다.
+    // backend 세션도 ScanResult 의 같은 값을 사용하므로 검증 룰과 실전 룰이 어긋나지 않는다.
+    const dynamicTpSl = computeAtrDynamicTpSl(
+      autoTakeProfitPct,
+      autoStopLossPct,
+      volatilityPct,
+    );
 
     let bestResult: {
       strategyId: string;
@@ -801,6 +814,7 @@ export class BacktestService {
       outOfSample: BacktestResult;
       rankScore: number;
       analysis: StrategyAnalysisResult;
+      currentSignal: Signal;
       tradeQuality: TradeQuality;
     } | null = null;
 
@@ -828,8 +842,8 @@ export class BacktestService {
             investmentAmount,
             tradeRatioPct,
             commissionPct,
-            autoTakeProfitPct,
-            autoStopLossPct,
+            autoTakeProfitPct: dynamicTpSl.takeProfitPct,
+            autoStopLossPct: dynamicTpSl.stopLossPct,
             maxHoldingDays,
             allowAddOnBuy: false,
             minBuySignalStrength: BACKTEST_MIN_BUY_SIGNAL_STRENGTH,
@@ -863,10 +877,16 @@ export class BacktestService {
           const combinedTrades = inSample.totalTrades + outOfSample.totalTrades;
           if (combinedTrades < minTotalTrades) continue;
 
-          // currentSignal 검증: 매수 방향 + 최소 강도 + 최근 1거래일 이내
-          const currentSignal = analysis.currentSignal;
+          // 스캔 매수 후보는 "현재 상태"가 아니라 fresh BUY 중 가장 강한 신호로 판단한다.
+          // currentSignal 자체는 최신 방향 표시용이므로 반대 신호와 섞어 쓰지 않는다.
+          const currentSignal = pickFreshStrongestSignal(
+            signals,
+            candles[candles.length - 1],
+            SignalDirection.Buy,
+            { tradingDates: candles },
+          );
           if (
-            currentSignal.direction !== SignalDirection.Buy ||
+            !currentSignal ||
             currentSignal.strength < minCurrentSignalStrength
           ) {
             continue;
@@ -889,6 +909,7 @@ export class BacktestService {
               outOfSample,
               rankScore,
               analysis,
+              currentSignal,
               tradeQuality,
             };
           }
@@ -900,7 +921,7 @@ export class BacktestService {
 
     if (!bestResult) return null;
 
-    const { analysis, inSample, outOfSample } = bestResult;
+    const { analysis, currentSignal, inSample, outOfSample } = bestResult;
 
     return {
       stockCode: stock.code,
@@ -920,6 +941,8 @@ export class BacktestService {
       finalValue: outOfSample.finalValue,
       investmentAmount,
       volatilityPct,
+      autoTakeProfitPct: dynamicTpSl.takeProfitPct,
+      autoStopLossPct: dynamicTpSl.stopLossPct,
       profitFactor: bestResult.tradeQuality.profitFactor,
       expectancyPct: bestResult.tradeQuality.expectancyPct,
       riskProfile: {
@@ -943,9 +966,9 @@ export class BacktestService {
       },
       summary: analysis.summary,
       currentSignal: {
-        direction: analysis.currentSignal.direction,
-        strength: analysis.currentSignal.strength,
-        reason: analysis.currentSignal.reason,
+        direction: currentSignal.direction,
+        strength: currentSignal.strength,
+        reason: currentSignal.reason,
       },
       indicators: analysis.indicators,
     };

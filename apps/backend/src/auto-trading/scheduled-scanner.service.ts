@@ -5,6 +5,7 @@ import { Cron } from '@nestjs/schedule';
 import { ClientProxy } from '@nestjs/microservices';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { firstValueFrom } from 'rxjs';
+import { computeAtrDynamicTpSl } from '@alpha-mind/strategies';
 import {
   AutoTradingSessionEntity,
   PauseReason,
@@ -17,9 +18,13 @@ import { MARKET_DATA_SERVICE } from '../rmq/rmq.module';
 
 const SCAN_INVESTMENT_AMOUNT = 1_000_000;
 const SCAN_TOP_N = 35;
-/** market-data 그리드 서치 결과 미수신/실패 시 fallback. TP/SL 둘 다 동일 fallback 사용. */
-const SCAN_AUTO_TAKE_PROFIT_PCT = 1.8;
-const SCAN_AUTO_STOP_LOSS_PCT = -1.8;
+/**
+ * market-data 그리드 서치 결과 미수신/실패 시 fallback.
+ * 단타 손익비 1:1(±1.8) 은 break-even 근처라 작은 노이즈 손절이 누적된다.
+ * 1.25:1 비대칭(2.5/-2.0) + 진입 종목별 ATR 동적 보정으로 손익비 우위 확보.
+ */
+const SCAN_AUTO_TAKE_PROFIT_PCT = 2.5;
+const SCAN_AUTO_STOP_LOSS_PCT = -2.0;
 const SCAN_MAX_HOLDING_DAYS = 7;
 const MIN_BUY_SIGNAL_STRENGTH = 0.65;
 const SESSION_MAX_HOLDING_DAYS = 7;
@@ -42,6 +47,9 @@ interface ScanResult {
   stockName: string;
   sector?: string;
   volatilityPct?: number;
+  /** market-data 백테스트에 실제 적용된 TP/SL. backend 는 이 값을 그대로 세션에 반영한다. */
+  autoTakeProfitPct?: number;
+  autoStopLossPct?: number;
   bestStrategy: { strategyId: string; strategyName: string; variant?: string };
   currentSignal: { direction: string; strength: number; reason: string };
 }
@@ -341,11 +349,11 @@ export class ScheduledScannerService {
     userId: number,
     response: ScanResponse,
   ): Promise<void> {
-    // 세션 TP/SL 도 같은 optimal 값을 사용 — 스캔 시점과 후처리 시점 사이에
-    // 영속화된 값이 바뀌었더라도 OptimalParamsService 의 60s 캐시 덕분에 일관성 유지.
+    // optimal 은 그리드 서치(또는 fallback)의 평균 최적값.
+    // market-data 가 종목별 ATR 보정 TP/SL 로 백테스트한 값을 내려주면 그 값을 그대로 사용한다.
     const optimal = await this.fetchOptimalShortTermTpSl();
-    const sessionTakeProfitPct = optimal.tpPct;
-    const sessionStopLossPct = optimal.slPct;
+    const baseTpPct = optimal.tpPct;
+    const baseSlPct = optimal.slPct;
 
     const existing = await this.em.find(AutoTradingSessionEntity, {
       user: userId,
@@ -453,11 +461,12 @@ export class ScheduledScannerService {
     const resumedCodes: string[] = [];
     for (const { session, candidate } of toResume) {
       try {
+        const dyn = this.resolveCandidateTpSl(baseTpPct, baseSlPct, candidate);
         await this.autoTradingService.updateSession(session.id, userId, {
           strategyId: candidate.bestStrategy.strategyId,
           variant: candidate.bestStrategy.variant,
-          takeProfitPct: sessionTakeProfitPct,
-          stopLossPct: sessionStopLossPct,
+          takeProfitPct: dyn.takeProfitPct,
+          stopLossPct: dyn.stopLossPct,
           maxHoldingDays: SESSION_MAX_HOLDING_DAYS,
           scheduledScan: true,
         });
@@ -470,7 +479,8 @@ export class ScheduledScannerService {
           NotificationType.BUY_SIGNAL,
           `${session.stockName} 자동매매 재개`,
           `최적 종목 추출 => 모니터링 종목으로 변경 — 일시정지 세션을 자동 재개합니다 ` +
-            `(신호강도 ${strengthPct}%, 목표 ${sessionTakeProfitPct}% / 손절 ${sessionStopLossPct}%)`,
+            `(신호강도 ${strengthPct}%, 목표 ${dyn.takeProfitPct}% / 손절 ${dyn.stopLossPct}%, ` +
+            `ATR ${candidate.volatilityPct?.toFixed(1) ?? '-'}%)`,
           {
             stockCode: session.stockCode,
             stockName: session.stockName,
@@ -491,19 +501,22 @@ export class ScheduledScannerService {
     if (toStart.length > 0) {
       try {
         const sessions = await this.autoTradingService.startSessions(userId, {
-          sessions: toStart.map((c) => ({
-            stockCode: c.stockCode,
-            stockName: c.stockName,
-            strategyId: c.bestStrategy.strategyId,
-            variant: c.bestStrategy.variant,
-            investmentAmount:
-              investmentByCode.get(c.stockCode) ?? SCAN_INVESTMENT_AMOUNT,
-            takeProfitPct: sessionTakeProfitPct,
-            stopLossPct: sessionStopLossPct,
-            maxHoldingDays: SESSION_MAX_HOLDING_DAYS,
-            onConflict: 'update',
-            scheduledScan: true,
-          })),
+          sessions: toStart.map((c) => {
+            const dyn = this.resolveCandidateTpSl(baseTpPct, baseSlPct, c);
+            return {
+              stockCode: c.stockCode,
+              stockName: c.stockName,
+              strategyId: c.bestStrategy.strategyId,
+              variant: c.bestStrategy.variant,
+              investmentAmount:
+                investmentByCode.get(c.stockCode) ?? SCAN_INVESTMENT_AMOUNT,
+              takeProfitPct: dyn.takeProfitPct,
+              stopLossPct: dyn.stopLossPct,
+              maxHoldingDays: SESSION_MAX_HOLDING_DAYS,
+              onConflict: 'update' as const,
+              scheduledScan: true,
+            };
+          }),
           entryMode: 'monitor',
         });
         startedCodes.push(...sessions.map((s) => s.stockCode));
@@ -514,8 +527,30 @@ export class ScheduledScannerService {
 
     this.logger.log(
       `예약 스캔 완료 — 신규 ${startedCodes.length}건, 재개 ${resumedCodes.length}건 ` +
-        `(TP=${sessionTakeProfitPct}%/SL=${sessionStopLossPct}% ${optimal.source})`,
+        `(base TP=${baseTpPct}%/SL=${baseSlPct}% ${optimal.source}, 스캔 검증 TP/SL 적용)`,
     );
+  }
+
+  /**
+   * market-data 스캔 결과에 포함된 검증 TP/SL 을 우선 사용한다.
+   * rolling deploy 중 구버전 market-data 응답이면 동일 공용 공식으로 fallback 계산한다.
+   */
+  private resolveCandidateTpSl(
+    baseTpPct: number,
+    baseSlPct: number,
+    candidate: ScanResult,
+  ): { takeProfitPct: number; stopLossPct: number } {
+    if (
+      Number.isFinite(candidate.autoTakeProfitPct) &&
+      Number.isFinite(candidate.autoStopLossPct)
+    ) {
+      return {
+        takeProfitPct: candidate.autoTakeProfitPct!,
+        stopLossPct: candidate.autoStopLossPct!,
+      };
+    }
+
+    return computeAtrDynamicTpSl(baseTpPct, baseSlPct, candidate.volatilityPct);
   }
 
   /**

@@ -68,7 +68,11 @@ function analyzeBreakout(
     const upperBreak = todayOpen + prevRange * kFactor;
     const lowerBreak = todayOpen - prevRange * kFactor;
 
-    breakoutLevels.push({ date: candles[i].date, upper: upperBreak, lower: lowerBreak });
+    breakoutLevels.push({
+      date: candles[i].date,
+      upper: upperBreak,
+      lower: lowerBreak,
+    });
 
     // 상단 돌파 → 매수
     if (candles[i].close >= upperBreak) {
@@ -76,7 +80,10 @@ function analyzeBreakout(
       if (rangePct >= 0.5 && rangePct <= 10) {
         signals.push({
           direction: SignalDirection.Buy,
-          strength: Math.min((candles[i].close - upperBreak) / prevRange + 0.5, 1),
+          strength: Math.min(
+            (candles[i].close - upperBreak) / prevRange + 0.5,
+            1,
+          ),
           reason: `변동성 상단 돌파 (K=${kFactor}, 돌파가=${upperBreak.toFixed(0)})`,
           date: candles[i].date,
           price: candles[i].close,
@@ -90,7 +97,10 @@ function analyzeBreakout(
       if (rangePct >= 0.5 && rangePct <= 10) {
         signals.push({
           direction: SignalDirection.Sell,
-          strength: Math.min((lowerBreak - candles[i].close) / prevRange + 0.5, 1),
+          strength: Math.min(
+            (lowerBreak - candles[i].close) / prevRange + 0.5,
+            1,
+          ),
           reason: `변동성 하단 돌파 (K=${kFactor}, 돌파가=${lowerBreak.toFixed(0)})`,
           date: candles[i].date,
           price: candles[i].close,
@@ -102,7 +112,7 @@ function analyzeBreakout(
 
   const lastCandle = candles[candles.length - 1];
   const lastBreakout = breakoutLevels[breakoutLevels.length - 1];
-  const currentSignal = buildCurrentSignal(signals, lastCandle);
+  const currentSignal = buildCurrentSignal(signals, lastCandle, candles);
 
   return {
     strategyName: '변동성 돌파 (Volatility Breakout)',
@@ -114,8 +124,10 @@ function analyzeBreakout(
       kFactor,
       lastBreakoutLevel: lastBreakout ?? null,
       totalSignals: signals.length,
-      buySignals: signals.filter((s) => s.direction === SignalDirection.Buy).length,
-      sellSignals: signals.filter((s) => s.direction === SignalDirection.Sell).length,
+      buySignals: signals.filter((s) => s.direction === SignalDirection.Buy)
+        .length,
+      sellSignals: signals.filter((s) => s.direction === SignalDirection.Sell)
+        .length,
     },
     summary: buildSummary('변동성 돌파', currentSignal, signals),
   };
@@ -140,13 +152,22 @@ function analyzeCrossover(
     const currShort = shortSMA[i];
     const currLong = longSMA[i];
 
-    if (prevShort == null || prevLong == null || currShort == null || currLong == null) continue;
+    if (
+      prevShort == null ||
+      prevLong == null ||
+      currShort == null ||
+      currLong == null
+    )
+      continue;
 
     // 골든 크로스 (단기가 장기를 상향 돌파)
     if (prevShort <= prevLong && currShort > currLong) {
       signals.push({
         direction: SignalDirection.Buy,
-        strength: Math.min(Math.abs(currShort - currLong) / currLong * 100, 1),
+        strength: Math.min(
+          (Math.abs(currShort - currLong) / currLong) * 100,
+          1,
+        ),
         reason: `골든 크로스 (SMA${shortPeriod} > SMA${longPeriod})`,
         date: candles[i].date,
         price: candles[i].close,
@@ -157,7 +178,10 @@ function analyzeCrossover(
     else if (prevShort >= prevLong && currShort < currLong) {
       signals.push({
         direction: SignalDirection.Sell,
-        strength: Math.min(Math.abs(currLong - currShort) / currLong * 100, 1),
+        strength: Math.min(
+          (Math.abs(currLong - currShort) / currLong) * 100,
+          1,
+        ),
         reason: `데드 크로스 (SMA${shortPeriod} < SMA${longPeriod})`,
         date: candles[i].date,
         price: candles[i].close,
@@ -168,7 +192,7 @@ function analyzeCrossover(
 
   const lastCandle = candles[candles.length - 1];
   const lastIdx = candles.length - 1;
-  const currentSignal = buildCurrentSignal(signals, lastCandle);
+  const currentSignal = buildCurrentSignal(signals, lastCandle, candles);
 
   return {
     strategyName: 'SMA 크로스오버 (SMA Crossover)',
@@ -181,9 +205,10 @@ function analyzeCrossover(
       longPeriod,
       currentShortSMA: shortSMA[lastIdx],
       currentLongSMA: longSMA[lastIdx],
-      smaSpread: shortSMA[lastIdx] != null && longSMA[lastIdx] != null
-        ? shortSMA[lastIdx]! - longSMA[lastIdx]!
-        : null,
+      smaSpread:
+        shortSMA[lastIdx] != null && longSMA[lastIdx] != null
+          ? shortSMA[lastIdx]! - longSMA[lastIdx]!
+          : null,
     },
     summary: buildSummary('SMA 크로스오버', currentSignal, signals),
   };
@@ -196,8 +221,13 @@ function analyzeVolumeSurge(
   cfg: DayTradingConfig,
 ): StrategyAnalysisResult {
   const signals: Signal[] = [];
-  const { volumeMultiplier, volumePeriod, consecutiveUpCandles, rsiOverbought, rsiPeriod } =
-    cfg.volumeSurge;
+  const {
+    volumeMultiplier,
+    volumePeriod,
+    consecutiveUpCandles,
+    rsiOverbought,
+    rsiPeriod,
+  } = cfg.volumeSurge;
 
   const closes = candles.map((c) => c.close);
   const volumes = candles.map((c) => c.volume);
@@ -233,7 +263,7 @@ function analyzeVolumeSurge(
 
   const lastCandle = candles[candles.length - 1];
   const lastIdx = candles.length - 1;
-  const currentSignal = buildCurrentSignal(signals, lastCandle);
+  const currentSignal = buildCurrentSignal(signals, lastCandle, candles);
 
   return {
     strategyName: '거래량 급증 (Volume Surge)',
@@ -265,12 +295,26 @@ function mergeConfig(partial: Partial<DayTradingConfig>): DayTradingConfig {
   };
 }
 
-function buildCurrentSignal(signals: Signal[], lastCandle: CandleData): Signal {
-  return pickFreshCurrentSignal(signals, lastCandle);
+function buildCurrentSignal(
+  signals: Signal[],
+  lastCandle: CandleData,
+  candles: CandleData[],
+): Signal {
+  return pickFreshCurrentSignal(signals, lastCandle, undefined, undefined, {
+    tradingDates: candles,
+  });
 }
 
-function buildSummary(name: string, current: Signal, signals: Signal[]): string {
-  const buys = signals.filter((s) => s.direction === SignalDirection.Buy).length;
-  const sells = signals.filter((s) => s.direction === SignalDirection.Sell).length;
+function buildSummary(
+  name: string,
+  current: Signal,
+  signals: Signal[],
+): string {
+  const buys = signals.filter(
+    (s) => s.direction === SignalDirection.Buy,
+  ).length;
+  const sells = signals.filter(
+    (s) => s.direction === SignalDirection.Sell,
+  ).length;
   return `[${name}] 총 ${signals.length}개 신호 (매수 ${buys}, 매도 ${sells}). 현재: ${current.direction} (강도 ${(current.strength * 100).toFixed(0)}%)`;
 }

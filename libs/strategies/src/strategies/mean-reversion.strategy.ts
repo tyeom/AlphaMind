@@ -105,7 +105,8 @@ function analyzeRSI(
     else if (currRsi > overbought) {
       signals.push({
         direction: SignalDirection.Sell,
-        strength: Math.min((currRsi - overbought) / (100 - overbought), 1) * 0.7,
+        strength:
+          Math.min((currRsi - overbought) / (100 - overbought), 1) * 0.7,
         reason: `RSI 과매수 (${currRsi.toFixed(1)})`,
         date: candles[i].date,
         price: candles[i].close,
@@ -115,7 +116,7 @@ function analyzeRSI(
   }
 
   const lastIdx = candles.length - 1;
-  const currentSignal = buildCurrentSignal(signals, candles[lastIdx]);
+  const currentSignal = buildCurrentSignal(signals, candles[lastIdx], candles);
 
   return {
     strategyName: 'RSI 평균회귀',
@@ -167,7 +168,12 @@ function analyzeBollinger(
         reason: `볼린저 하단 이탈 (가격=${price.toFixed(0)}, 하단=${bb.lower.toFixed(0)})`,
         date: candles[i].date,
         price,
-        metadata: { upper: bb.upper, middle: bb.middle, lower: bb.lower, bandwidth: bb.bandwidth },
+        metadata: {
+          upper: bb.upper,
+          middle: bb.middle,
+          lower: bb.lower,
+          bandwidth: bb.bandwidth,
+        },
       });
     }
     // 상단 밴드 터치/이탈 → 매도
@@ -179,14 +185,19 @@ function analyzeBollinger(
         reason: `볼린저 상단 이탈 (가격=${price.toFixed(0)}, 상단=${bb.upper.toFixed(0)})`,
         date: candles[i].date,
         price,
-        metadata: { upper: bb.upper, middle: bb.middle, lower: bb.lower, bandwidth: bb.bandwidth },
+        metadata: {
+          upper: bb.upper,
+          middle: bb.middle,
+          lower: bb.lower,
+          bandwidth: bb.bandwidth,
+        },
       });
     }
   }
 
   const lastIdx = candles.length - 1;
   const lastBB = bbValues[lastIdx];
-  const currentSignal = buildCurrentSignal(signals, candles[lastIdx]);
+  const currentSignal = buildCurrentSignal(signals, candles[lastIdx], candles);
 
   return {
     strategyName: '볼린저 밴드 (Bollinger Bands)',
@@ -202,7 +213,9 @@ function analyzeBollinger(
         : null,
       bandwidth: lastBB?.bandwidth ?? null,
       pricePosition: lastBB
-        ? ((candles[lastIdx].close - lastBB.lower) / (lastBB.upper - lastBB.lower)) * 100
+        ? ((candles[lastIdx].close - lastBB.lower) /
+            (lastBB.upper - lastBB.lower)) *
+          100
         : null,
     },
     summary: buildSummary('볼린저 밴드', currentSignal, signals),
@@ -267,7 +280,7 @@ function analyzeGrid(
   }
 
   const lastIdx = candles.length - 1;
-  const currentSignal = buildCurrentSignal(signals, candles[lastIdx]);
+  const currentSignal = buildCurrentSignal(signals, candles[lastIdx], candles);
 
   return {
     strategyName: '그리드 트레이딩 (Grid Trading)',
@@ -281,8 +294,7 @@ function analyzeGrid(
       levels,
       gridLines,
       currentPrice: candles[lastIdx].close,
-      priceFromBase:
-        ((candles[lastIdx].close - basePrice) / basePrice) * 100,
+      priceFromBase: ((candles[lastIdx].close - basePrice) / basePrice) * 100,
     },
     summary: buildSummary('그리드 트레이딩', currentSignal, signals),
   };
@@ -298,11 +310,17 @@ function analyzeMagicSplit(
   const { levels } = cfg.magicSplit;
 
   if (levels.length === 0 || candles.length === 0) {
-    const lastCandle = candles[candles.length - 1] ?? { date: new Date(), close: 0 };
+    const lastCandle = candles[candles.length - 1] ?? {
+      date: new Date(),
+      close: 0,
+    };
     return {
       strategyName: '매직 분할매수 (Magic Split)',
       stockCode: '',
-      analyzedPeriod: { from: candles[0]?.date ?? new Date(), to: lastCandle.date },
+      analyzedPeriod: {
+        from: candles[0]?.date ?? new Date(),
+        to: lastCandle.date,
+      },
       currentSignal: {
         direction: SignalDirection.Neutral,
         strength: 0,
@@ -375,7 +393,7 @@ function analyzeMagicSplit(
   }
 
   const lastIdx = candles.length - 1;
-  const currentSignal = buildCurrentSignal(signals, candles[lastIdx]);
+  const currentSignal = buildCurrentSignal(signals, candles[lastIdx], candles);
 
   return {
     strategyName: '매직 분할매수 (Magic Split)',
@@ -399,7 +417,9 @@ function analyzeMagicSplit(
 
 // ─── Helpers ───
 
-function mergeConfig(partial: Partial<MeanReversionConfig>): MeanReversionConfig {
+function mergeConfig(
+  partial: Partial<MeanReversionConfig>,
+): MeanReversionConfig {
   return {
     variant: partial.variant ?? DEFAULT_CONFIG.variant,
     rsi: { ...DEFAULT_CONFIG.rsi, ...partial.rsi },
@@ -411,12 +431,26 @@ function mergeConfig(partial: Partial<MeanReversionConfig>): MeanReversionConfig
   };
 }
 
-function buildCurrentSignal(signals: Signal[], lastCandle: CandleData): Signal {
-  return pickFreshCurrentSignal(signals, lastCandle);
+function buildCurrentSignal(
+  signals: Signal[],
+  lastCandle: CandleData,
+  candles: CandleData[],
+): Signal {
+  return pickFreshCurrentSignal(signals, lastCandle, undefined, undefined, {
+    tradingDates: candles,
+  });
 }
 
-function buildSummary(name: string, current: Signal, signals: Signal[]): string {
-  const buys = signals.filter((s) => s.direction === SignalDirection.Buy).length;
-  const sells = signals.filter((s) => s.direction === SignalDirection.Sell).length;
+function buildSummary(
+  name: string,
+  current: Signal,
+  signals: Signal[],
+): string {
+  const buys = signals.filter(
+    (s) => s.direction === SignalDirection.Buy,
+  ).length;
+  const sells = signals.filter(
+    (s) => s.direction === SignalDirection.Sell,
+  ).length;
   return `[${name}] 총 ${signals.length}개 신호 (매수 ${buys}, 매도 ${sells}). 현재: ${current.direction} (강도 ${(current.strength * 100).toFixed(0)}%)`;
 }

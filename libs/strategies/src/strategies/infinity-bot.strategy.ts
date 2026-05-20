@@ -75,12 +75,7 @@ export function analyzeInfinityBot(
     }
 
     // 2. 진입/물타기 조건 확인
-    const canAdd = canAddPosition(
-      price,
-      lastEntryPrice,
-      currentRound,
-      cfg,
-    );
+    const canAdd = canAddPosition(price, lastEntryPrice, currentRound, cfg);
 
     // MA 위에 있는지 확인 (진입 조건)
     const aboveMa = ma20[i] != null && price > ma20[i]!;
@@ -94,7 +89,8 @@ export function analyzeInfinityBot(
       investedAmount += roundAmount;
       lastEntryPrice = price;
 
-      const newAvgPrice = totalQuantity > 0 ? investedAmount / totalQuantity : null;
+      const newAvgPrice =
+        totalQuantity > 0 ? investedAmount / totalQuantity : null;
 
       rounds.push({
         round: currentRound,
@@ -121,19 +117,27 @@ export function analyzeInfinityBot(
   }
 
   const lastCandle = candles[candles.length - 1];
-  const finalAvgPrice = totalQuantity > 0 ? investedAmount / totalQuantity : null;
+  const finalAvgPrice =
+    totalQuantity > 0 ? investedAmount / totalQuantity : null;
   const currentReturn =
-    finalAvgPrice != null ? ((lastCandle.close - finalAvgPrice) / finalAvgPrice) * 100 : null;
+    finalAvgPrice != null
+      ? ((lastCandle.close - finalAvgPrice) / finalAvgPrice) * 100
+      : null;
 
   const currentSignal: Signal = pickFreshCurrentSignal(
     signals,
     lastCandle,
-    '최근 1거래일 이내 라운드 신호 없음 (stale)',
+    '최근 2거래일 이내 라운드 신호 없음 (stale)',
     '신호 없음',
+    { tradingDates: candles },
   );
 
-  const buys = signals.filter((s) => s.direction === SignalDirection.Buy).length;
-  const sells = signals.filter((s) => s.direction === SignalDirection.Sell).length;
+  const buys = signals.filter(
+    (s) => s.direction === SignalDirection.Buy,
+  ).length;
+  const sells = signals.filter(
+    (s) => s.direction === SignalDirection.Sell,
+  ).length;
 
   return {
     strategyName: '무한매수봇 (Infinity Bot)',
