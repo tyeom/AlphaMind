@@ -96,6 +96,7 @@ const BREAKEVEN_FLOOR_PCT = 0.0;
 const POSITION_GRACE_PERIOD_MS = 5 * 60_000;
 const PRICE_POLL_INTERVAL_MS = 5_000;
 const PRICE_TRIGGERED_SELL_CHECK_DEBOUNCE_MS = 1_000;
+const SELL_PRICE_REST_FALLBACK_STALE_MS = 10_000;
 const SUBSCRIPTION_RETRY_BASE_DELAY_MS = 5_000;
 const SUBSCRIPTION_RETRY_MAX_DELAY_MS = 60_000;
 const SCHEDULED_CLEANUP_BALANCE_MAX_ATTEMPTS = 2;
@@ -109,6 +110,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   private notificationSub?: Subscription;
   /** 종목별 최신 가격 캐시 */
   private latestPrices = new Map<string, number>();
+  /** 종목별 최신 가격 수신 시각 — 실거래 매도 판단에서 stale 가격을 거르기 위해 사용 */
+  private latestPriceUpdatedAt = new Map<string, number>();
   /** 모니터링 인터벌 */
   private monitorInterval?: ReturnType<typeof setInterval>;
   /**
@@ -346,6 +349,22 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     return Boolean(openOrder);
   }
 
+  private async hasOpenOrderSafely(
+    user: UserEntity | number,
+    stockCode: string,
+    context: string,
+  ): Promise<boolean> {
+    try {
+      return await this.hasOpenOrder(this.getEntityUserId(user), stockCode);
+    } catch (err: any) {
+      // 미체결 여부를 확정할 수 없으면 중복 매도 위험을 피하기 위해 "열린 주문 있음"으로 본다.
+      this.logger.warn(
+        `${context}: 미체결 주문 확인 실패 (${stockCode}) — pending 유지: ${err.message ?? err}`,
+      );
+      return true;
+    }
+  }
+
   private hasOpenOrderInMap(
     session: AutoTradingSessionEntity,
     openOrders: Map<string, TradeHistoryEntity[]>,
@@ -364,6 +383,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     options?: { volume?: number; broadcast?: boolean },
   ) {
     this.latestPrices.set(stockCode, price);
+    this.latestPriceUpdatedAt.set(stockCode, Date.now());
     this.schedulePriceTriggeredSellCheck(stockCode);
 
     if (options?.broadcast && this.activeStockCodes.has(stockCode)) {
@@ -372,6 +392,47 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         price,
         volume: options.volume,
       });
+    }
+  }
+
+  /**
+   * 실거래 매도 판단용 현재가 확보.
+   * 1) WebSocket/REST 캐시가 충분히 신선하면 그대로 사용
+   * 2) 캐시가 없거나 오래됐으면 KIS REST 현재가로 보강
+   * 3) REST 도 실패하면 stale 가격으로 매도하지 않고 이번 루프는 보류
+   */
+  private async getReliableSellCheckPrice(
+    session: AutoTradingSessionEntity,
+  ): Promise<number | undefined> {
+    const cached = this.latestPrices.get(session.stockCode);
+    const cachedAt = this.latestPriceUpdatedAt.get(session.stockCode) ?? 0;
+    if (
+      cached != null &&
+      cached > 0 &&
+      Date.now() - cachedAt <= SELL_PRICE_REST_FALLBACK_STALE_MS
+    ) {
+      return cached;
+    }
+
+    try {
+      const priceRaw = await this.kisQuotationService.getCurrentPrice(
+        session.stockCode,
+      );
+      const price = Number(priceRaw.stck_prpr);
+      if (!Number.isFinite(price) || price <= 0) {
+        this.logger.warn(
+          `매도 판단 현재가 REST 보강 실패: ${session.stockCode} - 유효하지 않은 가격`,
+        );
+        return undefined;
+      }
+
+      this.setLatestPrice(session.stockCode, price, { broadcast: true });
+      return price;
+    } catch (err: any) {
+      this.logger.warn(
+        `매도 판단 현재가 REST 보강 실패: ${session.stockCode} - ${err.message ?? err}`,
+      );
+      return undefined;
     }
   }
 
@@ -921,6 +982,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
 
     const pausedSessions: AutoTradingSessionEntity[] = [];
+    const rearmedSessions: AutoTradingSessionEntity[] = [];
     const pausedStockCodes = new Set<string>();
     let changed = false;
 
@@ -971,6 +1033,23 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       }
 
       if (realQty > 0) {
+        const hasOpenOrder = await this.hasOpenOrderSafely(
+          session.user,
+          session.stockCode,
+          '자동 일시정지 대기 재평가',
+        );
+        if (!hasOpenOrder) {
+          // 1) 잔량이 남았는데 2) 미체결 주문도 없으면 이전 자동 매도 주문은 더 진행되지 않는다.
+          // 다음 모니터링 루프에서 TP/SL 조건을 다시 평가해 잔량 매도를 재시도한다.
+          session.autoPausePending = false;
+          session.pauseReason = undefined;
+          rearmedSessions.push(session);
+          changed = true;
+          this.logger.warn(
+            `자동 매도 잔량 재감시 전환: ${session.stockCode} ` +
+              `잔량 ${realQty}주, 미체결 주문 없음`,
+          );
+        }
         continue;
       }
 
@@ -994,6 +1073,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       this.logger.log(
         `자동 매도 후 세션 일시정지 확정: ${session.stockName}(${session.stockCode})`,
       );
+    }
+    for (const session of rearmedSessions) {
+      this.broadcastSessionUpdate(session);
     }
   }
 
@@ -1159,11 +1241,14 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           continue;
         }
 
-        const price = this.latestPrices.get(session.stockCode);
+        const hasPosition = session.holdingQty > 0 && session.avgBuyPrice > 0;
+        const price = hasPosition
+          ? await this.getReliableSellCheckPrice(session)
+          : this.latestPrices.get(session.stockCode);
         if (!price) continue;
 
         // 보유 중이면 익절/손절 체크 (세션별 목표 수익/손절 기준)
-        if (session.holdingQty > 0 && session.avgBuyPrice > 0) {
+        if (hasPosition) {
           const sold = await this.evaluateAndExecuteSell(session, price);
           if (sold) continue;
 
@@ -1664,6 +1749,24 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       );
 
       if (stillHeld) {
+        const hasOpenOrder = await this.hasOpenOrderSafely(
+          session.user,
+          session.stockCode,
+          '자동 매도 후 잔고 확인',
+        );
+        if (!hasOpenOrder) {
+          // 주문이 더 이상 열려 있지 않은데 잔량이 남았다면 pending 을 풀어
+          // 다음 가격 체크에서 같은 TP/SL 기준으로 재매도할 수 있게 한다.
+          session.autoPausePending = false;
+          session.pauseReason = undefined;
+          await this.em.flush();
+          this.broadcastSessionUpdate(session);
+          this.logger.warn(
+            `매도 후 잔량 재감시 전환: ${session.stockCode} ` +
+              `아직 보유중이나 미체결 주문 없음`,
+          );
+          return;
+        }
         this.logger.log(
           `매도 후 잔고 확인: ${session.stockCode} 아직 보유중 — 자동 일시정지 대기 유지`,
         );
@@ -1787,6 +1890,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     this.priceTriggeredSellCheckInFlight.clear();
     this.holdingStockCodes.clear();
     this.sellInFlightSessionIds.clear();
+    this.latestPriceUpdatedAt.clear();
   }
 
   private schedulePriceTriggeredSellCheck(stockCode: string) {
@@ -1893,7 +1997,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     // 다음봉 시가 매수 직후 일중 흔들림에 의한 즉시 청산을 방지한다.
     const enteredAtMs = session.enteredAt?.getTime();
     const inGracePeriod =
-      enteredAtMs != null && Date.now() - enteredAtMs < POSITION_GRACE_PERIOD_MS;
+      enteredAtMs != null &&
+      Date.now() - enteredAtMs < POSITION_GRACE_PERIOD_MS;
     if (
       !inGracePeriod &&
       peakReturnPct >= BREAKEVEN_TRIGGER_PCT &&
@@ -1996,6 +2101,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     } else {
       this.activeStockCodes.delete(stockCode);
       this.latestPrices.delete(stockCode);
+      this.latestPriceUpdatedAt.delete(stockCode);
       this.stopPricePolling(stockCode);
       this.clearSubscriptionRetry(stockCode);
       this.unsubscribeStock(stockCode);

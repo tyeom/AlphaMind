@@ -60,6 +60,8 @@ const DEFAULT_TRAILING_STOP_TRIGGER_PCT = 1.2;
 const DEFAULT_TRAILING_STOP_GIVEBACK_PCT = 0.8;
 const DEFAULT_BREAKEVEN_TRIGGER_PCT = 1.0;
 const DEFAULT_BREAKEVEN_FLOOR_PCT = 0.1;
+const DEFAULT_GRID_TP_RANGE = [1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 6.0];
+const DEFAULT_GRID_SL_RANGE = [-1.0, -1.5, -2.0, -2.5, -3.0, -4.0, -5.0];
 
 /** 한국 시장 매도 시 거래세 (%) — KOSPI 0.18 기준. 백테스트 → 실거래 갭 축소용. */
 const DEFAULT_SELL_TAX_PCT = 0.18;
@@ -1085,8 +1087,10 @@ export class BacktestService {
     const logger = new Logger('BacktestService.gridSearchOptimalTpSl');
     const startTime = Date.now();
 
-    const tpRange = opts?.tpRange ?? [1.5, 2.0, 2.5, 3.0, 4.0];
-    const slRange = opts?.slRange ?? [-1.0, -1.5, -2.0, -2.5, -3.0];
+    // 주간 자동 최적화가 4/-1 같은 경계값에 붙으면 실제 최적점이 범위 밖인지 알 수 없다.
+    // ATR 동적 보정의 운용 상한(6/-5)까지 기본 탐색 범위를 넓혀 경계 bias 를 줄인다.
+    const tpRange = opts?.tpRange ?? DEFAULT_GRID_TP_RANGE;
+    const slRange = opts?.slRange ?? DEFAULT_GRID_SL_RANGE;
     const sampleSize = opts?.stockSampleSize ?? 50;
     const investmentAmount = opts?.investmentAmount ?? 1_000_000;
     const tradeRatioPct = 100; // 그리드 평가는 단일 매매 풀 사용 — 결과 노이즈 최소화

@@ -56,7 +56,12 @@ describe('AutoTradingService', () => {
       marketDataClient,
     );
 
-    return { service, em };
+    return {
+      service,
+      em,
+      kisQuotationService,
+      kisInquiryService,
+    };
   };
 
   it('triggers auto sell immediately when latest price exceeds take profit', async () => {
@@ -190,5 +195,76 @@ describe('AutoTradingService', () => {
 
     expect(sold).toBe(false);
     expect((service as any).executeSell).not.toHaveBeenCalled();
+  });
+
+  it('uses REST current price for held sessions when realtime price is missing', async () => {
+    const { service, em, kisQuotationService, kisInquiryService } =
+      createService();
+    const session = {
+      id: 6,
+      stockCode: '005930',
+      status: SessionStatus.ACTIVE,
+      holdingQty: 10,
+      avgBuyPrice: 100,
+      takeProfitPct: 2,
+      stopLossPct: -3,
+      maxHoldingDays: 7,
+      autoPausePending: false,
+      user: { id: 1 },
+    } as AutoTradingSessionEntity;
+
+    em.find.mockResolvedValueOnce([session]).mockResolvedValueOnce([]);
+    kisInquiryService.getBalance.mockResolvedValue({
+      items: [
+        {
+          pdno: session.stockCode,
+          hldg_qty: '10',
+          pchs_avg_pric: '100',
+        },
+      ],
+    });
+    kisQuotationService.getCurrentPrice.mockResolvedValue({ stck_prpr: '103' });
+    jest.spyOn(service as any, 'executeSell').mockResolvedValue(undefined);
+
+    await (service as any).checkSignalsAndTrade();
+
+    expect(kisQuotationService.getCurrentPrice).toHaveBeenCalledWith(
+      session.stockCode,
+    );
+    expect((service as any).executeSell).toHaveBeenCalledWith(
+      session,
+      103,
+      '자동 익절 (3.0%)',
+    );
+  });
+
+  it('re-arms an auto-sell pending session when residual holdings remain without open orders', async () => {
+    const { service, em, kisInquiryService } = createService();
+    const session = {
+      id: 7,
+      stockCode: '000660',
+      status: SessionStatus.ACTIVE,
+      holdingQty: 5,
+      avgBuyPrice: 100,
+      autoPausePending: true,
+      user: { id: 1 },
+    } as AutoTradingSessionEntity;
+
+    kisInquiryService.getBalance.mockResolvedValue({
+      items: [
+        {
+          pdno: session.stockCode,
+          hldg_qty: '2',
+          pchs_avg_pric: '100',
+        },
+      ],
+    });
+    em.findOne.mockResolvedValue(null);
+
+    await (service as any).reconcilePendingAutoPauses([session]);
+
+    expect(session.autoPausePending).toBe(false);
+    expect(session.holdingQty).toBe(2);
+    expect(em.flush).toHaveBeenCalled();
   });
 });

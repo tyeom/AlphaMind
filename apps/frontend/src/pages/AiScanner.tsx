@@ -95,6 +95,22 @@ function toOptionalNumber(value: string): number | undefined {
   return Number.isFinite(parsed) ? parsed : undefined;
 }
 
+function resolveConfigTpSl(
+  result: Pick<ScanResult, 'autoTakeProfitPct' | 'autoStopLossPct'>,
+  fallback: { takeProfitPct: number; stopLossPct: number },
+): { takeProfitPct: number; stopLossPct: number } {
+  return {
+    takeProfitPct:
+      typeof result.autoTakeProfitPct === 'number'
+        ? result.autoTakeProfitPct
+        : fallback.takeProfitPct,
+    stopLossPct:
+      typeof result.autoStopLossPct === 'number'
+        ? result.autoStopLossPct
+        : fallback.stopLossPct,
+  };
+}
+
 function sortSessions(items: AutoTradingSession[]): AutoTradingSession[] {
   const statusRank: Record<AutoTradingSession['status'], number> = {
     active: 0,
@@ -1713,7 +1729,8 @@ export function AiScanner() {
       return;
     }
 
-    // 모달 seed 우선순위: 스캔 폼 입력값 → optimal(그리드 서치 결과) → 코드 기본값
+    // 모달 fallback 우선순위: 스캔 폼 입력값 → optimal(그리드 서치 결과) → 코드 기본값.
+    // 실제 기본값은 각 스캔 결과의 종목별 ATR 보정 TP/SL 이 있으면 그 값을 우선 사용한다.
     const tpSeed =
       toOptionalNumber(autoTakeProfitPct) ?? optimalTpFallback ?? 2.0;
     const slSeed =
@@ -1721,16 +1738,22 @@ export function AiScanner() {
     const holdingSeed = toOptionalNumber(maxHoldingDays) ?? 7;
 
     // 단일/복수 모두 설정 팝업을 열어 진입 방식(모니터링/즉시매수) 및 설정을 확정
-    const items: TradingConfigItem[] = selectedResults.map((r) => ({
-      stockCode: r.stockCode,
-      stockName: r.stockName,
-      strategyId: r.bestStrategy.strategyId,
-      variant: r.bestStrategy.variant,
-      takeProfitPct: tpSeed,
-      stopLossPct: slSeed,
-      maxHoldingDays: holdingSeed,
-      addOnBuyMode: 'skip',
-    }));
+    const items: TradingConfigItem[] = selectedResults.map((r) => {
+      const tpSl = resolveConfigTpSl(r, {
+        takeProfitPct: tpSeed,
+        stopLossPct: slSeed,
+      });
+      return {
+        stockCode: r.stockCode,
+        stockName: r.stockName,
+        strategyId: r.bestStrategy.strategyId,
+        variant: r.bestStrategy.variant,
+        takeProfitPct: tpSl.takeProfitPct,
+        stopLossPct: tpSl.stopLossPct,
+        maxHoldingDays: holdingSeed,
+        addOnBuyMode: 'skip',
+      };
+    });
     setConfigModalItems(items);
   };
 
@@ -2000,6 +2023,7 @@ export function AiScanner() {
       {configModalItems && (
         <AutoTradingConfigModal
           items={configModalItems}
+          description="스캔 결과의 종목별 ATR 보정 TP/SL 또는 현재 입력값을 기본값으로 적용했습니다. 필요하면 종목별로 수정하세요."
           onCancel={() => setConfigModalItems(null)}
           onConfirm={(items, entryMode) =>
             void startSessionsWithConfigs(items, entryMode)
@@ -2080,8 +2104,9 @@ export function AiScanner() {
           </p>
           {optimalTpSlSource === 'optimized' && (
             <p className="text-muted" style={{ fontSize: '0.85em' }}>
-              ※ TP/SL 입력값은 주간 자동 최적화(그리드 서치) 결과로
-              채워졌습니다.
+              ※ 기준 TP/SL 입력값은 주간 자동 최적화(그리드 서치) 결과로
+              채워졌습니다. 스캔/예약 스캔 세션에는 종목별 ATR 보정값이 적용될
+              수 있습니다.
               {optimalTpSlUpdatedAt &&
                 ` (갱신: ${new Date(optimalTpSlUpdatedAt).toLocaleString('ko-KR')})`}{' '}
               원하시면 직접 수정하세요.
@@ -2104,7 +2129,7 @@ export function AiScanner() {
               />
             </label>
             <label>
-              자동 익절 (%)
+              기준 익절 (%)
               <input
                 type="number"
                 value={autoTakeProfitPct}
@@ -2116,7 +2141,7 @@ export function AiScanner() {
               />
             </label>
             <label>
-              자동 손절 (%)
+              기준 손절 (%)
               <input
                 type="number"
                 value={autoStopLossPct}
@@ -2314,6 +2339,7 @@ export function AiScanner() {
                   <th>수익률</th>
                   <th>승률</th>
                   <th>MDD</th>
+                  <th>적용 TP/SL</th>
                   <th>거래수</th>
                   <th>AI 점수</th>
                 </tr>
@@ -2364,6 +2390,22 @@ export function AiScanner() {
                         <td className="text-loss">
                           {r.maxDrawdownPct.toFixed(2)}%
                         </td>
+                        <td>
+                          {r.autoTakeProfitPct != null &&
+                          r.autoStopLossPct != null ? (
+                            <>
+                              <span className="text-profit">
+                                +{r.autoTakeProfitPct}%
+                              </span>
+                              <small className="text-muted"> / </small>
+                              <span className="text-loss">
+                                {r.autoStopLossPct}%
+                              </span>
+                            </>
+                          ) : (
+                            <span className="text-muted">-</span>
+                          )}
+                        </td>
                         <td>{r.totalTrades}</td>
                         <td>
                           {score ? (
@@ -2404,7 +2446,7 @@ export function AiScanner() {
                         key={`${r.stockCode}-strategy`}
                         className="strategy-summary-row"
                       >
-                        <td colSpan={9}>
+                        <td colSpan={10}>
                           <div className="strategy-summary">
                             <span
                               className={`signal-badge signal-${r.currentSignal.direction.toLowerCase()}`}
@@ -2431,7 +2473,7 @@ export function AiScanner() {
                           key={`${r.stockCode}-summary`}
                           className="score-summary-row"
                         >
-                          <td colSpan={9}>
+                          <td colSpan={10}>
                             <div
                               className="score-summary"
                               onClick={() => setExpandedDetail(r.stockCode)}
@@ -2450,7 +2492,7 @@ export function AiScanner() {
                           key={`${r.stockCode}-detail`}
                           className="detail-row"
                         >
-                          <td colSpan={9}>
+                          <td colSpan={10}>
                             <div className="expert-meeting-detail">
                               <div className="detail-header">
                                 <h3>전문가 회의 분석 - {r.stockName}</h3>
