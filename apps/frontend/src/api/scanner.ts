@@ -52,6 +52,14 @@ export interface OptimalShortTermTpSl {
   updatedAt?: string;
   score?: number;
   sampleSize?: number;
+  dynamicTpSl?: DynamicTpSlOptions;
+}
+
+export interface DynamicTpSlOptions {
+  stopLossAtrMultiplier: number;
+  takeProfitAtrMultiplier: number;
+  maxStopLossPct: number;
+  maxTakeProfitPct: number;
 }
 
 export async function getOptimalShortTermTpSl(): Promise<OptimalShortTermTpSl> {

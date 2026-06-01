@@ -22,6 +22,7 @@ import {
   analyzeMomentumSurge,
   evaluateLongBuyRisk,
   LongBuyRiskProfile,
+  DEFAULT_DYNAMIC_TP_SL_OPTIONS,
   computeAtrDynamicTpSl,
   pickFreshStrongestSignal,
 } from '@alpha-mind/strategies';
@@ -1410,6 +1411,7 @@ export class BacktestService {
     updatedAt?: string;
     score?: number;
     sampleSize?: number;
+    dynamicTpSl: typeof DEFAULT_DYNAMIC_TP_SL_OPTIONS;
   }> {
     const optimal = await this.optimalParamsService.getShortTermTpSl();
     if (optimal) {
@@ -1420,12 +1422,14 @@ export class BacktestService {
         updatedAt: optimal.updatedAt,
         score: optimal.score,
         sampleSize: optimal.sampleSize,
+        dynamicTpSl: DEFAULT_DYNAMIC_TP_SL_OPTIONS,
       };
     }
     return {
       tpPct: DEFAULT_AUTO_TAKE_PROFIT_PCT,
       slPct: DEFAULT_AUTO_STOP_LOSS_PCT,
       source: 'default',
+      dynamicTpSl: DEFAULT_DYNAMIC_TP_SL_OPTIONS,
     };
   }
 

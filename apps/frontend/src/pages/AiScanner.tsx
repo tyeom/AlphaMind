@@ -13,6 +13,7 @@ import {
   streamAiSession,
   cancelAiSession,
   getOptimalShortTermTpSl,
+  type DynamicTpSlOptions,
   type AiMeetingProvider,
 } from '../api/scanner';
 import type { SseProgress } from '../api/scanner';
@@ -93,6 +94,11 @@ function toOptionalNumber(value: string): number | undefined {
 
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+function formatSignedPct(value: number, positivePrefix = false): string {
+  const sign = value > 0 && positivePrefix ? '+' : '';
+  return `${sign}${value}%`;
 }
 
 function resolveConfigTpSl(
@@ -795,6 +801,8 @@ export function AiScanner() {
   const [optimalTpSlUpdatedAt, setOptimalTpSlUpdatedAt] = useState<
     string | null
   >(null);
+  const [dynamicTpSlOptions, setDynamicTpSlOptions] =
+    useState<DynamicTpSlOptions | null>(null);
   // 자동매매 시작 모달 seed 의 fallback (사용자가 입력 폼을 비웠을 때 사용).
   const [optimalTpFallback, setOptimalTpFallback] = useState<number | null>(
     null,
@@ -959,6 +967,7 @@ export function AiScanner() {
         setOptimalTpSlUpdatedAt(opt.updatedAt ?? null);
         setOptimalTpFallback(opt.tpPct);
         setOptimalSlFallback(opt.slPct);
+        setDynamicTpSlOptions(opt.dynamicTpSl ?? null);
       })
       .catch(() => {
         // 조회 실패 시 폼 비워둠 — 사용자가 직접 입력하거나, 비운 채 제출하면 backend 가 기본값 fallback
@@ -2003,6 +2012,30 @@ export function AiScanner() {
   const isManualLookupDuplicate = manualLookupStock
     ? activeSessionCodes.has(manualLookupStock.stockCode)
     : false;
+  const currentBaseTakeProfitPct =
+    toOptionalNumber(autoTakeProfitPct) ?? optimalTpFallback;
+  const currentBaseStopLossPct =
+    toOptionalNumber(autoStopLossPct) ?? optimalSlFallback;
+  const atrTpSlPreview =
+    currentBaseTakeProfitPct != null &&
+    currentBaseStopLossPct != null &&
+    dynamicTpSlOptions
+      ? {
+          // 스캔 전에는 종목별 ATR 이 없으므로 단일 값 대신 적용 가능 범위를 보여준다.
+          takeProfitStartPct: Math.min(
+            currentBaseTakeProfitPct,
+            dynamicTpSlOptions.maxTakeProfitPct,
+          ),
+          takeProfitEndPct: dynamicTpSlOptions.maxTakeProfitPct,
+          stopLossStartPct: -Math.min(
+            Math.abs(currentBaseStopLossPct),
+            dynamicTpSlOptions.maxStopLossPct,
+          ),
+          stopLossEndPct: -dynamicTpSlOptions.maxStopLossPct,
+          takeProfitAtrMultiplier: dynamicTpSlOptions.takeProfitAtrMultiplier,
+          stopLossAtrMultiplier: dynamicTpSlOptions.stopLossAtrMultiplier,
+        }
+      : null;
 
   return (
     <div className="scanner-page">
@@ -2116,6 +2149,28 @@ export function AiScanner() {
             <p className="text-muted" style={{ fontSize: '0.85em' }}>
               ※ 그리드 서치 미실행 — 코드 기본값 표시. 비워서 제출하면 backend
               기본값 자동 적용.
+            </p>
+          )}
+          {atrTpSlPreview && (
+            <p className="text-muted" style={{ fontSize: '0.85em' }}>
+              ※ ATR 보정 적용 범위:{' '}
+              <strong>
+                익절{' '}
+                <span className="text-profit">
+                  {formatSignedPct(atrTpSlPreview.takeProfitStartPct, true)}~
+                  {formatSignedPct(atrTpSlPreview.takeProfitEndPct, true)}
+                </span>
+                {' / '}
+                손절{' '}
+                <span className="text-loss">
+                  {formatSignedPct(atrTpSlPreview.stopLossStartPct)}~
+                  {formatSignedPct(atrTpSlPreview.stopLossEndPct)}
+                </span>
+              </strong>
+              . 실제 값은 스캔 시 종목별 ATR% × 익절{' '}
+              {atrTpSlPreview.takeProfitAtrMultiplier} / 손절{' '}
+              {atrTpSlPreview.stopLossAtrMultiplier} 배수로 계산되어 결과 표와
+              자동매매 설정에 표시됩니다.
             </p>
           )}
           <div className="form-row">
