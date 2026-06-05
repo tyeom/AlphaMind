@@ -2153,7 +2153,13 @@ export function AiScanner() {
           )}
           {atrTpSlPreview && (
             <p className="text-muted" style={{ fontSize: '0.85em' }}>
-              ※ ATR 보정 적용 범위:{' '}
+              ※ 입력한 익절/손절은 <strong>최소 기준(하한)</strong>입니다. 스캔
+              시 종목별 ATR% × 익절 {atrTpSlPreview.takeProfitAtrMultiplier} / 손절{' '}
+              {atrTpSlPreview.stopLossAtrMultiplier} 배수로 계산해, 그 값이
+              입력값보다 <strong>크면 그 값으로 상향 · 작으면 입력값 유지</strong>
+              (최대 익절 {formatSignedPct(atrTpSlPreview.takeProfitEndPct, true)} /
+              손절 {formatSignedPct(atrTpSlPreview.stopLossEndPct)} 까지). 실제
+              적용 범위:{' '}
               <strong>
                 익절{' '}
                 <span className="text-profit">
@@ -2166,11 +2172,8 @@ export function AiScanner() {
                   {formatSignedPct(atrTpSlPreview.stopLossStartPct)}~
                   {formatSignedPct(atrTpSlPreview.stopLossEndPct)}
                 </span>
-              </strong>
-              . 실제 값은 스캔 시 종목별 ATR% × 익절{' '}
-              {atrTpSlPreview.takeProfitAtrMultiplier} / 손절{' '}
-              {atrTpSlPreview.stopLossAtrMultiplier} 배수로 계산되어 결과 표와
-              자동매매 설정에 표시됩니다.
+              </strong>{' '}
+              — 결과 표·자동매매 설정에 표시됩니다.
             </p>
           )}
           <div className="form-row">
@@ -2184,7 +2187,7 @@ export function AiScanner() {
               />
             </label>
             <label>
-              기준 익절 (%)
+              기준 익절(하한, %)
               <input
                 type="number"
                 value={autoTakeProfitPct}
@@ -2192,11 +2195,12 @@ export function AiScanner() {
                 min="0"
                 step="0.1"
                 placeholder="자동 적용"
+                title="입력값은 최소 기준(하한)입니다. 종목별 ATR 보정값이 입력값보다 크면 그 값으로 상향 적용되고, 작으면 입력값이 그대로 유지됩니다(상한 캡 적용)."
                 disabled={step === 'scanning'}
               />
             </label>
             <label>
-              기준 손절 (%)
+              기준 손절(하한, %)
               <input
                 type="number"
                 value={autoStopLossPct}
@@ -2204,6 +2208,7 @@ export function AiScanner() {
                 max="0"
                 step="0.1"
                 placeholder="자동 적용"
+                title="입력값은 최소 기준(하한)입니다. 종목별 ATR 보정값이 입력값보다 크면 그 값으로 상향 적용되고, 작으면 입력값이 그대로 유지됩니다(상한 캡 적용)."
                 disabled={step === 'scanning'}
               />
             </label>
