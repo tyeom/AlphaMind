@@ -23,7 +23,7 @@ export interface BacktestConfig {
   /** 매수 신호 최소 강도 (기본은 전략별 설정) */
   minBuySignalStrength?: number;
   /**
-   * 매도 시 거래세 % (한국 시장 기본 0.18).
+   * 매도 시 거래세 % (미지정 시 BACKTEST_SELL_TAX_PCT, 기본 0.15).
    * 백테스트 → 실거래 갭을 줄이기 위해 도입.
    */
   sellTaxPct?: number;
@@ -87,7 +87,7 @@ export interface BacktestTrade {
   quantity: number;
   amount: number;
   commission: number;
-  /** 매도 시 거래세 (한국 0.18% 등) */
+  /** 매도 시 거래세 */
   sellTax?: number;
   /** 슬리피지 (가격 조정 후 반영된 비용) */
   slippageCost?: number;

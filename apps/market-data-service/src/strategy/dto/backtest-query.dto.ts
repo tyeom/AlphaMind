@@ -17,7 +17,7 @@ export interface BacktestQueryDto {
   maxHoldingDays?: string;
   /** 보유 중 추가 매수 허용 여부 (미지정 시 전략별 기본값) */
   allowAddOnBuy?: string;
-  /** 매도 시 거래세 % (기본 0.18) */
+  /** 매도 시 거래세 % (미지정 시 BACKTEST_SELL_TAX_PCT, 기본 0.15) */
   sellTaxPct?: string;
   /** 슬리피지 % (양방향 적용, 기본 0.05) */
   slippagePct?: string;

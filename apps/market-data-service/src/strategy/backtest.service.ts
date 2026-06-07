@@ -4,6 +4,7 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Stock } from '../stock/entities/stock.entity';
 import { StockDailyPrice } from '../stock/entities/stock-daily-price.entity';
@@ -64,8 +65,8 @@ const DEFAULT_BREAKEVEN_FLOOR_PCT = 0.1;
 const DEFAULT_GRID_TP_RANGE = [1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 6.0];
 const DEFAULT_GRID_SL_RANGE = [-1.0, -1.5, -2.0, -2.5, -3.0, -4.0, -5.0];
 
-/** 한국 시장 매도 시 거래세 (%) — KOSPI 0.18 기준. 백테스트 → 실거래 갭 축소용. */
-const DEFAULT_SELL_TAX_PCT = 0.18;
+/** 한국 시장 매도 시 거래세 (%) — 2025 기준 0.15(거래세0%+농특세0.15%). */
+const DEFAULT_SELL_TAX_PCT = 0.15;
 /** 슬리피지 % (양방향). 단타 실측치(0.03~0.1) 중앙값. */
 const DEFAULT_SLIPPAGE_PCT = 0.05;
 /** 매수를 다음봉 시가에 실행할지 — 실거래(익일 09:00 시가) 패턴과 일치 */
@@ -163,6 +164,7 @@ export class BacktestService {
   constructor(
     private readonly em: EntityManager,
     private readonly optimalParamsService: OptimalParamsService,
+    private readonly configService: ConfigService,
   ) {}
 
   async runBacktest(
@@ -216,7 +218,8 @@ export class BacktestService {
 
     const tradeAmount = config.investmentAmount * (config.tradeRatioPct / 100);
     const commissionRate = config.commissionPct / 100;
-    const sellTaxRate = (config.sellTaxPct ?? DEFAULT_SELL_TAX_PCT) / 100;
+    const sellTaxRate =
+      (config.sellTaxPct ?? this.getDefaultSellTaxPct()) / 100;
     const slippageRate = (config.slippagePct ?? DEFAULT_SLIPPAGE_PCT) / 100;
     const useNextOpen =
       config.useNextOpenForBuy ?? DEFAULT_USE_NEXT_OPEN_FOR_BUY;
@@ -1015,6 +1018,17 @@ export class BacktestService {
           100,
       ) / 100
     );
+  }
+
+  private getDefaultSellTaxPct(): number {
+    const value = Number(
+      this.configService.get<number | string>(
+        'BACKTEST_SELL_TAX_PCT',
+        DEFAULT_SELL_TAX_PCT,
+      ),
+    );
+
+    return Number.isFinite(value) ? value : DEFAULT_SELL_TAX_PCT;
   }
 
   private calculateTradeQuality(result: BacktestResult): TradeQuality {

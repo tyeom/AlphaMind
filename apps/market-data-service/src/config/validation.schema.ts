@@ -24,4 +24,7 @@ export const validationSchema = Joi.object({
 
   // RabbitMQ
   RMQ_URL: Joi.string().default('amqp://alpha:alpha1234@localhost:5672'),
+
+  // Backtest
+  BACKTEST_SELL_TAX_PCT: Joi.number().default(0.15),
 });

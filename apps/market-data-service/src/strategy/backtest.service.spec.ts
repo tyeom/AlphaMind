@@ -1,4 +1,5 @@
 import { SignalDirection } from '@alpha-mind/strategies';
+import { ConfigService } from '@nestjs/config';
 import { BacktestService } from './backtest.service';
 import type { BacktestConfig } from './types/backtest.types';
 
@@ -15,6 +16,16 @@ function candle(day: number, close: number, high = close, low = close) {
 
 describe('BacktestService simulate', () => {
   const stock = { code: '005930', name: '삼성전자' } as any;
+  const createService = (sellTaxPct = 0.15) => {
+    const configService = {
+      get: jest.fn((key: string, defaultValue?: unknown) => {
+        if (key === 'BACKTEST_SELL_TAX_PCT') return sellTaxPct;
+        return defaultValue;
+      }),
+    } as unknown as ConfigService;
+
+    return new BacktestService({} as any, {} as any, configService);
+  };
   const baseConfig: BacktestConfig = {
     strategyId: 'day-trading',
     investmentAmount: 1_000_000,
@@ -31,7 +42,7 @@ describe('BacktestService simulate', () => {
   };
 
   it('uses daily high/low for automatic take profit', () => {
-    const service = new BacktestService({} as any);
+    const service = createService();
     const candles = [candle(1, 100), candle(2, 101, 103, 99)];
     const signals = new Map([
       [
@@ -62,7 +73,7 @@ describe('BacktestService simulate', () => {
   });
 
   it('closes positions at max holding days when thresholds are not hit', () => {
-    const service = new BacktestService({} as any);
+    const service = createService();
     const candles = Array.from({ length: 8 }, (_, i) =>
       candle(i + 1, 100 + i * 0.1, 100 + i * 0.1 + 0.1, 99.5),
     );
@@ -95,7 +106,7 @@ describe('BacktestService simulate', () => {
   });
 
   it('applies trailing stop in the backtest simulation', () => {
-    const service = new BacktestService({} as any);
+    const service = createService();
     const candles = [candle(1, 100), candle(2, 101.1, 102, 101.1)];
     const signals = new Map([
       [
@@ -130,7 +141,7 @@ describe('BacktestService simulate', () => {
   });
 
   it('uses the configured max holding days value', () => {
-    const service = new BacktestService({} as any);
+    const service = createService();
     const candles = Array.from({ length: 4 }, (_, i) =>
       candle(i + 1, 100 + i * 0.1, 100 + i * 0.1 + 0.1, 99.5),
     );
@@ -163,7 +174,7 @@ describe('BacktestService simulate', () => {
   });
 
   it('keeps infinity-bot low-strength round buys and add-on buys enabled by default', () => {
-    const service = new BacktestService({} as any);
+    const service = createService();
     const candles = [candle(1, 100), candle(2, 110)];
     const signals = new Map([
       [

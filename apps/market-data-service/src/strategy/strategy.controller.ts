@@ -44,6 +44,15 @@ function parseNumberOrDefault(
   return Number.isFinite(parsed) ? parsed : defaultValue;
 }
 
+function parseNumberOptional(value: string | undefined): number | undefined {
+  if (value == null || value.trim() === '') {
+    return undefined;
+  }
+
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
 function parseBooleanOptional(value: string | undefined): boolean | undefined {
   if (value == null || value.trim() === '') {
     return undefined;
@@ -407,6 +416,7 @@ export class StrategyController {
   runBacktest(@Param('code') code: string, @Query() query: BacktestQueryDto) {
     const allowAddOnBuy = parseBooleanOptional(query.allowAddOnBuy);
     const useNextOpenForBuy = parseBooleanOptional(query.useNextOpenForBuy);
+    const sellTaxPct = parseNumberOptional(query.sellTaxPct);
 
     return this.backtestService.runBacktest(code, {
       strategyId: query.strategyId,
@@ -420,7 +430,6 @@ export class StrategyController {
       autoTakeProfitPct: parseNumberOrDefault(query.autoTakeProfitPct, 2.0),
       autoStopLossPct: parseNumberOrDefault(query.autoStopLossPct, -2.0),
       maxHoldingDays: parseNumberOrDefault(query.maxHoldingDays, 7),
-      sellTaxPct: parseNumberOrDefault(query.sellTaxPct, 0.18),
       slippagePct: parseNumberOrDefault(query.slippagePct, 0.05),
       trailingStopTriggerPct: parseNumberOrDefault(
         query.trailingStopTriggerPct,
@@ -432,6 +441,7 @@ export class StrategyController {
       ),
       breakevenTriggerPct: parseNumberOrDefault(query.breakevenTriggerPct, 1.0),
       breakevenFloorPct: parseNumberOrDefault(query.breakevenFloorPct, 0.1),
+      ...(sellTaxPct !== undefined && { sellTaxPct }),
       ...(allowAddOnBuy !== undefined && { allowAddOnBuy }),
       ...(useNextOpenForBuy !== undefined && { useNextOpenForBuy }),
     });
