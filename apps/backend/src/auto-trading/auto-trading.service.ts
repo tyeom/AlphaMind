@@ -55,6 +55,7 @@ import { NotificationService } from '../notification/notification.service';
 import { NotificationType } from '../notification/entities/notification.entity';
 import { MARKET_DATA_SERVICE } from '../rmq/rmq.module';
 import { AiMeetingResultEntity } from '../ai-meeting-result/entities/ai-meeting-result.entity';
+import { KRX_HOLIDAYS, tradingDaysElapsed } from '../common/trading-calendar';
 
 const STRATEGY_MAP: Record<
   string,
@@ -2026,13 +2027,13 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     if (
       maxHoldingDays > 0 &&
       session.enteredAt &&
-      Date.now() - session.enteredAt.getTime() >=
-        maxHoldingDays * 24 * 60 * 60 * 1000
+      tradingDaysElapsed(session.enteredAt, new Date(), KRX_HOLIDAYS) >=
+        maxHoldingDays
     ) {
       await this.executeSell(
         session,
         price,
-        `최대 보유기간 ${maxHoldingDays}일 도달 (${returnPct.toFixed(1)}%)`,
+        `최대 보유기간 ${maxHoldingDays}거래일 도달 (${returnPct.toFixed(1)}%)`,
       );
       return true;
     }

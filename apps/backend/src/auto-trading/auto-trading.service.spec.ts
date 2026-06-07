@@ -116,6 +116,9 @@ describe('AutoTradingService', () => {
   });
 
   it('triggers auto sell when max holding days has elapsed', async () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-06-16T10:00:00+09:00'));
+
     const { service } = createService();
     const session = {
       id: 3,
@@ -126,7 +129,7 @@ describe('AutoTradingService', () => {
       takeProfitPct: 2.5,
       stopLossPct: -3,
       maxHoldingDays: 7,
-      enteredAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
+      enteredAt: new Date('2026-06-05T10:00:00+09:00'),
       autoPausePending: false,
     } as AutoTradingSessionEntity;
 
@@ -138,8 +141,38 @@ describe('AutoTradingService', () => {
     expect((service as any).executeSell).toHaveBeenCalledWith(
       session,
       101,
-      '최대 보유기간 7일 도달 (1.0%)',
+      '최대 보유기간 7거래일 도달 (1.0%)',
     );
+
+    jest.useRealTimers();
+  });
+
+  it('does not count weekend days toward max holding days', async () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-06-08T10:00:00+09:00'));
+
+    const { service } = createService();
+    const session = {
+      id: 31,
+      stockCode: '035420',
+      status: SessionStatus.ACTIVE,
+      holdingQty: 5,
+      avgBuyPrice: 100,
+      takeProfitPct: 2.5,
+      stopLossPct: -3,
+      maxHoldingDays: 2,
+      enteredAt: new Date('2026-06-05T10:00:00+09:00'),
+      autoPausePending: false,
+    } as AutoTradingSessionEntity;
+
+    jest.spyOn(service as any, 'executeSell').mockResolvedValue(undefined);
+
+    const sold = await (service as any).evaluateAndExecuteSell(session, 101);
+
+    expect(sold).toBe(false);
+    expect((service as any).executeSell).not.toHaveBeenCalled();
+
+    jest.useRealTimers();
   });
 
   it('triggers trailing stop after a profitable move gives back gains', async () => {
