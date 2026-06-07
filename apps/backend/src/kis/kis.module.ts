@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { KisService } from './kis.service';
+import { KisRateLimiterService } from './kis-rate-limiter.service';
 import { KisOrderService } from './kis-order.service';
 import { KisInquiryService } from './kis-inquiry.service';
 import { KisQuotationService } from './kis-quotation.service';
@@ -30,6 +31,7 @@ import { NotificationModule } from '../notification/notification.module';
   controllers: [KisController],
   providers: [
     KisService,
+    KisRateLimiterService,
     KisOrderService,
     KisInquiryService,
     KisQuotationService,
@@ -40,6 +42,7 @@ import { NotificationModule } from '../notification/notification.module';
   ],
   exports: [
     KisService,
+    KisRateLimiterService,
     KisOrderService,
     KisInquiryService,
     KisQuotationService,

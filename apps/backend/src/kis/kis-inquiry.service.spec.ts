@@ -17,9 +17,11 @@ describe('KisInquiryService', () => {
       getAuthHeaders: jest
         .fn()
         .mockResolvedValue({ authorization: 'Bearer token' }),
+      request: jest.fn((fn: () => Promise<unknown>) => fn()),
     } as unknown as KisService & {
       getTrId: jest.Mock;
       getAuthHeaders: jest.Mock;
+      request: jest.Mock;
     };
 
     const service = new KisInquiryService(httpService, kisService);
@@ -37,6 +39,7 @@ describe('KisInquiryService', () => {
     httpService.get.mockReturnValue(
       of({
         data: {
+          rt_cd: '0',
           output1: [],
           output2: {
             dnca_tot_amt: '100000',
@@ -67,6 +70,7 @@ describe('KisInquiryService', () => {
     httpService.get.mockReturnValue(
       of({
         data: {
+          rt_cd: '0',
           output1: [],
           output2: {
             rlzt_pfls: '12345',

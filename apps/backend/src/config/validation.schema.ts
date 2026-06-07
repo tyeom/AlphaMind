@@ -25,6 +25,9 @@ export const validationSchema = Joi.object({
   KIS_ACCOUNT_PROD_CD: Joi.string().length(2).default('01'),
   KIS_HTS_ID: Joi.string().allow('').optional(),
   KIS_ENV: Joi.string().valid('sandbox', 'production').default('sandbox'),
+  KIS_MAX_RPS: Joi.number().default(8),
+  KIS_RATE_BURST: Joi.number().default(8),
+  KIS_RATE_MAX_RETRY: Joi.number().default(5),
 
   // RabbitMQ
   RMQ_URL: Joi.string().default('amqp://alpha:alpha1234@localhost:5672'),

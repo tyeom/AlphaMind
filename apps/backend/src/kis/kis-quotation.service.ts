@@ -15,16 +15,18 @@ export class KisQuotationService {
   async getCurrentPrice(stockCode: string): Promise<KisCurrentPrice> {
     const headers = await this.kisService.getAuthHeaders('FHKST01010100');
 
-    const { data } = await firstValueFrom(
-      this.httpService.get<KisApiResponse<KisCurrentPrice>>(
-        `${this.kisService.baseUrl}/uapi/domestic-stock/v1/quotations/inquire-price`,
-        {
-          headers,
-          params: {
-            fid_cond_mrkt_div_code: 'J',
-            fid_input_iscd: stockCode,
+    const { data } = await this.kisService.request(() =>
+      firstValueFrom(
+        this.httpService.get<KisApiResponse<KisCurrentPrice>>(
+          `${this.kisService.baseUrl}/uapi/domestic-stock/v1/quotations/inquire-price`,
+          {
+            headers,
+            params: {
+              fid_cond_mrkt_div_code: 'J',
+              fid_input_iscd: stockCode,
+            },
           },
-        },
+        ),
       ),
     );
 
@@ -39,18 +41,20 @@ export class KisQuotationService {
   ): Promise<KisDailyPrice[]> {
     const headers = await this.kisService.getAuthHeaders('FHKST01010400');
 
-    const { data } = await firstValueFrom(
-      this.httpService.get<KisApiResponse<KisDailyPrice[]>>(
-        `${this.kisService.baseUrl}/uapi/domestic-stock/v1/quotations/inquire-daily-price`,
-        {
-          headers,
-          params: {
-            fid_cond_mrkt_div_code: 'J',
-            fid_input_iscd: stockCode,
-            fid_org_adj_prc: adjustedPrice ? '0' : '1',
-            fid_period_div_code: period,
+    const { data } = await this.kisService.request(() =>
+      firstValueFrom(
+        this.httpService.get<KisApiResponse<KisDailyPrice[]>>(
+          `${this.kisService.baseUrl}/uapi/domestic-stock/v1/quotations/inquire-daily-price`,
+          {
+            headers,
+            params: {
+              fid_cond_mrkt_div_code: 'J',
+              fid_input_iscd: stockCode,
+              fid_org_adj_prc: adjustedPrice ? '0' : '1',
+              fid_period_div_code: period,
+            },
           },
-        },
+        ),
       ),
     );
 

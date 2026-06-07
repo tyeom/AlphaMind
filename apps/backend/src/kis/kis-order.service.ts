@@ -71,11 +71,13 @@ export class KisOrderService {
 
     let data: KisApiResponse<KisOrderOutput>;
     try {
-      const res = await firstValueFrom(
-        this.httpService.post(
-          `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/order-cash`,
-          body,
-          { headers: { ...headers, hashkey } },
+      const res = await this.kisService.request(() =>
+        firstValueFrom(
+          this.httpService.post(
+            `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/order-cash`,
+            body,
+            { headers: { ...headers, hashkey } },
+          ),
         ),
       );
       data = res.data;
@@ -254,11 +256,13 @@ export class KisOrderService {
 
     let data: KisApiResponse<KisOrderOutput>;
     try {
-      const res = await firstValueFrom(
-        this.httpService.post(
-          `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/order-rvsecncl`,
-          body,
-          { headers: { ...headers, hashkey } },
+      const res = await this.kisService.request(() =>
+        firstValueFrom(
+          this.httpService.post(
+            `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/order-rvsecncl`,
+            body,
+            { headers: { ...headers, hashkey } },
+          ),
         ),
       );
       data = res.data;
@@ -321,11 +325,13 @@ export class KisOrderService {
 
     let data: KisApiResponse<KisOrderOutput>;
     try {
-      const res = await firstValueFrom(
-        this.httpService.post(
-          `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/order-rvsecncl`,
-          body,
-          { headers: { ...headers, hashkey } },
+      const res = await this.kisService.request(() =>
+        firstValueFrom(
+          this.httpService.post(
+            `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/order-rvsecncl`,
+            body,
+            { headers: { ...headers, hashkey } },
+          ),
         ),
       );
       data = res.data;

@@ -25,29 +25,31 @@ export class KisInquiryService {
     const trId = this.kisService.getTrId('TTTC8434R', 'VTTC8434R');
     const headers = await this.kisService.getAuthHeaders(trId);
 
-    const { data } = await firstValueFrom(
-      this.httpService.get<
-        KisApiResponse<KisBalanceItem[]> & {
-          output2: KisBalanceSummary[] | KisBalanceSummary;
-        }
-      >(
-        `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/inquire-balance`,
-        {
-          headers,
-          params: {
-            CANO: this.kisService.accountNo,
-            ACNT_PRDT_CD: this.kisService.accountProdCd,
-            AFHR_FLPR_YN: 'N',
-            OFL_YN: '',
-            INQR_DVSN: '02',
-            UNPR_DVSN: '01',
-            FUND_STTL_ICLD_YN: 'N',
-            FNCG_AMT_AUTO_RDPT_YN: 'N',
-            PRCS_DVSN: '00',
-            CTX_AREA_FK100: '',
-            CTX_AREA_NK100: '',
+    const { data } = await this.kisService.request(() =>
+      firstValueFrom(
+        this.httpService.get<
+          KisApiResponse<KisBalanceItem[]> & {
+            output2: KisBalanceSummary[] | KisBalanceSummary;
+          }
+        >(
+          `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/inquire-balance`,
+          {
+            headers,
+            params: {
+              CANO: this.kisService.accountNo,
+              ACNT_PRDT_CD: this.kisService.accountProdCd,
+              AFHR_FLPR_YN: 'N',
+              OFL_YN: '',
+              INQR_DVSN: '02',
+              UNPR_DVSN: '01',
+              FUND_STTL_ICLD_YN: 'N',
+              FNCG_AMT_AUTO_RDPT_YN: 'N',
+              PRCS_DVSN: '00',
+              CTX_AREA_FK100: '',
+              CTX_AREA_NK100: '',
+            },
           },
-        },
+        ),
       ),
     );
 
@@ -68,30 +70,32 @@ export class KisInquiryService {
   }> {
     const headers = await this.kisService.getAuthHeaders('TTTC8494R');
 
-    const { data } = await firstValueFrom(
-      this.httpService.get<
-        KisApiResponse<KisBalanceItem[]> & {
-          output2: KisBalanceRealizedSummary[] | KisBalanceRealizedSummary;
-        }
-      >(
-        `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/inquire-balance-rlz-pl`,
-        {
-          headers,
-          params: {
-            CANO: this.kisService.accountNo,
-            ACNT_PRDT_CD: this.kisService.accountProdCd,
-            AFHR_FLPR_YN: 'N',
-            OFL_YN: '',
-            INQR_DVSN: '02',
-            UNPR_DVSN: '01',
-            FUND_STTL_ICLD_YN: 'N',
-            FNCG_AMT_AUTO_RDPT_YN: 'N',
-            PRCS_DVSN: '01',
-            COST_ICLD_YN: 'N',
-            CTX_AREA_FK100: '',
-            CTX_AREA_NK100: '',
+    const { data } = await this.kisService.request(() =>
+      firstValueFrom(
+        this.httpService.get<
+          KisApiResponse<KisBalanceItem[]> & {
+            output2: KisBalanceRealizedSummary[] | KisBalanceRealizedSummary;
+          }
+        >(
+          `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/inquire-balance-rlz-pl`,
+          {
+            headers,
+            params: {
+              CANO: this.kisService.accountNo,
+              ACNT_PRDT_CD: this.kisService.accountProdCd,
+              AFHR_FLPR_YN: 'N',
+              OFL_YN: '',
+              INQR_DVSN: '02',
+              UNPR_DVSN: '01',
+              FUND_STTL_ICLD_YN: 'N',
+              FNCG_AMT_AUTO_RDPT_YN: 'N',
+              PRCS_DVSN: '01',
+              COST_ICLD_YN: 'N',
+              CTX_AREA_FK100: '',
+              CTX_AREA_NK100: '',
+            },
           },
-        },
+        ),
       ),
     );
 
@@ -116,21 +120,23 @@ export class KisInquiryService {
     const trId = this.kisService.getTrId('TTTC8908R', 'VTTC8908R');
     const headers = await this.kisService.getAuthHeaders(trId);
 
-    const { data } = await firstValueFrom(
-      this.httpService.get<KisApiResponse<KisBuyableOutput>>(
-        `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/inquire-psbl-order`,
-        {
-          headers,
-          params: {
-            CANO: this.kisService.accountNo,
-            ACNT_PRDT_CD: this.kisService.accountProdCd,
-            PDNO: params.stockCode,
-            ORD_UNPR: params.price ? String(params.price) : '',
-            ORD_DVSN: params.orderDvsn ?? '01',
-            CMA_EVLU_AMT_ICLD_YN: 'Y',
-            OVRS_ICLD_YN: 'N',
+    const { data } = await this.kisService.request(() =>
+      firstValueFrom(
+        this.httpService.get<KisApiResponse<KisBuyableOutput>>(
+          `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/inquire-psbl-order`,
+          {
+            headers,
+            params: {
+              CANO: this.kisService.accountNo,
+              ACNT_PRDT_CD: this.kisService.accountProdCd,
+              PDNO: params.stockCode,
+              ORD_UNPR: params.price ? String(params.price) : '',
+              ORD_DVSN: params.orderDvsn ?? '01',
+              CMA_EVLU_AMT_ICLD_YN: 'Y',
+              OVRS_ICLD_YN: 'N',
+            },
           },
-        },
+        ),
       ),
     );
 
@@ -160,28 +166,30 @@ export class KisInquiryService {
           ? '02'
           : '00';
 
-    const { data } = await firstValueFrom(
-      this.httpService.get(
-        `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/inquire-daily-ccld`,
-        {
-          headers,
-          params: {
-            CANO: this.kisService.accountNo,
-            ACNT_PRDT_CD: this.kisService.accountProdCd,
-            INQR_STRT_DT: params.startDate,
-            INQR_END_DT: params.endDate,
-            SLL_BUY_DVSN_CD: sllBuyDvsnCd,
-            INQR_DVSN: '00',
-            PDNO: '',
-            CCLD_DVSN: ccldDvsn,
-            ORD_GNO_BRNO: '',
-            ODNO: '',
-            INQR_DVSN_3: '00',
-            INQR_DVSN_1: '',
-            CTX_AREA_FK100: '',
-            CTX_AREA_NK100: '',
+    const { data } = await this.kisService.request(() =>
+      firstValueFrom(
+        this.httpService.get(
+          `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/inquire-daily-ccld`,
+          {
+            headers,
+            params: {
+              CANO: this.kisService.accountNo,
+              ACNT_PRDT_CD: this.kisService.accountProdCd,
+              INQR_STRT_DT: params.startDate,
+              INQR_END_DT: params.endDate,
+              SLL_BUY_DVSN_CD: sllBuyDvsnCd,
+              INQR_DVSN: '00',
+              PDNO: '',
+              CCLD_DVSN: ccldDvsn,
+              ORD_GNO_BRNO: '',
+              ODNO: '',
+              INQR_DVSN_3: '00',
+              INQR_DVSN_1: '',
+              CTX_AREA_FK100: '',
+              CTX_AREA_NK100: '',
+            },
           },
-        },
+        ),
       ),
     );
 
