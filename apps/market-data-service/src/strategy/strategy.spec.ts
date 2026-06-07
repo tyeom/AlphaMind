@@ -89,6 +89,30 @@ function generateDowntrendCandles(
   return candles;
 }
 
+function generateInfinityBotRoundCandles(): CandleData[] {
+  const candles: CandleData[] = [];
+  let price = 50000;
+  const baseDate = new Date('2026-01-02');
+
+  for (let i = 0; i < 60; i++) {
+    const date = new Date(baseDate);
+    date.setDate(date.getDate() + i);
+
+    // 라운드 진입 상태를 검증하므로 익절로 초기화되지 않게 완만한 하락만 만든다.
+    price *= 0.99;
+    candles.push({
+      date,
+      open: Math.round(price * 1.005),
+      high: Math.round(price * 1.01),
+      low: Math.round(price * 0.99),
+      close: Math.round(price),
+      volume: 500000,
+    });
+  }
+
+  return candles;
+}
+
 describe('Technical Indicators', () => {
   test('SMA 계산 정확성', () => {
     const prices = [10, 20, 30, 40, 50];
@@ -319,8 +343,8 @@ describe('Mean Reversion Strategy', () => {
 });
 
 describe('Infinity Bot Strategy', () => {
-  test('하락→반등 시나리오: 매수 라운드 생성', () => {
-    const candles = generateDowntrendCandles(60);
+  test('하락 시나리오: 매수 라운드 생성', () => {
+    const candles = generateInfinityBotRoundCandles();
     const result = analyzeInfinityBot(candles, {
       totalAmount: 10_000_000,
       maxRounds: 50,

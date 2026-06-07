@@ -173,7 +173,14 @@ export class KisJournalService {
       balanceData?.items ?? realizedBalanceData?.items ?? [];
     const effectiveSummary =
       balanceData?.summary ?? realizedBalanceData?.summary;
-    const hasBalanceSnapshot = Boolean(effectiveSummary);
+    const hasBalanceSnapshot = this.hasMeaningfulSummary(effectiveSummary);
+
+    if (isToday && !hasBalanceSnapshot) {
+      return this.buildUnavailableResponse(
+        date,
+        '매매 일지를 생성하지 못했습니다. 잠시 후 다시 시도해 주세요.',
+      );
+    }
 
     const stockSummaries = this.buildStockSummaries(
       orders,
@@ -339,6 +346,17 @@ export class KisJournalService {
     }
 
     return summaries;
+  }
+
+  private hasMeaningfulSummary(summary?: KisBalanceSummary): boolean {
+    if (!summary) {
+      return false;
+    }
+
+    // 빈 객체는 API 대체 조회가 성공한 것이 아니라 데이터 부재로 본다.
+    return Object.values(summary).some(
+      (value) => value != null && value !== '',
+    );
   }
 
   private async getPreviousDaySummary(

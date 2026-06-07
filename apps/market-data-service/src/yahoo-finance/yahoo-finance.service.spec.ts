@@ -5,6 +5,36 @@ describe('YahooFinanceService', () => {
 
   beforeEach(() => {
     service = new YahooFinanceService();
+    jest.spyOn(global, 'fetch').mockImplementation(async (url) => {
+      const symbol = decodeURIComponent(
+        String(url).split('/chart/')[1]?.split('?')[0] ?? '',
+      );
+
+      if (symbol === 'INVALID_SYMBOL_XYZ') {
+        return {
+          ok: true,
+          status: 200,
+          statusText: 'OK',
+          json: async () => ({
+            chart: {
+              result: null,
+              error: { description: 'No data found' },
+            },
+          }),
+        } as Response;
+      }
+
+      return {
+        ok: true,
+        status: 200,
+        statusText: 'OK',
+        json: async () => buildYahooChartResponse(symbol),
+      } as Response;
+    });
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   describe('getChart', () => {
@@ -23,14 +53,6 @@ describe('YahooFinanceService', () => {
       expect(firstCandle.low).toBeGreaterThan(0);
       expect(firstCandle.close).toBeGreaterThan(0);
       expect(firstCandle.volume).toBeGreaterThanOrEqual(0);
-
-      console.log(`Symbol: ${result.symbol}`);
-      console.log(`Name: ${result.name}`);
-      console.log(`Exchange: ${result.exchange}`);
-      console.log(`Total candles: ${result.candles.length}`);
-      console.log(`First: ${firstCandle.date} O=${firstCandle.open} H=${firstCandle.high} L=${firstCandle.low} C=${firstCandle.close} V=${firstCandle.volume}`);
-      const lastCandle = result.candles[result.candles.length - 1];
-      console.log(`Last:  ${lastCandle.date} O=${lastCandle.open} H=${lastCandle.high} L=${lastCandle.low} C=${lastCandle.close} V=${lastCandle.volume}`);
     }, 15000);
 
     it('should fetch 1Y chart data for 005930.KS (삼성전자)', async () => {
@@ -39,10 +61,6 @@ describe('YahooFinanceService', () => {
       expect(result.symbol).toBe('005930.KS');
       expect(result.currency).toBe('KRW');
       expect(result.candles.length).toBeGreaterThan(200);
-
-      console.log(`Symbol: ${result.symbol}`);
-      console.log(`Name: ${result.name}`);
-      console.log(`Total candles: ${result.candles.length}`);
     }, 15000);
 
     it('should throw error for invalid symbol', async () => {
@@ -50,3 +68,36 @@ describe('YahooFinanceService', () => {
     }, 15000);
   });
 });
+
+function buildYahooChartResponse(symbol: string) {
+  const length = 230;
+  const timestamp = Array.from({ length }, (_, i) =>
+    Math.floor(Date.UTC(2025, 0, 2 + i) / 1000),
+  );
+  const open = Array.from({ length }, (_, i) => 50000 + i * 10);
+  const close = open.map((value) => value + 100);
+  const high = close.map((value) => value + 200);
+  const low = open.map((value) => value - 200);
+  const volume = Array.from({ length }, (_, i) => 100000 + i);
+
+  return {
+    chart: {
+      result: [
+        {
+          meta: {
+            symbol,
+            currency: 'KRW',
+            fullExchangeName: 'Korea Exchange',
+            longName: symbol === '005930.KS' ? 'Samsung Electronics' : 'Samchully',
+          },
+          timestamp,
+          indicators: {
+            quote: [{ open, high, low, close, volume }],
+            adjclose: [{ adjclose: close }],
+          },
+        },
+      ],
+      error: null,
+    },
+  };
+}
