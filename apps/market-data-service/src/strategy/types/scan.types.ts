@@ -37,6 +37,7 @@ export interface ScanResult {
     priceFromSma20Pct?: number;
     priceFromSma60Pct?: number;
     recent5dReturnPct?: number;
+    rvol?: number;
   };
   /**
    * In-sample(전반부) 검증 결과. 전략 선정에 사용.

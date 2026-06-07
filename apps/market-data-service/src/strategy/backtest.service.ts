@@ -89,6 +89,9 @@ const MIN_OOS_WIN_RATE = 45;
 const MIN_OOS_PROFIT_FACTOR = 1.1;
 const MIN_OOS_EXPECTANCY_PCT = 0;
 const MIN_OOS_RETURN_TO_DRAWDOWN = 0.25;
+/** RVOL>1 후보에만 가점을 주되 과필터/과가중을 막기 위해 상한을 둔다. */
+const RVOL_BONUS_CAP = 2;
+const RVOL_BONUS_WEIGHT = 0.5;
 
 const STRATEGY_MAP: Record<
   string,
@@ -957,6 +960,7 @@ export class BacktestService {
         priceFromSma20Pct: riskProfile.priceFromSma20Pct,
         priceFromSma60Pct: riskProfile.priceFromSma60Pct,
         recent5dReturnPct: riskProfile.recent5dReturnPct,
+        rvol: riskProfile.rvol,
       },
       inSample: {
         totalReturnPct: inSample.totalReturnPct,
@@ -1002,6 +1006,11 @@ export class BacktestService {
       riskProfile.priceFromSma20Pct != null && riskProfile.priceFromSma20Pct > 8
         ? (riskProfile.priceFromSma20Pct - 8) * 0.25
         : 0;
+    const rvolBonus =
+      riskProfile.rvol != null
+        ? Math.min(Math.max(riskProfile.rvol - 1, 0), RVOL_BONUS_CAP) *
+          RVOL_BONUS_WEIGHT
+        : 0;
 
     return (
       Math.round(
@@ -1014,7 +1023,8 @@ export class BacktestService {
           drawdownPenalty -
           openPositionPenalty -
           volatilityPenalty -
-          extensionPenalty) *
+          extensionPenalty +
+          rvolBonus) *
           100,
       ) / 100
     );

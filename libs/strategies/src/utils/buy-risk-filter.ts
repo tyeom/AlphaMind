@@ -10,6 +10,8 @@ export interface LongBuyRiskFilterOptions {
   maxAboveSma20Pct?: number;
   minSma20Slope5dPct?: number;
   useCompletedCandlesForTurnover?: boolean;
+  minRvol?: number;
+  rvolPeriod?: number;
 }
 
 export interface LongBuyRiskProfile {
@@ -24,6 +26,7 @@ export interface LongBuyRiskProfile {
   priceFromSma20Pct?: number;
   priceFromSma60Pct?: number;
   recent5dReturnPct?: number;
+  rvol?: number;
 }
 
 const DEFAULT_OPTIONS: Required<LongBuyRiskFilterOptions> = {
@@ -39,6 +42,9 @@ const DEFAULT_OPTIONS: Required<LongBuyRiskFilterOptions> = {
   // SMA20 살짝 횡보 중인 종목까지 허용 (-1.0% 이상이면 OK).
   minSma20Slope5dPct: -1.0,
   useCompletedCandlesForTurnover: false,
+  // 기본 0은 RVOL 하드 필터 비활성. 랭킹 가점만으로 완만하게 반영한다.
+  minRvol: 0,
+  rvolPeriod: 20,
 };
 
 function round2(value: number): number {
@@ -95,6 +101,13 @@ export function evaluateLongBuyRisk(
   const avgTurnover20 = avg(
     turnoverSource.slice(-20).map((c) => c.close * c.volume),
   );
+  const avgVolumeForRvol = avg(
+    // Step 1. 당일 거래량은 분자로 쓰고, 평균은 직전 N개 완성 봉으로 계산한다.
+    candles
+      .slice(0, -1)
+      .slice(-opts.rvolPeriod)
+      .map((c) => c.volume),
+  );
 
   const volatilityPct =
     lastAtr != null && lastClose > 0
@@ -116,9 +129,16 @@ export function evaluateLongBuyRisk(
     closeFiveAgo != null && closeFiveAgo > 0
       ? round2(((lastClose - closeFiveAgo) / closeFiveAgo) * 100)
       : undefined;
+  const rvol =
+    avgVolumeForRvol != null && avgVolumeForRvol > 0
+      ? round2(lastCandle.volume / avgVolumeForRvol)
+      : undefined;
 
   if (avgTurnover20 != null && avgTurnover20 < opts.minAvgTurnover20) {
     reasons.push('low_liquidity');
+  }
+  if (opts.minRvol > 0 && rvol != null && rvol < opts.minRvol) {
+    reasons.push('low_rvol');
   }
   if (volatilityPct != null && volatilityPct > opts.maxAtrPct) {
     reasons.push('high_volatility');
@@ -152,5 +172,6 @@ export function evaluateLongBuyRisk(
     priceFromSma20Pct,
     priceFromSma60Pct,
     recent5dReturnPct,
+    rvol,
   };
 }

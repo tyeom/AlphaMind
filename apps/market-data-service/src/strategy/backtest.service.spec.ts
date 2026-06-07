@@ -1,7 +1,10 @@
 import { SignalDirection } from '@alpha-mind/strategies';
 import { ConfigService } from '@nestjs/config';
 import { BacktestService } from './backtest.service';
-import type { BacktestConfig } from './types/backtest.types';
+import type {
+  BacktestConfig,
+  BacktestResult,
+} from './types/backtest.types';
 
 function candle(day: number, close: number, high = close, low = close) {
   return {
@@ -218,5 +221,108 @@ describe('BacktestService simulate', () => {
       (trade: any) => trade.direction === SignalDirection.Buy,
     );
     expect(buys).toHaveLength(2);
+  });
+
+  it('uses BACKTEST_SELL_TAX_PCT when config does not specify sellTaxPct', () => {
+    const service = createService(0.15);
+    const candles = [candle(1, 100), candle(2, 100, 101, 99)];
+    const signals = new Map([
+      [
+        '2026-01-01',
+        {
+          direction: SignalDirection.Buy,
+          strength: 0.7,
+          reason: 'buy',
+          date: candles[0].date,
+          price: 100,
+        },
+      ],
+    ]);
+
+    const result = (service as any).simulate(
+      stock,
+      candles,
+      signals,
+      {
+        ...baseConfig,
+        autoTakeProfitPct: 1,
+        autoStopLossPct: -99,
+        sellTaxPct: undefined,
+      },
+      'test',
+    );
+
+    const sell = result.trades.find(
+      (trade: any) => trade.direction === SignalDirection.Sell,
+    );
+    expect(sell.sellTax).toBeCloseTo(1515);
+  });
+
+  it('prioritizes explicit config.sellTaxPct over BACKTEST_SELL_TAX_PCT', () => {
+    const service = createService(0.15);
+    const candles = [candle(1, 100), candle(2, 100, 101, 99)];
+    const signals = new Map([
+      [
+        '2026-01-01',
+        {
+          direction: SignalDirection.Buy,
+          strength: 0.7,
+          reason: 'buy',
+          date: candles[0].date,
+          price: 100,
+        },
+      ],
+    ]);
+
+    const result = (service as any).simulate(
+      stock,
+      candles,
+      signals,
+      {
+        ...baseConfig,
+        autoTakeProfitPct: 1,
+        autoStopLossPct: -99,
+        sellTaxPct: 0.2,
+      },
+      'test',
+    );
+
+    const sell = result.trades.find(
+      (trade: any) => trade.direction === SignalDirection.Sell,
+    );
+    expect(sell.sellTax).toBeCloseTo(2020);
+  });
+
+  it('adds bounded RVOL bonus to scan rank score', () => {
+    const service = createService();
+    const baseResult = {
+      totalReturnPct: 5,
+      winRate: 50,
+      totalTrades: 4,
+      maxDrawdownPct: 1,
+      remainingQuantity: 0,
+    } as BacktestResult;
+    const tradeQuality = {
+      profitFactor: 1.5,
+      expectancyPct: 0.2,
+      avgWinPnl: 0,
+      avgLossPnl: 0,
+      payoffRatio: 0,
+    };
+
+    const withoutRvol = (service as any).calculateScanRankScore(
+      baseResult,
+      0.7,
+      tradeQuality,
+      { passed: true, reasons: [], lastClose: 100 },
+    );
+    const withRvol = (service as any).calculateScanRankScore(
+      baseResult,
+      0.7,
+      tradeQuality,
+      { passed: true, reasons: [], lastClose: 100, rvol: 3.5 },
+    );
+
+    expect(withRvol - withoutRvol).toBeCloseTo(1);
   });
 });

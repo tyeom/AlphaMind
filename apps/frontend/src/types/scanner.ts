@@ -23,6 +23,7 @@ export interface ScanResult {
     priceFromSma20Pct?: number;
     priceFromSma60Pct?: number;
     recent5dReturnPct?: number;
+    rvol?: number;
   };
   /** 추천 근거 요약 */
   summary: string;

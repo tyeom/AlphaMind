@@ -152,6 +152,16 @@ describe('Technical Indicators', () => {
 });
 
 describe('Long Buy Risk Filter', () => {
+  const generateRvolCandles = (lastVolume: number): CandleData[] =>
+    Array.from({ length: 61 }, (_, i) => ({
+      date: new Date(`2026-03-${String((i % 28) + 1).padStart(2, '0')}`),
+      open: 100,
+      high: 100,
+      low: 100,
+      close: 100,
+      volume: i === 60 ? lastVolume : 1000,
+    }));
+
   test('blocks thin and falling setups', () => {
     const candles = generateDowntrendCandles(60, 50000).map((c) => ({
       ...c,
@@ -162,6 +172,45 @@ describe('Long Buy Risk Filter', () => {
 
     expect(result.passed).toBe(false);
     expect(result.reasons).toContain('low_liquidity');
+  });
+
+  test('calculates RVOL from latest volume against prior period average', () => {
+    const result = evaluateLongBuyRisk(generateRvolCandles(3000), {
+      minAvgTurnover20: 0,
+    });
+
+    expect(result.passed).toBe(true);
+    expect(result.rvol).toBe(3);
+  });
+
+  test('blocks only when minRvol is explicitly enabled', () => {
+    const candles = generateRvolCandles(1000);
+    const defaultResult = evaluateLongBuyRisk(candles, {
+      minAvgTurnover20: 0,
+    });
+    const filteredResult = evaluateLongBuyRisk(candles, {
+      minAvgTurnover20: 0,
+      minRvol: 1.5,
+    });
+
+    expect(defaultResult.passed).toBe(true);
+    expect(filteredResult.passed).toBe(false);
+    expect(filteredResult.reasons).toContain('low_rvol');
+  });
+
+  test('does not reject when average volume is missing', () => {
+    const candles = generateRvolCandles(1000).map((c, index) => ({
+      ...c,
+      volume: index === 60 ? 1000 : 0,
+    }));
+
+    const result = evaluateLongBuyRisk(candles, {
+      minAvgTurnover20: 0,
+      minRvol: 1.5,
+    });
+
+    expect(result.passed).toBe(true);
+    expect(result.rvol).toBeUndefined();
   });
 });
 
