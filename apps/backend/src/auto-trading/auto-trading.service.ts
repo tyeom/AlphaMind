@@ -95,7 +95,8 @@ const BREAKEVEN_TRIGGER_PCT = 1.5;
 const BREAKEVEN_FLOOR_PCT = 0.0;
 const SCALE_OUT_ENABLED = false;
 const SCALE_OUT_TP1_TRIGGER_PCT = 2.0;
-const SCALE_OUT_TP1_SELL_RATIO_PCT = 50;
+// 백테스트 튜닝(유동성 상위 150종목, day-trading breakout): TP1 50%→33% 가 평균수익↑·수익종목%↑(러너 추세 확보). 검증↔실전 동일값 유지.
+const SCALE_OUT_TP1_SELL_RATIO_PCT = 33;
 const SCALE_OUT_MIN_REMAINDER_QTY = 1;
 const RUNNER_TRAILING_TRIGGER_PCT = 3.5;
 const RUNNER_TRAILING_GIVEBACK_PCT = 2.5;

@@ -120,8 +120,8 @@ describe('AutoTradingService', () => {
     expect((service as any).executeSell).toHaveBeenCalledWith(
       session,
       102,
-      'TP1 부분익절 (2.0%, 50%)',
-      { sellQty: 5, pauseAfterSell: false, stage: 1 },
+      'TP1 부분익절 (2.0%, 33%)',
+      { sellQty: 3, pauseAfterSell: false, stage: 1 },
     );
   });
 

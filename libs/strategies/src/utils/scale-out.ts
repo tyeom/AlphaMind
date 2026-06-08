@@ -30,7 +30,7 @@ export interface ScaleOutSellQtyInput {
 
 export const DEFAULT_SCALE_OUT_PLAN: ScaleOutPlan = {
   enabled: false,
-  tiers: [{ triggerPct: 2.0, sellRatioPct: 50, tag: 'TP1' }],
+  tiers: [{ triggerPct: 2.0, sellRatioPct: 33, tag: 'TP1' }],
 };
 
 export function evaluateScaleOut(
