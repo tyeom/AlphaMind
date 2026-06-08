@@ -63,6 +63,8 @@ export class AutoTradingSessionEntity {
     | 'takeProfitPct'
     | 'stopLossPct'
     | 'maxHoldingDays'
+    | 'scaleOutStage'
+    | 'initialQty'
     | 'addOnBuyMode'
     | 'addOnBuyCount'
     | 'scheduledScan'
@@ -151,6 +153,20 @@ export class AutoTradingSessionEntity {
    */
   @Property({ type: 'float', default: 0 })
   highestPriceAfterEntry: number = 0;
+
+  /**
+   * 발동 완료한 부분익절 티어 수.
+   * 체결 확정 뒤에만 증가시키고, 포지션 종료/추매 시 새 사이클로 리셋한다.
+   */
+  @Property({ default: 0 })
+  scaleOutStage: number = 0;
+
+  /**
+   * 최초 진입 또는 추매 직후의 보유수량 스냅샷.
+   * 부분청산 비율은 발동 시점 holdingQty 기준이며, 이 값은 진단용으로 보존한다.
+   */
+  @Property({ default: 0 })
+  initialQty: number = 0;
 
   @Property({ default: 0 })
   totalBuys: number = 0;
