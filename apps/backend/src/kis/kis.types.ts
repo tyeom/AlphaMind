@@ -156,6 +156,14 @@ export interface KisRealtimeExecution {
   cumulativeAmount: number;
   executionStrength: number;
   executionType: string;
+  /** 신장운영구분: VI 단일가 코드값은 페이퍼에서 확정 필요 */
+  newMkopClsCode?: string;
+  /** 거래정지 여부 */
+  tradingHalt?: boolean;
+  /** 시간구분: 0 장중, A 장후예상, B 장전예상, D 시간외단일가예상 */
+  hourClsCode?: string;
+  /** 정적 VI 발동 기준가 */
+  viStndPrc?: number;
 }
 
 /** 실시간 호가 데이터 */

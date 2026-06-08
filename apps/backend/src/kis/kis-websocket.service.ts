@@ -685,6 +685,8 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
 
   /** 실시간 체결가 파싱 */
   private parseExecution(f: string[]): KisRealtimeExecution {
+    const viStndPrc = Number(f[45]);
+
     return {
       stockCode: f[0]?.substring(0, 6) ?? f[0],
       time: f[1],
@@ -703,6 +705,10 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
       cumulativeAmount: Number(f[14]),
       executionStrength: Number(f[18]),
       executionType: f[21],
+      newMkopClsCode: f[34],
+      tradingHalt: f[35] === 'Y',
+      hourClsCode: f[43],
+      viStndPrc: Number.isFinite(viStndPrc) ? viStndPrc : undefined,
     };
   }
 
