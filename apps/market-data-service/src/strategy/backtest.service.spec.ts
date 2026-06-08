@@ -192,6 +192,74 @@ describe('BacktestService simulate', () => {
     expect(result.remainingQuantity).toBe(0);
   });
 
+  it('uses R-based quantity for first-entry backtest buys when enabled', () => {
+    const service = createService();
+    const candles = [candle(1, 100)];
+    const signals = new Map([
+      [
+        '2026-01-01',
+        {
+          direction: SignalDirection.Buy,
+          strength: 0.7,
+          reason: 'buy',
+          date: candles[0].date,
+          price: 100,
+        },
+      ],
+    ]);
+
+    const result = (service as any).simulate(
+      stock,
+      candles,
+      signals,
+      {
+        ...baseConfig,
+        autoStopLossPct: -2,
+        rSizing: { enabled: true, riskPct: 0.5 },
+      },
+      'test',
+    );
+
+    const buy = result.trades.find(
+      (trade: any) => trade.direction === SignalDirection.Buy,
+    );
+    expect(buy.quantity).toBe(2_500);
+  });
+
+  it('falls back to legacy backtest quantity when R stop-loss risk is invalid', () => {
+    const service = createService();
+    const candles = [candle(1, 100)];
+    const signals = new Map([
+      [
+        '2026-01-01',
+        {
+          direction: SignalDirection.Buy,
+          strength: 0.7,
+          reason: 'buy',
+          date: candles[0].date,
+          price: 100,
+        },
+      ],
+    ]);
+
+    const result = (service as any).simulate(
+      stock,
+      candles,
+      signals,
+      {
+        ...baseConfig,
+        autoStopLossPct: 0,
+        rSizing: { enabled: true, riskPct: 0.5 },
+      },
+      'test',
+    );
+
+    const buy = result.trades.find(
+      (trade: any) => trade.direction === SignalDirection.Buy,
+    );
+    expect(buy.quantity).toBe(10_000);
+  });
+
   it('closes positions at max holding days when thresholds are not hit', () => {
     const service = createService();
     const candles = Array.from({ length: 8 }, (_, i) =>

@@ -47,4 +47,8 @@ export interface BacktestQueryDto {
   runnerBreakevenFloorPct?: string;
   /** 부분익절 후 잔량 상위 익절선 % (기본 6.0) */
   runnerTakeProfitPct?: string;
+  /** R 기반 포지션 사이징 사용 여부 (기본 false) */
+  rSizingEnabled?: string;
+  /** R 기반 1트레이드 손실노출 % (기본 0.5) */
+  rRiskPct?: string;
 }

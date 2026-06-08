@@ -17,4 +17,6 @@ export interface ScanBodyDto {
   runnerBreakevenTriggerPct?: number;
   runnerBreakevenFloorPct?: number;
   runnerTakeProfitPct?: number;
+  rSizingEnabled?: boolean;
+  rRiskPct?: number;
 }

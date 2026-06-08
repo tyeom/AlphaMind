@@ -39,6 +39,10 @@ const MAX_PER_SECTOR = 4;
 /** 변동성 역가중 시 한 종목당 최소/최대 가중치 — 극단 배분 방지 */
 const VOL_WEIGHT_MIN = 0.5;
 const VOL_WEIGHT_MAX = 2.0;
+const R_SIZING_ENABLED = false;
+const R_SIZING_OVERRIDES_VOL_WEIGHT = false;
+const R_VOL_WEIGHT_MIN = 0.8;
+const R_VOL_WEIGHT_MAX = 1.25;
 /** 변동성 정보 결손 시 가정값 (%) — 한국 일반 종목 ATR/가격 중앙값 */
 const FALLBACK_VOLATILITY_PCT = 3.0;
 
@@ -613,12 +617,20 @@ export class ScheduledScannerService {
     const invVols = vols.map((v) => 1 / v);
     const sumInv = invVols.reduce((a, b) => a + b, 0);
     const n = candidates.length;
+    const volWeightMin =
+      R_SIZING_ENABLED && R_SIZING_OVERRIDES_VOL_WEIGHT
+        ? R_VOL_WEIGHT_MIN
+        : VOL_WEIGHT_MIN;
+    const volWeightMax =
+      R_SIZING_ENABLED && R_SIZING_OVERRIDES_VOL_WEIGHT
+        ? R_VOL_WEIGHT_MAX
+        : VOL_WEIGHT_MAX;
 
     for (let i = 0; i < candidates.length; i++) {
       const rawWeight = (invVols[i] / sumInv) * n; // 평균 = 1
       const weight = Math.max(
-        VOL_WEIGHT_MIN,
-        Math.min(VOL_WEIGHT_MAX, rawWeight),
+        volWeightMin,
+        Math.min(volWeightMax, rawWeight),
       );
       const amount = Math.round(SCAN_INVESTMENT_AMOUNT * weight);
       map.set(candidates[i].stockCode, amount);

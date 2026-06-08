@@ -40,6 +40,8 @@ const DEFAULT_RUNNER_TRAILING_GIVEBACK_PCT = 2.5;
 const DEFAULT_RUNNER_BREAKEVEN_TRIGGER_PCT = 4.0;
 const DEFAULT_RUNNER_BREAKEVEN_FLOOR_PCT = 1.0;
 const DEFAULT_RUNNER_TAKE_PROFIT_PCT = 6.0;
+const DEFAULT_R_SIZING_ENABLED = false;
+const DEFAULT_R_RISK_PCT = 0.5;
 
 interface ScaleOutRequestOptions {
   scaleOut: ScaleOutPlan;
@@ -48,6 +50,10 @@ interface ScaleOutRequestOptions {
   runnerBreakevenTriggerPct: number;
   runnerBreakevenFloorPct: number;
   runnerTakeProfitPct: number;
+  rSizing: {
+    enabled: boolean;
+    riskPct: number;
+  };
 }
 
 interface ScaleOutRequestSource {
@@ -59,6 +65,8 @@ interface ScaleOutRequestSource {
   runnerBreakevenTriggerPct?: number;
   runnerBreakevenFloorPct?: number;
   runnerTakeProfitPct?: number;
+  rSizingEnabled?: boolean;
+  rRiskPct?: number;
 }
 
 function buildScaleOutOptions(
@@ -88,6 +96,10 @@ function buildScaleOutOptions(
       source.runnerBreakevenFloorPct ?? DEFAULT_RUNNER_BREAKEVEN_FLOOR_PCT,
     runnerTakeProfitPct:
       source.runnerTakeProfitPct ?? DEFAULT_RUNNER_TAKE_PROFIT_PCT,
+    rSizing: {
+      enabled: source.rSizingEnabled ?? DEFAULT_R_SIZING_ENABLED,
+      riskPct: source.rRiskPct ?? DEFAULT_R_RISK_PCT,
+    },
   };
 }
 
@@ -423,6 +435,8 @@ export class StrategyController {
       runnerBreakevenTriggerPct?: number;
       runnerBreakevenFloorPct?: number;
       runnerTakeProfitPct?: number;
+      rSizingEnabled?: boolean;
+      rRiskPct?: number;
     },
   ) {
     const scaleOutOptions = buildScaleOutOptions(body ?? {});
@@ -469,6 +483,8 @@ export class StrategyController {
       runnerBreakevenTriggerPct?: number;
       runnerBreakevenFloorPct?: number;
       runnerTakeProfitPct?: number;
+      rSizingEnabled?: boolean;
+      rRiskPct?: number;
     },
   ) {
     const scaleOutOptions = buildScaleOutOptions(body ?? {});
@@ -534,6 +550,9 @@ export class StrategyController {
         query.runnerTakeProfitPct,
         DEFAULT_RUNNER_TAKE_PROFIT_PCT,
       ),
+      rSizingEnabled:
+        parseBooleanOptional(query.rSizingEnabled) ?? DEFAULT_R_SIZING_ENABLED,
+      rRiskPct: parseNumberOrDefault(query.rRiskPct, DEFAULT_R_RISK_PCT),
     });
 
     return this.backtestService.runBacktest(code, {

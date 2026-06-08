@@ -27,6 +27,7 @@ import {
   computeAtrDynamicTpSl,
   pickFreshStrongestSignal,
   computeScaleOutSellQty,
+  computeRiskBasedQty,
   evaluateScaleOut,
   type ScaleOutPlan,
 } from '@alpha-mind/strategies';
@@ -74,6 +75,8 @@ const DEFAULT_RUNNER_TRAILING_GIVEBACK_PCT = 2.5;
 const DEFAULT_RUNNER_BREAKEVEN_TRIGGER_PCT = 4.0;
 const DEFAULT_RUNNER_BREAKEVEN_FLOOR_PCT = 1.0;
 const DEFAULT_RUNNER_TAKE_PROFIT_PCT = 6.0;
+const DEFAULT_R_SIZING_ENABLED = false;
+const DEFAULT_R_RISK_PCT = 0.5;
 const DEFAULT_GRID_TP_RANGE = [1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 6.0];
 const DEFAULT_GRID_SL_RANGE = [-1.0, -1.5, -2.0, -2.5, -3.0, -4.0, -5.0];
 
@@ -181,6 +184,10 @@ interface ScaleOutBacktestOptions {
   runnerBreakevenTriggerPct?: number;
   runnerBreakevenFloorPct?: number;
   runnerTakeProfitPct?: number;
+  rSizing?: {
+    enabled: boolean;
+    riskPct: number;
+  };
 }
 
 @Injectable()
@@ -287,6 +294,10 @@ export class BacktestService {
       config.runnerBreakevenFloorPct ?? DEFAULT_RUNNER_BREAKEVEN_FLOOR_PCT;
     const runnerTakeProfitPct =
       config.runnerTakeProfitPct ?? DEFAULT_RUNNER_TAKE_PROFIT_PCT;
+    const rSizing = config.rSizing ?? {
+      enabled: DEFAULT_R_SIZING_ENABLED,
+      riskPct: DEFAULT_R_RISK_PCT,
+    };
 
     /**
      * 매도 체결: rawPrice 에서 슬리피지 차감 → 거래세 + 수수료 부과.
@@ -315,6 +326,35 @@ export class BacktestService {
           `백테스트 부분익절 수량 계산 실패, 기존 익절 경로로 폴백: ${stock.code} - ${err.message ?? err}`,
         );
         return 0;
+      }
+    };
+
+    const computeBacktestBuyQty = (
+      fillPrice: number,
+      buyAmount: number,
+      wasFlat: boolean,
+    ) => {
+      const legacyQty = Math.floor(buyAmount / fillPrice);
+      if (!rSizing.enabled || !wasFlat) {
+        return legacyQty;
+      }
+
+      try {
+        const r = computeRiskBasedQty(
+          config.investmentAmount,
+          fillPrice,
+          config.autoStopLossPct,
+          {
+            riskPct: rSizing.riskPct,
+            budgetCapAmount: buyAmount,
+          },
+        );
+        return r ? Math.min(r.qty, legacyQty) : legacyQty;
+      } catch (err: any) {
+        this.logger.warn(
+          `백테스트 R기반 수량 계산 실패, 기존 비율식으로 폴백: ${stock.code} - ${err.message ?? err}`,
+        );
+        return legacyQty;
       }
     };
 
@@ -624,9 +664,9 @@ export class BacktestService {
           // 수수료까지 포함해 현금이 음수로 내려가지 않게 주문 가능 금액을 산정.
           const buyAmount = Math.min(tradeAmount, cash / (1 + commissionRate));
           if (buyAmount > 0) {
-            const qty = Math.floor(buyAmount / fillPrice);
+            const wasFlat = quantity === 0;
+            const qty = computeBacktestBuyQty(fillPrice, buyAmount, wasFlat);
             if (qty > 0) {
-              const wasFlat = quantity === 0;
               const cost = qty * fillPrice;
               const actualCommission = cost * commissionRate;
               const slippageCost = qty * (fillPrice - actionPrice);
@@ -1311,6 +1351,10 @@ export class BacktestService {
     runnerBreakevenTriggerPct?: number;
     runnerBreakevenFloorPct?: number;
     runnerTakeProfitPct?: number;
+    rSizing?: {
+      enabled: boolean;
+      riskPct: number;
+    };
   }): Promise<GridSearchResult> {
     const logger = new Logger('BacktestService.gridSearchOptimalTpSl');
     const startTime = Date.now();
@@ -1331,6 +1375,7 @@ export class BacktestService {
       runnerBreakevenTriggerPct: opts?.runnerBreakevenTriggerPct,
       runnerBreakevenFloorPct: opts?.runnerBreakevenFloorPct,
       runnerTakeProfitPct: opts?.runnerTakeProfitPct,
+      rSizing: opts?.rSizing,
     };
 
     const lookbackFrom = new Date();

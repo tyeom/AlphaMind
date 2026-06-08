@@ -435,4 +435,55 @@ describe('AutoTradingService', () => {
     expect(session.initialQty).toBe(10);
     expect(em.flush).toHaveBeenCalled();
   });
+
+  it('computes first-entry buy quantity from per-position R sizing when enabled', () => {
+    const { service } = createService();
+    const session = {
+      stockCode: '005930',
+      investmentAmount: 1_000_000,
+      stopLossPct: -2,
+    } as AutoTradingSessionEntity;
+
+    (service as any).rSizingEnabled = true;
+
+    const qty = (service as any).computeBuyQuantity(
+      session,
+      10_000,
+      400_000,
+      400_000,
+      false,
+    );
+
+    expect(qty).toBe(25);
+  });
+
+  it('clamps R sizing by remaining budget and keeps add-on buys on legacy sizing', () => {
+    const { service } = createService();
+    const session = {
+      stockCode: '005930',
+      investmentAmount: 1_000_000,
+      stopLossPct: -0.5,
+    } as AutoTradingSessionEntity;
+
+    (service as any).rSizingEnabled = true;
+
+    expect(
+      (service as any).computeBuyQuantity(
+        session,
+        10_000,
+        400_000,
+        400_000,
+        false,
+      ),
+    ).toBe(40);
+    expect(
+      (service as any).computeBuyQuantity(
+        session,
+        10_000,
+        150_000,
+        400_000,
+        true,
+      ),
+    ).toBe(15);
+  });
 });

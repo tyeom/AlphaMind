@@ -23,6 +23,7 @@ import {
   getStrategyTradeMeta,
   evaluateLongBuyRisk,
   computeScaleOutSellQty,
+  computeRiskBasedQty,
   evaluateScaleOut,
   type ScaleOutPlan,
 } from '@alpha-mind/strategies';
@@ -101,6 +102,10 @@ const RUNNER_TRAILING_GIVEBACK_PCT = 2.5;
 const RUNNER_BREAKEVEN_TRIGGER_PCT = 4.0;
 const RUNNER_BREAKEVEN_FLOOR_PCT = 1.0;
 const RUNNER_TAKE_PROFIT_PCT = 6.0;
+const R_SIZING_ENABLED = false;
+const R_RISK_PCT = 0.5;
+const R_EQUITY_SOURCE = 'session';
+const R_SIZING_OVERRIDES_VOL_WEIGHT = false;
 /**
  * 진입 직후 grace period — 매수 N분 이내에는 본전/트레일링 스톱을 발동하지 않는다.
  * 단순 stopLossPct 와 takeProfitPct 는 그대로 작동 (큰 손실/익절은 즉시 반응).
@@ -125,6 +130,7 @@ interface ExecuteSellOptions {
 export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(AutoTradingService.name);
   private scaleOutEnabled = SCALE_OUT_ENABLED;
+  private rSizingEnabled = R_SIZING_ENABLED;
   private readonly scaleOutPlan: ScaleOutPlan = {
     enabled: false,
     tiers: [
@@ -1390,6 +1396,37 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
+  private computeBuyQuantity(
+    session: AutoTradingSessionEntity,
+    price: number,
+    tradeAmount: number,
+    remainingBudget: number,
+    isAddOn: boolean,
+  ): number {
+    const legacyQty = Math.floor(tradeAmount / price);
+    if (!this.rSizingEnabled || isAddOn) {
+      return legacyQty;
+    }
+
+    try {
+      // 이번 스프린트의 R equity source 는 per-position 예산으로 고정한다.
+      const equity =
+        R_EQUITY_SOURCE === 'session'
+          ? Number(session.investmentAmount)
+          : Number(session.investmentAmount);
+      const r = computeRiskBasedQty(equity, price, session.stopLossPct, {
+        riskPct: R_RISK_PCT,
+        budgetCapAmount: remainingBudget,
+      });
+      return r ? r.qty : legacyQty;
+    } catch (err: any) {
+      this.logger.warn(
+        `R기반 매수수량 계산 실패, 기존 비율식으로 폴백: ${session.stockCode} - ${err.message ?? err}`,
+      );
+      return legacyQty;
+    }
+  }
+
   /** 매수 실행 — 신호 발생 시점의 현재가로 지정가 매수 */
   private async executeBuy(session: AutoTradingSessionEntity, price: number) {
     const trackingReady = await this.ensureOrderNotificationTrackingReady();
@@ -1432,7 +1469,13 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       tradeAmount = remainingBudget;
     }
 
-    const qty = Math.floor(tradeAmount / price);
+    const qty = this.computeBuyQuantity(
+      session,
+      price,
+      tradeAmount,
+      remainingBudget,
+      isAddOn,
+    );
     if (qty <= 0) return;
 
     this.logger.log(
@@ -1501,7 +1544,13 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       const meta = getStrategyTradeMeta(session.strategyId, session.variant);
       const tradeAmount =
         Number(session.investmentAmount) * (meta.initialBuyRatioPct / 100);
-      const qty = Math.floor(tradeAmount / price);
+      const qty = this.computeBuyQuantity(
+        session,
+        price,
+        tradeAmount,
+        tradeAmount,
+        false,
+      );
       if (qty <= 0) {
         this.logger.warn(
           `즉시 매수 건너뜀: ${session.stockCode} - 첫 진입금액(${Math.round(tradeAmount)}) 대비 ` +

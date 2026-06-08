@@ -58,6 +58,11 @@ export interface BacktestConfig {
   runnerBreakevenFloorPct?: number;
   /** 부분익절 후 잔량 상위 익절선 % */
   runnerTakeProfitPct?: number;
+  /** R 기반 포지션 사이징 설정 (미지정 시 OFF) */
+  rSizing?: {
+    enabled: boolean;
+    riskPct: number;
+  };
 }
 
 /** TP/SL 그리드 서치 한 점 — 한 (TP, SL) 조합의 종목 평균 성과 */
