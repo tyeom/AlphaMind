@@ -39,6 +39,18 @@ export {
   type DynamicTpSlOptions,
   type DynamicTpSlResult,
 } from './utils/dynamic-tp-sl';
+export {
+  DEFAULT_SCALE_OUT_PLAN,
+  evaluateScaleOut,
+  type ScaleOutDecision,
+  type ScaleOutPlan,
+  type ScaleOutTier,
+} from './utils/scale-out';
+export {
+  computeRiskBasedQty,
+  type RiskSizingOptions,
+  type RiskSizingResult,
+} from './utils/position-sizing';
 
 // Trade meta
 export { getStrategyTradeMeta, type TradeMeta } from './trade-meta';
