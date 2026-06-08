@@ -22,6 +22,12 @@ export interface ScaleOutDecision {
   nextStage: number;
 }
 
+export interface ScaleOutSellQtyInput {
+  holdingQty: number;
+  sellRatioPct: number;
+  minRemainderQty: number;
+}
+
 export const DEFAULT_SCALE_OUT_PLAN: ScaleOutPlan = {
   enabled: false,
   tiers: [{ triggerPct: 2.0, sellRatioPct: 50, tag: 'TP1' }],
@@ -57,4 +63,27 @@ export function evaluateScaleOut(
     tierIndex: stage,
     nextStage: stage + 1,
   };
+}
+
+export function computeScaleOutSellQty({
+  holdingQty,
+  sellRatioPct,
+  minRemainderQty,
+}: ScaleOutSellQtyInput): number {
+  if (
+    !Number.isFinite(holdingQty) ||
+    !Number.isFinite(sellRatioPct) ||
+    !Number.isFinite(minRemainderQty) ||
+    holdingQty <= 0 ||
+    sellRatioPct <= 0
+  ) {
+    return 0;
+  }
+
+  let sellQty = Math.floor(holdingQty * (sellRatioPct / 100));
+  if (holdingQty - sellQty <= minRemainderQty) {
+    sellQty = holdingQty;
+  }
+
+  return Math.min(sellQty, holdingQty);
 }

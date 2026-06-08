@@ -1,4 +1,4 @@
-import { SignalDirection } from '@alpha-mind/strategies';
+import { SignalDirection, type ScaleOutPlan } from '@alpha-mind/strategies';
 
 /** 백테스트 설정 */
 export interface BacktestConfig {
@@ -46,6 +46,18 @@ export interface BacktestConfig {
   breakevenTriggerPct?: number;
   /** 본전 보호 청산선 % (기본 0.1) */
   breakevenFloorPct?: number;
+  /** 부분익절 래더 설정 (미지정 시 OFF) */
+  scaleOut?: ScaleOutPlan;
+  /** 부분익절 후 잔량 트레일링 시작 수익률 % */
+  runnerTrailingTriggerPct?: number;
+  /** 부분익절 후 잔량 고점 대비 반납 허용률 % */
+  runnerTrailingGivebackPct?: number;
+  /** 부분익절 후 잔량 본전 보호 시작 수익률 % */
+  runnerBreakevenTriggerPct?: number;
+  /** 부분익절 후 잔량 본전 보호 청산선 % */
+  runnerBreakevenFloorPct?: number;
+  /** 부분익절 후 잔량 상위 익절선 % */
+  runnerTakeProfitPct?: number;
 }
 
 /** TP/SL 그리드 서치 한 점 — 한 (TP, SL) 조합의 종목 평균 성과 */
@@ -94,6 +106,10 @@ export interface BacktestTrade {
   reason: string;
   /** 매도 시 실현 손익 */
   realizedPnl?: number;
+  /** 부분청산 체결 여부 */
+  partial?: boolean;
+  /** 진단용 최초/추매 직후 보유수량 스냅샷 */
+  initialQtyAtEntry?: number;
 }
 
 /** 백테스트 결과 */

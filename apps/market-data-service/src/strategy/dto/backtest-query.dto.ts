@@ -31,4 +31,20 @@ export interface BacktestQueryDto {
   breakevenTriggerPct?: string;
   /** 본전 보호 청산선 % (기본 0.1) */
   breakevenFloorPct?: string;
+  /** 부분익절 사용 여부 (기본 false) */
+  scaleOutEnabled?: string;
+  /** TP1 발동 수익률 % (기본 2.0) */
+  scaleOutTp1TriggerPct?: string;
+  /** TP1 매도 비율 % (기본 50) */
+  scaleOutTp1SellRatioPct?: string;
+  /** 부분익절 후 잔량 트레일링 시작 수익률 % (기본 3.5) */
+  runnerTrailingTriggerPct?: string;
+  /** 부분익절 후 잔량 고점 대비 반납 허용률 % (기본 2.5) */
+  runnerTrailingGivebackPct?: string;
+  /** 부분익절 후 잔량 본전 보호 시작 수익률 % (기본 4.0) */
+  runnerBreakevenTriggerPct?: string;
+  /** 부분익절 후 잔량 본전 보호 청산선 % (기본 1.0) */
+  runnerBreakevenFloorPct?: string;
+  /** 부분익절 후 잔량 상위 익절선 % (기본 6.0) */
+  runnerTakeProfitPct?: string;
 }

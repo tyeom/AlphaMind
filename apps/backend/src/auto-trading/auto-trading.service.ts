@@ -22,6 +22,9 @@ import {
   StrategyAnalysisResult,
   getStrategyTradeMeta,
   evaluateLongBuyRisk,
+  computeScaleOutSellQty,
+  evaluateScaleOut,
+  type ScaleOutPlan,
 } from '@alpha-mind/strategies';
 import {
   AddOnBuyMode,
@@ -89,6 +92,15 @@ const TRAILING_STOP_GIVEBACK_PCT = 1.2;
 // 본전 보호는 +1.5% 이상 찍은 뒤 0% 이하로 내려갈 때만 — 작은 이익도 양보하지 않는다.
 const BREAKEVEN_TRIGGER_PCT = 1.5;
 const BREAKEVEN_FLOOR_PCT = 0.0;
+const SCALE_OUT_ENABLED = false;
+const SCALE_OUT_TP1_TRIGGER_PCT = 2.0;
+const SCALE_OUT_TP1_SELL_RATIO_PCT = 50;
+const SCALE_OUT_MIN_REMAINDER_QTY = 1;
+const RUNNER_TRAILING_TRIGGER_PCT = 3.5;
+const RUNNER_TRAILING_GIVEBACK_PCT = 2.5;
+const RUNNER_BREAKEVEN_TRIGGER_PCT = 4.0;
+const RUNNER_BREAKEVEN_FLOOR_PCT = 1.0;
+const RUNNER_TAKE_PROFIT_PCT = 6.0;
 /**
  * 진입 직후 grace period — 매수 N분 이내에는 본전/트레일링 스톱을 발동하지 않는다.
  * 단순 stopLossPct 와 takeProfitPct 는 그대로 작동 (큰 손실/익절은 즉시 반응).
@@ -103,9 +115,26 @@ const SUBSCRIPTION_RETRY_MAX_DELAY_MS = 60_000;
 const SCHEDULED_CLEANUP_BALANCE_MAX_ATTEMPTS = 2;
 const SCHEDULED_CLEANUP_BALANCE_RETRY_DELAY_MS = 5_000;
 
+interface ExecuteSellOptions {
+  sellQty?: number;
+  pauseAfterSell?: boolean;
+  stage?: number;
+}
+
 @Injectable()
 export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(AutoTradingService.name);
+  private scaleOutEnabled = SCALE_OUT_ENABLED;
+  private readonly scaleOutPlan: ScaleOutPlan = {
+    enabled: false,
+    tiers: [
+      {
+        triggerPct: SCALE_OUT_TP1_TRIGGER_PCT,
+        sellRatioPct: SCALE_OUT_TP1_SELL_RATIO_PCT,
+        tag: 'TP1',
+      },
+    ],
+  };
   private executionSub?: Subscription;
   private subscriptionResultSub?: Subscription;
   private notificationSub?: Subscription;
@@ -181,6 +210,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
   private resetPositionRisk(session: AutoTradingSessionEntity): void {
     session.highestPriceAfterEntry = 0;
+    session.scaleOutStage = 0;
+    session.initialQty = 0;
   }
 
   private markPositionRiskOnBuy(
@@ -190,12 +221,17 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   ): void {
     if (wasFlat) {
       session.highestPriceAfterEntry = price;
-      return;
+    } else {
+      session.highestPriceAfterEntry = Math.max(
+        session.highestPriceAfterEntry || 0,
+        price,
+      );
     }
-    session.highestPriceAfterEntry = Math.max(
-      session.highestPriceAfterEntry || 0,
-      price,
-    );
+    // 매수/추매 체결은 새 포지션 사이클로 간주해 부분익절 stage 를 다시 시작한다.
+    if (session.holdingQty > 0) {
+      session.initialQty = session.holdingQty;
+      session.scaleOutStage = 0;
+    }
   }
 
   private updateHighestPriceAfterEntry(
@@ -854,6 +890,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     const pausedStockCodes = new Set<string>();
     for (const session of sessions) {
       if (session.status === SessionStatus.STOPPED) continue;
+      if (this.sellInFlightSessionIds.has(session.id)) continue;
 
       const real = balanceMap.get(session.stockCode);
       const realQty = real?.qty ?? 0;
@@ -1522,10 +1559,18 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     session: AutoTradingSessionEntity,
     price: number,
     reason: string,
+    opts?: ExecuteSellOptions,
   ) {
     if (session.holdingQty <= 0) return;
     if (session.autoPausePending) return;
     if (this.sellInFlightSessionIds.has(session.id)) return;
+    const sellQty = Math.min(
+      opts?.sellQty ?? session.holdingQty,
+      session.holdingQty,
+    );
+    if (sellQty <= 0) return;
+    const pauseAfterSell =
+      sellQty >= session.holdingQty ? true : (opts?.pauseAfterSell ?? true);
 
     this.sellInFlightSessionIds.add(session.id);
     try {
@@ -1535,7 +1580,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       }
 
       this.logger.log(
-        `매도 실행: ${session.stockCode} ${session.holdingQty}주 @ ${price} (${reason})`,
+        `매도 실행: ${session.stockCode} ${sellQty}주 @ ${price} (${reason})`,
       );
 
       try {
@@ -1543,14 +1588,16 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           stockCode: session.stockCode,
           orderType: 'sell',
           orderDvsn: '01', // 시장가
-          quantity: session.holdingQty,
+          quantity: sellQty,
           price: 0,
           userId: session.user.id,
           metadata: {
             sessionId: session.id,
             source: 'auto-sell',
             reason,
-            pauseAfterSell: true,
+            pauseAfterSell,
+            partial: !pauseAfterSell,
+            stage: opts?.stage,
             trackingMode: trackingReady
               ? 'notification'
               : 'optimistic-fallback',
@@ -1565,14 +1612,18 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         }
 
         this.logger.log(
-          `매도 주문 접수: ${session.stockCode} ${session.holdingQty}주 (${reason}) ` +
+          `매도 주문 접수: ${session.stockCode} ${sellQty}주 (${reason}) ` +
             `(주문번호 ${result.output?.ODNO ?? 'N/A'})`,
         );
-        session.autoPausePending = true;
+        if (pauseAfterSell) {
+          session.autoPausePending = true;
+        }
         session.pauseReason = undefined;
         if (!trackingReady) {
-          const sellQty = session.holdingQty;
           const pnl = this.applyOptimisticSellFill(session, price, sellQty);
+          if (opts?.stage != null && session.holdingQty > 0) {
+            session.scaleOutStage = opts.stage;
+          }
           await this.em.flush();
           this.broadcastSessionUpdate(session);
           this.createSignalNotification(
@@ -1583,7 +1634,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
             reason,
             pnl,
           );
-          await this.pauseSessionAfterAutoSell(session, reason);
+          if (pauseAfterSell) {
+            await this.pauseSessionAfterAutoSell(session, reason);
+          }
         } else {
           await this.em.flush();
           this.broadcastSessionUpdate(session);
@@ -1683,6 +1736,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       }
       this.createSignalNotification(session, 'buy', executedPrice, executedQty);
     } else if (execution.history.tradeType === TradeType.SELL) {
+      const meta = execution.history.rawResponse?.meta ?? {};
       const sellQty = Math.min(executedQty, session.holdingQty);
       const pnl = (executedPrice - session.avgBuyPrice) * sellQty;
       session.realizedPnl = Number(session.realizedPnl) + Math.round(pnl);
@@ -1698,6 +1752,10 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         session.addOnBuyCount = 0;
         this.resetPositionRisk(session);
       } else {
+        const nextStage = Number(meta.stage);
+        if (wasFirstExecution && Number.isFinite(nextStage)) {
+          session.scaleOutStage = nextStage;
+        }
         const latestPrice = this.latestPrices.get(session.stockCode);
         if (latestPrice) {
           session.unrealizedPnl = Math.round(
@@ -1711,7 +1769,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         'sell',
         executedPrice,
         sellQty,
-        execution.history.rawResponse?.meta?.reason,
+        meta.reason,
         Math.round(pnl),
       );
     }
@@ -1978,14 +2036,6 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     const givebackPct =
       peakPrice > 0 ? ((peakPrice - price) / peakPrice) * 100 : 0;
 
-    if (returnPct >= session.takeProfitPct) {
-      await this.executeSell(
-        session,
-        price,
-        `자동 익절 (${returnPct.toFixed(1)}%)`,
-      );
-      return true;
-    }
     if (returnPct <= session.stopLossPct) {
       await this.executeSell(
         session,
@@ -1994,16 +2044,87 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       );
       return true;
     }
+
+    const isRunner = this.scaleOutEnabled && session.scaleOutStage > 0;
+    if (isRunner && returnPct >= RUNNER_TAKE_PROFIT_PCT) {
+      await this.executeSell(
+        session,
+        price,
+        `러너 익절 (${returnPct.toFixed(1)}%)`,
+      );
+      return true;
+    }
+
+    if (this.scaleOutEnabled) {
+      try {
+        const scaleOutPlan = {
+          ...this.scaleOutPlan,
+          enabled: this.scaleOutEnabled,
+        };
+        const decision = evaluateScaleOut(
+          scaleOutPlan,
+          session.scaleOutStage,
+          returnPct,
+        );
+        if (decision) {
+          const sellQty = computeScaleOutSellQty({
+            holdingQty: session.holdingQty,
+            sellRatioPct: decision.tier.sellRatioPct,
+            minRemainderQty: SCALE_OUT_MIN_REMAINDER_QTY,
+          });
+          if (sellQty > 0) {
+            const partial = sellQty < session.holdingQty;
+            await this.executeSell(
+              session,
+              price,
+              `${decision.tier.tag} ${partial ? '부분' : ''}익절 (${returnPct.toFixed(1)}%, ${decision.tier.sellRatioPct}%)`,
+              {
+                sellQty,
+                pauseAfterSell: !partial,
+                stage: decision.nextStage,
+              },
+            );
+            return true;
+          }
+        }
+      } catch (err: any) {
+        this.logger.warn(
+          `부분익절 평가 실패, 기존 익절 경로로 폴백: ${session.stockCode} - ${err.message ?? err}`,
+        );
+      }
+    }
+
+    if (!isRunner && returnPct >= session.takeProfitPct) {
+      await this.executeSell(
+        session,
+        price,
+        `자동 익절 (${returnPct.toFixed(1)}%)`,
+      );
+      return true;
+    }
+
     // 본전 보호 / 트레일링은 진입 직후 grace period 동안 비활성화.
     // 다음봉 시가 매수 직후 일중 흔들림에 의한 즉시 청산을 방지한다.
     const enteredAtMs = session.enteredAt?.getTime();
     const inGracePeriod =
       enteredAtMs != null &&
       Date.now() - enteredAtMs < POSITION_GRACE_PERIOD_MS;
+    const trailTrigger = isRunner
+      ? RUNNER_TRAILING_TRIGGER_PCT
+      : TRAILING_STOP_TRIGGER_PCT;
+    const trailGiveback = isRunner
+      ? RUNNER_TRAILING_GIVEBACK_PCT
+      : TRAILING_STOP_GIVEBACK_PCT;
+    const breakevenTrigger = isRunner
+      ? RUNNER_BREAKEVEN_TRIGGER_PCT
+      : BREAKEVEN_TRIGGER_PCT;
+    const breakevenFloor = isRunner
+      ? RUNNER_BREAKEVEN_FLOOR_PCT
+      : BREAKEVEN_FLOOR_PCT;
     if (
       !inGracePeriod &&
-      peakReturnPct >= BREAKEVEN_TRIGGER_PCT &&
-      returnPct <= BREAKEVEN_FLOOR_PCT
+      peakReturnPct >= breakevenTrigger &&
+      returnPct <= breakevenFloor
     ) {
       await this.executeSell(
         session,
@@ -2014,8 +2135,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
     if (
       !inGracePeriod &&
-      peakReturnPct >= TRAILING_STOP_TRIGGER_PCT &&
-      givebackPct >= TRAILING_STOP_GIVEBACK_PCT
+      peakReturnPct >= trailTrigger &&
+      givebackPct >= trailGiveback
     ) {
       await this.executeSell(
         session,

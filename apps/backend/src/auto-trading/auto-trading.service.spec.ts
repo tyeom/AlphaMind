@@ -22,6 +22,8 @@ describe('AutoTradingService', () => {
 
     const kisOrderService = {
       orderCash: jest.fn(),
+      recordExecutionNotification: jest.fn(),
+      markOrderRejected: jest.fn(),
     };
     const kisWsService = {
       ensureOrderNotificationsSubscribed: jest.fn().mockResolvedValue(true),
@@ -42,7 +44,7 @@ describe('AutoTradingService', () => {
       getBalance: jest.fn(),
     };
     const notificationService = {
-      create: jest.fn(),
+      create: jest.fn().mockResolvedValue({}),
     };
     const marketDataClient = {} as ClientProxy;
 
@@ -59,6 +61,8 @@ describe('AutoTradingService', () => {
     return {
       service,
       em,
+      kisOrderService,
+      kisWsService,
       kisQuotationService,
       kisInquiryService,
     };
@@ -90,6 +94,107 @@ describe('AutoTradingService', () => {
       103,
       '자동 익절 (3.0%)',
     );
+  });
+
+  it('triggers scale-out without pausing the remaining holding when enabled', async () => {
+    const { service } = createService();
+    const session = {
+      id: 11,
+      stockCode: '005930',
+      status: SessionStatus.ACTIVE,
+      holdingQty: 10,
+      avgBuyPrice: 100,
+      scaleOutStage: 0,
+      takeProfitPct: 2,
+      stopLossPct: -3,
+      maxHoldingDays: 7,
+      autoPausePending: false,
+    } as AutoTradingSessionEntity;
+
+    (service as any).scaleOutEnabled = true;
+    jest.spyOn(service as any, 'executeSell').mockResolvedValue(undefined);
+
+    const sold = await (service as any).evaluateAndExecuteSell(session, 102);
+
+    expect(sold).toBe(true);
+    expect((service as any).executeSell).toHaveBeenCalledWith(
+      session,
+      102,
+      'TP1 부분익절 (2.0%, 50%)',
+      { sellQty: 5, pauseAfterSell: false, stage: 1 },
+    );
+  });
+
+  it('does not fall back to the legacy TP line for a scaled-out runner', async () => {
+    const { service } = createService();
+    const session = {
+      id: 12,
+      stockCode: '005930',
+      status: SessionStatus.ACTIVE,
+      holdingQty: 5,
+      avgBuyPrice: 100,
+      highestPriceAfterEntry: 103,
+      scaleOutStage: 1,
+      takeProfitPct: 2,
+      stopLossPct: -3,
+      maxHoldingDays: 7,
+      autoPausePending: false,
+    } as AutoTradingSessionEntity;
+
+    (service as any).scaleOutEnabled = true;
+    jest.spyOn(service as any, 'executeSell').mockResolvedValue(undefined);
+
+    const sold = await (service as any).evaluateAndExecuteSell(session, 103);
+
+    expect(sold).toBe(false);
+    expect((service as any).executeSell).not.toHaveBeenCalled();
+  });
+
+  it('keeps partial optimistic sells active and increments stage only after fill', async () => {
+    const { service, kisOrderService, kisWsService } = createService();
+    const session = {
+      id: 13,
+      stockCode: '005930',
+      stockName: '삼성전자',
+      status: SessionStatus.ACTIVE,
+      holdingQty: 10,
+      avgBuyPrice: 100,
+      scaleOutStage: 0,
+      takeProfitPct: 2,
+      stopLossPct: -3,
+      autoPausePending: false,
+      user: { id: 1 },
+    } as AutoTradingSessionEntity;
+
+    kisWsService.ensureOrderNotificationsSubscribed.mockResolvedValue(false);
+    kisOrderService.orderCash.mockResolvedValue({
+      rt_cd: '0',
+      output: { ODNO: '123' },
+    });
+    const pauseSpy = jest
+      .spyOn(service as any, 'pauseSessionAfterAutoSell')
+      .mockResolvedValue(undefined);
+
+    await (service as any).executeSell(session, 102, 'TP1 부분익절', {
+      sellQty: 5,
+      pauseAfterSell: false,
+      stage: 1,
+    });
+
+    expect(kisOrderService.orderCash).toHaveBeenCalledWith(
+      expect.objectContaining({
+        quantity: 5,
+        metadata: expect.objectContaining({
+          pauseAfterSell: false,
+          partial: true,
+          stage: 1,
+        }),
+      }),
+    );
+    expect(session.holdingQty).toBe(5);
+    expect(session.autoPausePending).toBe(false);
+    expect(session.scaleOutStage).toBe(1);
+    expect(pauseSpy).not.toHaveBeenCalled();
   });
 
   it('skips price-triggered sell checks when there is no holding', async () => {
@@ -298,6 +403,36 @@ describe('AutoTradingService', () => {
 
     expect(session.autoPausePending).toBe(false);
     expect(session.holdingQty).toBe(2);
+    expect(em.flush).toHaveBeenCalled();
+  });
+
+  it('preserves scale-out state when balance sync still has real holdings', async () => {
+    const { service, em } = createService();
+    const session = {
+      id: 8,
+      stockCode: '005930',
+      status: SessionStatus.ACTIVE,
+      holdingQty: 5,
+      avgBuyPrice: 100,
+      scaleOutStage: 1,
+      initialQty: 10,
+      autoPausePending: false,
+    } as AutoTradingSessionEntity;
+
+    await (service as any).applyBalanceSnapshotToSessions(
+      [session],
+      [
+        {
+          pdno: session.stockCode,
+          hldg_qty: '4',
+          pchs_avg_pric: '100',
+        },
+      ],
+    );
+
+    expect(session.holdingQty).toBe(4);
+    expect(session.scaleOutStage).toBe(1);
+    expect(session.initialQty).toBe(10);
     expect(em.flush).toHaveBeenCalled();
   });
 });

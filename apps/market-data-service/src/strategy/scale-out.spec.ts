@@ -1,4 +1,5 @@
 import {
+  computeScaleOutSellQty,
   DEFAULT_SCALE_OUT_PLAN,
   evaluateScaleOut,
   type ScaleOutPlan,
@@ -44,5 +45,22 @@ describe('Scale-out utility', () => {
 
     expect(evaluateScaleOut(plan, 0, 1.99)).toBeNull();
     expect(evaluateScaleOut(plan, 0, 2)?.nextStage).toBe(1);
+  });
+
+  it('computes sell quantity from current holding and absorbs uneconomic remainder', () => {
+    expect(
+      computeScaleOutSellQty({
+        holdingQty: 10,
+        sellRatioPct: 50,
+        minRemainderQty: 1,
+      }),
+    ).toBe(5);
+    expect(
+      computeScaleOutSellQty({
+        holdingQty: 1,
+        sellRatioPct: 50,
+        minRemainderQty: 1,
+      }),
+    ).toBe(1);
   });
 });

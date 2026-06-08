@@ -15,6 +15,7 @@ import {
   Payload,
 } from '@nestjs/microservices';
 import { Public } from '@alpha-mind/common';
+import type { ScaleOutPlan } from '@alpha-mind/strategies';
 import { firstValueFrom } from 'rxjs';
 import { StrategyService } from './strategy.service';
 import { BacktestService } from './backtest.service';
@@ -31,6 +32,64 @@ import { BACKEND_SERVICE } from '../rmq/rmq.module';
 
 const SCAN_RESULT_EMIT_MAX_ATTEMPTS = 10;
 const SCAN_RESULT_EMIT_RETRY_DELAY_MS = 1000;
+const DEFAULT_SCALE_OUT_ENABLED = false;
+const DEFAULT_SCALE_OUT_TP1_TRIGGER_PCT = 2.0;
+const DEFAULT_SCALE_OUT_TP1_SELL_RATIO_PCT = 50;
+const DEFAULT_RUNNER_TRAILING_TRIGGER_PCT = 3.5;
+const DEFAULT_RUNNER_TRAILING_GIVEBACK_PCT = 2.5;
+const DEFAULT_RUNNER_BREAKEVEN_TRIGGER_PCT = 4.0;
+const DEFAULT_RUNNER_BREAKEVEN_FLOOR_PCT = 1.0;
+const DEFAULT_RUNNER_TAKE_PROFIT_PCT = 6.0;
+
+interface ScaleOutRequestOptions {
+  scaleOut: ScaleOutPlan;
+  runnerTrailingTriggerPct: number;
+  runnerTrailingGivebackPct: number;
+  runnerBreakevenTriggerPct: number;
+  runnerBreakevenFloorPct: number;
+  runnerTakeProfitPct: number;
+}
+
+interface ScaleOutRequestSource {
+  scaleOutEnabled?: boolean;
+  scaleOutTp1TriggerPct?: number;
+  scaleOutTp1SellRatioPct?: number;
+  runnerTrailingTriggerPct?: number;
+  runnerTrailingGivebackPct?: number;
+  runnerBreakevenTriggerPct?: number;
+  runnerBreakevenFloorPct?: number;
+  runnerTakeProfitPct?: number;
+}
+
+function buildScaleOutOptions(
+  source: ScaleOutRequestSource,
+): ScaleOutRequestOptions {
+  return {
+    scaleOut: {
+      enabled: source.scaleOutEnabled ?? DEFAULT_SCALE_OUT_ENABLED,
+      tiers: [
+        {
+          triggerPct:
+            source.scaleOutTp1TriggerPct ?? DEFAULT_SCALE_OUT_TP1_TRIGGER_PCT,
+          sellRatioPct:
+            source.scaleOutTp1SellRatioPct ??
+            DEFAULT_SCALE_OUT_TP1_SELL_RATIO_PCT,
+          tag: 'TP1',
+        },
+      ],
+    },
+    runnerTrailingTriggerPct:
+      source.runnerTrailingTriggerPct ?? DEFAULT_RUNNER_TRAILING_TRIGGER_PCT,
+    runnerTrailingGivebackPct:
+      source.runnerTrailingGivebackPct ?? DEFAULT_RUNNER_TRAILING_GIVEBACK_PCT,
+    runnerBreakevenTriggerPct:
+      source.runnerBreakevenTriggerPct ?? DEFAULT_RUNNER_BREAKEVEN_TRIGGER_PCT,
+    runnerBreakevenFloorPct:
+      source.runnerBreakevenFloorPct ?? DEFAULT_RUNNER_BREAKEVEN_FLOOR_PCT,
+    runnerTakeProfitPct:
+      source.runnerTakeProfitPct ?? DEFAULT_RUNNER_TAKE_PROFIT_PCT,
+  };
+}
 
 function parseNumberOrDefault(
   value: string | undefined,
@@ -253,6 +312,7 @@ export class StrategyController {
   @Post('scan')
   async scanStocks(@Body() body: ScanBodyDto) {
     const optimal = await this.backtestService.getActiveShortTermTpSl();
+    const scaleOutOptions = buildScaleOutOptions(body ?? {});
     return this.backtestService.scanAllStocks(
       body.excludeCodes ?? [],
       body.topN ?? 10,
@@ -264,6 +324,7 @@ export class StrategyController {
       body.maxHoldingDays ?? 7,
       body.minCurrentSignalStrength ?? 0.65,
       body.minTotalTrades ?? 10,
+      scaleOutOptions,
     );
   }
 
@@ -285,6 +346,7 @@ export class StrategyController {
 
     let response;
     try {
+      const scaleOutOptions = buildScaleOutOptions(body ?? {});
       response = await this.backtestService.scanAllStocks(
         body.excludeCodes ?? [],
         body.topN ?? 10,
@@ -296,6 +358,7 @@ export class StrategyController {
         body.maxHoldingDays ?? 7,
         body.minCurrentSignalStrength ?? 0.65,
         body.minTotalTrades ?? 3,
+        scaleOutOptions,
       );
     } catch (err: any) {
       const message = this.getErrorMessage(err);
@@ -352,8 +415,17 @@ export class StrategyController {
       autoTakeProfitPct?: number;
       autoStopLossPct?: number;
       maxHoldingDays?: number;
+      scaleOutEnabled?: boolean;
+      scaleOutTp1TriggerPct?: number;
+      scaleOutTp1SellRatioPct?: number;
+      runnerTrailingTriggerPct?: number;
+      runnerTrailingGivebackPct?: number;
+      runnerBreakevenTriggerPct?: number;
+      runnerBreakevenFloorPct?: number;
+      runnerTakeProfitPct?: number;
     },
   ) {
+    const scaleOutOptions = buildScaleOutOptions(body ?? {});
     return this.backtestService.recommendStrategy(
       body.stockCode,
       body.investmentAmount,
@@ -362,6 +434,7 @@ export class StrategyController {
       body.autoTakeProfitPct,
       body.autoStopLossPct,
       body.maxHoldingDays,
+      scaleOutOptions,
     );
   }
 
@@ -388,9 +461,21 @@ export class StrategyController {
       stockSampleSize?: number;
       investmentAmount?: number;
       maxHoldingDays?: number;
+      scaleOutEnabled?: boolean;
+      scaleOutTp1TriggerPct?: number;
+      scaleOutTp1SellRatioPct?: number;
+      runnerTrailingTriggerPct?: number;
+      runnerTrailingGivebackPct?: number;
+      runnerBreakevenTriggerPct?: number;
+      runnerBreakevenFloorPct?: number;
+      runnerTakeProfitPct?: number;
     },
   ) {
-    return this.backtestService.gridSearchOptimalTpSl(body ?? {});
+    const scaleOutOptions = buildScaleOutOptions(body ?? {});
+    return this.backtestService.gridSearchOptimalTpSl({
+      ...(body ?? {}),
+      ...scaleOutOptions,
+    });
   }
 
   /**
@@ -417,6 +502,39 @@ export class StrategyController {
     const allowAddOnBuy = parseBooleanOptional(query.allowAddOnBuy);
     const useNextOpenForBuy = parseBooleanOptional(query.useNextOpenForBuy);
     const sellTaxPct = parseNumberOptional(query.sellTaxPct);
+    const scaleOutOptions = buildScaleOutOptions({
+      scaleOutEnabled:
+        parseBooleanOptional(query.scaleOutEnabled) ??
+        DEFAULT_SCALE_OUT_ENABLED,
+      scaleOutTp1TriggerPct: parseNumberOrDefault(
+        query.scaleOutTp1TriggerPct,
+        DEFAULT_SCALE_OUT_TP1_TRIGGER_PCT,
+      ),
+      scaleOutTp1SellRatioPct: parseNumberOrDefault(
+        query.scaleOutTp1SellRatioPct,
+        DEFAULT_SCALE_OUT_TP1_SELL_RATIO_PCT,
+      ),
+      runnerTrailingTriggerPct: parseNumberOrDefault(
+        query.runnerTrailingTriggerPct,
+        DEFAULT_RUNNER_TRAILING_TRIGGER_PCT,
+      ),
+      runnerTrailingGivebackPct: parseNumberOrDefault(
+        query.runnerTrailingGivebackPct,
+        DEFAULT_RUNNER_TRAILING_GIVEBACK_PCT,
+      ),
+      runnerBreakevenTriggerPct: parseNumberOrDefault(
+        query.runnerBreakevenTriggerPct,
+        DEFAULT_RUNNER_BREAKEVEN_TRIGGER_PCT,
+      ),
+      runnerBreakevenFloorPct: parseNumberOrDefault(
+        query.runnerBreakevenFloorPct,
+        DEFAULT_RUNNER_BREAKEVEN_FLOOR_PCT,
+      ),
+      runnerTakeProfitPct: parseNumberOrDefault(
+        query.runnerTakeProfitPct,
+        DEFAULT_RUNNER_TAKE_PROFIT_PCT,
+      ),
+    });
 
     return this.backtestService.runBacktest(code, {
       strategyId: query.strategyId,
@@ -441,6 +559,7 @@ export class StrategyController {
       ),
       breakevenTriggerPct: parseNumberOrDefault(query.breakevenTriggerPct, 1.0),
       breakevenFloorPct: parseNumberOrDefault(query.breakevenFloorPct, 0.1),
+      ...scaleOutOptions,
       ...(sellTaxPct !== undefined && { sellTaxPct }),
       ...(allowAddOnBuy !== undefined && { allowAddOnBuy }),
       ...(useNextOpenForBuy !== undefined && { useNextOpenForBuy }),

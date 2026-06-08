@@ -9,4 +9,12 @@ export interface ScanBodyDto {
   maxHoldingDays?: number;
   minCurrentSignalStrength?: number;
   minTotalTrades?: number;
+  scaleOutEnabled?: boolean;
+  scaleOutTp1TriggerPct?: number;
+  scaleOutTp1SellRatioPct?: number;
+  runnerTrailingTriggerPct?: number;
+  runnerTrailingGivebackPct?: number;
+  runnerBreakevenTriggerPct?: number;
+  runnerBreakevenFloorPct?: number;
+  runnerTakeProfitPct?: number;
 }

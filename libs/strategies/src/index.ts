@@ -40,10 +40,12 @@ export {
   type DynamicTpSlResult,
 } from './utils/dynamic-tp-sl';
 export {
+  computeScaleOutSellQty,
   DEFAULT_SCALE_OUT_PLAN,
   evaluateScaleOut,
   type ScaleOutDecision,
   type ScaleOutPlan,
+  type ScaleOutSellQtyInput,
   type ScaleOutTier,
 } from './utils/scale-out';
 export {

@@ -26,6 +26,9 @@ import {
   DEFAULT_DYNAMIC_TP_SL_OPTIONS,
   computeAtrDynamicTpSl,
   pickFreshStrongestSignal,
+  computeScaleOutSellQty,
+  evaluateScaleOut,
+  type ScaleOutPlan,
 } from '@alpha-mind/strategies';
 import {
   BacktestConfig,
@@ -62,6 +65,15 @@ const DEFAULT_TRAILING_STOP_TRIGGER_PCT = 1.2;
 const DEFAULT_TRAILING_STOP_GIVEBACK_PCT = 0.8;
 const DEFAULT_BREAKEVEN_TRIGGER_PCT = 1.0;
 const DEFAULT_BREAKEVEN_FLOOR_PCT = 0.1;
+const DEFAULT_SCALE_OUT_ENABLED = false;
+const DEFAULT_SCALE_OUT_TP1_TRIGGER_PCT = 2.0;
+const DEFAULT_SCALE_OUT_TP1_SELL_RATIO_PCT = 50;
+const DEFAULT_SCALE_OUT_MIN_REMAINDER_QTY = 1;
+const DEFAULT_RUNNER_TRAILING_TRIGGER_PCT = 3.5;
+const DEFAULT_RUNNER_TRAILING_GIVEBACK_PCT = 2.5;
+const DEFAULT_RUNNER_BREAKEVEN_TRIGGER_PCT = 4.0;
+const DEFAULT_RUNNER_BREAKEVEN_FLOOR_PCT = 1.0;
+const DEFAULT_RUNNER_TAKE_PROFIT_PCT = 6.0;
 const DEFAULT_GRID_TP_RANGE = [1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 6.0];
 const DEFAULT_GRID_SL_RANGE = [-1.0, -1.5, -2.0, -2.5, -3.0, -4.0, -5.0];
 
@@ -162,8 +174,19 @@ interface TradeQuality {
   payoffRatio: number;
 }
 
+interface ScaleOutBacktestOptions {
+  scaleOut?: ScaleOutPlan;
+  runnerTrailingTriggerPct?: number;
+  runnerTrailingGivebackPct?: number;
+  runnerBreakevenTriggerPct?: number;
+  runnerBreakevenFloorPct?: number;
+  runnerTakeProfitPct?: number;
+}
+
 @Injectable()
 export class BacktestService {
+  private readonly logger = new Logger(BacktestService.name);
+
   constructor(
     private readonly em: EntityManager,
     private readonly optimalParamsService: OptimalParamsService,
@@ -210,6 +233,8 @@ export class BacktestService {
     let avgBuyPrice = 0;
     let entryIndex: number | null = null;
     let highestPriceAfterEntry = 0;
+    let scaleOutStage = 0;
+    let initialQtyAtEntry = 0;
     const trades: BacktestTrade[] = [];
     let totalRealizedPnl = 0;
     let winTrades = 0;
@@ -242,23 +267,74 @@ export class BacktestService {
       config.breakevenTriggerPct ?? DEFAULT_BREAKEVEN_TRIGGER_PCT;
     const breakevenFloorPct =
       config.breakevenFloorPct ?? DEFAULT_BREAKEVEN_FLOOR_PCT;
+    const scaleOutPlan: ScaleOutPlan = config.scaleOut ?? {
+      enabled: DEFAULT_SCALE_OUT_ENABLED,
+      tiers: [
+        {
+          triggerPct: DEFAULT_SCALE_OUT_TP1_TRIGGER_PCT,
+          sellRatioPct: DEFAULT_SCALE_OUT_TP1_SELL_RATIO_PCT,
+          tag: 'TP1',
+        },
+      ],
+    };
+    const runnerTrailingTriggerPct =
+      config.runnerTrailingTriggerPct ?? DEFAULT_RUNNER_TRAILING_TRIGGER_PCT;
+    const runnerTrailingGivebackPct =
+      config.runnerTrailingGivebackPct ?? DEFAULT_RUNNER_TRAILING_GIVEBACK_PCT;
+    const runnerBreakevenTriggerPct =
+      config.runnerBreakevenTriggerPct ?? DEFAULT_RUNNER_BREAKEVEN_TRIGGER_PCT;
+    const runnerBreakevenFloorPct =
+      config.runnerBreakevenFloorPct ?? DEFAULT_RUNNER_BREAKEVEN_FLOOR_PCT;
+    const runnerTakeProfitPct =
+      config.runnerTakeProfitPct ?? DEFAULT_RUNNER_TAKE_PROFIT_PCT;
 
     /**
      * 매도 체결: rawPrice 에서 슬리피지 차감 → 거래세 + 수수료 부과.
      * 한국 시장의 매도 비용 구조를 백테스트에 일치시켜 실거래 수익과의 갭을 줄인다.
      */
-    const closePosition = (
+    const tryEvaluateScaleOut = (returnPct: number) => {
+      try {
+        return evaluateScaleOut(scaleOutPlan, scaleOutStage, returnPct);
+      } catch (err: any) {
+        this.logger.warn(
+          `백테스트 부분익절 평가 실패, 기존 익절 경로로 폴백: ${stock.code} - ${err.message ?? err}`,
+        );
+        return null;
+      }
+    };
+
+    const tryComputeScaleOutSellQty = (sellRatioPct: number) => {
+      try {
+        return computeScaleOutSellQty({
+          holdingQty: quantity,
+          sellRatioPct,
+          minRemainderQty: DEFAULT_SCALE_OUT_MIN_REMAINDER_QTY,
+        });
+      } catch (err: any) {
+        this.logger.warn(
+          `백테스트 부분익절 수량 계산 실패, 기존 익절 경로로 폴백: ${stock.code} - ${err.message ?? err}`,
+        );
+        return 0;
+      }
+    };
+
+    const reducePosition = (
       candle: CandleData,
       rawPrice: number,
       reason: string,
+      sellQty: number,
     ) => {
+      const qtyToSell = Math.min(Math.max(0, sellQty), quantity);
+      if (qtyToSell <= 0) return;
+
       const fillPrice = rawPrice * (1 - slippageRate);
-      const sellAmount = quantity * fillPrice;
+      const sellAmount = qtyToSell * fillPrice;
       const commission = sellAmount * commissionRate;
       const sellTax = sellAmount * sellTaxRate;
-      const slippageCost = quantity * (rawPrice - fillPrice);
+      const slippageCost = qtyToSell * (rawPrice - fillPrice);
       const totalSellCost = commission + sellTax;
-      const pnl = (fillPrice - avgBuyPrice) * quantity - totalSellCost;
+      const pnl = (fillPrice - avgBuyPrice) * qtyToSell - totalSellCost;
+      const partial = qtyToSell < quantity;
 
       totalRealizedPnl += pnl;
       if (pnl > 0) winTrades++;
@@ -270,19 +346,33 @@ export class BacktestService {
         date: candle.date,
         direction: SignalDirection.Sell,
         price: fillPrice,
-        quantity,
+        quantity: qtyToSell,
         amount: sellAmount,
         commission,
         sellTax,
         slippageCost,
         reason,
         realizedPnl: pnl,
+        ...(partial && { partial: true, initialQtyAtEntry }),
       });
 
-      quantity = 0;
-      avgBuyPrice = 0;
-      entryIndex = null;
-      highestPriceAfterEntry = 0;
+      quantity -= qtyToSell;
+      if (quantity <= 0) {
+        quantity = 0;
+        avgBuyPrice = 0;
+        entryIndex = null;
+        highestPriceAfterEntry = 0;
+        scaleOutStage = 0;
+        initialQtyAtEntry = 0;
+      }
+    };
+
+    const closePosition = (
+      candle: CandleData,
+      rawPrice: number,
+      reason: string,
+    ) => {
+      reducePosition(candle, rawPrice, reason, quantity);
     };
 
     for (let candleIndex = 0; candleIndex < candles.length; candleIndex++) {
@@ -301,14 +391,34 @@ export class BacktestService {
           candle.open,
           avgBuyPrice,
         );
+        const isRunner = scaleOutPlan.enabled && scaleOutStage > 0;
+        const activeTrailingStopTriggerPct = isRunner
+          ? runnerTrailingTriggerPct
+          : trailingStopTriggerPct;
+        const activeTrailingStopGivebackPct = isRunner
+          ? runnerTrailingGivebackPct
+          : trailingStopGivebackPct;
+        const activeBreakevenTriggerPct = isRunner
+          ? runnerBreakevenTriggerPct
+          : breakevenTriggerPct;
+        const activeBreakevenFloorPct = isRunner
+          ? runnerBreakevenFloorPct
+          : breakevenFloorPct;
         const takeProfitPrice =
           avgBuyPrice * (1 + config.autoTakeProfitPct / 100);
+        const runnerTakeProfitPrice =
+          avgBuyPrice * (1 + runnerTakeProfitPct / 100);
+        const activeTakeProfitPrice = isRunner
+          ? runnerTakeProfitPrice
+          : takeProfitPrice;
         const stopLossPrice = avgBuyPrice * (1 + config.autoStopLossPct / 100);
-        const breakevenPrice = avgBuyPrice * (1 + breakevenFloorPct / 100);
+        const breakevenPrice =
+          avgBuyPrice * (1 + activeBreakevenFloorPct / 100);
         let peakReturnPct =
           ((highestPriceAfterEntry - avgBuyPrice) / avgBuyPrice) * 100;
         let trailingStopPrice =
-          highestPriceAfterEntry * (1 - trailingStopGivebackPct / 100);
+          highestPriceAfterEntry * (1 - activeTrailingStopGivebackPct / 100);
+        const openReturnPct = ((candle.open - avgBuyPrice) / avgBuyPrice) * 100;
 
         if (candle.open <= stopLossPrice) {
           closePosition(
@@ -317,15 +427,51 @@ export class BacktestService {
             `갭다운 손절 (시가 ${candle.open.toFixed(0)}, 손절선 ${stopLossPrice.toFixed(0)})`,
           );
           exitedThisCandle = true;
-        } else if (candle.open >= takeProfitPrice) {
+        } else if (isRunner && candle.open >= runnerTakeProfitPrice) {
           closePosition(
             candle,
             candle.open,
-            `갭상승 익절 (시가 ${candle.open.toFixed(0)}, 익절선 ${takeProfitPrice.toFixed(0)})`,
+            `갭상승 러너 익절 (시가 ${candle.open.toFixed(0)}, 익절선 ${runnerTakeProfitPrice.toFixed(0)})`,
           );
           exitedThisCandle = true;
-        } else if (
-          peakReturnPct >= breakevenTriggerPct &&
+        } else if (scaleOutPlan.enabled) {
+          const decision = tryEvaluateScaleOut(openReturnPct);
+          const sellQty = decision
+            ? tryComputeScaleOutSellQty(decision.tier.sellRatioPct)
+            : 0;
+          if (decision && sellQty > 0) {
+            reducePosition(
+              candle,
+              candle.open,
+              `갭상승 ${decision.tier.tag} 부분익절 (시가 ${candle.open.toFixed(0)}, 수익률 ${openReturnPct.toFixed(1)}%)`,
+              sellQty,
+            );
+            if (quantity > 0) {
+              scaleOutStage = decision.nextStage;
+            }
+            exitedThisCandle = true;
+            if (quantity > 0 && candle.low <= stopLossPrice) {
+              closePosition(
+                candle,
+                stopLossPrice,
+                `부분익절 후 손절 (수익률 ${config.autoStopLossPct.toFixed(1)}%)`,
+              );
+            }
+          }
+        }
+
+        if (!exitedThisCandle && candle.open >= activeTakeProfitPrice) {
+          closePosition(
+            candle,
+            candle.open,
+            `갭상승 익절 (시가 ${candle.open.toFixed(0)}, 익절선 ${activeTakeProfitPrice.toFixed(0)})`,
+          );
+          exitedThisCandle = true;
+        }
+
+        if (
+          !exitedThisCandle &&
+          peakReturnPct >= activeBreakevenTriggerPct &&
           candle.open <= breakevenPrice
         ) {
           closePosition(
@@ -335,7 +481,8 @@ export class BacktestService {
           );
           exitedThisCandle = true;
         } else if (
-          peakReturnPct >= trailingStopTriggerPct &&
+          !exitedThisCandle &&
+          peakReturnPct >= activeTrailingStopTriggerPct &&
           candle.open <= trailingStopPrice
         ) {
           closePosition(
@@ -344,8 +491,12 @@ export class BacktestService {
             `갭하락 트레일링 스톱 (시가 ${candle.open.toFixed(0)}, 추적선 ${trailingStopPrice.toFixed(0)})`,
           );
           exitedThisCandle = true;
-        } else {
+        }
+
+        if (!exitedThisCandle) {
           const takeProfitHit = candle.high >= takeProfitPrice;
+          const runnerTakeProfitHit =
+            isRunner && candle.high >= runnerTakeProfitPrice;
           const stopLossHit = candle.low <= stopLossPrice;
           highestPriceAfterEntry = Math.max(
             highestPriceAfterEntry,
@@ -354,12 +505,12 @@ export class BacktestService {
           peakReturnPct =
             ((highestPriceAfterEntry - avgBuyPrice) / avgBuyPrice) * 100;
           trailingStopPrice =
-            highestPriceAfterEntry * (1 - trailingStopGivebackPct / 100);
+            highestPriceAfterEntry * (1 - activeTrailingStopGivebackPct / 100);
           const breakevenHit =
-            peakReturnPct >= breakevenTriggerPct &&
+            peakReturnPct >= activeBreakevenTriggerPct &&
             candle.low <= breakevenPrice;
           const trailingStopHit =
-            peakReturnPct >= trailingStopTriggerPct &&
+            peakReturnPct >= activeTrailingStopTriggerPct &&
             candle.low <= trailingStopPrice;
           if (stopLossHit) {
             closePosition(
@@ -368,21 +519,58 @@ export class BacktestService {
               `자동 손절 (수익률 ${config.autoStopLossPct.toFixed(1)}%)`,
             );
             exitedThisCandle = true;
-          } else if (takeProfitHit) {
+          } else if (runnerTakeProfitHit) {
+            closePosition(
+              candle,
+              runnerTakeProfitPrice,
+              `러너 익절 (수익률 ${runnerTakeProfitPct.toFixed(1)}%)`,
+            );
+            exitedThisCandle = true;
+          } else if (scaleOutPlan.enabled) {
+            const scaleOutReturnPct =
+              ((candle.high - avgBuyPrice) / avgBuyPrice) * 100;
+            const decision = tryEvaluateScaleOut(scaleOutReturnPct);
+            const sellQty = decision
+              ? tryComputeScaleOutSellQty(decision.tier.sellRatioPct)
+              : 0;
+            if (decision && sellQty > 0) {
+              const scaleOutPrice =
+                avgBuyPrice * (1 + decision.tier.triggerPct / 100);
+              reducePosition(
+                candle,
+                scaleOutPrice,
+                `${decision.tier.tag} 부분익절 (수익률 ${decision.tier.triggerPct.toFixed(1)}%)`,
+                sellQty,
+              );
+              if (quantity > 0) {
+                scaleOutStage = decision.nextStage;
+              }
+              exitedThisCandle = true;
+              if (quantity > 0 && candle.low <= stopLossPrice) {
+                closePosition(
+                  candle,
+                  stopLossPrice,
+                  `부분익절 후 손절 (수익률 ${config.autoStopLossPct.toFixed(1)}%)`,
+                );
+              }
+            }
+          }
+
+          if (!exitedThisCandle && !isRunner && takeProfitHit) {
             closePosition(
               candle,
               takeProfitPrice,
               `자동 익절 (수익률 ${config.autoTakeProfitPct.toFixed(1)}%)`,
             );
             exitedThisCandle = true;
-          } else if (breakevenHit) {
+          } else if (!exitedThisCandle && breakevenHit) {
             closePosition(
               candle,
               breakevenPrice,
               `본전 보호 (최고 수익률 ${peakReturnPct.toFixed(1)}%)`,
             );
             exitedThisCandle = true;
-          } else if (trailingStopHit) {
+          } else if (!exitedThisCandle && trailingStopHit) {
             const trailingReturnPct =
               ((trailingStopPrice - avgBuyPrice) / avgBuyPrice) * 100;
             closePosition(
@@ -392,6 +580,7 @@ export class BacktestService {
             );
             exitedThisCandle = true;
           } else if (
+            !exitedThisCandle &&
             maxHoldingDays > 0 &&
             entryIndex != null &&
             candleIndex - entryIndex >= maxHoldingDays
@@ -451,6 +640,8 @@ export class BacktestService {
               if (wasFlat) {
                 entryIndex = candleIndex;
               }
+              initialQtyAtEntry = quantity;
+              scaleOutStage = 0;
 
               cash -= cost + actualCommission;
 
@@ -538,6 +729,7 @@ export class BacktestService {
     maxHoldingDays = DEFAULT_MAX_HOLDING_DAYS,
     minCurrentSignalStrength = DEFAULT_MIN_CURRENT_SIGNAL_STRENGTH,
     minTotalTrades = DEFAULT_MIN_TOTAL_TRADES,
+    scaleOutOptions: ScaleOutBacktestOptions = {},
   ): Promise<ScanResponse> {
     const logger = new Logger('BacktestService');
     const startTime = Date.now();
@@ -644,6 +836,7 @@ export class BacktestService {
             maxHoldingDays,
             minCurrentSignalStrength,
             minTotalTrades,
+            scaleOutOptions,
           );
           if (result) {
             allResults.push(result);
@@ -697,6 +890,7 @@ export class BacktestService {
     autoTakeProfitPct = DEFAULT_AUTO_TAKE_PROFIT_PCT,
     autoStopLossPct = DEFAULT_AUTO_STOP_LOSS_PCT,
     maxHoldingDays = DEFAULT_MAX_HOLDING_DAYS,
+    scaleOutOptions: ScaleOutBacktestOptions = {},
   ): Promise<{
     stockCode: string;
     stockName: string;
@@ -736,6 +930,7 @@ export class BacktestService {
       maxHoldingDays,
       DEFAULT_MIN_CURRENT_SIGNAL_STRENGTH,
       DEFAULT_MIN_TOTAL_TRADES,
+      scaleOutOptions,
     );
 
     if (!result) return null;
@@ -773,6 +968,7 @@ export class BacktestService {
     maxHoldingDays = DEFAULT_MAX_HOLDING_DAYS,
     minCurrentSignalStrength = DEFAULT_MIN_CURRENT_SIGNAL_STRENGTH,
     minTotalTrades = DEFAULT_MIN_TOTAL_TRADES,
+    scaleOutOptions: ScaleOutBacktestOptions = {},
   ): ScanResult | null {
     const prices = pricesByStockId.get(stock.id);
     if (!prices || prices.length < 60) return null;
@@ -856,6 +1052,7 @@ export class BacktestService {
             maxHoldingDays,
             allowAddOnBuy: false,
             minBuySignalStrength: BACKTEST_MIN_BUY_SIGNAL_STRENGTH,
+            ...scaleOutOptions,
           };
 
           // In-sample: 전략 선정 단계
@@ -1108,6 +1305,12 @@ export class BacktestService {
     stockSampleSize?: number;
     investmentAmount?: number;
     maxHoldingDays?: number;
+    scaleOut?: ScaleOutPlan;
+    runnerTrailingTriggerPct?: number;
+    runnerTrailingGivebackPct?: number;
+    runnerBreakevenTriggerPct?: number;
+    runnerBreakevenFloorPct?: number;
+    runnerTakeProfitPct?: number;
   }): Promise<GridSearchResult> {
     const logger = new Logger('BacktestService.gridSearchOptimalTpSl');
     const startTime = Date.now();
@@ -1121,6 +1324,14 @@ export class BacktestService {
     const tradeRatioPct = 100; // 그리드 평가는 단일 매매 풀 사용 — 결과 노이즈 최소화
     const commissionPct = 0.015;
     const maxHoldingDays = opts?.maxHoldingDays ?? DEFAULT_MAX_HOLDING_DAYS;
+    const scaleOutOptions: ScaleOutBacktestOptions = {
+      scaleOut: opts?.scaleOut,
+      runnerTrailingTriggerPct: opts?.runnerTrailingTriggerPct,
+      runnerTrailingGivebackPct: opts?.runnerTrailingGivebackPct,
+      runnerBreakevenTriggerPct: opts?.runnerBreakevenTriggerPct,
+      runnerBreakevenFloorPct: opts?.runnerBreakevenFloorPct,
+      runnerTakeProfitPct: opts?.runnerTakeProfitPct,
+    };
 
     const lookbackFrom = new Date();
     lookbackFrom.setMonth(lookbackFrom.getMonth() - SCAN_LOOKBACK_MONTHS);
@@ -1256,6 +1467,7 @@ export class BacktestService {
             tradeRatioPct,
             commissionPct,
             maxHoldingDays,
+            scaleOutOptions,
           );
           if (!evaluation) continue;
           oosReturns.push(evaluation.oosReturnPct);
@@ -1354,6 +1566,7 @@ export class BacktestService {
     tradeRatioPct: number,
     commissionPct: number,
     maxHoldingDays: number,
+    scaleOutOptions: ScaleOutBacktestOptions = {},
   ): {
     oosReturnPct: number;
     oosWinRate: number;
@@ -1384,6 +1597,7 @@ export class BacktestService {
           maxHoldingDays,
           allowAddOnBuy: false,
           minBuySignalStrength: BACKTEST_MIN_BUY_SIGNAL_STRENGTH,
+          ...scaleOutOptions,
         };
 
         const inSample = this.simulate(
