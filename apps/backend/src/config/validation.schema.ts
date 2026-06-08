@@ -29,6 +29,14 @@ export const validationSchema = Joi.object({
   KIS_RATE_BURST: Joi.number().default(8),
   KIS_RATE_MAX_RETRY: Joi.number().default(5),
 
+  // Sprint3 VI/상하한가 처리 — 기본 OFF, 토글 ON 시에만 신규 주문 게이트 적용
+  VI_HANDLING_ENABLED: Joi.boolean().default(false),
+  VI_CLEAR_TIMEOUT_MS: Joi.number().integer().positive().default(150000),
+  VI_LIMIT_NEAR_PCT: Joi.number().positive().default(29.5),
+  VI_STOPLOSS_LIMIT_ORDER: Joi.boolean().default(true),
+  VI_REEVAL_DEBOUNCE_MS: Joi.number().integer().positive().default(1000),
+  NXT_HANDLING_ENABLED: Joi.boolean().default(false),
+
   // RabbitMQ
   RMQ_URL: Joi.string().default('amqp://alpha:alpha1234@localhost:5672'),
 
