@@ -45,8 +45,10 @@ import { KisQuotationService } from '../kis/kis-quotation.service';
 import { KisInquiryService } from '../kis/kis-inquiry.service';
 import {
   KisBalanceItem,
+  KisRealtimeExecution,
   KisRealtimeOrderNotification,
   KisRealtimeSubscriptionResult,
+  OrderDivision,
 } from '../kis/kis.types';
 import {
   TradeAction,
@@ -60,6 +62,13 @@ import { NotificationType } from '../notification/entities/notification.entity';
 import { MARKET_DATA_SERVICE } from '../rmq/rmq.module';
 import { AiMeetingResultEntity } from '../ai-meeting-result/entities/ai-meeting-result.entity';
 import { KRX_HOLIDAYS, tradingDaysElapsed } from '../common/trading-calendar';
+import {
+  DEFAULT_VI_CLEAR_TIMEOUT_MS,
+  DEFAULT_VI_HANDLING_ENABLED,
+  DEFAULT_VI_LIMIT_NEAR_PCT,
+  DEFAULT_VI_STOPLOSS_LIMIT_ORDER,
+  ViStateTracker,
+} from './vi-state-tracker';
 
 const STRATEGY_MAP: Record<
   string,
@@ -120,12 +129,30 @@ const SUBSCRIPTION_RETRY_BASE_DELAY_MS = 5_000;
 const SUBSCRIPTION_RETRY_MAX_DELAY_MS = 60_000;
 const SCHEDULED_CLEANUP_BALANCE_MAX_ATTEMPTS = 2;
 const SCHEDULED_CLEANUP_BALANCE_RETRY_DELAY_MS = 5_000;
+const MIN_LIMIT_ORDER_PRICE = 1;
+
+function readBooleanEnv(name: string, fallback: boolean): boolean {
+  return process.env[name] != null ? process.env[name] === 'true' : fallback;
+}
+
+function readPositiveNumberEnv(name: string, fallback: number): number {
+  const value = Number(process.env[name]);
+  return Number.isFinite(value) && value > 0 ? value : fallback;
+}
 
 interface ExecuteSellOptions {
   sellQty?: number;
   pauseAfterSell?: boolean;
   stage?: number;
+  orderDvsn?: OrderDivision;
+  orderPrice?: number;
 }
+
+type ViDeferredOrderIntent =
+  | 'buy'
+  | 'tp1-scale-out'
+  | 'breakeven-stop'
+  | 'trailing-stop';
 
 @Injectable()
 export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
@@ -139,6 +166,24 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     process.env.R_SIZING_ENABLED != null
       ? process.env.R_SIZING_ENABLED === 'true'
       : R_SIZING_ENABLED;
+  private viHandlingEnabled = readBooleanEnv(
+    'VI_HANDLING_ENABLED',
+    DEFAULT_VI_HANDLING_ENABLED,
+  );
+  private viStoplossLimitOrder = readBooleanEnv(
+    'VI_STOPLOSS_LIMIT_ORDER',
+    DEFAULT_VI_STOPLOSS_LIMIT_ORDER,
+  );
+  private readonly viStateTracker = new ViStateTracker({
+    clearTimeoutMs: readPositiveNumberEnv(
+      'VI_CLEAR_TIMEOUT_MS',
+      DEFAULT_VI_CLEAR_TIMEOUT_MS,
+    ),
+    limitNearPct: readPositiveNumberEnv(
+      'VI_LIMIT_NEAR_PCT',
+      DEFAULT_VI_LIMIT_NEAR_PCT,
+    ),
+  });
   private readonly scaleOutPlan: ScaleOutPlan = {
     enabled: false,
     tiers: [
@@ -444,6 +489,56 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         volume: options.volume,
       });
     }
+  }
+
+  private updateViStateFromExecution(execution: KisRealtimeExecution): void {
+    if (!this.viHandlingEnabled) return;
+
+    const wasActive = this.viStateTracker.isActive(execution.stockCode);
+    const state = this.viStateTracker.updateFromExecution(execution);
+
+    if (!wasActive && state.isViActive) {
+      this.logger.warn(
+        `VI/정지 상태 감지: ${execution.stockCode} (${state.reason})`,
+      );
+    }
+  }
+
+  private shouldDeferForVi(
+    session: AutoTradingSessionEntity,
+    intent: ViDeferredOrderIntent,
+  ): boolean {
+    if (!this.viHandlingEnabled) return false;
+    const state = this.viStateTracker.getState(session.stockCode);
+    if (!state?.isViActive) return false;
+
+    this.logger.warn(
+      `VI/정지 중 주문 보류: ${session.stockCode} intent=${intent} ` +
+        `source=${state.source}`,
+    );
+    return true;
+  }
+
+  private createViStopLossSellOptions(
+    session: AutoTradingSessionEntity,
+    price: number,
+  ): ExecuteSellOptions | undefined {
+    if (!this.viHandlingEnabled || !this.viStoplossLimitOrder) {
+      return undefined;
+    }
+
+    const state = this.viStateTracker.getState(session.stockCode);
+    if (!state?.isViActive) return undefined;
+
+    // 손절은 보류하지 않는다. 단일가/정지 감지 중에는 시장가 대신 현재가 지정가로 제출한다.
+    const limitPrice =
+      Number.isFinite(price) && price > 0
+        ? Math.floor(price)
+        : MIN_LIMIT_ORDER_PRICE;
+    return {
+      orderDvsn: '00',
+      orderPrice: Math.max(MIN_LIMIT_ORDER_PRICE, limitPrice),
+    };
   }
 
   /**
@@ -1437,6 +1532,10 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
   /** 매수 실행 — 신호 발생 시점의 현재가로 지정가 매수 */
   private async executeBuy(session: AutoTradingSessionEntity, price: number) {
+    if (this.shouldDeferForVi(session, 'buy')) {
+      return;
+    }
+
     const trackingReady = await this.ensureOrderNotificationTrackingReady();
     if (!trackingReady) {
       await this.warnOrderTrackingUnavailable(session);
@@ -1628,6 +1727,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     if (sellQty <= 0) return;
     const pauseAfterSell =
       sellQty >= session.holdingQty ? true : (opts?.pauseAfterSell ?? true);
+    const orderDvsn = opts?.orderDvsn ?? '01';
+    const orderPrice = orderDvsn === '01' ? 0 : (opts?.orderPrice ?? price);
 
     this.sellInFlightSessionIds.add(session.id);
     try {
@@ -1637,16 +1738,18 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       }
 
       this.logger.log(
-        `매도 실행: ${session.stockCode} ${sellQty}주 @ ${price} (${reason})`,
+        `매도 실행: ${session.stockCode} ${sellQty}주 @ ${
+          orderDvsn === '01' ? '시장가' : orderPrice
+        } (${reason})`,
       );
 
       try {
         const result = await this.kisOrderService.orderCash({
           stockCode: session.stockCode,
           orderType: 'sell',
-          orderDvsn: '01', // 시장가
+          orderDvsn,
           quantity: sellQty,
-          price: 0,
+          price: orderPrice,
           userId: session.user.id,
           metadata: {
             sessionId: session.id,
@@ -1962,6 +2065,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           volume: data.executionVolume,
           broadcast: true,
         });
+        this.updateViStateFromExecution(data);
       });
     }
 
@@ -2007,6 +2111,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     this.holdingStockCodes.clear();
     this.sellInFlightSessionIds.clear();
     this.latestPriceUpdatedAt.clear();
+    this.viStateTracker.clearAll();
   }
 
   private schedulePriceTriggeredSellCheck(stockCode: string) {
@@ -2094,11 +2199,24 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       peakPrice > 0 ? ((peakPrice - price) / peakPrice) * 100 : 0;
 
     if (returnPct <= session.stopLossPct) {
-      await this.executeSell(
+      const stopLossSellOptions = this.createViStopLossSellOptions(
         session,
         price,
-        `자동 손절 (${returnPct.toFixed(1)}%)`,
       );
+      if (stopLossSellOptions) {
+        await this.executeSell(
+          session,
+          price,
+          `자동 손절 (${returnPct.toFixed(1)}%)`,
+          stopLossSellOptions,
+        );
+      } else {
+        await this.executeSell(
+          session,
+          price,
+          `자동 손절 (${returnPct.toFixed(1)}%)`,
+        );
+      }
       return true;
     }
 
@@ -2131,6 +2249,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           });
           if (sellQty > 0) {
             const partial = sellQty < session.holdingQty;
+            if (this.shouldDeferForVi(session, 'tp1-scale-out')) {
+              return true;
+            }
             await this.executeSell(
               session,
               price,
@@ -2183,6 +2304,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       peakReturnPct >= breakevenTrigger &&
       returnPct <= breakevenFloor
     ) {
+      if (this.shouldDeferForVi(session, 'breakeven-stop')) {
+        return true;
+      }
       await this.executeSell(
         session,
         price,
@@ -2195,6 +2319,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       peakReturnPct >= trailTrigger &&
       givebackPct >= trailGiveback
     ) {
+      if (this.shouldDeferForVi(session, 'trailing-stop')) {
+        return true;
+      }
       await this.executeSell(
         session,
         price,
