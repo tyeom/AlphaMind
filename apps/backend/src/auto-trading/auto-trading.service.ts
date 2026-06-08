@@ -130,8 +130,15 @@ interface ExecuteSellOptions {
 @Injectable()
 export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(AutoTradingService.name);
-  private scaleOutEnabled = SCALE_OUT_ENABLED;
-  private rSizingEnabled = R_SIZING_ENABLED;
+  // 기본값은 상수(OFF). 페이퍼/실거래에서 env(SCALE_OUT_ENABLED/R_SIZING_ENABLED='true')로만 활성화한다.
+  private scaleOutEnabled =
+    process.env.SCALE_OUT_ENABLED != null
+      ? process.env.SCALE_OUT_ENABLED === 'true'
+      : SCALE_OUT_ENABLED;
+  private rSizingEnabled =
+    process.env.R_SIZING_ENABLED != null
+      ? process.env.R_SIZING_ENABLED === 'true'
+      : R_SIZING_ENABLED;
   private readonly scaleOutPlan: ScaleOutPlan = {
     enabled: false,
     tiers: [
