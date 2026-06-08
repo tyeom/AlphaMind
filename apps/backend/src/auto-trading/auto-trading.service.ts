@@ -63,6 +63,7 @@ import { MARKET_DATA_SERVICE } from '../rmq/rmq.module';
 import { AiMeetingResultEntity } from '../ai-meeting-result/entities/ai-meeting-result.entity';
 import { KRX_HOLIDAYS, tradingDaysElapsed } from '../common/trading-calendar';
 import {
+  DEFAULT_NXT_HANDLING_ENABLED,
   DEFAULT_VI_CLEAR_TIMEOUT_MS,
   DEFAULT_VI_HANDLING_ENABLED,
   DEFAULT_VI_LIMIT_NEAR_PCT,
@@ -157,6 +158,8 @@ type ViDeferredOrderIntent =
   | 'breakeven-stop'
   | 'trailing-stop';
 
+type TradingExchange = 'KRX' | 'NXT';
+
 interface ViHeldOrder {
   sessionId: number;
   stockCode: string;
@@ -183,6 +186,10 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   private viStoplossLimitOrder = readBooleanEnv(
     'VI_STOPLOSS_LIMIT_ORDER',
     DEFAULT_VI_STOPLOSS_LIMIT_ORDER,
+  );
+  private nxtHandlingEnabled = readBooleanEnv(
+    'NXT_HANDLING_ENABLED',
+    DEFAULT_NXT_HANDLING_ENABLED,
   );
   private readonly viStateTracker = new ViStateTracker({
     clearTimeoutMs: readPositiveNumberEnv(
@@ -539,6 +546,16 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
+  private resolveExchange(stockCode: string): TradingExchange {
+    void stockCode;
+    // NXT 실제 라우팅 정보가 아직 없으므로 현재 production 주문은 KRX 단일 경로로 유지한다.
+    return 'KRX';
+  }
+
+  private isNxtStubPath(exchange: TradingExchange): boolean {
+    return this.nxtHandlingEnabled && exchange === 'NXT';
+  }
+
   private shouldDeferForVi(
     session: AutoTradingSessionEntity,
     intent: ViDeferredOrderIntent,
@@ -725,6 +742,14 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
     const state = this.viStateTracker.getState(session.stockCode);
     if (!state?.isViActive) return undefined;
+
+    const exchange = this.resolveExchange(session.stockCode);
+    if (exchange !== 'KRX') {
+      this.logger.warn(
+        `NXT VI 손절 분기 stub: ${session.stockCode} - 기존 발주 경로 유지`,
+      );
+      return undefined;
+    }
 
     // 손절은 보류하지 않는다. 단일가/정지 감지 중에는 시장가 대신 현재가 지정가로 제출한다.
     const limitPrice =
@@ -1734,6 +1759,14 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       return;
     }
 
+    const exchange = this.resolveExchange(session.stockCode);
+    if (this.isNxtStubPath(exchange)) {
+      this.logger.warn(
+        `NXT 매수 분기 stub: ${session.stockCode} - 실제 NXT 주문 라우팅 미구현`,
+      );
+      return;
+    }
+
     const trackingReady = await this.ensureOrderNotificationTrackingReady();
     if (!trackingReady) {
       await this.warnOrderTrackingUnavailable(session);
@@ -1928,12 +1961,18 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       sellQty >= session.holdingQty ? true : (opts?.pauseAfterSell ?? true);
     const orderDvsn = opts?.orderDvsn ?? '01';
     const orderPrice = orderDvsn === '01' ? 0 : (opts?.orderPrice ?? price);
+    const exchange = this.resolveExchange(session.stockCode);
 
     this.sellInFlightSessionIds.add(session.id);
     try {
       const trackingReady = await this.ensureOrderNotificationTrackingReady();
       if (!trackingReady) {
         await this.warnOrderTrackingUnavailable(session);
+      }
+      if (this.isNxtStubPath(exchange)) {
+        this.logger.warn(
+          `NXT 매도 분기 stub: ${session.stockCode} - 기존 KRX 주문 파라미터로 계속 제출`,
+        );
       }
 
       this.logger.log(
