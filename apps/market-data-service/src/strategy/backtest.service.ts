@@ -4,6 +4,8 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
+import { promises as fs } from 'fs';
+import * as path from 'path';
 import { ConfigService } from '@nestjs/config';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Stock } from '../stock/entities/stock.entity';
@@ -37,6 +39,7 @@ import {
   type BreadthSnapshot,
   type CorrelationPricePoint,
   type MarketRegimeOptions,
+  type MarketRegimeState,
   type ScaleOutPlan,
 } from '@alpha-mind/strategies';
 import {
@@ -319,12 +322,67 @@ interface ScaleOutBacktestOptions {
 @Injectable()
 export class BacktestService {
   private readonly logger = new Logger(BacktestService.name);
+  private readonly marketRegimeStatePath = path.resolve(
+    process.cwd(),
+    'data/market_regime_state.json',
+  );
 
   constructor(
     private readonly em: EntityManager,
     private readonly optimalParamsService: OptimalParamsService,
     private readonly configService: ConfigService,
   ) {}
+
+  private async readMarketRegimeState(): Promise<MarketRegimeState | null> {
+    try {
+      const raw = await fs.readFile(this.marketRegimeStatePath, 'utf8');
+      const parsed = JSON.parse(raw) as MarketRegimeState;
+      if (
+        typeof parsed.prevSmoothedScore === 'number' &&
+        (parsed.prevLabel === 'CRISIS' ||
+          parsed.prevLabel === 'NEUTRAL' ||
+          parsed.prevLabel === 'ATTACK')
+      ) {
+        return parsed;
+      }
+      this.logger.warn(
+        'market_regime_state.json 형식이 올바르지 않아 첫 실행 상태로 진행',
+      );
+      return null;
+    } catch (err: any) {
+      if (err?.code === 'ENOENT') return null;
+      this.logger.warn(
+        `market_regime_state.json 읽기 실패 — raw 레짐으로 진행: ${err?.message ?? err}`,
+      );
+      return null;
+    }
+  }
+
+  private async writeMarketRegimeState(
+    regime: NonNullable<ScanResponse['regime']>,
+  ): Promise<void> {
+    if (regime.source !== 'breadth') return;
+
+    try {
+      const state: MarketRegimeState = {
+        prevSmoothedScore: regime.smoothedScore,
+        prevLabel: regime.label,
+        updatedAt: new Date().toISOString(),
+      };
+      await fs.mkdir(path.dirname(this.marketRegimeStatePath), {
+        recursive: true,
+      });
+      await fs.writeFile(
+        this.marketRegimeStatePath,
+        JSON.stringify(state, null, 2),
+        'utf8',
+      );
+    } catch (err: any) {
+      this.logger.warn(
+        `market_regime_state.json 저장 실패 — 다음 스캔에서 첫 실행 상태로 진행 가능: ${err?.message ?? err}`,
+      );
+    }
+  }
 
   private getNumberConfig(key: string, fallback: number): number {
     const value = this.configService.get<number | string>(key);
@@ -1179,14 +1237,18 @@ export class BacktestService {
           );
         }
         const breadth = finalizeBreadth(breadthAcc);
+        const prevRegime =
+          regimeCorrelationOptions.prevRegime ??
+          (await this.readMarketRegimeState());
         regime = computeMarketRegime(
           breadth,
-          regimeCorrelationOptions.prevRegime ?? null,
+          prevRegime,
           {
             ...this.buildMarketRegimeOptions(),
             ...(regimeCorrelationOptions.regimeOptions ?? {}),
           },
         );
+        await this.writeMarketRegimeState(regime);
       } catch (err) {
         const breadth = finalizeBreadth(breadthAcc);
         regime = {

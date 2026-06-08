@@ -1,5 +1,7 @@
 import { SignalDirection } from '@alpha-mind/strategies';
 import { ConfigService } from '@nestjs/config';
+import { promises as fs } from 'fs';
+import * as path from 'path';
 import { BacktestService } from './backtest.service';
 import type { BacktestConfig, BacktestResult } from './types/backtest.types';
 
@@ -531,6 +533,7 @@ describe('BacktestService simulate', () => {
       {} as any,
       createConfigService(),
     );
+    (service as any).writeMarketRegimeState = jest.fn();
     (service as any).scanSingleStock = jest.fn((stock: any) =>
       stock.code === 'AAA' ? scanResult('AAA', 3) : null,
     );
@@ -616,6 +619,42 @@ describe('BacktestService simulate', () => {
     expect(response.clusters).toEqual([
       { clusterId: 1, codes: ['AAA', 'ZZZ'], size: 2 },
     ]);
+  });
+
+  it('persists and reads market regime hysteresis state as JSON', async () => {
+    const tmpDir = await fs.mkdtemp('/tmp/market-regime-');
+    const service = createService();
+    (service as any).marketRegimeStatePath = path.join(
+      tmpDir,
+      'market_regime_state.json',
+    );
+
+    await (service as any).writeMarketRegimeState({
+      label: 'ATTACK',
+      rawScore: 0.8,
+      smoothedScore: 0.7,
+      slotMultiplier: 1,
+      amountMultiplier: 1,
+      breadth: {
+        universeCount: 100,
+        aboveSma20Ratio: 0.8,
+        aboveSma60Ratio: 0.75,
+        medianDailyReturnPct: 0.2,
+        medianRet5dPct: 3,
+        medianAtrPct: 2,
+      },
+      source: 'breadth',
+    });
+
+    const state = await (service as any).readMarketRegimeState();
+    expect(state).toEqual(
+      expect.objectContaining({
+        prevSmoothedScore: 0.7,
+        prevLabel: 'ATTACK',
+      }),
+    );
+
+    await fs.rm(tmpDir, { recursive: true, force: true });
   });
 });
 
