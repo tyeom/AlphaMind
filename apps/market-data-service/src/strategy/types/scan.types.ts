@@ -1,7 +1,11 @@
+import type { RegimeResult } from '@alpha-mind/strategies';
+
 export interface ScanResult {
   stockCode: string;
   stockName: string;
   sector?: string;
+  /** 상관 클러스터 ID. 미산출/단독 종목은 생략한다. */
+  clusterId?: number;
   bestStrategy: {
     strategyId: string;
     strategyName: string;
@@ -69,10 +73,20 @@ export interface ScanResult {
   indicators: Record<string, unknown>;
 }
 
+export interface ScanCluster {
+  clusterId: number;
+  codes: string[];
+  size: number;
+}
+
 export interface ScanResponse {
   scannedStocks: number;
   eligibleStocks: number;
   excludedStocks: number;
   elapsedMs: number;
   results: ScanResult[];
+  /** 시장 레짐 스케일 계산 결과. 토글 OFF/표본부족/예외 시 생략될 수 있다. */
+  regime?: RegimeResult;
+  /** 후보+활성보유 혼합 상관 클러스터. backend 활성 시드 역매핑에 사용한다. */
+  clusters?: ScanCluster[];
 }

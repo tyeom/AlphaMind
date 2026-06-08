@@ -46,10 +46,32 @@ const R_VOL_WEIGHT_MAX = 1.25;
 /** 변동성 정보 결손 시 가정값 (%) — 한국 일반 종목 ATR/가격 중앙값 */
 const FALLBACK_VOLATILITY_PCT = 3.0;
 
+type RegimeLabel = 'CRISIS' | 'NEUTRAL' | 'ATTACK';
+
+interface BreadthSnapshot {
+  universeCount: number;
+  aboveSma20Ratio: number;
+  aboveSma60Ratio: number;
+  medianDailyReturnPct: number;
+  medianRet5dPct: number;
+  medianAtrPct: number;
+}
+
+interface RegimeResult {
+  label: RegimeLabel;
+  rawScore: number;
+  smoothedScore: number;
+  slotMultiplier: number;
+  amountMultiplier: number;
+  breadth: BreadthSnapshot;
+  source: 'breadth' | 'fallback';
+}
+
 interface ScanResult {
   stockCode: string;
   stockName: string;
   sector?: string;
+  clusterId?: number;
   volatilityPct?: number;
   /** market-data 백테스트에 실제 적용된 TP/SL. backend 는 이 값을 그대로 세션에 반영한다. */
   autoTakeProfitPct?: number;
@@ -63,6 +85,8 @@ interface ScanResponse {
   eligibleStocks: number;
   excludedStocks: number;
   results: ScanResult[];
+  regime?: RegimeResult;
+  clusters?: Array<{ clusterId: number; codes: string[]; size: number }>;
 }
 
 export interface ScanCompletedEvent {

@@ -19,4 +19,7 @@ export interface ScanBodyDto {
   runnerTakeProfitPct?: number;
   rSizingEnabled?: boolean;
   rRiskPct?: number;
+  regimeEnabled?: boolean;
+  correlationEnabled?: boolean;
+  correlationCodes?: string[];
 }
