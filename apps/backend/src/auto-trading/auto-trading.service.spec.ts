@@ -68,6 +68,37 @@ describe('AutoTradingService', () => {
     };
   };
 
+  const createRealtimeExecution = (stockCode: string, tradingHalt = true) => ({
+    stockCode,
+    time: '100000',
+    price: 100,
+    changeSign: '5',
+    change: -3,
+    changeRate: -3,
+    weightedAvgPrice: 100,
+    openPrice: 100,
+    highPrice: 101,
+    lowPrice: 97,
+    askPrice1: 100,
+    bidPrice1: 99,
+    executionVolume: 10,
+    cumulativeVolume: 1000,
+    cumulativeAmount: 100000,
+    executionStrength: 80,
+    executionType: '1',
+    tradingHalt,
+    hourClsCode: '0',
+  });
+
+  const markViActive = (
+    service: AutoTradingService,
+    stockCode = '005930',
+  ) => {
+    (service as any).viStateTracker.updateFromExecution(
+      createRealtimeExecution(stockCode, true),
+    );
+  };
+
   it('triggers auto sell immediately when latest price exceeds take profit', async () => {
     const { service, em } = createService();
     const session = {
@@ -485,5 +516,237 @@ describe('AutoTradingService', () => {
         true,
       ),
     ).toBe(15);
+  });
+
+  it('keeps the existing stop-loss call shape when VI handling is disabled', async () => {
+    const { service } = createService();
+    const session = {
+      id: 41,
+      stockCode: '005930',
+      status: SessionStatus.ACTIVE,
+      holdingQty: 10,
+      avgBuyPrice: 100,
+      takeProfitPct: 5,
+      stopLossPct: -2,
+      maxHoldingDays: 7,
+      autoPausePending: false,
+    } as AutoTradingSessionEntity;
+
+    (service as any).viHandlingEnabled = false;
+    markViActive(service, session.stockCode);
+    const sellSpy = jest
+      .spyOn(service as any, 'executeSell')
+      .mockResolvedValue(undefined);
+
+    const sold = await (service as any).evaluateAndExecuteSell(session, 97);
+
+    expect(sold).toBe(true);
+    expect(sellSpy.mock.calls[0]).toEqual([
+      session,
+      97,
+      '자동 손절 (-3.0%)',
+    ]);
+  });
+
+  it('submits stop-loss as a limit sell while VI handling is active', async () => {
+    const { service, kisOrderService } = createService();
+    const session = {
+      id: 42,
+      stockCode: '005930',
+      stockName: '삼성전자',
+      status: SessionStatus.ACTIVE,
+      holdingQty: 10,
+      avgBuyPrice: 100,
+      takeProfitPct: 5,
+      stopLossPct: -2,
+      maxHoldingDays: 7,
+      autoPausePending: false,
+      user: { id: 1 },
+    } as AutoTradingSessionEntity;
+
+    (service as any).viHandlingEnabled = true;
+    (service as any).viStoplossLimitOrder = true;
+    markViActive(service, session.stockCode);
+    kisOrderService.orderCash.mockResolvedValue({
+      rt_cd: '0',
+      output: { ODNO: 'SL-1' },
+    });
+
+    const sold = await (service as any).evaluateAndExecuteSell(session, 97);
+
+    expect(sold).toBe(true);
+    expect(kisOrderService.orderCash).toHaveBeenCalledWith(
+      expect.objectContaining({
+        stockCode: session.stockCode,
+        orderType: 'sell',
+        orderDvsn: '00',
+        quantity: 10,
+        price: 97,
+      }),
+    );
+  });
+
+  it('defers buy orders while VI handling is active', async () => {
+    const { service, kisOrderService } = createService();
+    const session = {
+      id: 43,
+      stockCode: '005930',
+      status: SessionStatus.ACTIVE,
+      holdingQty: 0,
+      avgBuyPrice: 0,
+      autoPausePending: false,
+    } as AutoTradingSessionEntity;
+
+    (service as any).viHandlingEnabled = true;
+    markViActive(service, session.stockCode);
+
+    await (service as any).executeBuy(session, 100);
+
+    expect(kisOrderService.orderCash).not.toHaveBeenCalled();
+    expect((service as any).viHeldOrders.get(session.id)).toMatchObject({
+      intent: 'buy',
+      stockCode: session.stockCode,
+    });
+  });
+
+  it('defers TP1 scale-out while VI handling is active', async () => {
+    const { service } = createService();
+    const session = {
+      id: 44,
+      stockCode: '005930',
+      status: SessionStatus.ACTIVE,
+      holdingQty: 10,
+      avgBuyPrice: 100,
+      scaleOutStage: 0,
+      takeProfitPct: 5,
+      stopLossPct: -3,
+      maxHoldingDays: 7,
+      autoPausePending: false,
+    } as AutoTradingSessionEntity;
+
+    (service as any).viHandlingEnabled = true;
+    (service as any).scaleOutEnabled = true;
+    markViActive(service, session.stockCode);
+    const sellSpy = jest
+      .spyOn(service as any, 'executeSell')
+      .mockResolvedValue(undefined);
+
+    const sold = await (service as any).evaluateAndExecuteSell(session, 102);
+
+    expect(sold).toBe(true);
+    expect(sellSpy).not.toHaveBeenCalled();
+    expect((service as any).viHeldOrders.get(session.id)).toMatchObject({
+      intent: 'tp1-scale-out',
+    });
+  });
+
+  it('defers breakeven and trailing-stop exits while VI handling is active', async () => {
+    const { service } = createService();
+    const breakevenSession = {
+      id: 45,
+      stockCode: '005930',
+      status: SessionStatus.ACTIVE,
+      holdingQty: 10,
+      avgBuyPrice: 100,
+      highestPriceAfterEntry: 102,
+      takeProfitPct: 5,
+      stopLossPct: -3,
+      maxHoldingDays: 7,
+      enteredAt: new Date(Date.now() - 30 * 60_000),
+      autoPausePending: false,
+    } as AutoTradingSessionEntity;
+    const trailingSession = {
+      ...breakevenSession,
+      id: 46,
+      stockCode: '000660',
+      highestPriceAfterEntry: 102.5,
+    } as AutoTradingSessionEntity;
+
+    (service as any).viHandlingEnabled = true;
+    markViActive(service, breakevenSession.stockCode);
+    markViActive(service, trailingSession.stockCode);
+    const sellSpy = jest
+      .spyOn(service as any, 'executeSell')
+      .mockResolvedValue(undefined);
+
+    await (service as any).evaluateAndExecuteSell(breakevenSession, 100);
+    await (service as any).evaluateAndExecuteSell(trailingSession, 100.85);
+
+    expect(sellSpy).not.toHaveBeenCalled();
+    expect((service as any).viHeldOrders.get(breakevenSession.id)).toMatchObject({
+      intent: 'breakeven-stop',
+    });
+    expect((service as any).viHeldOrders.get(trailingSession.id)).toMatchObject({
+      intent: 'trailing-stop',
+    });
+  });
+
+  it('re-evaluates held sell intent against current price when VI clears', async () => {
+    const { service, em } = createService();
+    const session = {
+      id: 47,
+      stockCode: '005930',
+      status: SessionStatus.ACTIVE,
+      holdingQty: 10,
+      avgBuyPrice: 100,
+      scaleOutStage: 0,
+      takeProfitPct: 5,
+      stopLossPct: -3,
+      maxHoldingDays: 7,
+      autoPausePending: false,
+    } as AutoTradingSessionEntity;
+
+    (service as any).scaleOutEnabled = true;
+    (service as any).viHeldOrders.set(session.id, {
+      sessionId: session.id,
+      stockCode: session.stockCode,
+      intent: 'tp1-scale-out',
+      queuedAt: Date.now(),
+    });
+    (service as any).latestPrices.set(session.stockCode, 101);
+    (service as any).latestPriceUpdatedAt.set(session.stockCode, Date.now());
+    em.find.mockResolvedValue([session]);
+    const sellSpy = jest
+      .spyOn(service as any, 'executeSell')
+      .mockResolvedValue(undefined);
+
+    await (service as any).reevaluateHeldOrdersForStock(
+      session.stockCode,
+      'execution-release',
+    );
+
+    expect(sellSpy).not.toHaveBeenCalled();
+    expect((service as any).viHeldOrders.has(session.id)).toBe(false);
+  });
+
+  it('schedules re-evaluation on VI release and timeout recovery', () => {
+    const { service } = createService();
+    const stockCode = '005930';
+    const scheduleSpy = jest
+      .spyOn(service as any, 'scheduleViReevaluation')
+      .mockImplementation(() => undefined);
+
+    (service as any).viHandlingEnabled = true;
+    (service as any).updateViStateFromExecution(
+      createRealtimeExecution(stockCode, true),
+    );
+    (service as any).updateViStateFromExecution(
+      createRealtimeExecution(stockCode, false),
+    );
+
+    const timeoutState = (service as any).viStateTracker.updateFromExecution(
+      createRealtimeExecution('000660', true),
+    );
+    timeoutState.activeUntil = Date.now() - 1;
+    (service as any).handleViClearTimeout('000660');
+
+    expect(scheduleSpy).toHaveBeenCalledWith(stockCode, 'execution-release');
+    expect(scheduleSpy).toHaveBeenCalledWith('000660', 'timeout');
+  });
+
+  it('keeps the exchange resolver on the KRX branch for now', () => {
+    const { service } = createService();
+
+    expect((service as any).resolveExchange('005930')).toBe('KRX');
   });
 });
