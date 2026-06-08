@@ -114,6 +114,14 @@ export class ScheduledScannerService {
     @Inject(MARKET_DATA_SERVICE) private readonly marketDataClient: ClientProxy,
   ) {}
 
+  private getBooleanConfig(key: string, fallback = false): boolean {
+    const value = this.configService.get<boolean | string | number>(key);
+    if (typeof value === 'boolean') return value;
+    if (typeof value === 'string') return value.toLowerCase() === 'true';
+    if (typeof value === 'number') return value === 1;
+    return fallback;
+  }
+
   @Cron('0 0 8 * * 1-5', {
     name: SCAN_JOB_NAME,
     timeZone: 'Asia/Seoul',
@@ -203,6 +211,14 @@ export class ScheduledScannerService {
       existing.filter((s) => !s.scheduledScan).map((s) => s.stockCode),
     );
     const excludeCodes = Array.from(new Set([...activeCodes, ...manualCodes]));
+    const regimeEnabled = this.getBooleanConfig(
+      'REGIME_SCALING_ENABLED',
+      false,
+    );
+    const correlationEnabled = this.getBooleanConfig(
+      'CORRELATION_CAP_ENABLED',
+      false,
+    );
 
     // 단타 최적 TP/SL — market-data-service 의 그리드 서치 결과를 가져온다.
     // 영속화된 결과가 없거나 RMQ 실패 시 코드 기본값으로 자동 fallback.
@@ -219,6 +235,9 @@ export class ScheduledScannerService {
         autoStopLossPct: optimal.slPct,
         maxHoldingDays: SCAN_MAX_HOLDING_DAYS,
         minCurrentSignalStrength: MIN_BUY_SIGNAL_STRENGTH,
+        regimeEnabled,
+        correlationEnabled,
+        correlationCodes: Array.from(activeCodes),
       }),
       { defaultValue: undefined },
     );
@@ -226,6 +245,7 @@ export class ScheduledScannerService {
     this.logger.log(
       `예약 스캔 이벤트 emit 완료 — requestId=${requestId} exclude=${excludeCodes.length}건 ` +
         `(active=${activeCodes.size}, manual=${manualCodes.size}), ` +
+        `regime=${regimeEnabled ? 'ON' : 'OFF'} correlation=${correlationEnabled ? 'ON' : 'OFF'}, ` +
         `TP=${optimal.tpPct}% SL=${optimal.slPct}% (${optimal.source}), 완료 이벤트 대기`,
     );
   }

@@ -510,4 +510,183 @@ describe('BacktestService simulate', () => {
 
     expect(withRvol - withoutRvol).toBeCloseTo(1);
   });
+
+  it('computes breadth from all eligible stocks, not only scan pass results', async () => {
+    const stocks = [
+      { id: 1, code: 'AAA', name: 'AAA', sector: 'tech' },
+      { id: 2, code: 'BBB', name: 'BBB', sector: 'tech' },
+      { id: 3, code: 'CCC', name: 'CCC', sector: 'bio' },
+    ];
+    const knex = createKnexMock([
+      stocks.map((s) => ({ stock_id: s.id })),
+      stocks.flatMap((s) => priceRows(s.id, 100 + s.id)),
+    ]);
+    const em = {
+      find: jest.fn().mockResolvedValue(stocks),
+      getKnex: () => knex,
+      clear: jest.fn(),
+    };
+    const service = new BacktestService(
+      em as any,
+      {} as any,
+      createConfigService(),
+    );
+    (service as any).scanSingleStock = jest.fn((stock: any) =>
+      stock.code === 'AAA' ? scanResult('AAA', 3) : null,
+    );
+
+    const response = await service.scanAllStocks(
+      [],
+      10,
+      1_000_000,
+      10,
+      0.015,
+      2,
+      -2,
+      7,
+      0.65,
+      3,
+      {},
+      { regimeEnabled: true, regimeOptions: { minBreadthSample: 1 } },
+    );
+
+    expect(response.results).toHaveLength(1);
+    expect(response.regime?.breadth.universeCount).toBe(3);
+  });
+
+  it('builds mixed candidate and active-position correlation clusters', async () => {
+    const stocks = [
+      { id: 1, code: 'AAA', name: 'AAA', sector: 'tech' },
+      { id: 2, code: 'BBB', name: 'BBB', sector: 'bio' },
+    ];
+    const candidateRows = [
+      ...priceRows(1, 100),
+      ...priceRows(2, 200, (i) => (i % 2 === 0 ? 1 : -1)),
+    ];
+    const activeRows = priceRows(99, 100).map((row) => ({
+      code: 'ZZZ',
+      date: row.date,
+      close: row.close,
+    }));
+    const knex = createKnexMock([
+      stocks.map((s) => ({ stock_id: s.id })),
+      candidateRows,
+      activeRows,
+    ]);
+    const em = {
+      find: jest.fn().mockResolvedValue(stocks),
+      getKnex: () => knex,
+      clear: jest.fn(),
+    };
+    const service = new BacktestService(
+      em as any,
+      {} as any,
+      createConfigService(),
+    );
+    (service as any).scanSingleStock = jest.fn((stock: any) =>
+      scanResult(stock.code, stock.code === 'AAA' ? 3 : 2),
+    );
+
+    const response = await service.scanAllStocks(
+      [],
+      10,
+      1_000_000,
+      10,
+      0.015,
+      2,
+      -2,
+      7,
+      0.65,
+      3,
+      {},
+      {
+        correlationEnabled: true,
+        correlationCodes: ['ZZZ'],
+        correlationLookbackDays: 60,
+        correlationOptions: { minOverlap: 10, threshold: 0.8 },
+      },
+    );
+
+    expect(response.results.find((r) => r.stockCode === 'AAA')?.clusterId).toBe(
+      1,
+    );
+    expect(response.results.find((r) => r.stockCode === 'BBB')?.clusterId).toBe(
+      undefined,
+    );
+    expect(response.clusters).toEqual([
+      { clusterId: 1, codes: ['AAA', 'ZZZ'], size: 2 },
+    ]);
+  });
 });
+
+function createConfigService(values: Record<string, unknown> = {}) {
+  return {
+    get: jest.fn((key: string, defaultValue?: unknown) => {
+      if (key in values) return values[key];
+      return defaultValue;
+    }),
+  } as unknown as ConfigService;
+}
+
+function createThenableBuilder(result: unknown[]) {
+  const builder: any = {
+    select: jest.fn(() => builder),
+    count: jest.fn(() => builder),
+    where: jest.fn(() => builder),
+    groupBy: jest.fn(() => builder),
+    having: jest.fn(() => builder),
+    whereIn: jest.fn(() => builder),
+    andWhere: jest.fn(() => builder),
+    orderBy: jest.fn(() => builder),
+    join: jest.fn(() => builder),
+    then: (resolve: any, reject: any) => Promise.resolve(result).then(resolve, reject),
+  };
+  return builder;
+}
+
+function createKnexMock(results: unknown[][]) {
+  let idx = 0;
+  const knex = jest.fn(() => createThenableBuilder(results[idx++] ?? [])) as any;
+  knex.raw = jest.fn((sql: string) => sql);
+  return knex;
+}
+
+function priceRows(
+  stockId: number,
+  base: number,
+  delta: number | ((idx: number) => number) = 1,
+) {
+  return Array.from({ length: 60 }, (_, idx) => {
+    const step = typeof delta === 'function' ? delta(idx) : delta;
+    const close = base + idx * step;
+    return {
+      stock_id: stockId,
+      date: new Date(2026, 0, idx + 1),
+      open: close,
+      high: close + 1,
+      low: close - 1,
+      close,
+      volume: 100_000,
+    };
+  });
+}
+
+function scanResult(stockCode: string, rankScore: number) {
+  return {
+    stockCode,
+    stockName: stockCode,
+    sector: 'tech',
+    bestStrategy: { strategyId: 'day-trading', strategyName: 'day' },
+    totalReturnPct: 1,
+    winRate: 50,
+    maxDrawdownPct: 1,
+    totalTrades: 3,
+    rankScore,
+    finalValue: 1_010_000,
+    investmentAmount: 1_000_000,
+    volatilityPct: 3,
+    summary: 'test',
+    currentSignal: { direction: 'BUY', strength: 0.8, reason: 'test' },
+    indicators: {},
+  };
+}

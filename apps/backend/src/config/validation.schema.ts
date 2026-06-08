@@ -34,4 +34,11 @@ export const validationSchema = Joi.object({
 
   // 예약 스캔 실행 사용자 — 미설정 시 예약 스캔 스킵
   SCHEDULED_TRADER_USER_ID: Joi.number().integer().positive().optional(),
+
+  // Sprint3 포트폴리오 레이어 — 기본 OFF, 토글 ON 시에만 신규 경로 적용
+  REGIME_SCALING_ENABLED: Joi.boolean().default(false),
+  CORRELATION_CAP_ENABLED: Joi.boolean().default(false),
+  REGIME_MIN_HOLDINGS_FLOOR: Joi.number().integer().positive().default(3),
+  REGIME_AMOUNT_FLOOR: Joi.number().positive().default(0.4),
+  MAX_PER_CLUSTER: Joi.number().integer().positive().default(2),
 });

@@ -70,6 +70,24 @@ interface ScaleOutRequestSource {
   rRiskPct?: number;
 }
 
+interface RegimeCorrelationRequestOptions {
+  regimeEnabled?: boolean;
+  correlationEnabled?: boolean;
+  correlationCodes?: string[];
+}
+
+interface RegimeCorrelationRequestSource {
+  regimeEnabled?: boolean | string;
+  correlationEnabled?: boolean | string;
+  correlationCodes?: string[];
+}
+
+function toBoolean(value: boolean | string | undefined): boolean | undefined {
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'string') return value.toLowerCase() === 'true';
+  return undefined;
+}
+
 function buildScaleOutOptions(
   source: ScaleOutRequestSource,
 ): ScaleOutRequestOptions {
@@ -101,6 +119,18 @@ function buildScaleOutOptions(
       enabled: source.rSizingEnabled ?? DEFAULT_R_SIZING_ENABLED,
       riskPct: source.rRiskPct ?? DEFAULT_R_RISK_PCT,
     },
+  };
+}
+
+function buildRegimeCorrelationOptions(
+  source: RegimeCorrelationRequestSource,
+): RegimeCorrelationRequestOptions {
+  return {
+    regimeEnabled: toBoolean(source.regimeEnabled) ?? false,
+    correlationEnabled: toBoolean(source.correlationEnabled) ?? false,
+    correlationCodes: Array.isArray(source.correlationCodes)
+      ? source.correlationCodes
+      : [],
   };
 }
 
@@ -326,6 +356,7 @@ export class StrategyController {
   async scanStocks(@Body() body: ScanBodyDto) {
     const optimal = await this.backtestService.getActiveShortTermTpSl();
     const scaleOutOptions = buildScaleOutOptions(body ?? {});
+    const regimeCorrelationOptions = buildRegimeCorrelationOptions(body ?? {});
     return this.backtestService.scanAllStocks(
       body.excludeCodes ?? [],
       body.topN ?? 10,
@@ -338,6 +369,7 @@ export class StrategyController {
       body.minCurrentSignalStrength ?? 0.65,
       body.minTotalTrades ?? 10,
       scaleOutOptions,
+      regimeCorrelationOptions,
     );
   }
 
@@ -360,6 +392,7 @@ export class StrategyController {
     let response;
     try {
       const scaleOutOptions = buildScaleOutOptions(body ?? {});
+      const regimeCorrelationOptions = buildRegimeCorrelationOptions(body ?? {});
       response = await this.backtestService.scanAllStocks(
         body.excludeCodes ?? [],
         body.topN ?? 10,
@@ -372,6 +405,7 @@ export class StrategyController {
         body.minCurrentSignalStrength ?? 0.65,
         body.minTotalTrades ?? 3,
         scaleOutOptions,
+        regimeCorrelationOptions,
       );
     } catch (err: any) {
       const message = this.getErrorMessage(err);

@@ -1,4 +1,9 @@
-import type { RegimeResult } from '@alpha-mind/strategies';
+import type {
+  CorrelationClusterOptions,
+  MarketRegimeOptions,
+  MarketRegimeState,
+  RegimeResult,
+} from '@alpha-mind/strategies';
 
 export interface ScanResult {
   stockCode: string;
@@ -77,6 +82,16 @@ export interface ScanCluster {
   clusterId: number;
   codes: string[];
   size: number;
+}
+
+export interface RegimeCorrelationOptions {
+  regimeEnabled?: boolean;
+  correlationEnabled?: boolean;
+  correlationCodes?: string[];
+  prevRegime?: MarketRegimeState | null;
+  regimeOptions?: MarketRegimeOptions;
+  correlationOptions?: CorrelationClusterOptions;
+  correlationLookbackDays?: number;
 }
 
 export interface ScanResponse {

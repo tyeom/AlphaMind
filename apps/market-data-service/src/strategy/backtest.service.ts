@@ -29,6 +29,14 @@ import {
   computeScaleOutSellQty,
   computeRiskBasedQty,
   evaluateScaleOut,
+  DEFAULT_CORRELATION_CLUSTER_OPTIONS,
+  DEFAULT_MARKET_REGIME_OPTIONS,
+  buildAlignedLogReturns,
+  clusterByCorrelation,
+  computeMarketRegime,
+  type BreadthSnapshot,
+  type CorrelationPricePoint,
+  type MarketRegimeOptions,
   type ScaleOutPlan,
 } from '@alpha-mind/strategies';
 import {
@@ -38,7 +46,11 @@ import {
   GridSearchPoint,
   GridSearchResult,
 } from './types/backtest.types';
-import { ScanResult, ScanResponse } from './types/scan.types';
+import {
+  RegimeCorrelationOptions,
+  ScanResult,
+  ScanResponse,
+} from './types/scan.types';
 import { OptimalParamsService } from './optimal-params.service';
 
 /** 타임존 안전한 날짜 키 (YYYY-MM-DD, 로컬 기준) */
@@ -48,6 +60,119 @@ function toDateKey(d: Date): string {
   const m = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
   return `${y}-${m}-${day}`;
+}
+
+interface BreadthAccumulator {
+  universeCount: number;
+  aboveSma20: number;
+  aboveSma60: number;
+  dailyReturns: number[];
+  ret5d: number[];
+  atrPct: number[];
+}
+
+function createBreadthAccumulator(): BreadthAccumulator {
+  return {
+    universeCount: 0,
+    aboveSma20: 0,
+    aboveSma60: 0,
+    dailyReturns: [],
+    ret5d: [],
+    atrPct: [],
+  };
+}
+
+function median(values: number[]): number {
+  const sorted = values.filter(Number.isFinite).sort((a, b) => a - b);
+  if (sorted.length === 0) return 0;
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 === 0
+    ? (sorted[mid - 1] + sorted[mid]) / 2
+    : sorted[mid];
+}
+
+function averageLast(values: number[], period: number): number | undefined {
+  if (values.length < period) return undefined;
+  const slice = values.slice(-period);
+  return slice.reduce((sum, value) => sum + value, 0) / period;
+}
+
+function buildCandlesFromPrices(prices: StockDailyPrice[]): CandleData[] {
+  return prices
+    .filter((p) => p.close != null)
+    .map((p) => ({
+      date: p.date,
+      open: p.open ?? p.close!,
+      high: p.high ?? p.close!,
+      low: p.low ?? p.close!,
+      close: p.close!,
+      volume: p.volume ?? 0,
+    }));
+}
+
+function lastAtr(candles: CandleData[], period: number): number | undefined {
+  if (candles.length < period + 1) return undefined;
+  const slice = candles.slice(-(period + 1));
+  const trueRanges: number[] = [];
+
+  for (let i = 1; i < slice.length; i++) {
+    const high = slice[i].high;
+    const low = slice[i].low;
+    const prevClose = slice[i - 1].close;
+    trueRanges.push(
+      Math.max(high - low, Math.abs(high - prevClose), Math.abs(low - prevClose)),
+    );
+  }
+
+  return trueRanges.reduce((sum, value) => sum + value, 0) / period;
+}
+
+function recordBreadthSample(
+  acc: BreadthAccumulator,
+  prices: StockDailyPrice[] | undefined,
+): void {
+  if (!prices || prices.length < 60) return;
+
+  const candles = buildCandlesFromPrices(prices);
+  if (candles.length < 60) return;
+
+  const closes = candles.map((c) => c.close);
+  const last = closes[closes.length - 1];
+  const prev = closes[closes.length - 2];
+  const close5dAgo = closes[closes.length - 6];
+  const sma20 = averageLast(closes, 20);
+  const sma60 = averageLast(closes, 60);
+  const atr14 = lastAtr(candles, 14);
+
+  acc.universeCount++;
+  if (sma20 != null && last > sma20) acc.aboveSma20++;
+  if (sma60 != null && last > sma60) acc.aboveSma60++;
+  if (prev > 0) acc.dailyReturns.push(((last - prev) / prev) * 100);
+  if (close5dAgo > 0) acc.ret5d.push(((last - close5dAgo) / close5dAgo) * 100);
+  if (atr14 != null && last > 0) acc.atrPct.push((atr14 / last) * 100);
+}
+
+function finalizeBreadth(acc: BreadthAccumulator): BreadthSnapshot {
+  const denom = acc.universeCount > 0 ? acc.universeCount : 1;
+  return {
+    universeCount: acc.universeCount,
+    aboveSma20Ratio: acc.aboveSma20 / denom,
+    aboveSma60Ratio: acc.aboveSma60 / denom,
+    medianDailyReturnPct: median(acc.dailyReturns),
+    medianRet5dPct: median(acc.ret5d),
+    medianAtrPct: median(acc.atrPct),
+  };
+}
+
+function pricePointsFromPrices(
+  prices: StockDailyPrice[] | undefined,
+  lookbackDays: number,
+): CorrelationPricePoint[] {
+  if (!prices) return [];
+  const points = prices
+    .filter((p) => p.close != null && Number.isFinite(p.close))
+    .map((p) => ({ date: p.date, close: p.close! }));
+  return lookbackDays > 0 ? points.slice(-(lookbackDays + 1)) : points;
 }
 
 /** 단기 자동매매 기본 설정 */
@@ -200,6 +325,118 @@ export class BacktestService {
     private readonly optimalParamsService: OptimalParamsService,
     private readonly configService: ConfigService,
   ) {}
+
+  private getNumberConfig(key: string, fallback: number): number {
+    const value = this.configService.get<number | string>(key);
+    const parsed =
+      typeof value === 'number'
+        ? value
+        : typeof value === 'string'
+          ? Number(value)
+          : Number.NaN;
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
+  private buildMarketRegimeOptions(): MarketRegimeOptions {
+    return {
+      maDays: this.getNumberConfig(
+        'REGIME_MA_DAYS',
+        DEFAULT_MARKET_REGIME_OPTIONS.maDays,
+      ),
+      minHoldDays: this.getNumberConfig(
+        'REGIME_MIN_HOLD_DAYS',
+        DEFAULT_MARKET_REGIME_OPTIONS.minHoldDays,
+      ),
+      minBreadthSample: this.getNumberConfig(
+        'REGIME_MIN_BREADTH_SAMPLE',
+        DEFAULT_MARKET_REGIME_OPTIONS.minBreadthSample,
+      ),
+      ret5dSpanPct: this.getNumberConfig(
+        'REGIME_RET5D_SPAN',
+        DEFAULT_MARKET_REGIME_OPTIONS.ret5dSpanPct,
+      ),
+      volFloorPct: this.getNumberConfig(
+        'REGIME_VOL_FLOOR_PCT',
+        DEFAULT_MARKET_REGIME_OPTIONS.volFloorPct,
+      ),
+      volCeilPct: this.getNumberConfig(
+        'REGIME_VOL_CEIL_PCT',
+        DEFAULT_MARKET_REGIME_OPTIONS.volCeilPct,
+      ),
+      wTrend: this.getNumberConfig(
+        'REGIME_W_TREND',
+        DEFAULT_MARKET_REGIME_OPTIONS.wTrend,
+      ),
+      wMomentum: this.getNumberConfig(
+        'REGIME_W_MOM',
+        DEFAULT_MARKET_REGIME_OPTIONS.wMomentum,
+      ),
+      wVol: this.getNumberConfig(
+        'REGIME_W_VOL',
+        DEFAULT_MARKET_REGIME_OPTIONS.wVol,
+      ),
+      crisisEnter: this.getNumberConfig(
+        'REGIME_CRISIS_ENTER',
+        DEFAULT_MARKET_REGIME_OPTIONS.crisisEnter,
+      ),
+      crisisExit: this.getNumberConfig(
+        'REGIME_CRISIS_EXIT',
+        DEFAULT_MARKET_REGIME_OPTIONS.crisisExit,
+      ),
+      attackEnter: this.getNumberConfig(
+        'REGIME_ATTACK_ENTER',
+        DEFAULT_MARKET_REGIME_OPTIONS.attackEnter,
+      ),
+      attackExit: this.getNumberConfig(
+        'REGIME_ATTACK_EXIT',
+        DEFAULT_MARKET_REGIME_OPTIONS.attackExit,
+      ),
+      crisisSlotMultiplier: this.getNumberConfig(
+        'REGIME_CRISIS_SLOT_MULT',
+        DEFAULT_MARKET_REGIME_OPTIONS.crisisSlotMultiplier,
+      ),
+      crisisAmountMultiplier: this.getNumberConfig(
+        'REGIME_CRISIS_AMOUNT_MULT',
+        DEFAULT_MARKET_REGIME_OPTIONS.crisisAmountMultiplier,
+      ),
+      neutralSlotMultiplier: this.getNumberConfig(
+        'REGIME_NEUTRAL_SLOT_MULT',
+        DEFAULT_MARKET_REGIME_OPTIONS.neutralSlotMultiplier,
+      ),
+      neutralAmountMultiplier: this.getNumberConfig(
+        'REGIME_NEUTRAL_AMOUNT_MULT',
+        DEFAULT_MARKET_REGIME_OPTIONS.neutralAmountMultiplier,
+      ),
+      attackSlotMultiplier: this.getNumberConfig(
+        'REGIME_ATTACK_SLOT_MULT',
+        DEFAULT_MARKET_REGIME_OPTIONS.attackSlotMultiplier,
+      ),
+      attackAmountMultiplier: this.getNumberConfig(
+        'REGIME_ATTACK_AMOUNT_MULT',
+        DEFAULT_MARKET_REGIME_OPTIONS.attackAmountMultiplier,
+      ),
+    };
+  }
+
+  private buildCorrelationOptions() {
+    return {
+      threshold: this.getNumberConfig(
+        'CORRELATION_THRESHOLD',
+        DEFAULT_CORRELATION_CLUSTER_OPTIONS.threshold,
+      ),
+      minOverlap: this.getNumberConfig(
+        'CORR_MIN_OVERLAP',
+        DEFAULT_CORRELATION_CLUSTER_OPTIONS.minOverlap,
+      ),
+      maxClusterSizeWarn: this.getNumberConfig(
+        'CORR_MAX_CLUSTER_SIZE_WARN',
+        DEFAULT_CORRELATION_CLUSTER_OPTIONS.maxClusterSizeWarn,
+      ),
+      linkage:
+        this.configService.get<'union' | 'average'>('CORR_LINKAGE') ??
+        DEFAULT_CORRELATION_CLUSTER_OPTIONS.linkage,
+    };
+  }
 
   async runBacktest(
     code: string,
@@ -771,9 +1008,16 @@ export class BacktestService {
     minCurrentSignalStrength = DEFAULT_MIN_CURRENT_SIGNAL_STRENGTH,
     minTotalTrades = DEFAULT_MIN_TOTAL_TRADES,
     scaleOutOptions: ScaleOutBacktestOptions = {},
+    regimeCorrelationOptions: RegimeCorrelationOptions = {},
   ): Promise<ScanResponse> {
     const logger = new Logger('BacktestService');
     const startTime = Date.now();
+    const regimeEnabled = regimeCorrelationOptions.regimeEnabled === true;
+    const correlationEnabled =
+      regimeCorrelationOptions.correlationEnabled === true;
+    const correlationLookbackDays =
+      regimeCorrelationOptions.correlationLookbackDays ??
+      this.getNumberConfig('CORR_LOOKBACK_DAYS', 60);
 
     const lookbackFrom = new Date();
     lookbackFrom.setMonth(lookbackFrom.getMonth() - SCAN_LOOKBACK_MONTHS);
@@ -830,6 +1074,8 @@ export class BacktestService {
       v == null ? undefined : typeof v === 'number' ? v : Number(v);
 
     const allResults: ScanResult[] = [];
+    const breadthAcc = regimeEnabled ? createBreadthAccumulator() : null;
+    const candidatePriceSeriesByCode = new Map<string, CorrelationPricePoint[]>();
     let lastYieldAt = Date.now();
 
     for (let off = 0; off < liteStocks.length; off += SCAN_STOCK_CHUNK_SIZE) {
@@ -865,6 +1111,17 @@ export class BacktestService {
       }
 
       for (const stock of chunk) {
+        const prices = pricesByStockId.get(stock.id);
+        if (breadthAcc) {
+          try {
+            recordBreadthSample(breadthAcc, prices);
+          } catch (err) {
+            logger.debug(
+              `breadth skip ${stock.code}: ${err instanceof Error ? err.message : String(err)}`,
+            );
+          }
+        }
+
         try {
           const result = this.scanSingleStock(
             stock as unknown as Stock,
@@ -881,6 +1138,12 @@ export class BacktestService {
           );
           if (result) {
             allResults.push(result);
+            if (correlationEnabled) {
+              candidatePriceSeriesByCode.set(
+                result.stockCode,
+                pricePointsFromPrices(prices, correlationLookbackDays),
+              );
+            }
           }
         } catch (err) {
           logger.debug(
@@ -903,6 +1166,93 @@ export class BacktestService {
     // 5. 단기 운용 적합도 기반 위험조정 점수로 정렬 후 Top N
     allResults.sort((a, b) => b.rankScore - a.rankScore);
     const topResults = allResults.slice(0, topN);
+    let regime: ScanResponse['regime'];
+    let clusters: ScanResponse['clusters'];
+
+    if (regimeEnabled && breadthAcc) {
+      try {
+        const source =
+          this.configService.get<string>('REGIME_INDEX_SOURCE') ?? 'breadth';
+        if (source !== 'breadth') {
+          logger.warn(
+            `REGIME_INDEX_SOURCE=${source} 는 Sprint3 미구현 — breadth 산출로 폴백`,
+          );
+        }
+        const breadth = finalizeBreadth(breadthAcc);
+        regime = computeMarketRegime(
+          breadth,
+          regimeCorrelationOptions.prevRegime ?? null,
+          {
+            ...this.buildMarketRegimeOptions(),
+            ...(regimeCorrelationOptions.regimeOptions ?? {}),
+          },
+        );
+      } catch (err) {
+        const breadth = finalizeBreadth(breadthAcc);
+        regime = {
+          label: 'NEUTRAL',
+          rawScore: 0.5,
+          smoothedScore: 0.5,
+          slotMultiplier: 1,
+          amountMultiplier: 1,
+          breadth,
+          source: 'fallback',
+        };
+        logger.warn(
+          `시장 레짐 계산 실패 — NEUTRAL 폴백: ${err instanceof Error ? err.message : String(err)}`,
+        );
+      }
+    }
+
+    if (correlationEnabled) {
+      try {
+        const priceSeriesByCode = new Map<string, CorrelationPricePoint[]>();
+        for (const result of topResults) {
+          const series = candidatePriceSeriesByCode.get(result.stockCode);
+          if (series && series.length > 0) {
+            priceSeriesByCode.set(result.stockCode, series);
+          }
+        }
+
+        const activeSeries = await this.loadCorrelationPriceSeries(
+          regimeCorrelationOptions.correlationCodes ?? [],
+          lookbackFrom,
+          correlationLookbackDays,
+        );
+        for (const [code, series] of activeSeries) {
+          if (series.length > 0) priceSeriesByCode.set(code, series);
+        }
+
+        if (priceSeriesByCode.size >= 2) {
+          const returnsByCode = buildAlignedLogReturns(
+            priceSeriesByCode,
+            correlationLookbackDays,
+          );
+          const clusterResult = clusterByCorrelation(returnsByCode, {
+            ...this.buildCorrelationOptions(),
+            ...(regimeCorrelationOptions.correlationOptions ?? {}),
+          });
+          for (const result of topResults) {
+            const clusterId = clusterResult.clusterByCode.get(result.stockCode);
+            if (clusterId != null) result.clusterId = clusterId;
+          }
+          clusters = clusterResult.clusters;
+
+          if (clusterResult.largeClusters.length > 0) {
+            logger.warn(
+              `상관 거대 클러스터 감지: ` +
+                clusterResult.largeClusters
+                  .map((c) => `#${c.clusterId}(${c.size})`)
+                  .join(', '),
+            );
+          }
+        }
+      } catch (err) {
+        logger.warn(
+          `상관 클러스터 계산 실패 — 캡 미적용 폴백: ${err instanceof Error ? err.message : String(err)}`,
+        );
+      }
+    }
 
     const elapsedMs = Date.now() - startTime;
     logger.log(
@@ -915,7 +1265,58 @@ export class BacktestService {
       excludedStocks: excludeCodes.length,
       elapsedMs,
       results: topResults,
+      ...(regime && { regime }),
+      ...(clusters && { clusters }),
     };
+  }
+
+  private async loadCorrelationPriceSeries(
+    codes: string[],
+    lookbackFrom: Date,
+    lookbackDays: number,
+  ): Promise<Map<string, CorrelationPricePoint[]>> {
+    const uniqueCodes = [...new Set(codes.filter(Boolean))];
+    const result = new Map<string, CorrelationPricePoint[]>();
+    if (uniqueCodes.length === 0) return result;
+
+    type CorrelationPriceRow = {
+      code: string;
+      date: Date | string;
+      close: number | string | null;
+    };
+
+    const rows = (await this.em
+      .getKnex()('stock_daily_prices as p')
+      .join('stocks as s', 's.id', 'p.stock_id')
+      .select('s.code', 'p.date', 'p.close')
+      .whereIn('s.code', uniqueCodes)
+      .andWhere('p.date', '>=', lookbackFrom)
+      .orderBy([
+        { column: 's.code' },
+        { column: 'p.date', order: 'asc' },
+      ])) as CorrelationPriceRow[];
+
+    for (const row of rows) {
+      const close =
+        typeof row.close === 'number'
+          ? row.close
+          : row.close == null
+            ? Number.NaN
+            : Number(row.close);
+      if (!Number.isFinite(close) || close <= 0) continue;
+
+      const bucket = result.get(row.code) ?? [];
+      bucket.push({ date: row.date, close });
+      result.set(row.code, bucket);
+    }
+
+    for (const [code, series] of result) {
+      if (lookbackDays > 0) {
+        result.set(code, series.slice(-(lookbackDays + 1)));
+      }
+    }
+
+    return result;
   }
 
   /**
