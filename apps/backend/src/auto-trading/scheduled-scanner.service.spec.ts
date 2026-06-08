@@ -6,9 +6,10 @@ import {
   ScanCompletedEvent,
   ScheduledScannerService,
 } from './scheduled-scanner.service';
+import { SessionStatus } from './entities/auto-trading-session.entity';
 
 describe('ScheduledScannerService', () => {
-  const createService = () => {
+  const createService = (config: Record<string, unknown> = {}) => {
     const execute = jest.fn();
     const em = {
       getConnection: () => ({ execute }),
@@ -17,7 +18,14 @@ describe('ScheduledScannerService', () => {
       find: jest.Mock;
     };
     const configService = {
-      get: jest.fn().mockReturnValue(1),
+      get: jest.fn((key: string, defaultValue?: unknown) => {
+        const values = {
+          SCHEDULED_TRADER_USER_ID: 1,
+          ...config,
+        };
+        if (key in values) return values[key as keyof typeof values];
+        return defaultValue;
+      }),
     } as unknown as ConfigService & { get: jest.Mock };
     const autoTradingService = {
       removeStaleScheduledScanSessions: jest
@@ -164,4 +172,169 @@ describe('ScheduledScannerService', () => {
       }),
     );
   });
+
+  it('keeps legacy slot and investment amounts when Sprint3 toggles are off', async () => {
+    const { service, execute, em, autoTradingService } = createService();
+    const event: ScanCompletedEvent = {
+      userId: 1,
+      requestId: 'req-off',
+      response: {
+        scannedStocks: 2,
+        eligibleStocks: 2,
+        excludedStocks: 0,
+        results: [
+          scanCandidate('AAA', 0.9, 2),
+          scanCandidate('BBB', 0.8, 4),
+        ],
+        regime: {
+          label: 'CRISIS',
+          rawScore: 0.1,
+          smoothedScore: 0.1,
+          slotMultiplier: 0.1,
+          amountMultiplier: 0.1,
+          source: 'breadth',
+          breadth: emptyBreadth(),
+        },
+        clusters: [{ clusterId: 1, codes: ['AAA', 'BBB'], size: 2 }],
+      },
+    };
+
+    execute.mockResolvedValueOnce([{ job_name: 'scheduled-ai-scan' }]);
+    (em.find as jest.Mock).mockResolvedValue([]);
+    autoTradingService.startSessions.mockResolvedValue([
+      { stockCode: 'AAA' },
+      { stockCode: 'BBB' },
+    ]);
+
+    await service.handleScanCompleted(event);
+
+    const sessions = autoTradingService.startSessions.mock.calls[0][1].sessions;
+    expect(sessions.map((s: any) => [s.stockCode, s.investmentAmount])).toEqual(
+      [
+        ['AAA', 1_333_333],
+        ['BBB', 666_667],
+      ],
+    );
+  });
+
+  it('applies CRISIS floors to slots and base investment amount when enabled', async () => {
+    const { service, execute, em, autoTradingService } = createService({
+      REGIME_SCALING_ENABLED: true,
+      REGIME_MIN_HOLDINGS_FLOOR: 3,
+      REGIME_AMOUNT_FLOOR: 0.4,
+    });
+    const event: ScanCompletedEvent = {
+      userId: 1,
+      requestId: 'req-crisis',
+      response: {
+        scannedStocks: 5,
+        eligibleStocks: 5,
+        excludedStocks: 0,
+        results: [
+          scanCandidate('AAA', 0.95, 3),
+          scanCandidate('BBB', 0.9, 3),
+          scanCandidate('CCC', 0.85, 3),
+          scanCandidate('DDD', 0.8, 3),
+        ],
+        regime: {
+          label: 'CRISIS',
+          rawScore: 0.1,
+          smoothedScore: 0.1,
+          slotMultiplier: 0.1,
+          amountMultiplier: 0.2,
+          source: 'breadth',
+          breadth: emptyBreadth(),
+        },
+      },
+    };
+
+    execute.mockResolvedValueOnce([{ job_name: 'scheduled-ai-scan' }]);
+    (em.find as jest.Mock).mockResolvedValue([]);
+    autoTradingService.startSessions.mockResolvedValue([
+      { stockCode: 'AAA' },
+      { stockCode: 'BBB' },
+      { stockCode: 'CCC' },
+    ]);
+
+    await service.handleScanCompleted(event);
+
+    const sessions = autoTradingService.startSessions.mock.calls[0][1].sessions;
+    expect(sessions).toHaveLength(3);
+    expect(sessions.map((s: any) => s.investmentAmount)).toEqual([
+      400_000,
+      400_000,
+      400_000,
+    ]);
+  });
+
+  it('seeds cluster counts from active holdings and gates in one adoption loop', async () => {
+    const { service, execute, em, autoTradingService } = createService({
+      CORRELATION_CAP_ENABLED: true,
+      MAX_PER_CLUSTER: 2,
+    });
+    const event: ScanCompletedEvent = {
+      userId: 1,
+      requestId: 'req-cluster',
+      response: {
+        scannedStocks: 4,
+        eligibleStocks: 4,
+        excludedStocks: 0,
+        results: [
+          { ...scanCandidate('BBB', 0.95, 3), clusterId: 1, sector: 'a' },
+          { ...scanCandidate('CCC', 0.9, 3), clusterId: 1, sector: 'b' },
+          { ...scanCandidate('DDD', 0.85, 3), sector: 'c' },
+        ],
+        clusters: [{ clusterId: 1, codes: ['AAA', 'BBB', 'CCC'], size: 3 }],
+      },
+    };
+
+    execute
+      .mockResolvedValueOnce([{ job_name: 'scheduled-ai-scan' }])
+      .mockResolvedValueOnce([{ code: 'AAA', sector: 'z' }]);
+    (em.find as jest.Mock).mockResolvedValue([
+      {
+        stockCode: 'AAA',
+        status: SessionStatus.ACTIVE,
+        scheduledScan: true,
+      },
+    ]);
+    autoTradingService.startSessions.mockResolvedValue([
+      { stockCode: 'BBB' },
+      { stockCode: 'DDD' },
+    ]);
+
+    await service.handleScanCompleted(event);
+
+    const sessions = autoTradingService.startSessions.mock.calls[0][1].sessions;
+    expect(sessions.map((s: any) => s.stockCode)).toEqual(['BBB', 'DDD']);
+  });
 });
+
+function emptyBreadth() {
+  return {
+    universeCount: 100,
+    aboveSma20Ratio: 0.5,
+    aboveSma60Ratio: 0.5,
+    medianDailyReturnPct: 0,
+    medianRet5dPct: 0,
+    medianAtrPct: 4,
+  };
+}
+
+function scanCandidate(stockCode: string, strength: number, volatilityPct: number) {
+  return {
+    stockCode,
+    stockName: stockCode,
+    sector: 'tech',
+    volatilityPct,
+    bestStrategy: {
+      strategyId: 'day-trading',
+      strategyName: '일간 모멘텀 통합 전략',
+    },
+    currentSignal: {
+      direction: 'BUY',
+      strength,
+      reason: 'fresh buy',
+    },
+  };
+}

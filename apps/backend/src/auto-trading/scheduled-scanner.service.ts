@@ -45,6 +45,9 @@ const R_VOL_WEIGHT_MIN = 0.8;
 const R_VOL_WEIGHT_MAX = 1.25;
 /** 변동성 정보 결손 시 가정값 (%) — 한국 일반 종목 ATR/가격 중앙값 */
 const FALLBACK_VOLATILITY_PCT = 3.0;
+const DEFAULT_REGIME_MIN_HOLDINGS_FLOOR = 3;
+const DEFAULT_REGIME_AMOUNT_FLOOR = 0.4;
+const DEFAULT_MAX_PER_CLUSTER = 2;
 
 type RegimeLabel = 'CRISIS' | 'NEUTRAL' | 'ATTACK';
 
@@ -120,6 +123,17 @@ export class ScheduledScannerService {
     if (typeof value === 'string') return value.toLowerCase() === 'true';
     if (typeof value === 'number') return value === 1;
     return fallback;
+  }
+
+  private getNumberConfig(key: string, fallback: number): number {
+    const value = this.configService.get<number | string>(key);
+    const parsed =
+      typeof value === 'number'
+        ? value
+        : typeof value === 'string'
+          ? Number(value)
+          : Number.NaN;
+    return Number.isFinite(parsed) ? parsed : fallback;
   }
 
   @Cron('0 0 8 * * 1-5', {
@@ -287,6 +301,112 @@ export class ScheduledScannerService {
       slPct: SCAN_AUTO_STOP_LOSS_PCT,
       source: 'fallback',
     };
+  }
+
+  private resolveRegimeScale(response: ScanResponse): {
+    enabled: boolean;
+    label: RegimeLabel | 'NONE';
+    source: 'breadth' | 'fallback' | 'none';
+    slotMultiplier: number;
+    amountMultiplier: number;
+  } {
+    if (!this.getBooleanConfig('REGIME_SCALING_ENABLED', false)) {
+      return {
+        enabled: false,
+        label: 'NONE',
+        source: 'none',
+        slotMultiplier: 1,
+        amountMultiplier: 1,
+      };
+    }
+
+    try {
+      const regime = response.regime;
+      if (!regime) {
+        return {
+          enabled: true,
+          label: 'NONE',
+          source: 'none',
+          slotMultiplier: 1,
+          amountMultiplier: 1,
+        };
+      }
+
+      const slotMultiplier = Number.isFinite(regime.slotMultiplier)
+        ? regime.slotMultiplier
+        : 1;
+      const amountMultiplier = Number.isFinite(regime.amountMultiplier)
+        ? regime.amountMultiplier
+        : 1;
+
+      return {
+        enabled: true,
+        label: regime.label,
+        source: regime.source,
+        slotMultiplier: slotMultiplier > 0 ? slotMultiplier : 1,
+        amountMultiplier: amountMultiplier > 0 ? amountMultiplier : 1,
+      };
+    } catch (err: any) {
+      this.logger.warn(
+        `레짐 스케일 해석 실패 — NEUTRAL 폴백: ${err.message ?? err}`,
+      );
+      return {
+        enabled: true,
+        label: 'NONE',
+        source: 'fallback',
+        slotMultiplier: 1,
+        amountMultiplier: 1,
+      };
+    }
+  }
+
+  private resolveClusterGate(
+    response: ScanResponse,
+    activeCodes: Set<string>,
+  ): {
+    enabled: boolean;
+    maxPerCluster: number;
+    clusterCounts: Map<number, number>;
+  } {
+    if (!this.getBooleanConfig('CORRELATION_CAP_ENABLED', false)) {
+      return {
+        enabled: false,
+        maxPerCluster: DEFAULT_MAX_PER_CLUSTER,
+        clusterCounts: new Map(),
+      };
+    }
+
+    try {
+      const maxPerCluster = this.getNumberConfig(
+        'MAX_PER_CLUSTER',
+        DEFAULT_MAX_PER_CLUSTER,
+      );
+      const clusterOf = new Map<string, number>();
+      for (const cluster of response.clusters ?? []) {
+        for (const code of cluster.codes) {
+          clusterOf.set(code, cluster.clusterId);
+        }
+      }
+
+      const clusterCounts = new Map<number, number>();
+      for (const code of activeCodes) {
+        const clusterId = clusterOf.get(code);
+        if (clusterId != null) {
+          clusterCounts.set(clusterId, (clusterCounts.get(clusterId) ?? 0) + 1);
+        }
+      }
+
+      return { enabled: true, maxPerCluster, clusterCounts };
+    } catch (err: any) {
+      this.logger.warn(
+        `상관 클러스터 게이트 초기화 실패 — 캡 미적용: ${err.message ?? err}`,
+      );
+      return {
+        enabled: false,
+        maxPerCluster: DEFAULT_MAX_PER_CLUSTER,
+        clusterCounts: new Map(),
+      };
+    }
   }
 
   /**
@@ -459,14 +579,40 @@ export class ScheduledScannerService {
       activeSessions,
       response,
     );
+    const regimeScale = this.resolveRegimeScale(response);
+    const effectiveMaxHoldings = regimeScale.enabled
+      ? Math.max(
+          this.getNumberConfig(
+            'REGIME_MIN_HOLDINGS_FLOOR',
+            DEFAULT_REGIME_MIN_HOLDINGS_FLOOR,
+          ),
+          Math.round(MAX_CONCURRENT_HOLDINGS * regimeScale.slotMultiplier),
+        )
+      : MAX_CONCURRENT_HOLDINGS;
+    const amountMultiplier = regimeScale.enabled
+      ? Math.max(
+          this.getNumberConfig(
+            'REGIME_AMOUNT_FLOOR',
+            DEFAULT_REGIME_AMOUNT_FLOOR,
+          ),
+          regimeScale.amountMultiplier,
+        )
+      : 1;
+    const effectiveBaseInvestmentAmount =
+      amountMultiplier === 1
+        ? SCAN_INVESTMENT_AMOUNT
+        : Math.round(SCAN_INVESTMENT_AMOUNT * amountMultiplier);
+    const clusterGate = this.resolveClusterGate(response, activeCodes);
     const availableSlots = Math.max(
       0,
-      MAX_CONCURRENT_HOLDINGS - activeCodes.size,
+      effectiveMaxHoldings - activeCodes.size,
     );
     const sectorCounts = new Map(activeSectorCounts);
+    const clusterCounts = new Map(clusterGate.clusterCounts);
     const filteredCandidates: ScanResult[] = [];
     let skippedBySectorCap = 0;
     let skippedByConcurrencyCap = 0;
+    let skippedByClusterCap = 0;
     for (const c of buyCandidates) {
       if (activeCodes.has(c.stockCode)) continue;
       if (filteredCandidates.length >= availableSlots) {
@@ -480,15 +626,38 @@ export class ScheduledScannerService {
           skippedBySectorCap++;
           continue;
         }
-        sectorCounts.set(sector, count + 1);
+      }
+      if (clusterGate.enabled && c.clusterId != null) {
+        const count = clusterCounts.get(c.clusterId) ?? 0;
+        if (count >= clusterGate.maxPerCluster) {
+          skippedByClusterCap++;
+          continue;
+        }
+      }
+      if (sector) sectorCounts.set(sector, (sectorCounts.get(sector) ?? 0) + 1);
+      if (clusterGate.enabled && c.clusterId != null) {
+        clusterCounts.set(c.clusterId, (clusterCounts.get(c.clusterId) ?? 0) + 1);
       }
       filteredCandidates.push(c);
     }
 
-    if (skippedBySectorCap > 0 || skippedByConcurrencyCap > 0) {
+    if (
+      skippedBySectorCap > 0 ||
+      skippedByConcurrencyCap > 0 ||
+      skippedByClusterCap > 0
+    ) {
       this.logger.log(
         `분산 필터 — 섹터캡(${MAX_PER_SECTOR}/섹터) 초과 ${skippedBySectorCap}건, ` +
-          `동시보유 상한(${MAX_CONCURRENT_HOLDINGS}) 초과 ${skippedByConcurrencyCap}건 스킵`,
+          `동시보유 상한(${effectiveMaxHoldings}) 초과 ${skippedByConcurrencyCap}건, ` +
+          `클러스터캡(${clusterGate.maxPerCluster}/클러스터) 초과 ${skippedByClusterCap}건 스킵`,
+      );
+    }
+
+    if (regimeScale.enabled) {
+      this.logger.log(
+        `레짐 스케일 ${regimeScale.label}/${regimeScale.source} — ` +
+          `동시보유 ${effectiveMaxHoldings}/${MAX_CONCURRENT_HOLDINGS}, ` +
+          `투자금 x${amountMultiplier.toFixed(2)}`,
       );
     }
 
@@ -504,7 +673,10 @@ export class ScheduledScannerService {
     }
 
     // 변동성 역가중 — 한 종목당 투자금을 ATR% 역수에 비례해 배분 (평균 = SCAN_INVESTMENT_AMOUNT)
-    const investmentByCode = this.computeVolatilityWeightedInvestments(toStart);
+    const investmentByCode = this.computeVolatilityWeightedInvestments(
+      toStart,
+      effectiveBaseInvestmentAmount,
+    );
 
     const resumedCodes: string[] = [];
     for (const { session, candidate } of toResume) {
@@ -557,7 +729,8 @@ export class ScheduledScannerService {
               strategyId: c.bestStrategy.strategyId,
               variant: c.bestStrategy.variant,
               investmentAmount:
-                investmentByCode.get(c.stockCode) ?? SCAN_INVESTMENT_AMOUNT,
+                investmentByCode.get(c.stockCode) ??
+                effectiveBaseInvestmentAmount,
               takeProfitPct: dyn.takeProfitPct,
               stopLossPct: dyn.stopLossPct,
               maxHoldingDays: SESSION_MAX_HOLDING_DAYS,
@@ -651,6 +824,7 @@ export class ScheduledScannerService {
    */
   private computeVolatilityWeightedInvestments(
     candidates: ScanResult[],
+    baseInvestmentAmount = SCAN_INVESTMENT_AMOUNT,
   ): Map<string, number> {
     const map = new Map<string, number>();
     if (candidates.length === 0) return map;
@@ -676,7 +850,7 @@ export class ScheduledScannerService {
         volWeightMin,
         Math.min(volWeightMax, rawWeight),
       );
-      const amount = Math.round(SCAN_INVESTMENT_AMOUNT * weight);
+      const amount = Math.round(baseInvestmentAmount * weight);
       map.set(candidates[i].stockCode, amount);
     }
     return map;
