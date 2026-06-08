@@ -66,7 +66,9 @@ import {
   DEFAULT_VI_CLEAR_TIMEOUT_MS,
   DEFAULT_VI_HANDLING_ENABLED,
   DEFAULT_VI_LIMIT_NEAR_PCT,
+  DEFAULT_VI_REEVAL_DEBOUNCE_MS,
   DEFAULT_VI_STOPLOSS_LIMIT_ORDER,
+  ViClearReason,
   ViStateTracker,
 } from './vi-state-tracker';
 
@@ -130,6 +132,7 @@ const SUBSCRIPTION_RETRY_MAX_DELAY_MS = 60_000;
 const SCHEDULED_CLEANUP_BALANCE_MAX_ATTEMPTS = 2;
 const SCHEDULED_CLEANUP_BALANCE_RETRY_DELAY_MS = 5_000;
 const MIN_LIMIT_ORDER_PRICE = 1;
+const MIN_TIMEOUT_DELAY_MS = 0;
 
 function readBooleanEnv(name: string, fallback: boolean): boolean {
   return process.env[name] != null ? process.env[name] === 'true' : fallback;
@@ -153,6 +156,13 @@ type ViDeferredOrderIntent =
   | 'tp1-scale-out'
   | 'breakeven-stop'
   | 'trailing-stop';
+
+interface ViHeldOrder {
+  sessionId: number;
+  stockCode: string;
+  intent: ViDeferredOrderIntent;
+  queuedAt: number;
+}
 
 @Injectable()
 export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
@@ -184,6 +194,10 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       DEFAULT_VI_LIMIT_NEAR_PCT,
     ),
   });
+  private readonly viReevalDebounceMs = readPositiveNumberEnv(
+    'VI_REEVAL_DEBOUNCE_MS',
+    DEFAULT_VI_REEVAL_DEBOUNCE_MS,
+  );
   private readonly scaleOutPlan: ScaleOutPlan = {
     enabled: false,
     tiers: [
@@ -242,6 +256,19 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
    * 호출해 이중 매도되는 것을 막기 위한 프로세스 내 락.
    */
   private sellInFlightSessionIds = new Set<number>();
+  /** VI/정지 중 보류한 비손절 주문 의도 — 해제 시 현재가 기준으로 다시 판단한다. */
+  private viHeldOrders = new Map<number, ViHeldOrder>();
+  /** VI 해제 이벤트 누락을 복구하기 위한 종목별 timeout timer */
+  private viClearTimeoutTimers = new Map<
+    string,
+    ReturnType<typeof setTimeout>
+  >();
+  /** 해제 직후 재평가 폭주를 막는 debounce timer */
+  private viReevaluationTimers = new Map<
+    string,
+    ReturnType<typeof setTimeout>
+  >();
+  private viReevaluationInFlight = new Set<string>();
 
   private gateway?: import('./auto-trading.gateway').AutoTradingGateway;
 
@@ -502,6 +529,14 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         `VI/정지 상태 감지: ${execution.stockCode} (${state.reason})`,
       );
     }
+    if (state.isViActive) {
+      this.scheduleViClearTimeout(execution.stockCode, state.activeUntil);
+      return;
+    }
+    if (state.clearReason === 'execution-release') {
+      this.clearViClearTimeout(execution.stockCode);
+      this.scheduleViReevaluation(execution.stockCode, 'execution-release');
+    }
   }
 
   private shouldDeferForVi(
@@ -512,11 +547,172 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     const state = this.viStateTracker.getState(session.stockCode);
     if (!state?.isViActive) return false;
 
+    this.viHeldOrders.set(session.id, {
+      sessionId: session.id,
+      stockCode: session.stockCode,
+      intent,
+      queuedAt: Date.now(),
+    });
     this.logger.warn(
       `VI/정지 중 주문 보류: ${session.stockCode} intent=${intent} ` +
         `source=${state.source}`,
     );
     return true;
+  }
+
+  private scheduleViClearTimeout(
+    stockCode: string,
+    activeUntil?: number,
+  ): void {
+    if (!activeUntil) return;
+
+    this.clearViClearTimeout(stockCode);
+    const delayMs = Math.max(MIN_TIMEOUT_DELAY_MS, activeUntil - Date.now());
+    const timer = setTimeout(() => {
+      this.viClearTimeoutTimers.delete(stockCode);
+      this.handleViClearTimeout(stockCode);
+    }, delayMs);
+    this.viClearTimeoutTimers.set(stockCode, timer);
+  }
+
+  private clearViClearTimeout(stockCode: string): void {
+    const timer = this.viClearTimeoutTimers.get(stockCode);
+    if (!timer) return;
+    clearTimeout(timer);
+    this.viClearTimeoutTimers.delete(stockCode);
+  }
+
+  private handleViClearTimeout(stockCode: string): void {
+    if (!this.viHandlingEnabled) return;
+
+    const state = this.viStateTracker.getState(stockCode);
+    if (state?.isViActive) {
+      this.scheduleViClearTimeout(stockCode, state.activeUntil);
+      return;
+    }
+
+    this.logger.warn(`VI/정지 timeout 복구: ${stockCode}`);
+    this.scheduleViReevaluation(stockCode, 'timeout');
+  }
+
+  private scheduleViReevaluation(
+    stockCode: string,
+    reason: ViClearReason,
+  ): void {
+    if (!this.viHandlingEnabled || this.viReevaluationTimers.has(stockCode)) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      this.viReevaluationTimers.delete(stockCode);
+      void this.reevaluateHeldOrdersForStock(stockCode, reason);
+    }, this.viReevalDebounceMs);
+    this.viReevaluationTimers.set(stockCode, timer);
+  }
+
+  private clearViReevaluationTimer(stockCode: string): void {
+    const timer = this.viReevaluationTimers.get(stockCode);
+    if (!timer) return;
+    clearTimeout(timer);
+    this.viReevaluationTimers.delete(stockCode);
+  }
+
+  private async reevaluateHeldOrdersForStock(
+    stockCode: string,
+    reason: ViClearReason,
+  ): Promise<void> {
+    if (
+      this.viReevaluationInFlight.has(stockCode) ||
+      this.viStateTracker.isActive(stockCode)
+    ) {
+      return;
+    }
+
+    const heldOrders = [...this.viHeldOrders.values()].filter(
+      (held) => held.stockCode === stockCode,
+    );
+    if (heldOrders.length === 0) return;
+
+    this.viReevaluationInFlight.add(stockCode);
+    try {
+      const sessions = await this.em.find(AutoTradingSessionEntity, {
+        id: { $in: heldOrders.map((held) => held.sessionId) },
+        status: SessionStatus.ACTIVE,
+      });
+      const sessionById = new Map(sessions.map((session) => [session.id, session]));
+
+      for (const held of heldOrders) {
+        this.viHeldOrders.delete(held.sessionId);
+        const session = sessionById.get(held.sessionId);
+        if (!session || session.autoPausePending) continue;
+
+        const price = await this.getViReevaluationPrice(session);
+        if (!price) {
+          this.logger.warn(
+            `VI/정지 해제 후 재평가 스킵: ${held.stockCode} ` +
+              `intent=${held.intent} - 현재가 없음`,
+          );
+          continue;
+        }
+
+        this.logger.log(
+          `VI/정지 해제 후 재평가: ${held.stockCode} intent=${held.intent} ` +
+            `reason=${reason} price=${price}`,
+        );
+
+        if (held.intent === 'buy') {
+          const shouldBuy = await this.shouldBuyByStrategy(session);
+          if (shouldBuy) {
+            await this.executeBuy(session, price);
+          }
+          continue;
+        }
+
+        if (session.holdingQty > 0 && session.avgBuyPrice > 0) {
+          await this.evaluateAndExecuteSell(session, price);
+        }
+      }
+
+      await this.em.flush();
+    } catch (err: any) {
+      this.logger.error(
+        `VI/정지 해제 후 재평가 오류: ${stockCode} - ${err.message ?? err}`,
+      );
+    } finally {
+      this.viReevaluationInFlight.delete(stockCode);
+    }
+  }
+
+  private async getViReevaluationPrice(
+    session: AutoTradingSessionEntity,
+  ): Promise<number | undefined> {
+    if (session.holdingQty > 0 && session.avgBuyPrice > 0) {
+      return this.getReliableSellCheckPrice(session);
+    }
+
+    const cached = this.latestPrices.get(session.stockCode);
+    if (cached != null && cached > 0) return cached;
+
+    try {
+      const priceRaw = await this.kisQuotationService.getCurrentPrice(
+        session.stockCode,
+      );
+      const price = Number(priceRaw.stck_prpr);
+      return Number.isFinite(price) && price > 0 ? price : undefined;
+    } catch (err: any) {
+      this.logger.warn(
+        `VI/정지 해제 후 현재가 조회 실패: ${session.stockCode} - ${err.message ?? err}`,
+      );
+      return undefined;
+    }
+  }
+
+  private clearViHeldOrdersForStock(stockCode: string): void {
+    for (const held of this.viHeldOrders.values()) {
+      if (held.stockCode === stockCode) {
+        this.viHeldOrders.delete(held.sessionId);
+      }
+    }
   }
 
   private createViStopLossSellOptions(
@@ -1261,6 +1457,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     session.status = SessionStatus.PAUSED;
     session.pauseReason = reason;
     session.autoPausePending = false;
+    this.viHeldOrders.delete(session.id);
   }
 
   /** 세션 일시정지 */
@@ -1361,6 +1558,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     session.scheduledScan = false;
     session.pauseReason = undefined;
     session.autoPausePending = false;
+    this.viHeldOrders.delete(session.id);
     session.stoppedAt = new Date();
     await this.em.flush();
     this.logger.log(
@@ -1615,6 +1813,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         `매수 주문 접수: ${session.stockCode} ${qty}주 @ ${price} ` +
           `(주문번호 ${result.output?.ODNO ?? 'N/A'})`,
       );
+      this.viHeldOrders.delete(session.id);
       if (!trackingReady) {
         this.applyOptimisticBuyFill(session, price, qty);
         await this.em.flush();
@@ -1776,6 +1975,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
             `(주문번호 ${result.output?.ODNO ?? 'N/A'})`,
         );
         if (pauseAfterSell) {
+          this.viHeldOrders.delete(session.id);
           session.autoPausePending = true;
         }
         session.pauseReason = undefined;
@@ -1910,6 +2110,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         session.unrealizedPnl = 0;
         session.enteredAt = undefined;
         session.addOnBuyCount = 0;
+        this.viHeldOrders.delete(session.id);
         this.resetPositionRisk(session);
       } else {
         const nextStage = Number(meta.stage);
@@ -2099,6 +2300,12 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     for (const timer of this.priceTriggeredSellCheckTimers.values()) {
       clearTimeout(timer);
     }
+    for (const timer of this.viClearTimeoutTimers.values()) {
+      clearTimeout(timer);
+    }
+    for (const timer of this.viReevaluationTimers.values()) {
+      clearTimeout(timer);
+    }
     this.executionSub = undefined;
     this.subscriptionResultSub = undefined;
     this.monitorInterval = undefined;
@@ -2112,6 +2319,10 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     this.sellInFlightSessionIds.clear();
     this.latestPriceUpdatedAt.clear();
     this.viStateTracker.clearAll();
+    this.viHeldOrders.clear();
+    this.viClearTimeoutTimers.clear();
+    this.viReevaluationTimers.clear();
+    this.viReevaluationInFlight.clear();
   }
 
   private schedulePriceTriggeredSellCheck(stockCode: string) {
@@ -2408,6 +2619,10 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       this.activeStockCodes.delete(stockCode);
       this.latestPrices.delete(stockCode);
       this.latestPriceUpdatedAt.delete(stockCode);
+      this.viStateTracker.clearStock(stockCode);
+      this.clearViClearTimeout(stockCode);
+      this.clearViReevaluationTimer(stockCode);
+      this.clearViHeldOrdersForStock(stockCode);
       this.stopPricePolling(stockCode);
       this.clearSubscriptionRetry(stockCode);
       this.unsubscribeStock(stockCode);

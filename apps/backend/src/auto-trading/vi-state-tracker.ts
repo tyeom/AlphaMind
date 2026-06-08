@@ -19,6 +19,7 @@ export const KRX_REGULAR_AUCTION_HOUR_CLS_CODES = new Set(['A', 'B', 'D']);
 export const VI_SINGLE_PRICE_MKOP_CODES = new Set<string>();
 
 export type ViStateSource = 'none' | 'trading-halt' | 'single-price-auction';
+export type ViClearReason = 'execution-release' | 'timeout';
 
 export interface ViJudgmentInput {
   time?: string;
@@ -49,6 +50,7 @@ export interface ViState extends ViJudgment {
   newMkopClsCode?: string;
   hourClsCode?: string;
   viStndPrc?: number;
+  clearReason?: ViClearReason;
 }
 
 export interface ViStateTrackerConfig {
@@ -192,6 +194,10 @@ export class ViStateTracker {
       newMkopClsCode: execution.newMkopClsCode,
       hourClsCode: execution.hourClsCode,
       viStndPrc: execution.viStndPrc,
+      clearReason:
+        !judgment.isViActive && previous?.isViActive
+          ? 'execution-release'
+          : undefined,
     };
 
     this.states.set(execution.stockCode, state);
@@ -199,7 +205,29 @@ export class ViStateTracker {
   }
 
   getState(stockCode: string): ViState | undefined {
-    return this.states.get(stockCode);
+    const state = this.states.get(stockCode);
+    if (!state?.isViActive || state.activeUntil == null) {
+      return state;
+    }
+
+    const now = this.config.now();
+    if (now < state.activeUntil) {
+      return state;
+    }
+
+    const cleared: ViState = {
+      ...state,
+      isViActive: false,
+      source: 'none',
+      tradingHalt: false,
+      singlePriceAuction: false,
+      since: undefined,
+      activeUntil: undefined,
+      clearReason: 'timeout',
+      reason: 'VI/정지 timeout 복구',
+    };
+    this.states.set(stockCode, cleared);
+    return cleared;
   }
 
   isActive(stockCode: string): boolean {
