@@ -53,6 +53,25 @@ export {
   type RiskSizingOptions,
   type RiskSizingResult,
 } from './utils/position-sizing';
+export {
+  DEFAULT_MARKET_REGIME_OPTIONS,
+  computeMarketRegime,
+  type BreadthSnapshot,
+  type MarketRegimeOptions,
+  type MarketRegimeState,
+  type RegimeLabel,
+  type RegimeResult,
+} from './utils/market-regime';
+export {
+  DEFAULT_CORRELATION_CLUSTER_OPTIONS,
+  buildAlignedLogReturns,
+  clusterByCorrelation,
+  pearson,
+  type CorrelationCluster,
+  type CorrelationClusterOptions,
+  type CorrelationClusterResult,
+  type CorrelationPricePoint,
+} from './utils/correlation-cluster';
 
 // Trade meta
 export { getStrategyTradeMeta, type TradeMeta } from './trade-meta';
