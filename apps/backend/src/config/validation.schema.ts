@@ -49,4 +49,16 @@ export const validationSchema = Joi.object({
   REGIME_MIN_HOLDINGS_FLOOR: Joi.number().integer().positive().default(3),
   REGIME_AMOUNT_FLOOR: Joi.number().positive().default(0.4),
   MAX_PER_CLUSTER: Joi.number().integer().positive().default(2),
+
+  // 공격형/보수형 매매 손잡이 (미설정 시 기존 동작 동일)
+  // SCAN_FORCE_FIXED_TP_SL=true 면 그리드서치·ATR동적 우회하고 아래 고정 TP/SL 사용.
+  SCAN_FORCE_FIXED_TP_SL: Joi.boolean().default(false),
+  SCAN_AUTO_TAKE_PROFIT_PCT: Joi.number().default(2.5),
+  SCAN_AUTO_STOP_LOSS_PCT: Joi.number().default(-2.0),
+  // 매수 신호 최소 강도(낮출수록 공격적). 스캔 후보 + 실거래 진입 게이트 공통.
+  MIN_BUY_SIGNAL_STRENGTH: Joi.number().min(0).max(1).default(0.65),
+  // 동시 보유 종목 상한.
+  MAX_CONCURRENT_HOLDINGS: Joi.number().integer().positive().default(15),
+  // R기반 사이징 거래당 리스크 %(높일수록 포지션 큼).
+  R_RISK_PCT: Joi.number().positive().default(0.5),
 });

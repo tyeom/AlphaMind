@@ -119,6 +119,14 @@ const R_SIZING_ENABLED = false;
 const R_RISK_PCT = 0.5;
 const R_EQUITY_SOURCE = 'session';
 const R_SIZING_OVERRIDES_VOL_WEIGHT = false;
+
+/** 공격형 env 손잡이용 숫자 파서. 미설정/빈값/NaN이면 fallback(기존 상수) 사용 → 미설정 시 동작 불변. */
+function envNum(key: string, fallback: number): number {
+  const v = process.env[key];
+  if (v == null || v.trim() === '') return fallback;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : fallback;
+}
 /**
  * 진입 직후 grace period — 매수 N분 이내에는 본전/트레일링 스톱을 발동하지 않는다.
  * 단순 stopLossPct 와 takeProfitPct 는 그대로 작동 (큰 손실/익절은 즉시 반응).
@@ -1694,8 +1702,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       const analysis = strategyFn(candles, config, session.stockCode);
       const lastSignal = analysis.currentSignal;
       const minStrength = session.scheduledScan
-        ? MIN_SCHEDULED_BUY_SIGNAL_STRENGTH
-        : MIN_BUY_SIGNAL_STRENGTH;
+        ? envNum('MIN_BUY_SIGNAL_STRENGTH', MIN_SCHEDULED_BUY_SIGNAL_STRENGTH)
+        : envNum('MIN_BUY_SIGNAL_STRENGTH', MIN_BUY_SIGNAL_STRENGTH);
 
       if (
         lastSignal.direction !== SignalDirection.Buy ||
@@ -1741,7 +1749,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           ? Number(session.investmentAmount)
           : Number(session.investmentAmount);
       const r = computeRiskBasedQty(equity, price, session.stopLossPct, {
-        riskPct: R_RISK_PCT,
+        riskPct: envNum('R_RISK_PCT', R_RISK_PCT),
         budgetCapAmount: remainingBudget,
       });
       return r ? r.qty : legacyQty;

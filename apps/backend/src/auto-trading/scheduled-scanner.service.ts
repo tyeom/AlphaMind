@@ -256,7 +256,10 @@ export class ScheduledScannerService {
         autoTakeProfitPct: optimal.tpPct,
         autoStopLossPct: optimal.slPct,
         maxHoldingDays: SCAN_MAX_HOLDING_DAYS,
-        minCurrentSignalStrength: MIN_BUY_SIGNAL_STRENGTH,
+        minCurrentSignalStrength: this.getNumberConfig(
+          'MIN_BUY_SIGNAL_STRENGTH',
+          MIN_BUY_SIGNAL_STRENGTH,
+        ),
         regimeEnabled,
         correlationEnabled,
         correlationCodes: Array.from(activeCodes),
@@ -280,8 +283,20 @@ export class ScheduledScannerService {
   private async fetchOptimalShortTermTpSl(): Promise<{
     tpPct: number;
     slPct: number;
-    source: 'optimized' | 'default' | 'fallback';
+    source: 'optimized' | 'default' | 'fallback' | 'fixed';
   }> {
+    const fixedTp = this.getNumberConfig(
+      'SCAN_AUTO_TAKE_PROFIT_PCT',
+      SCAN_AUTO_TAKE_PROFIT_PCT,
+    );
+    const fixedSl = this.getNumberConfig(
+      'SCAN_AUTO_STOP_LOSS_PCT',
+      SCAN_AUTO_STOP_LOSS_PCT,
+    );
+    // 공격형: 고정 TP/SL 강제 시 그리드서치·종목별 ATR 동적을 우회한다.
+    if (this.getBooleanConfig('SCAN_FORCE_FIXED_TP_SL', false)) {
+      return { tpPct: fixedTp, slPct: fixedSl, source: 'fixed' };
+    }
     try {
       const result = await firstValueFrom(
         this.marketDataClient.send<{
@@ -305,8 +320,8 @@ export class ScheduledScannerService {
       );
     }
     return {
-      tpPct: SCAN_AUTO_TAKE_PROFIT_PCT,
-      slPct: SCAN_AUTO_STOP_LOSS_PCT,
+      tpPct: fixedTp,
+      slPct: fixedSl,
       source: 'fallback',
     };
   }
@@ -530,6 +545,15 @@ export class ScheduledScannerService {
     const optimal = await this.fetchOptimalShortTermTpSl();
     const baseTpPct = optimal.tpPct;
     const baseSlPct = optimal.slPct;
+    // 공격형 env 손잡이 (미설정 시 기존 상수 동일)
+    const minBuyStrength = this.getNumberConfig(
+      'MIN_BUY_SIGNAL_STRENGTH',
+      MIN_BUY_SIGNAL_STRENGTH,
+    );
+    const maxHoldings = this.getNumberConfig(
+      'MAX_CONCURRENT_HOLDINGS',
+      MAX_CONCURRENT_HOLDINGS,
+    );
 
     const existing = await this.em.find(AutoTradingSessionEntity, {
       user: userId,
@@ -557,7 +581,7 @@ export class ScheduledScannerService {
     const rawBuyCandidates = response.results.filter(
       (r) =>
         r.currentSignal.direction.toUpperCase() === 'BUY' &&
-        r.currentSignal.strength >= MIN_BUY_SIGNAL_STRENGTH,
+        r.currentSignal.strength >= minBuyStrength,
     );
     const skippedByManual = rawBuyCandidates.filter((r) =>
       manualCodes.has(r.stockCode),
@@ -575,7 +599,7 @@ export class ScheduledScannerService {
 
     this.logger.log(
       `스캔 결과: ${response.results.length}건 → 매수 후보 ${buyCandidates.length}건 ` +
-        `(strength >= ${MIN_BUY_SIGNAL_STRENGTH})`,
+        `(strength >= ${minBuyStrength})`,
     );
 
     // 분산 필터: 동시 보유 상한 + 섹터 캡 적용
@@ -594,9 +618,9 @@ export class ScheduledScannerService {
             'REGIME_MIN_HOLDINGS_FLOOR',
             DEFAULT_REGIME_MIN_HOLDINGS_FLOOR,
           ),
-          Math.round(MAX_CONCURRENT_HOLDINGS * regimeScale.slotMultiplier),
+          Math.round(maxHoldings * regimeScale.slotMultiplier),
         )
-      : MAX_CONCURRENT_HOLDINGS;
+      : maxHoldings;
     const amountMultiplier = regimeScale.enabled
       ? Math.max(
           this.getNumberConfig(
@@ -664,7 +688,7 @@ export class ScheduledScannerService {
     if (regimeScale.enabled) {
       this.logger.log(
         `레짐 스케일 ${regimeScale.label}/${regimeScale.source} — ` +
-          `동시보유 ${effectiveMaxHoldings}/${MAX_CONCURRENT_HOLDINGS}, ` +
+          `동시보유 ${effectiveMaxHoldings}/${maxHoldings}, ` +
           `투자금 x${amountMultiplier.toFixed(2)}`,
       );
     }
@@ -769,6 +793,19 @@ export class ScheduledScannerService {
     baseSlPct: number,
     candidate: ScanResult,
   ): { takeProfitPct: number; stopLossPct: number } {
+    // 공격형: 고정 TP/SL 강제 시 종목별 ATR 동적·market-data 값을 무시하고 고정값 사용.
+    if (this.getBooleanConfig('SCAN_FORCE_FIXED_TP_SL', false)) {
+      return {
+        takeProfitPct: this.getNumberConfig(
+          'SCAN_AUTO_TAKE_PROFIT_PCT',
+          SCAN_AUTO_TAKE_PROFIT_PCT,
+        ),
+        stopLossPct: this.getNumberConfig(
+          'SCAN_AUTO_STOP_LOSS_PCT',
+          SCAN_AUTO_STOP_LOSS_PCT,
+        ),
+      };
+    }
     if (
       Number.isFinite(candidate.autoTakeProfitPct) &&
       Number.isFinite(candidate.autoStopLossPct)
