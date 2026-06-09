@@ -944,6 +944,48 @@ describe('BacktestService simulate', () => {
     });
   });
 
+  it('backtests with fixed TP/SL (no ATR adjustment) when forceFixedTpSl is true', () => {
+    const service = createService();
+    const walkForward = jest.fn().mockReturnValue({
+      inSample: backtestResult({ totalReturnPct: 1, totalTrades: 5 }),
+      outOfSample: backtestResult({
+        totalReturnPct: 2,
+        totalTrades: 2,
+        winTrades: 2,
+        maxDrawdownPct: 1,
+      }),
+      folds: [],
+      wfConsistency: 1,
+      rollingEnabled: false,
+      usedFallback: false,
+    });
+    (service as any).simulateWalkForwardRun = walkForward;
+    (service as any).passesOosQuality = jest.fn(() => true);
+
+    const stock = { id: 1, code: 'AAA', name: 'AAA' };
+    const prices = wfCandles(131);
+    // forceFixedTpSl=true (12번째 인자) → ATR 보정 없이 입력 고정 TP/SL 을 그대로 백테스트해야 함
+    (service as any).scanSingleStock(
+      stock,
+      new Map([[1, prices]]),
+      1_000_000,
+      10,
+      0.015,
+      1,
+      -2,
+      7,
+      0,
+      0,
+      {},
+      true,
+    );
+
+    // 검증↔실전 정합: 백테스트 config 의 TP/SL 이 입력 고정값과 정확히 일치(ATR 보정 안 됨).
+    const cfg = walkForward.mock.calls[0][3];
+    expect(cfg.autoTakeProfitPct).toBe(1);
+    expect(cfg.autoStopLossPct).toBe(-2);
+  });
+
   it('persists and reads market regime hysteresis state as JSON', async () => {
     const tmpDir = await fs.mkdtemp('/tmp/market-regime-');
     const service = createService();

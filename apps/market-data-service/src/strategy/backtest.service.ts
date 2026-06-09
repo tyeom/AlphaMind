@@ -1111,6 +1111,7 @@ export class BacktestService {
     minTotalTrades = DEFAULT_MIN_TOTAL_TRADES,
     scaleOutOptions: ScaleOutBacktestOptions = {},
     regimeCorrelationOptions: RegimeCorrelationOptions = {},
+    forceFixedTpSl = false,
   ): Promise<ScanResponse> {
     const logger = new Logger('BacktestService');
     const startTime = Date.now();
@@ -1261,6 +1262,7 @@ export class BacktestService {
             minCurrentSignalStrength,
             minTotalTrades,
             scaleOutOptions,
+            forceFixedTpSl,
           );
           if (result) {
             allResults.push(result);
@@ -1915,6 +1917,7 @@ export class BacktestService {
     minCurrentSignalStrength = DEFAULT_MIN_CURRENT_SIGNAL_STRENGTH,
     minTotalTrades = DEFAULT_MIN_TOTAL_TRADES,
     scaleOutOptions: ScaleOutBacktestOptions = {},
+    forceFixedTpSl = false,
   ): ScanResult | null {
     const prices = pricesByStockId.get(stock.id);
     if (!prices || prices.length < 60) return null;
@@ -1950,13 +1953,11 @@ export class BacktestService {
       return null;
     }
     const volatilityPct = riskProfile.volatilityPct;
-    // 종목별 ATR 보정 TP/SL 을 백테스트부터 적용한다.
-    // backend 세션도 ScanResult 의 같은 값을 사용하므로 검증 룰과 실전 룰이 어긋나지 않는다.
-    const dynamicTpSl = computeAtrDynamicTpSl(
-      autoTakeProfitPct,
-      autoStopLossPct,
-      volatilityPct,
-    );
+    // 고정모드면 ATR 동적 보정을 건너뛰고 전달된 고정 TP/SL 을 그대로 쓴다.
+    // (백테스트와 backend 세션이 동일 값을 쓰므로 검증 룰과 실전 룰이 어긋나지 않는다.)
+    const dynamicTpSl = forceFixedTpSl
+      ? { takeProfitPct: autoTakeProfitPct, stopLossPct: autoStopLossPct }
+      : computeAtrDynamicTpSl(autoTakeProfitPct, autoStopLossPct, volatilityPct);
 
     let bestResult: {
       strategyId: string;

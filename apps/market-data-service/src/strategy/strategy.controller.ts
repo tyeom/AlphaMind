@@ -406,6 +406,7 @@ export class StrategyController {
         body.minTotalTrades ?? 3,
         scaleOutOptions,
         regimeCorrelationOptions,
+        body.forceFixedTpSl ?? false,
       );
     } catch (err: any) {
       const message = this.getErrorMessage(err);

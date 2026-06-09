@@ -263,6 +263,8 @@ export class ScheduledScannerService {
         regimeEnabled,
         correlationEnabled,
         correlationCodes: Array.from(activeCodes),
+        // 고정모드: market-data 가 ATR동적을 건너뛰고 위 고정 TP/SL 로 백테스트하도록 알린다(검증↔실전 정합).
+        forceFixedTpSl: this.getBooleanConfig('SCAN_FORCE_FIXED_TP_SL', false),
       }),
       { defaultValue: undefined },
     );
@@ -285,17 +287,19 @@ export class ScheduledScannerService {
     slPct: number;
     source: 'optimized' | 'default' | 'fallback' | 'fixed';
   }> {
-    const fixedTp = this.getNumberConfig(
-      'SCAN_AUTO_TAKE_PROFIT_PCT',
-      SCAN_AUTO_TAKE_PROFIT_PCT,
-    );
-    const fixedSl = this.getNumberConfig(
-      'SCAN_AUTO_STOP_LOSS_PCT',
-      SCAN_AUTO_STOP_LOSS_PCT,
-    );
-    // 공격형: 고정 TP/SL 강제 시 그리드서치·종목별 ATR 동적을 우회한다.
+    // 공격형: 고정 TP/SL 강제 시에만 env 고정값을 사용한다(force OFF면 env 미참조 — 폴백은 코드 상수).
     if (this.getBooleanConfig('SCAN_FORCE_FIXED_TP_SL', false)) {
-      return { tpPct: fixedTp, slPct: fixedSl, source: 'fixed' };
+      return {
+        tpPct: this.getNumberConfig(
+          'SCAN_AUTO_TAKE_PROFIT_PCT',
+          SCAN_AUTO_TAKE_PROFIT_PCT,
+        ),
+        slPct: this.getNumberConfig(
+          'SCAN_AUTO_STOP_LOSS_PCT',
+          SCAN_AUTO_STOP_LOSS_PCT,
+        ),
+        source: 'fixed',
+      };
     }
     try {
       const result = await firstValueFrom(
@@ -320,8 +324,8 @@ export class ScheduledScannerService {
       );
     }
     return {
-      tpPct: fixedTp,
-      slPct: fixedSl,
+      tpPct: SCAN_AUTO_TAKE_PROFIT_PCT,
+      slPct: SCAN_AUTO_STOP_LOSS_PCT,
       source: 'fallback',
     };
   }
@@ -793,19 +797,8 @@ export class ScheduledScannerService {
     baseSlPct: number,
     candidate: ScanResult,
   ): { takeProfitPct: number; stopLossPct: number } {
-    // 공격형: 고정 TP/SL 강제 시 종목별 ATR 동적·market-data 값을 무시하고 고정값 사용.
-    if (this.getBooleanConfig('SCAN_FORCE_FIXED_TP_SL', false)) {
-      return {
-        takeProfitPct: this.getNumberConfig(
-          'SCAN_AUTO_TAKE_PROFIT_PCT',
-          SCAN_AUTO_TAKE_PROFIT_PCT,
-        ),
-        stopLossPct: this.getNumberConfig(
-          'SCAN_AUTO_STOP_LOSS_PCT',
-          SCAN_AUTO_STOP_LOSS_PCT,
-        ),
-      };
-    }
+    // market-data 가 백테스트에 실제 적용한 TP/SL(고정모드면 고정값, 아니면 ATR동적)을 그대로 사용한다.
+    // backend 에서 다시 덮어쓰면 검증↔실전 정합이 깨지므로 override 하지 않는다.
     if (
       Number.isFinite(candidate.autoTakeProfitPct) &&
       Number.isFinite(candidate.autoStopLossPct)

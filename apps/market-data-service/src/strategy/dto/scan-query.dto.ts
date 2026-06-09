@@ -22,4 +22,6 @@ export interface ScanBodyDto {
   regimeEnabled?: boolean;
   correlationEnabled?: boolean;
   correlationCodes?: string[];
+  /** 고정 TP/SL 모드: true 면 종목별 ATR 동적 보정을 건너뛰고 전달된 autoTakeProfitPct/autoStopLossPct 를 그대로 백테스트·세션에 사용(검증↔실전 정합). */
+  forceFixedTpSl?: boolean;
 }

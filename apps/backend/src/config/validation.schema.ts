@@ -53,8 +53,9 @@ export const validationSchema = Joi.object({
   // 공격형/보수형 매매 손잡이 (미설정 시 기존 동작 동일)
   // SCAN_FORCE_FIXED_TP_SL=true 면 그리드서치·ATR동적 우회하고 아래 고정 TP/SL 사용.
   SCAN_FORCE_FIXED_TP_SL: Joi.boolean().default(false),
-  SCAN_AUTO_TAKE_PROFIT_PCT: Joi.number().default(2.5),
-  SCAN_AUTO_STOP_LOSS_PCT: Joi.number().default(-2.0),
+  // 익절은 양수, 손절은 음수여야 함(부호 뒤집힘=진입 즉시 청산 footgun 차단). 범위는 가격제한폭 ±30% 이내.
+  SCAN_AUTO_TAKE_PROFIT_PCT: Joi.number().greater(0).max(30).default(2.5),
+  SCAN_AUTO_STOP_LOSS_PCT: Joi.number().less(0).min(-30).default(-2.0),
   // 매수 신호 최소 강도(낮출수록 공격적). 스캔 후보 + 실거래 진입 게이트 공통.
   MIN_BUY_SIGNAL_STRENGTH: Joi.number().min(0).max(1).default(0.65),
   // 동시 보유 종목 상한.
