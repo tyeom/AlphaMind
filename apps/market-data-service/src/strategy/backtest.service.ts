@@ -184,7 +184,7 @@ const DEFAULT_AUTO_TAKE_PROFIT_PCT = 2.0;
 const DEFAULT_AUTO_STOP_LOSS_PCT = -2.0;
 const DEFAULT_MAX_HOLDING_DAYS = 7; // 7거래일 이내 청산
 const DEFAULT_MIN_CURRENT_SIGNAL_STRENGTH = 0.65;
-const DEFAULT_MIN_TOTAL_TRADES = 10; // walk-forward 도입으로 통계 유의성 확보
+const DEFAULT_MIN_TOTAL_TRADES = 10; // 과소 표본 완화용 최소 거래수. 통계적 유의성을 보장하지 않는다.
 const BACKTEST_MIN_BUY_SIGNAL_STRENGTH = 0.65;
 const INFINITY_BOT_MIN_BUY_SIGNAL_STRENGTH = 0.3;
 const SCAN_YIELD_INTERVAL_MS = 50;
@@ -358,6 +358,7 @@ interface ScaleOutBacktestOptions {
 export class BacktestService {
   private readonly logger = new Logger(BacktestService.name);
   private rollingWfCaveatLogged = false;
+  private unsupportedWfModeLogged = false;
   private readonly marketRegimeStatePath = path.resolve(
     process.cwd(),
     'data/market_regime_state.json',
@@ -1598,10 +1599,11 @@ export class BacktestService {
 
     const configuredMode =
       this.configService.get<string>('WF_MODE') ?? 'anchored';
-    if (configuredMode !== 'anchored' && !this.rollingWfCaveatLogged) {
+    if (configuredMode !== 'anchored' && !this.unsupportedWfModeLogged) {
       this.logger.warn(
         `WF_MODE=${configuredMode} 는 약 131거래일에서 in-sample 부족 위험이 있어 anchored로 폴백합니다.`,
       );
+      this.unsupportedWfModeLogged = true;
     }
 
     const configuredMaxFolds = Math.max(
@@ -1896,10 +1898,10 @@ export class BacktestService {
    * 단일 종목에 대해 단기 전략 백테스트 → 위험조정 점수 최고 전략 선택.
    *
    * Walk-forward / out-of-sample 검증:
-   * - 캔들을 in-sample(앞 2/3) + out-of-sample(뒤 1/3)로 분리.
-   * - 전략은 in-sample 에서 성과를 검증한 뒤, OOS 에서도 양수 + 최소 거래수를 충족해야 통과.
-   * - 랭킹은 OOS 지표 기준 → "과거에 잘 맞은 전략"이 아니라 "독립 구간에서도 작동한 전략"을 선호.
-   * - 최종 currentSignal 도 OOS 구간 마지막 1거래일 이내에 발생해야 매수 후보로 인정.
+   * - OFF는 기존 앞 2/3 + 뒤 1/3 단일 분할을 그대로 유지한다.
+   * - ON은 in-sample 시작을 0으로 고정한 최대 3개 앵커드 확장 윈도우를 사용한다.
+   * - 폴드별 양수 AND를 요구하지 않고 유효 OOS를 집계한 뒤 한 번만 품질을 판정한다.
+   * - 랭킹은 집계 OOS 지표 기준이며 약 131거래일에서 통계적 유의성을 주장하지 않는다.
    */
   private scanSingleStock(
     stock: Stock,

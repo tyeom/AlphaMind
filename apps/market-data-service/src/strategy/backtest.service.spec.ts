@@ -648,14 +648,9 @@ describe('BacktestService simulate', () => {
         estimatedReturnHaircutPct: 0.5,
       }),
     );
-    expect(JSON.stringify(response)).toBe(
-      JSON.stringify({
-        scannedStocks: 1,
-        eligibleStocks: 1,
-        excludedStocks: 0,
-        elapsedMs: 0,
-        results: [scanResult('AAA', 3)],
-      }),
+    expect(Object.keys(response)).not.toContain('survivorshipBias');
+    expect(JSON.stringify(response)).toMatchInlineSnapshot(
+      `"{"scannedStocks":1,"eligibleStocks":1,"excludedStocks":0,"elapsedMs":0,"results":[{"stockCode":"AAA","stockName":"AAA","sector":"tech","bestStrategy":{"strategyId":"day-trading","strategyName":"day"},"totalReturnPct":1,"winRate":50,"maxDrawdownPct":1,"totalTrades":3,"rankScore":3,"finalValue":1010000,"investmentAmount":1000000,"volatilityPct":3,"summary":"test","currentSignal":{"direction":"BUY","strength":0.8,"reason":"test"},"indicators":{}}]}"`,
     );
     nowSpy.mockRestore();
   });
@@ -797,8 +792,8 @@ describe('BacktestService simulate', () => {
 
     const folds = (service as any).buildWalkForwardFolds(131);
 
-    expect(JSON.stringify(folds)).toBe(
-      '[{"foldIndex":0,"inSampleStart":0,"inSampleEnd":87,"oosStart":87,"oosEnd":131}]',
+    expect(JSON.stringify(folds)).toMatchInlineSnapshot(
+      `"[{"foldIndex":0,"inSampleStart":0,"inSampleEnd":87,"oosStart":87,"oosEnd":131}]"`,
     );
   });
 
