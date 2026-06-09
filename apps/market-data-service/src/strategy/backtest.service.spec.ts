@@ -885,6 +885,70 @@ describe('BacktestService simulate', () => {
     expect(evaluation.outOfSample.totalReturnPct).toBe(4);
   });
 
+  it('reuses the same walk-forward evaluator in scan and grid paths', () => {
+    const service = createService();
+    const inSample = backtestResult({ totalReturnPct: 1, totalTrades: 5 });
+    const outOfSample = backtestResult({
+      totalReturnPct: 2,
+      totalTrades: 2,
+      winTrades: 2,
+      maxDrawdownPct: 1,
+    });
+    const walkForward = jest.fn().mockReturnValue({
+      inSample,
+      outOfSample,
+      folds: [],
+      wfConsistency: 1,
+      rollingEnabled: true,
+      usedFallback: false,
+    });
+    (service as any).simulateWalkForwardRun = walkForward;
+    (service as any).passesOosQuality = jest.fn(() => true);
+
+    const stock = { id: 1, code: 'AAA', name: 'AAA' };
+    const prices = wfCandles(131);
+    (service as any).scanSingleStock(
+      stock,
+      new Map([[1, prices]]),
+      1_000_000,
+      10,
+      0.015,
+      2,
+      -2,
+      7,
+      0,
+      0,
+    );
+    expect(walkForward).toHaveBeenCalled();
+
+    walkForward.mockClear();
+    const gridResult = (service as any).evaluateStockGridPoint(
+      stock,
+      prices,
+      [
+        {
+          strategyId: 'day-trading',
+          strategyName: 'day',
+          signalByDate: new Map(),
+        },
+      ],
+      2,
+      -2,
+      1_000_000,
+      100,
+      0.015,
+      7,
+    );
+
+    expect(walkForward).toHaveBeenCalledTimes(1);
+    expect(gridResult).toEqual({
+      oosReturnPct: 2,
+      oosWinRate: 100,
+      oosDrawdownPct: 1,
+      oosTrades: 2,
+    });
+  });
+
   it('persists and reads market regime hysteresis state as JSON', async () => {
     const tmpDir = await fs.mkdtemp('/tmp/market-regime-');
     const service = createService();
@@ -1001,7 +1065,7 @@ function wfCandles(length: number) {
     high: 101,
     low: 99,
     close: 100,
-    volume: 100_000,
+    volume: 5_000_000,
   }));
 }
 

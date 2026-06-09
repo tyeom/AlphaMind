@@ -2549,16 +2549,6 @@ export class BacktestService {
     oosDrawdownPct: number;
     oosTrades: number;
   } | null {
-    const splitIdx = Math.floor(candles.length * (1 - OUT_OF_SAMPLE_RATIO));
-    const inSampleCandles = candles.slice(0, splitIdx);
-    const outOfSampleCandles = candles.slice(splitIdx);
-    if (
-      inSampleCandles.length < 30 ||
-      outOfSampleCandles.length < MIN_OUT_OF_SAMPLE_TRADES + 10
-    ) {
-      return null;
-    }
-
     let bestOos: BacktestResult | null = null;
     for (const run of runs) {
       try {
@@ -2576,24 +2566,18 @@ export class BacktestService {
           ...scaleOutOptions,
         };
 
-        const inSample = this.simulate(
+        const walkForward = this.simulateWalkForwardRun(
           stock,
-          inSampleCandles,
+          candles,
           run.signalByDate,
           config,
           run.strategyName,
+          false,
         );
-        if (inSample.totalTrades < MIN_IN_SAMPLE_TRADES) continue;
-        if (inSample.totalReturnPct <= 0) continue;
+        if (!walkForward) continue;
 
-        const oos = this.simulate(
-          stock,
-          outOfSampleCandles,
-          run.signalByDate,
-          config,
-          run.strategyName,
-        );
-        if (oos.totalTrades < MIN_OUT_OF_SAMPLE_TRADES) continue;
+        const { inSample, outOfSample: oos } = walkForward;
+        if (inSample.totalReturnPct <= 0) continue;
         const oosQuality = this.calculateTradeQuality(oos);
         if (!this.passesOosQuality(oos, oosQuality)) continue;
 
