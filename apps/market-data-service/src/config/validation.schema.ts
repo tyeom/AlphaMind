@@ -28,6 +28,20 @@ export const validationSchema = Joi.object({
   // Backtest
   BACKTEST_SELL_TAX_PCT: Joi.number().default(0.15),
 
+  // Sprint4 생존편향 — 전향적 보존만 가능하며 기본 OFF
+  SURVIVORSHIP_RETAIN_DELISTED: Joi.boolean().default(false),
+  SURVIVORSHIP_DELIST_CONFIRM_DAYS: Joi.number()
+    .integer()
+    .positive()
+    .default(5),
+  SCAN_INCLUDE_DELISTED_FOR_BACKTEST: Joi.boolean().default(false),
+  DELISTED_RETENTION_MONTHS: Joi.number().integer().positive().default(12),
+  SURVIVORSHIP_ASSUMED_DELIST_RATE_ANNUAL: Joi.number()
+    .min(0)
+    .max(1)
+    .default(0.02),
+  AVG_DELIST_LOSS_FRACTION: Joi.number().min(0).max(1).default(0.5),
+
   // Sprint3 시장 레짐 — 산출 토글은 요청 options 로 받고, 임계/스케일 기본값만 둔다.
   REGIME_INDEX_SOURCE: Joi.string()
     .valid('breadth', 'yahoo', 'hybrid')

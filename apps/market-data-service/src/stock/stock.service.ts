@@ -2,6 +2,7 @@ import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { Cron } from '@nestjs/schedule';
+import { ConfigService } from '@nestjs/config';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Stock } from './entities/stock.entity';
 import { StockDailyPrice } from './entities/stock-daily-price.entity';
@@ -20,6 +21,10 @@ interface SectorMap {
 }
 
 const COLLECTION_LOOKBACK_MONTHS = 6;
+const DEFAULT_SURVIVORSHIP_RETAIN_DELISTED = false;
+const DEFAULT_DELIST_CONFIRM_DAYS = 5;
+const DEFAULT_DELISTED_RETENTION_MONTHS = 12;
+const CSV_DAMAGE_MIN_RATIO = 0.5;
 
 export interface CollectionStatus {
   collecting: boolean;
@@ -37,12 +42,33 @@ export class StockService implements OnModuleInit {
   private _collecting = false;
   private _progress: { done: number; total: number } | null = null;
   private _lastCompletedAt: string | null = null;
+  private lastHealthyCsvCount: number | null = null;
+  private survivorshipCaveatLogged = false;
 
   constructor(
     private readonly em: EntityManager,
     private readonly yahooFinanceService: YahooFinanceService,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
+    private readonly configService: ConfigService,
   ) {}
+
+  private getBooleanConfig(key: string, fallback: boolean): boolean {
+    const value = this.configService.get<boolean | string>(key);
+    if (value === true || value === 'true') return true;
+    if (value === false || value === 'false') return false;
+    return fallback;
+  }
+
+  private getNumberConfig(key: string, fallback: number): number {
+    const value = this.configService.get<number | string>(key);
+    const parsed =
+      typeof value === 'number'
+        ? value
+        : typeof value === 'string'
+          ? Number(value)
+          : Number.NaN;
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
 
   getCollectionStatus(): CollectionStatus {
     return {
@@ -299,6 +325,18 @@ export class StockService implements OnModuleInit {
     const krxCodes = this.loadKrxCodes();
     const sectorMap = this.loadSectorMap();
 
+    try {
+      await this.reconcileDelistings(
+        new Set(krxCodes.map((target) => target.code)),
+      );
+      await this.pruneExpiredDelistedPrices();
+    } catch (error) {
+      // 생존편향 보존 보조 로직 실패가 기존 일일 가격 수집을 막으면 안 된다.
+      this.logger.warn(
+        `상폐 추정 reconcile 실패 — 기존 수집은 계속 진행: ${error}`,
+      );
+    }
+
     this._collecting = true;
     this._progress = { done: 0, total: krxCodes.length };
 
@@ -336,6 +374,150 @@ export class StockService implements OnModuleInit {
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
     this.logger.log(
       `=== Stock data collection FINISHED (success: ${successCount}, fail: ${failCount}, elapsed: ${elapsed}s) ===`,
+    );
+  }
+
+  /**
+   * 현재 KRX CSV에서 연속으로 사라진 종목만 전향적으로 상폐 추정한다.
+   * 과거 상폐 데이터는 소급 복구할 수 없고, 약 131거래일 데이터에서는 즉효가 없으며
+   * 충분한 전향 데이터가 쌓이기 전까지 백테스트는 여전히 낙관 편향될 수 있다.
+   */
+  private async reconcileDelistings(krxCodeSet: Set<string>): Promise<void> {
+    if (
+      !this.getBooleanConfig(
+        'SURVIVORSHIP_RETAIN_DELISTED',
+        DEFAULT_SURVIVORSHIP_RETAIN_DELISTED,
+      )
+    ) {
+      return;
+    }
+
+    if (!this.survivorshipCaveatLogged) {
+      this.logger.warn(
+        '상폐 보존은 forward-only입니다. 과거 상폐는 소급 복구 불가하고 약 131거래일 구간에는 즉효가 없으며, 성과는 여전히 낙관 편향될 수 있습니다.',
+      );
+      this.survivorshipCaveatLogged = true;
+    }
+
+    const em = this.em.fork();
+    const stocks = await em.find(Stock, {});
+    const csvCount = krxCodeSet.size;
+    const previousCsvCount =
+      this.lastHealthyCsvCount ?? this.countLatestSeenUniverse(stocks);
+
+    if (
+      previousCsvCount > 0 &&
+      csvCount < previousCsvCount * CSV_DAMAGE_MIN_RATIO
+    ) {
+      this.logger.warn(
+        `CSV 손상 의심 — 상폐 reconcile 스킵 (현재 ${csvCount}, 직전 ${previousCsvCount}, 최소 비율 ${CSV_DAMAGE_MIN_RATIO})`,
+      );
+      return;
+    }
+
+    const today = this.getUtcDateOnly();
+    const confirmDays = Math.max(
+      1,
+      Math.floor(
+        this.getNumberConfig(
+          'SURVIVORSHIP_DELIST_CONFIRM_DAYS',
+          DEFAULT_DELIST_CONFIRM_DAYS,
+        ),
+      ),
+    );
+    let markedCount = 0;
+    let recoveredCount = 0;
+
+    for (const stock of stocks) {
+      if (krxCodeSet.has(stock.code)) {
+        if (stock.delistedAt != null || (stock.missingFromCsvDays ?? 0) > 0) {
+          recoveredCount++;
+        }
+        stock.lastSeenInCsvAt = today;
+        stock.missingFromCsvDays = 0;
+        stock.delistedAt = null;
+        continue;
+      }
+
+      stock.missingFromCsvDays = (stock.missingFromCsvDays ?? 0) + 1;
+      if (stock.missingFromCsvDays >= confirmDays && stock.delistedAt == null) {
+        stock.delistedAt = stock.lastSeenInCsvAt ?? today;
+        markedCount++;
+      }
+    }
+
+    await em.flush();
+    await this.cacheManager.del(StockService.CACHE_KEY_STOCKS);
+    this.lastHealthyCsvCount = csvCount;
+
+    this.logger.log(
+      `상폐 CSV reconcile 완료: 현재 ${csvCount}, 신규 추정 ${markedCount}, 재등장 복구 ${recoveredCount}`,
+    );
+  }
+
+  /**
+   * 상폐 추정 종목 가격은 현행 6개월 정리에서 동결하고, 별도 보존 상한만 적용한다.
+   */
+  private async pruneExpiredDelistedPrices(): Promise<void> {
+    if (
+      !this.getBooleanConfig(
+        'SURVIVORSHIP_RETAIN_DELISTED',
+        DEFAULT_SURVIVORSHIP_RETAIN_DELISTED,
+      )
+    ) {
+      return;
+    }
+
+    const retentionMonths = Math.max(
+      1,
+      Math.floor(
+        this.getNumberConfig(
+          'DELISTED_RETENTION_MONTHS',
+          DEFAULT_DELISTED_RETENTION_MONTHS,
+        ),
+      ),
+    );
+    const retentionCutoff = new Date();
+    retentionCutoff.setUTCMonth(
+      retentionCutoff.getUTCMonth() - retentionMonths,
+    );
+
+    const em = this.em.fork();
+    const delistedStocks = await em.find(Stock, {
+      delistedAt: { $ne: null },
+    });
+    let deleteCount = 0;
+
+    for (const stock of delistedStocks) {
+      deleteCount += await em.nativeDelete(StockDailyPrice, {
+        stock,
+        date: { $lt: retentionCutoff },
+      });
+    }
+
+    if (deleteCount > 0) {
+      this.logger.log(
+        `상폐 추정 종목 가격 ${deleteCount}건 정리 (${retentionMonths}개월 보존 상한 초과분)`,
+      );
+    }
+  }
+
+  private countLatestSeenUniverse(stocks: Stock[]): number {
+    const seenTimes = stocks
+      .map((stock) => stock.lastSeenInCsvAt?.getTime())
+      .filter((time): time is number => time != null);
+    if (seenTimes.length === 0) return 0;
+
+    const latestSeenTime = Math.max(...seenTimes);
+    return stocks.filter(
+      (stock) => stock.lastSeenInCsvAt?.getTime() === latestSeenTime,
+    ).length;
+  }
+
+  private getUtcDateOnly(): Date {
+    const now = new Date();
+    return new Date(
+      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
     );
   }
 

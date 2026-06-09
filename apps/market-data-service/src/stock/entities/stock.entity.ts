@@ -47,13 +47,13 @@ export class Stock {
    * 과거 상폐 종목은 소급 복구할 수 없어 null이 현재 상장을 보장하지 않는다.
    */
   @Property({ type: 'date', nullable: true })
-  delistedAt?: Date;
+  delistedAt?: Date | null;
 
   @Property({ nullable: true, default: 0 })
   missingFromCsvDays?: number;
 
   @Property({ type: 'date', nullable: true })
-  lastSeenInCsvAt?: Date;
+  lastSeenInCsvAt?: Date | null;
 
   @OneToMany(() => StockDailyPrice, (price) => price.stock)
   dailyPrices = new Collection<StockDailyPrice>(this);
