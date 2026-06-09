@@ -82,6 +82,55 @@ describe('StrategyController', () => {
     );
   });
 
+  it('propagates forceFixedTpSl to scanAllStocks on HTTP and RMQ paths', async () => {
+    const emptyResponse = {
+      scannedStocks: 0,
+      eligibleStocks: 0,
+      excludedStocks: 0,
+      elapsedMs: 0,
+      results: [],
+    };
+
+    // HTTP 경로: scanStocks → forceFixedTpSl 는 scanAllStocks 의 13번째 인자(index 12)
+    const http = createController();
+    http.backtestService.getActiveShortTermTpSl.mockResolvedValue({
+      tpPct: 2.5,
+      slPct: -2,
+    });
+    http.backtestService.scanAllStocks.mockResolvedValue(emptyResponse);
+    await http.controller.scanStocks({ forceFixedTpSl: true } as any);
+    expect(http.backtestService.scanAllStocks.mock.calls[0][12]).toBe(true);
+
+    // RMQ 경로: handleScanRequest
+    const rmq = createController();
+    rmq.backtestService.scanAllStocks.mockResolvedValue(emptyResponse);
+    rmq.backendClient.emit.mockReturnValue(EMPTY);
+    await rmq.controller.handleScanRequest({
+      userId: 2,
+      requestId: 'req-fixed',
+      excludeCodes: [],
+      forceFixedTpSl: true,
+    } as any);
+    expect(rmq.backtestService.scanAllStocks.mock.calls[0][12]).toBe(true);
+  });
+
+  it('defaults forceFixedTpSl to false when omitted (HTTP)', async () => {
+    const { controller, backtestService } = createController();
+    backtestService.getActiveShortTermTpSl.mockResolvedValue({
+      tpPct: 2.5,
+      slPct: -2,
+    });
+    backtestService.scanAllStocks.mockResolvedValue({
+      scannedStocks: 0,
+      eligibleStocks: 0,
+      excludedStocks: 0,
+      elapsedMs: 0,
+      results: [],
+    });
+    await controller.scanStocks({} as any);
+    expect(backtestService.scanAllStocks.mock.calls[0][12]).toBe(false);
+  });
+
   it('emits scan.failed when scan execution throws', async () => {
     const { controller, backtestService, backendClient } = createController();
     backtestService.scanAllStocks.mockRejectedValue(new Error('scan exploded'));

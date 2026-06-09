@@ -370,6 +370,7 @@ export class StrategyController {
       body.minTotalTrades ?? 10,
       scaleOutOptions,
       regimeCorrelationOptions,
+      body.forceFixedTpSl ?? false,
     );
   }
 
