@@ -11,7 +11,17 @@ import { StockDailyPrice } from './stock-daily-price.entity';
 
 @Entity({ tableName: 'stocks' })
 export class Stock {
-  [OptionalProps]?: 'id' | 'currency' | 'exchange' | 'createdAt' | 'updatedAt' | 'dailyPrices' | 'sector';
+  [OptionalProps]?:
+    | 'id'
+    | 'currency'
+    | 'exchange'
+    | 'createdAt'
+    | 'updatedAt'
+    | 'dailyPrices'
+    | 'sector'
+    | 'delistedAt'
+    | 'missingFromCsvDays'
+    | 'lastSeenInCsvAt';
 
   @PrimaryKey()
   id!: number;
@@ -31,6 +41,19 @@ export class Stock {
 
   @Property({ length: 20, default: 'KSC' })
   exchange!: string;
+
+  /**
+   * CSV 탈락 확정 시점부터만 기록하는 전향적 추정일이다.
+   * 과거 상폐 종목은 소급 복구할 수 없어 null이 현재 상장을 보장하지 않는다.
+   */
+  @Property({ type: 'date', nullable: true })
+  delistedAt?: Date;
+
+  @Property({ nullable: true, default: 0 })
+  missingFromCsvDays?: number;
+
+  @Property({ type: 'date', nullable: true })
+  lastSeenInCsvAt?: Date;
 
   @OneToMany(() => StockDailyPrice, (price) => price.stock)
   dailyPrices = new Collection<StockDailyPrice>(this);
