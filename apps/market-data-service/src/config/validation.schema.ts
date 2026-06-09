@@ -42,6 +42,13 @@ export const validationSchema = Joi.object({
     .default(0.02),
   AVG_DELIST_LOSS_FRACTION: Joi.number().min(0).max(1).default(0.5),
 
+  // Sprint4 rolling walk-forward — 약 131거래일 한계 때문에 기본 OFF, 최대 3폴드
+  ROLLING_WF_ENABLED: Joi.boolean().default(false),
+  WF_MAX_FOLDS: Joi.number().integer().positive().max(3).default(3),
+  WF_MIN_VALID_FOLDS: Joi.number().integer().positive().default(2),
+  WF_MODE: Joi.string().valid('anchored', 'sliding').default('anchored'),
+  WF_CONSISTENCY_WEIGHT: Joi.number().default(0),
+
   // Sprint3 시장 레짐 — 산출 토글은 요청 options 로 받고, 임계/스케일 기본값만 둔다.
   REGIME_INDEX_SOURCE: Joi.string()
     .valid('breadth', 'yahoo', 'hybrid')

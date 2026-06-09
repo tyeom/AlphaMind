@@ -767,6 +767,124 @@ describe('BacktestService simulate', () => {
     });
   });
 
+  it('builds at most three anchored folds with no look-ahead for 131 candles', () => {
+    const service = new BacktestService(
+      {} as any,
+      {} as any,
+      createConfigService({
+        ROLLING_WF_ENABLED: true,
+        WF_MAX_FOLDS: 3,
+      }),
+    );
+
+    const folds = (service as any).buildWalkForwardFolds(131);
+
+    expect(folds).toHaveLength(3);
+    expect(folds[folds.length - 1].oosEnd).toBe(131);
+    for (const fold of folds) {
+      expect(fold.inSampleStart).toBe(0);
+      expect(fold.inSampleEnd).toBe(fold.oosStart);
+      expect(fold.oosEnd).toBeGreaterThan(fold.oosStart);
+    }
+  });
+
+  it('keeps the rolling-WF toggle-off fold byte-identical to the legacy split', () => {
+    const service = new BacktestService(
+      {} as any,
+      {} as any,
+      createConfigService({ ROLLING_WF_ENABLED: false }),
+    );
+
+    const folds = (service as any).buildWalkForwardFolds(131);
+
+    expect(JSON.stringify(folds)).toBe(
+      '[{"foldIndex":0,"inSampleStart":0,"inSampleEnd":87,"oosStart":87,"oosEnd":131}]',
+    );
+  });
+
+  it('aggregates OOS folds by compounded return, summed trades, and worst drawdown', () => {
+    const service = createService();
+    const aggregated = (service as any).aggregateBacktestResults([
+      backtestResult({ totalReturnPct: 10, totalTrades: 2, winTrades: 1, maxDrawdownPct: 3 }),
+      backtestResult({ totalReturnPct: -5, totalTrades: 3, winTrades: 2, maxDrawdownPct: 7 }),
+    ]);
+
+    expect(aggregated.totalReturnPct).toBe(4.5);
+    expect(aggregated.totalTrades).toBe(5);
+    expect(aggregated.winTrades).toBe(3);
+    expect(aggregated.winRate).toBe(60);
+    expect(aggregated.maxDrawdownPct).toBe(7);
+  });
+
+  it('uses aggregate OOS without requiring every valid fold to be profitable', () => {
+    const service = new BacktestService(
+      {} as any,
+      {} as any,
+      createConfigService({
+        ROLLING_WF_ENABLED: true,
+        WF_MAX_FOLDS: 3,
+        WF_MIN_VALID_FOLDS: 2,
+      }),
+    );
+    const simulate = jest
+      .fn()
+      .mockReturnValueOnce(backtestResult({ totalReturnPct: 1, totalTrades: 5 }))
+      .mockReturnValueOnce(backtestResult({ totalReturnPct: 2, totalTrades: 2 }))
+      .mockReturnValueOnce(backtestResult({ totalReturnPct: 1, totalTrades: 5 }))
+      .mockReturnValueOnce(backtestResult({ totalReturnPct: -1, totalTrades: 2 }))
+      .mockReturnValueOnce(backtestResult({ totalReturnPct: 1, totalTrades: 5 }))
+      .mockReturnValueOnce(backtestResult({ totalReturnPct: 3, totalTrades: 2 }));
+    (service as any).simulate = simulate;
+
+    const evaluation = (service as any).simulateWalkForwardRun(
+      { code: 'AAA', name: 'AAA' },
+      wfCandles(131),
+      new Map(),
+      baseConfig,
+      'test',
+    );
+
+    expect(evaluation.folds).toHaveLength(3);
+    expect(evaluation.outOfSample.totalTrades).toBe(6);
+    expect(evaluation.outOfSample.totalReturnPct).toBeCloseTo(4.01);
+    expect(evaluation.wfConsistency).toBe(0.667);
+    expect(evaluation.usedFallback).toBe(false);
+  });
+
+  it('falls back to the legacy split when fewer than two WF folds are valid', () => {
+    const service = new BacktestService(
+      {} as any,
+      {} as any,
+      createConfigService({
+        ROLLING_WF_ENABLED: true,
+        WF_MAX_FOLDS: 3,
+        WF_MIN_VALID_FOLDS: 2,
+      }),
+    );
+    const simulate = jest
+      .fn()
+      .mockReturnValueOnce(backtestResult({ totalReturnPct: 1, totalTrades: 5 }))
+      .mockReturnValueOnce(backtestResult({ totalReturnPct: 2, totalTrades: 2 }))
+      .mockReturnValueOnce(backtestResult({ totalReturnPct: 1, totalTrades: 5 }))
+      .mockReturnValueOnce(backtestResult({ totalReturnPct: 1, totalTrades: 1 }))
+      .mockReturnValueOnce(backtestResult({ totalReturnPct: 1, totalTrades: 4 }))
+      .mockReturnValueOnce(backtestResult({ totalReturnPct: 3, totalTrades: 5 }))
+      .mockReturnValueOnce(backtestResult({ totalReturnPct: 4, totalTrades: 2 }));
+    (service as any).simulate = simulate;
+
+    const evaluation = (service as any).simulateWalkForwardRun(
+      { code: 'AAA', name: 'AAA' },
+      wfCandles(131),
+      new Map(),
+      baseConfig,
+      'test',
+    );
+
+    expect(evaluation.usedFallback).toBe(true);
+    expect(evaluation.folds).toHaveLength(1);
+    expect(evaluation.outOfSample.totalReturnPct).toBe(4);
+  });
+
   it('persists and reads market regime hysteresis state as JSON', async () => {
     const tmpDir = await fs.mkdtemp('/tmp/market-regime-');
     const service = createService();
@@ -873,5 +991,49 @@ function scanResult(stockCode: string, rankScore: number) {
     summary: 'test',
     currentSignal: { direction: 'BUY', strength: 0.8, reason: 'test' },
     indicators: {},
+  };
+}
+
+function wfCandles(length: number) {
+  return Array.from({ length }, (_, index) => ({
+    date: new Date(Date.UTC(2026, 0, index + 1)),
+    open: 100,
+    high: 101,
+    low: 99,
+    close: 100,
+    volume: 100_000,
+  }));
+}
+
+function backtestResult(
+  overrides: Partial<BacktestResult> = {},
+): BacktestResult {
+  const totalTrades = overrides.totalTrades ?? 2;
+  const winTrades = overrides.winTrades ?? totalTrades;
+  const lossTrades = overrides.lossTrades ?? totalTrades - winTrades;
+
+  return {
+    stockCode: 'AAA',
+    stockName: 'AAA',
+    strategyId: 'day-trading',
+    strategyName: 'day',
+    period: {
+      from: new Date('2026-01-01T00:00:00.000Z'),
+      to: new Date('2026-02-01T00:00:00.000Z'),
+    },
+    investmentAmount: 1_000_000,
+    finalValue: 1_010_000,
+    totalReturnPct: 1,
+    totalRealizedPnl: 10_000,
+    unrealizedPnl: 0,
+    totalTrades,
+    winTrades,
+    lossTrades,
+    winRate: totalTrades > 0 ? (winTrades / totalTrades) * 100 : 0,
+    maxDrawdownPct: 1,
+    remainingCash: 1_010_000,
+    remainingQuantity: 0,
+    trades: [],
+    ...overrides,
   };
 }

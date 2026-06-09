@@ -66,6 +66,26 @@ export interface ScanResult {
     totalTrades: number;
     maxDrawdownPct: number;
   };
+  /** rolling WF 활성 시 유효 폴드별 검증 결과 */
+  folds?: {
+    foldIndex: number;
+    inSampleLength: number;
+    outOfSampleLength: number;
+    inSample: {
+      totalReturnPct: number;
+      winRate: number;
+      totalTrades: number;
+      maxDrawdownPct: number;
+    };
+    outOfSample: {
+      totalReturnPct: number;
+      winRate: number;
+      totalTrades: number;
+      maxDrawdownPct: number;
+    };
+  }[];
+  /** 수익 양수 OOS 폴드 수 / 유효 폴드 수 */
+  wfConsistency?: number;
   /** 추천 근거 요약 */
   summary: string;
   /** 최신 신호 */

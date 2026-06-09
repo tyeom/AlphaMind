@@ -229,6 +229,13 @@ const OUT_OF_SAMPLE_RATIO = 1 / 3;
 const MIN_IN_SAMPLE_TRADES = 5;
 /** out-of-sample 최소 거래수 */
 const MIN_OUT_OF_SAMPLE_TRADES = 2;
+const MIN_IN_SAMPLE_LENGTH = 30;
+const MIN_OOS_LENGTH = MIN_OUT_OF_SAMPLE_TRADES + 10;
+const DEFAULT_ROLLING_WF_ENABLED = false;
+const HARD_WF_MAX_FOLDS = 3;
+const DEFAULT_WF_MAX_FOLDS = 3;
+const DEFAULT_WF_MIN_VALID_FOLDS = 2;
+const DEFAULT_WF_CONSISTENCY_WEIGHT = 0;
 /**
  * OOS 거래 품질 필터 — 낮은 승률/손익비 후보는 실거래 손실로 이어지기 쉬워 제외.
  * 한국 단타 시장 특성(승률 45~55%, PF 1.0~1.3)에 맞춰 완화: 50/1.2/0.35 → 45/1.1/0.25.
@@ -311,6 +318,29 @@ interface TradeQuality {
   payoffRatio: number;
 }
 
+interface WalkForwardFold {
+  foldIndex: number;
+  inSampleStart: number;
+  inSampleEnd: number;
+  oosStart: number;
+  oosEnd: number;
+}
+
+interface EvaluatedWalkForwardFold {
+  fold: WalkForwardFold;
+  inSample: BacktestResult;
+  outOfSample: BacktestResult;
+}
+
+interface WalkForwardEvaluation {
+  inSample: BacktestResult;
+  outOfSample: BacktestResult;
+  folds: EvaluatedWalkForwardFold[];
+  wfConsistency: number;
+  rollingEnabled: boolean;
+  usedFallback: boolean;
+}
+
 interface ScaleOutBacktestOptions {
   scaleOut?: ScaleOutPlan;
   runnerTrailingTriggerPct?: number;
@@ -327,6 +357,7 @@ interface ScaleOutBacktestOptions {
 @Injectable()
 export class BacktestService {
   private readonly logger = new Logger(BacktestService.name);
+  private rollingWfCaveatLogged = false;
   private readonly marketRegimeStatePath = path.resolve(
     process.cwd(),
     'data/market_regime_state.json',
@@ -1544,6 +1575,323 @@ export class BacktestService {
     };
   }
 
+  private buildWalkForwardFolds(candleCount: number): WalkForwardFold[] {
+    const legacySplit = Math.floor(
+      candleCount * (1 - OUT_OF_SAMPLE_RATIO),
+    );
+    const legacyFold: WalkForwardFold = {
+      foldIndex: 0,
+      inSampleStart: 0,
+      inSampleEnd: legacySplit,
+      oosStart: legacySplit,
+      oosEnd: candleCount,
+    };
+
+    if (
+      !this.getBooleanConfig(
+        'ROLLING_WF_ENABLED',
+        DEFAULT_ROLLING_WF_ENABLED,
+      )
+    ) {
+      return [legacyFold];
+    }
+
+    const configuredMode =
+      this.configService.get<string>('WF_MODE') ?? 'anchored';
+    if (configuredMode !== 'anchored' && !this.rollingWfCaveatLogged) {
+      this.logger.warn(
+        `WF_MODE=${configuredMode} 는 약 131거래일에서 in-sample 부족 위험이 있어 anchored로 폴백합니다.`,
+      );
+    }
+
+    const configuredMaxFolds = Math.max(
+      1,
+      Math.floor(
+        this.getNumberConfig('WF_MAX_FOLDS', DEFAULT_WF_MAX_FOLDS),
+      ),
+    );
+    const potentialFoldCount = Math.floor(
+      (candleCount - MIN_IN_SAMPLE_LENGTH) / MIN_OOS_LENGTH,
+    );
+    const foldCount = Math.min(
+      HARD_WF_MAX_FOLDS,
+      configuredMaxFolds,
+      potentialFoldCount,
+    );
+
+    if (foldCount < DEFAULT_WF_MIN_VALID_FOLDS) {
+      return [legacyFold];
+    }
+
+    const oosLength = Math.ceil(
+      (candleCount - MIN_IN_SAMPLE_LENGTH) / foldCount,
+    );
+    const folds: WalkForwardFold[] = [];
+
+    for (let index = 0; index < foldCount; index++) {
+      const oosStart = MIN_IN_SAMPLE_LENGTH + index * oosLength;
+      const oosEnd = Math.min(oosStart + oosLength, candleCount);
+      if (oosEnd - oosStart < MIN_OOS_LENGTH) continue;
+
+      folds.push({
+        foldIndex: index,
+        inSampleStart: 0,
+        inSampleEnd: oosStart,
+        oosStart,
+        oosEnd,
+      });
+    }
+
+    return folds.length >= DEFAULT_WF_MIN_VALID_FOLDS
+      ? folds
+      : [legacyFold];
+  }
+
+  private simulateWalkForwardRun(
+    stock: Stock,
+    candles: CandleData[],
+    signalByDate: Map<string, Signal>,
+    config: BacktestConfig,
+    strategyName: string,
+    legacyRequirePositiveOos = true,
+  ): WalkForwardEvaluation | null {
+    const rollingEnabled = this.getBooleanConfig(
+      'ROLLING_WF_ENABLED',
+      DEFAULT_ROLLING_WF_ENABLED,
+    );
+
+    if (rollingEnabled && !this.rollingWfCaveatLogged) {
+      this.logger.warn(
+        '롤링 WF는 약 131거래일 한계상 폴드당 OOS 2~5건의 추세 일관성 확인까지만 유효합니다. 통계적 유의성을 주장할 수 없고 절대치를 과신하면 안 됩니다.',
+      );
+      this.rollingWfCaveatLogged = true;
+    }
+
+    const folds = this.buildWalkForwardFolds(candles.length);
+    if (!rollingEnabled || folds.length === 1) {
+      const evaluated = this.evaluateLegacyWalkForwardFold(
+        stock,
+        candles,
+        signalByDate,
+        config,
+        strategyName,
+        folds[0],
+        legacyRequirePositiveOos,
+      );
+      if (!evaluated) return null;
+
+      return {
+        inSample: evaluated.inSample,
+        outOfSample: evaluated.outOfSample,
+        folds: [evaluated],
+        wfConsistency: evaluated.outOfSample.totalReturnPct > 0 ? 1 : 0,
+        rollingEnabled,
+        usedFallback: rollingEnabled,
+      };
+    }
+
+    const evaluatedFolds: EvaluatedWalkForwardFold[] = [];
+    for (const fold of folds) {
+      const inSampleCandles = candles.slice(0, fold.oosStart);
+      const outOfSampleCandles = candles.slice(fold.oosStart, fold.oosEnd);
+      if (
+        inSampleCandles.length < MIN_IN_SAMPLE_LENGTH ||
+        outOfSampleCandles.length < MIN_OOS_LENGTH
+      ) {
+        continue;
+      }
+
+      const inSample = this.simulate(
+        stock,
+        inSampleCandles,
+        signalByDate,
+        config,
+        strategyName,
+      );
+      if (inSample.totalTrades < MIN_IN_SAMPLE_TRADES) continue;
+
+      const outOfSample = this.simulate(
+        stock,
+        outOfSampleCandles,
+        signalByDate,
+        config,
+        strategyName,
+      );
+      if (outOfSample.totalTrades < MIN_OUT_OF_SAMPLE_TRADES) continue;
+
+      evaluatedFolds.push({ fold, inSample, outOfSample });
+    }
+
+    const minValidFolds = Math.max(
+      1,
+      Math.floor(
+        this.getNumberConfig(
+          'WF_MIN_VALID_FOLDS',
+          DEFAULT_WF_MIN_VALID_FOLDS,
+        ),
+      ),
+    );
+    if (evaluatedFolds.length < minValidFolds) {
+      const legacyFold = {
+        foldIndex: 0,
+        inSampleStart: 0,
+        inSampleEnd: Math.floor(
+          candles.length * (1 - OUT_OF_SAMPLE_RATIO),
+        ),
+        oosStart: Math.floor(candles.length * (1 - OUT_OF_SAMPLE_RATIO)),
+        oosEnd: candles.length,
+      };
+      const fallback = this.evaluateLegacyWalkForwardFold(
+        stock,
+        candles,
+        signalByDate,
+        config,
+        strategyName,
+        legacyFold,
+        legacyRequirePositiveOos,
+      );
+      if (!fallback) return null;
+
+      return {
+        inSample: fallback.inSample,
+        outOfSample: fallback.outOfSample,
+        folds: [fallback],
+        wfConsistency: fallback.outOfSample.totalReturnPct > 0 ? 1 : 0,
+        rollingEnabled: true,
+        usedFallback: true,
+      };
+    }
+
+    const outOfSample = this.aggregateBacktestResults(
+      evaluatedFolds.map((fold) => fold.outOfSample),
+    );
+    const positiveFoldCount = evaluatedFolds.filter(
+      (fold) => fold.outOfSample.totalReturnPct > 0,
+    ).length;
+
+    return {
+      // 앵커드 in-sample은 중첩되므로 가장 큰 마지막 확장 윈도우를 대표값으로 쓴다.
+      inSample: evaluatedFolds[evaluatedFolds.length - 1].inSample,
+      outOfSample,
+      folds: evaluatedFolds,
+      wfConsistency:
+        Math.round((positiveFoldCount / evaluatedFolds.length) * 1000) / 1000,
+      rollingEnabled: true,
+      usedFallback: false,
+    };
+  }
+
+  private evaluateLegacyWalkForwardFold(
+    stock: Stock,
+    candles: CandleData[],
+    signalByDate: Map<string, Signal>,
+    config: BacktestConfig,
+    strategyName: string,
+    fold: WalkForwardFold,
+    requirePositiveOos: boolean,
+  ): EvaluatedWalkForwardFold | null {
+    const inSampleCandles = candles.slice(0, fold.oosStart);
+    const outOfSampleCandles = candles.slice(fold.oosStart, fold.oosEnd);
+    if (
+      inSampleCandles.length < MIN_IN_SAMPLE_LENGTH ||
+      outOfSampleCandles.length < MIN_OOS_LENGTH
+    ) {
+      return null;
+    }
+
+    const inSample = this.simulate(
+      stock,
+      inSampleCandles,
+      signalByDate,
+      config,
+      strategyName,
+    );
+    if (inSample.totalTrades < MIN_IN_SAMPLE_TRADES) return null;
+    if (inSample.totalReturnPct <= 0) return null;
+
+    const outOfSample = this.simulate(
+      stock,
+      outOfSampleCandles,
+      signalByDate,
+      config,
+      strategyName,
+    );
+    if (outOfSample.totalTrades < MIN_OUT_OF_SAMPLE_TRADES) return null;
+    if (requirePositiveOos && outOfSample.totalReturnPct <= 0) return null;
+
+    return { fold, inSample, outOfSample };
+  }
+
+  private aggregateBacktestResults(
+    results: BacktestResult[],
+  ): BacktestResult {
+    const first = results[0];
+    const last = results[results.length - 1];
+    let compoundedValue = first.investmentAmount;
+
+    for (const result of results) {
+      compoundedValue *= 1 + result.totalReturnPct / 100;
+    }
+
+    const totalTrades = results.reduce(
+      (sum, result) => sum + result.totalTrades,
+      0,
+    );
+    const winTrades = results.reduce(
+      (sum, result) => sum + result.winTrades,
+      0,
+    );
+    const lossTrades = results.reduce(
+      (sum, result) => sum + result.lossTrades,
+      0,
+    );
+
+    return {
+      stockCode: first.stockCode,
+      stockName: first.stockName,
+      strategyId: first.strategyId,
+      strategyName: first.strategyName,
+      variant: first.variant,
+      period: {
+        from: first.period.from,
+        to: last.period.to,
+      },
+      investmentAmount: first.investmentAmount,
+      finalValue: Math.round(compoundedValue),
+      totalReturnPct:
+        Math.round(
+          ((compoundedValue - first.investmentAmount) /
+            first.investmentAmount) *
+            10_000,
+        ) / 100,
+      totalRealizedPnl: Math.round(
+        results.reduce(
+          (sum, result) => sum + result.totalRealizedPnl,
+          0,
+        ),
+      ),
+      unrealizedPnl: Math.round(
+        results.reduce((sum, result) => sum + result.unrealizedPnl, 0),
+      ),
+      totalTrades,
+      winTrades,
+      lossTrades,
+      winRate:
+        totalTrades > 0
+          ? Math.round((winTrades / totalTrades) * 10_000) / 100
+          : 0,
+      maxDrawdownPct: Math.max(
+        ...results.map((result) => result.maxDrawdownPct),
+      ),
+      remainingCash: Math.round(compoundedValue),
+      remainingQuantity: results.reduce(
+        (sum, result) => sum + result.remainingQuantity,
+        0,
+      ),
+      trades: results.flatMap((result) => result.trades),
+    };
+  }
+
   /**
    * 단일 종목에 대해 단기 전략 백테스트 → 위험조정 점수 최고 전략 선택.
    *
@@ -1582,13 +1930,14 @@ export class BacktestService {
 
     if (candles.length < 60) return null;
 
-    // walk-forward 분리: 앞 2/3 = in-sample, 뒤 1/3 = out-of-sample
-    const splitIdx = Math.floor(candles.length * (1 - OUT_OF_SAMPLE_RATIO));
-    const inSampleCandles = candles.slice(0, splitIdx);
-    const outOfSampleCandles = candles.slice(splitIdx);
+    const structuralFolds = this.buildWalkForwardFolds(candles.length);
     if (
-      inSampleCandles.length < 30 ||
-      outOfSampleCandles.length < MIN_OUT_OF_SAMPLE_TRADES + 10
+      structuralFolds.length === 0 ||
+      structuralFolds.every(
+        (fold) =>
+          fold.inSampleEnd - fold.inSampleStart < MIN_IN_SAMPLE_LENGTH ||
+          fold.oosEnd - fold.oosStart < MIN_OOS_LENGTH,
+      )
     ) {
       return null;
     }
@@ -1617,6 +1966,9 @@ export class BacktestService {
       analysis: StrategyAnalysisResult;
       currentSignal: Signal;
       tradeQuality: TradeQuality;
+      folds: EvaluatedWalkForwardFold[];
+      wfConsistency: number;
+      rollingEnabled: boolean;
     } | null = null;
 
     for (const strategyId of SHORT_TERM_SCAN_STRATEGY_IDS) {
@@ -1651,26 +2003,17 @@ export class BacktestService {
             ...scaleOutOptions,
           };
 
-          // In-sample: 전략 선정 단계
-          const inSample = this.simulate(
+          const walkForward = this.simulateWalkForwardRun(
             stock,
-            inSampleCandles,
+            candles,
             signalByDate,
             config,
             strategy.name,
           );
-          if (inSample.totalTrades < MIN_IN_SAMPLE_TRADES) continue;
-          if (inSample.totalReturnPct <= 0) continue;
+          if (!walkForward) continue;
 
-          // Out-of-sample: 같은 전략을 독립 구간에서 검증
-          const outOfSample = this.simulate(
-            stock,
-            outOfSampleCandles,
-            signalByDate,
-            config,
-            strategy.name,
-          );
-          if (outOfSample.totalTrades < MIN_OUT_OF_SAMPLE_TRADES) continue;
+          const { inSample, outOfSample } = walkForward;
+          if (inSample.totalReturnPct <= 0) continue;
           if (outOfSample.totalReturnPct <= 0) continue;
           const tradeQuality = this.calculateTradeQuality(outOfSample);
           if (!this.passesOosQuality(outOfSample, tradeQuality)) continue;
@@ -1694,13 +2037,22 @@ export class BacktestService {
             continue;
           }
 
-          // 랭킹은 OOS 지표 기준 (in-sample fitting bias 회피)
-          const rankScore = this.calculateScanRankScore(
+          // 랭킹은 집계 OOS 지표 기준이며 폴드별 양수 AND 조건을 요구하지 않는다.
+          const baseRankScore = this.calculateScanRankScore(
             outOfSample,
             currentSignal.strength,
             tradeQuality,
             riskProfile,
           );
+          const consistencyBonus = walkForward.rollingEnabled
+            ? walkForward.wfConsistency *
+              this.getNumberConfig(
+                'WF_CONSISTENCY_WEIGHT',
+                DEFAULT_WF_CONSISTENCY_WEIGHT,
+              )
+            : 0;
+          const rankScore =
+            Math.round((baseRankScore + consistencyBonus) * 100) / 100;
 
           if (!bestResult || rankScore > bestResult.rankScore) {
             bestResult = {
@@ -1713,6 +2065,9 @@ export class BacktestService {
               analysis,
               currentSignal,
               tradeQuality,
+              folds: walkForward.folds,
+              wfConsistency: walkForward.wfConsistency,
+              rollingEnabled: walkForward.rollingEnabled,
             };
           }
         } catch {
@@ -1767,6 +2122,26 @@ export class BacktestService {
         totalTrades: outOfSample.totalTrades,
         maxDrawdownPct: outOfSample.maxDrawdownPct,
       },
+      ...(bestResult.rollingEnabled && {
+        folds: bestResult.folds.map(({ fold, inSample, outOfSample }) => ({
+          foldIndex: fold.foldIndex,
+          inSampleLength: fold.inSampleEnd - fold.inSampleStart,
+          outOfSampleLength: fold.oosEnd - fold.oosStart,
+          inSample: {
+            totalReturnPct: inSample.totalReturnPct,
+            winRate: inSample.winRate,
+            totalTrades: inSample.totalTrades,
+            maxDrawdownPct: inSample.maxDrawdownPct,
+          },
+          outOfSample: {
+            totalReturnPct: outOfSample.totalReturnPct,
+            winRate: outOfSample.winRate,
+            totalTrades: outOfSample.totalTrades,
+            maxDrawdownPct: outOfSample.maxDrawdownPct,
+          },
+        })),
+        wfConsistency: bestResult.wfConsistency,
+      }),
       summary: analysis.summary,
       currentSignal: {
         direction: currentSignal.direction,
