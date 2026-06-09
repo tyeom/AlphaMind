@@ -621,6 +621,152 @@ describe('BacktestService simulate', () => {
     ]);
   });
 
+  it('keeps the toggle-off scan JSON byte-identical while still calculating caveat metadata', async () => {
+    const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(1_000);
+    const stocks = [{ id: 1, code: 'AAA', name: 'AAA', sector: 'tech' }];
+    const knex = createKnexMock([[{ stock_id: 1 }], priceRows(1, 100)]);
+    const em = {
+      find: jest.fn().mockResolvedValue(stocks),
+      getKnex: () => knex,
+      clear: jest.fn(),
+    };
+    const service = new BacktestService(
+      em as any,
+      {} as any,
+      createConfigService({
+        SURVIVORSHIP_RETAIN_DELISTED: false,
+      }),
+    );
+    (service as any).scanSingleStock = jest.fn(() => scanResult('AAA', 3));
+
+    const response = await service.scanAllStocks([], 10, 1_000_000, 10, 0.015);
+
+    expect(response.survivorshipBias).toEqual(
+      expect.objectContaining({
+        universeSize: 1,
+        delistedRetained: 0,
+        estimatedReturnHaircutPct: 0.5,
+      }),
+    );
+    expect(JSON.stringify(response)).toBe(
+      JSON.stringify({
+        scannedStocks: 1,
+        eligibleStocks: 1,
+        excludedStocks: 0,
+        elapsedMs: 0,
+        results: [scanResult('AAA', 3)],
+      }),
+    );
+    nowSpy.mockRestore();
+  });
+
+  it('excludes retained delisted stocks from the default buy scan', async () => {
+    const stocks = [
+      { id: 1, code: 'ACTIVE', name: 'ACTIVE', sector: 'tech' },
+      {
+        id: 2,
+        code: 'DELISTED',
+        name: 'DELISTED',
+        sector: 'bio',
+        delistedAt: new Date('2026-03-10T00:00:00.000Z'),
+      },
+    ];
+    const knex = createKnexMock([
+      stocks.map((stock) => ({ stock_id: stock.id })),
+      priceRows(1, 100),
+    ]);
+    const em = {
+      find: jest.fn().mockResolvedValue(stocks),
+      getKnex: () => knex,
+      clear: jest.fn(),
+    };
+    const service = new BacktestService(
+      em as any,
+      {} as any,
+      createConfigService(),
+    );
+    (service as any).scanSingleStock = jest.fn((stock: any) =>
+      scanResult(stock.code, 3),
+    );
+
+    const response = await service.scanAllStocks([], 10, 1_000_000, 10, 0.015);
+
+    expect(response.eligibleStocks).toBe(1);
+    expect(response.results.map((result) => result.stockCode)).toEqual([
+      'ACTIVE',
+    ]);
+  });
+
+  it('includes a retained stock when it was listed through the backtest window end', async () => {
+    const stocks = [
+      { id: 1, code: 'ACTIVE', name: 'ACTIVE', sector: 'tech' },
+      {
+        id: 2,
+        code: 'DELISTED',
+        name: 'DELISTED',
+        sector: 'bio',
+        delistedAt: new Date('2026-03-10T00:00:00.000Z'),
+      },
+    ];
+    const knex = createKnexMock([
+      stocks.map((stock) => ({ stock_id: stock.id })),
+      [...priceRows(1, 100), ...priceRows(2, 200)],
+    ]);
+    const em = {
+      find: jest.fn().mockResolvedValue(stocks),
+      getKnex: () => knex,
+      clear: jest.fn(),
+    };
+    const service = new BacktestService(
+      em as any,
+      {} as any,
+      createConfigService({
+        SURVIVORSHIP_RETAIN_DELISTED: true,
+        SCAN_INCLUDE_DELISTED_FOR_BACKTEST: true,
+      }),
+    );
+    (service as any).scanSingleStock = jest.fn((stock: any) =>
+      scanResult(stock.code, stock.code === 'ACTIVE' ? 3 : 2),
+    );
+
+    const response = await service.scanAllStocks([], 10, 1_000_000, 10, 0.015);
+
+    expect(response.eligibleStocks).toBe(2);
+    expect(response.results.map((result) => result.stockCode)).toEqual([
+      'ACTIVE',
+      'DELISTED',
+    ]);
+    expect(JSON.stringify(response)).toContain('"survivorshipBias"');
+    expect(response.survivorshipBias?.note).toContain('소급 복구 불가');
+    expect(response.survivorshipBias?.note).toContain('131거래일');
+    expect(response.survivorshipBias?.note).toContain('낙관 편향');
+  });
+
+  it('calculates deterministic survivorship caveat assumptions without changing returns', () => {
+    const service = new BacktestService(
+      {} as any,
+      {} as any,
+      createConfigService({
+        SURVIVORSHIP_ASSUMED_DELIST_RATE_ANNUAL: 0.04,
+        AVG_DELIST_LOSS_FRACTION: 0.25,
+      }),
+    );
+
+    const estimate = (service as any).estimateSurvivorshipBias([
+      { delistedAt: null },
+      { delistedAt: new Date('2026-06-01T00:00:00.000Z') },
+    ]);
+
+    expect(estimate).toEqual({
+      universeSize: 2,
+      delistedRetained: 1,
+      assumedAnnualDelistRate: 0.04,
+      estimatedReturnHaircutPct: 0.5,
+      researchAnchor: 'CAGR 26%→12%(모멘텀, 외부)',
+      note: expect.stringContaining('성과 수치에서는 차감하지 않음'),
+    });
+  });
+
   it('persists and reads market regime hysteresis state as JSON', async () => {
     const tmpDir = await fs.mkdtemp('/tmp/market-regime-');
     const service = createService();

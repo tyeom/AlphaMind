@@ -90,6 +90,14 @@ interface ScanResponse {
   results: ScanResult[];
   regime?: RegimeResult;
   clusters?: Array<{ clusterId: number; codes: string[]; size: number }>;
+  survivorshipBias?: {
+    universeSize: number;
+    delistedRetained: number;
+    assumedAnnualDelistRate: number;
+    estimatedReturnHaircutPct: number;
+    researchAnchor: string;
+    note: string;
+  };
 }
 
 export interface ScanCompletedEvent {

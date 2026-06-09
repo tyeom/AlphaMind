@@ -45,6 +45,14 @@ export interface ScanResponse {
   excludedStocks: number;
   elapsedMs: number;
   results: ScanResult[];
+  survivorshipBias?: {
+    universeSize: number;
+    delistedRetained: number;
+    assumedAnnualDelistRate: number;
+    estimatedReturnHaircutPct: number;
+    researchAnchor: string;
+    note: string;
+  };
 }
 
 export interface ExpertOpinion {

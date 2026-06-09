@@ -84,6 +84,15 @@ export interface ScanCluster {
   size: number;
 }
 
+export interface SurvivorshipBiasEstimate {
+  universeSize: number;
+  delistedRetained: number;
+  assumedAnnualDelistRate: number;
+  estimatedReturnHaircutPct: number;
+  researchAnchor: string;
+  note: string;
+}
+
 export interface RegimeCorrelationOptions {
   regimeEnabled?: boolean;
   correlationEnabled?: boolean;
@@ -104,4 +113,9 @@ export interface ScanResponse {
   regime?: RegimeResult;
   /** 후보+활성보유 혼합 상관 클러스터. backend 활성 시드 역매핑에 사용한다. */
   clusters?: ScanCluster[];
+  /**
+   * 생존편향 caveat. 성과에서 차감하지 않는 가정 기반 경고이며,
+   * 보존 토글 OFF에서는 기존 JSON 바이트 보존을 위해 비열거 속성으로만 존재한다.
+   */
+  survivorshipBias?: SurvivorshipBiasEstimate;
 }

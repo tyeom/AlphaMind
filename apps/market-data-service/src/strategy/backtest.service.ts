@@ -53,6 +53,7 @@ import {
   RegimeCorrelationOptions,
   ScanResult,
   ScanResponse,
+  SurvivorshipBiasEstimate,
 } from './types/scan.types';
 import { OptimalParamsService } from './optimal-params.service';
 
@@ -218,6 +219,10 @@ const DEFAULT_USE_NEXT_OPEN_FOR_BUY = true;
 
 /** 스캔 윈도우 — walk-forward 분리를 위해 6개월 데이터를 사용 */
 const SCAN_LOOKBACK_MONTHS = 6;
+const DEFAULT_SURVIVORSHIP_RETAIN_DELISTED = false;
+const DEFAULT_SCAN_INCLUDE_DELISTED_FOR_BACKTEST = false;
+const DEFAULT_SURVIVORSHIP_ASSUMED_DELIST_RATE_ANNUAL = 0.02;
+const DEFAULT_AVG_DELIST_LOSS_FRACTION = 0.5;
 /** Out-of-sample 비율 — 마지막 N% 구간을 검증용으로 분리 */
 const OUT_OF_SAMPLE_RATIO = 1 / 3;
 /** in-sample 최소 거래수 */
@@ -393,6 +398,13 @@ export class BacktestService {
           ? Number(value)
           : Number.NaN;
     return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
+  private getBooleanConfig(key: string, fallback: boolean): boolean {
+    const value = this.configService.get<boolean | string>(key);
+    if (value === true || value === 'true') return true;
+    if (value === false || value === 'false') return false;
+    return fallback;
   }
 
   private buildMarketRegimeOptions(): MarketRegimeOptions {
@@ -1079,10 +1091,19 @@ export class BacktestService {
 
     const lookbackFrom = new Date();
     lookbackFrom.setMonth(lookbackFrom.getMonth() - SCAN_LOOKBACK_MONTHS);
+    const retainDelisted = this.getBooleanConfig(
+      'SURVIVORSHIP_RETAIN_DELISTED',
+      DEFAULT_SURVIVORSHIP_RETAIN_DELISTED,
+    );
+    const includeDelistedForBacktest = this.getBooleanConfig(
+      'SCAN_INCLUDE_DELISTED_FOR_BACKTEST',
+      DEFAULT_SCAN_INCLUDE_DELISTED_FOR_BACKTEST,
+    );
 
     // 1. 전체 종목 로드
     const allStocks = await this.em.find(Stock, {});
     const excludeSet = new Set(excludeCodes);
+    const survivorshipBias = this.estimateSurvivorshipBias(allStocks);
 
     // 2. 단기 walk-forward 검증을 위해 60거래일 이상 데이터가 있는 종목만 필터
     const knex = this.em.getKnex();
@@ -1095,8 +1116,13 @@ export class BacktestService {
 
     const eligibleStockIds = new Set(countRows.map((r: any) => r.stock_id));
 
+    // DB having 쿼리에서는 상폐를 제외하지 않는다. 현재 매수 스캔과
+    // 보존 종목 백테스트의 유니버스 분기는 이 코드 한 곳에서만 결정한다.
     const eligibleStocks = allStocks.filter(
-      (s) => eligibleStockIds.has(s.id) && !excludeSet.has(s.code),
+      (stock) =>
+        eligibleStockIds.has(stock.id) &&
+        !excludeSet.has(stock.code) &&
+        (includeDelistedForBacktest || stock.delistedAt == null),
     );
 
     logger.log(
@@ -1112,6 +1138,7 @@ export class BacktestService {
       code: s.code,
       name: s.name,
       sector: s.sector ?? undefined,
+      delistedAt: s.delistedAt ?? undefined,
     }));
 
     // 이후 단계에서는 Stock/StockDailyPrice 엔티티가 더 이상 필요 없으므로
@@ -1135,6 +1162,7 @@ export class BacktestService {
     const breadthAcc = regimeEnabled ? createBreadthAccumulator() : null;
     const candidatePriceSeriesByCode = new Map<string, CorrelationPricePoint[]>();
     let lastYieldAt = Date.now();
+    let eligibleStockCount = 0;
 
     for (let off = 0; off < liteStocks.length; off += SCAN_STOCK_CHUNK_SIZE) {
       const chunk = liteStocks.slice(off, off + SCAN_STOCK_CHUNK_SIZE);
@@ -1170,6 +1198,14 @@ export class BacktestService {
 
       for (const stock of chunk) {
         const prices = pricesByStockId.get(stock.id);
+        if (
+          stock.delistedAt != null &&
+          !this.isDelistedStockEligibleAtWindowEnd(stock.delistedAt, prices)
+        ) {
+          continue;
+        }
+        eligibleStockCount++;
+
         if (breadthAcc) {
           try {
             recordBreadthSample(breadthAcc, prices);
@@ -1321,14 +1357,70 @@ export class BacktestService {
       `스캔 완료: ${elapsedMs}ms, 결과 ${allResults.length}개 중 Top ${topResults.length}`,
     );
 
-    return {
+    const response: ScanResponse = {
       scannedStocks: allStocks.length,
-      eligibleStocks: eligibleStocks.length,
+      eligibleStocks: eligibleStockCount,
       excludedStocks: excludeCodes.length,
       elapsedMs,
       results: topResults,
       ...(regime && { regime }),
       ...(clusters && { clusters }),
+    };
+
+    // 토글 OFF에서는 JSON.stringify 결과를 기존 응답과 바이트 동일하게 유지한다.
+    Object.defineProperty(response, 'survivorshipBias', {
+      value: survivorshipBias,
+      enumerable: retainDelisted,
+      configurable: false,
+      writable: false,
+    });
+
+    return response;
+  }
+
+  private isDelistedStockEligibleAtWindowEnd(
+    delistedAt: Date,
+    prices: StockDailyPrice[] | undefined,
+  ): boolean {
+    if (!prices || prices.length === 0) return false;
+
+    const windowEnd = prices[prices.length - 1].date;
+    return delistedAt.getTime() > new Date(windowEnd).getTime();
+  }
+
+  /**
+   * 추정 haircut은 성과에서 빼지 않고 caveat로만 노출한다.
+   * 전향적 보존 이전의 과거 상폐는 소급 복구할 수 없으므로 실측 보정치가 아니다.
+   */
+  private estimateSurvivorshipBias(
+    stocks: Pick<Stock, 'delistedAt'>[],
+  ): SurvivorshipBiasEstimate {
+    const annualRate = Math.max(
+      0,
+      this.getNumberConfig(
+        'SURVIVORSHIP_ASSUMED_DELIST_RATE_ANNUAL',
+        DEFAULT_SURVIVORSHIP_ASSUMED_DELIST_RATE_ANNUAL,
+      ),
+    );
+    const avgLossFraction = Math.max(
+      0,
+      this.getNumberConfig(
+        'AVG_DELIST_LOSS_FRACTION',
+        DEFAULT_AVG_DELIST_LOSS_FRACTION,
+      ),
+    );
+    const windowYears = SCAN_LOOKBACK_MONTHS / 12;
+    const estimatedReturnHaircutPct =
+      Math.round(annualRate * windowYears * avgLossFraction * 10_000) / 100;
+
+    return {
+      universeSize: stocks.length,
+      delistedRetained: stocks.filter((stock) => stock.delistedAt != null)
+        .length,
+      assumedAnnualDelistRate: annualRate,
+      estimatedReturnHaircutPct,
+      researchAnchor: 'CAGR 26%→12%(모멘텀, 외부)',
+      note: 'forward-only 보존 이전 구간은 소급 복구 불가. 약 131거래일에는 즉효가 없고 가정 기반 추정일 뿐 실측이 아니며, OOS 성과는 여전히 낙관 편향됐을 수 있음. 성과 수치에서는 차감하지 않음.',
     };
   }
 
