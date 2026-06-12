@@ -951,12 +951,31 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       // update: 기존 세션 설정 덮어쓰기
       if (dto.onConflict === 'update') {
         const { strategyId, variant } = await this.resolveStrategy(dto);
+        // 청산값 전부 생략 = 전략 위임 의도(자동 추천 행) — 확정된 전략에
+        // exit profile(단타 스캘핑 등)이 있으면 그 값으로 갱신해, 전략이
+        // 바뀌었는데 이전 세션의 청산 룰이 남는 것을 막는다. 프로파일이
+        // 없으면 기존값 유지(기존 동작).
+        const omittedExitProfile =
+          dto.takeProfitPct === undefined &&
+          dto.stopLossPct === undefined &&
+          dto.maxHoldingDays === undefined
+            ? getStrategyExitProfile(strategyId, variant)
+            : undefined;
         existing.strategyId = strategyId;
         existing.variant = variant;
         existing.investmentAmount = dto.investmentAmount;
-        existing.takeProfitPct = dto.takeProfitPct ?? existing.takeProfitPct;
-        existing.stopLossPct = dto.stopLossPct ?? existing.stopLossPct;
-        existing.maxHoldingDays = dto.maxHoldingDays ?? existing.maxHoldingDays;
+        existing.takeProfitPct =
+          dto.takeProfitPct ??
+          omittedExitProfile?.takeProfitPct ??
+          existing.takeProfitPct;
+        existing.stopLossPct =
+          dto.stopLossPct ??
+          omittedExitProfile?.stopLossPct ??
+          existing.stopLossPct;
+        existing.maxHoldingDays =
+          dto.maxHoldingDays ??
+          omittedExitProfile?.maxHoldingDays ??
+          existing.maxHoldingDays;
         if (dto.addOnBuyMode !== undefined) {
           existing.addOnBuyMode = dto.addOnBuyMode as AddOnBuyMode;
         }

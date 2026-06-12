@@ -1800,10 +1800,9 @@ export function AiScanner() {
     entryMode: SessionEntryMode,
   ) => {
     const sessionDtos: StartSessionRequest[] = items.map((item) => {
-      // 추천(자동) 전략 + 청산값 미수정이면 TP/SL/보유일을 생략 — backend 가
-      // 전략 확정 후 그 전략의 exit profile(단타 등)/기본값을 적용하게 한다.
-      // 모달에 보이던 일반 시드값이 명시값으로 실려 프로파일을 덮는 것을 방지.
-      const omitExits = !item.strategyId && !item.exitsEdited;
+      // exitsAuto = 모달에 '자동'으로 표시된 위임 상태 (화면 = 제출값 불변식).
+      // 생략 시 backend 가 전략 확정 후 exit profile(단타 등)/기본값을 적용한다.
+      const omitExits = item.exitsAuto === true;
       return {
         stockCode: item.stockCode,
         stockName: item.stockName,
@@ -1914,6 +1913,9 @@ export function AiScanner() {
         stopLossPct: slSeed,
         maxHoldingDays: holdingSeed,
         addOnBuyMode: 'skip',
+        // 추천(자동) 전략: 청산값은 backend 가 전략 확정 후 적용 (모달에 '자동' 표시).
+        // 사용자가 구체 전략을 고르거나 값을 입력하면 그 값이 명시 전송된다.
+        exitsAuto: true,
       },
     ]);
   };

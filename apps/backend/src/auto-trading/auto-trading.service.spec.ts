@@ -99,6 +99,84 @@ describe('AutoTradingService', () => {
     );
   };
 
+  it('applies the resolved strategy exit profile on conflict update when exits are omitted', async () => {
+    const { service, em } = createService();
+    const existing = {
+      id: 10,
+      stockCode: '005930',
+      stockName: '삼성전자',
+      strategyId: 'day-trading',
+      variant: undefined,
+      takeProfitPct: 2.5,
+      stopLossPct: -2.0,
+      maxHoldingDays: 7,
+      status: SessionStatus.ACTIVE,
+    } as unknown as AutoTradingSessionEntity;
+
+    (em as any).findOneOrFail = jest.fn().mockResolvedValue({ id: 1 });
+    em.findOne.mockResolvedValue(existing);
+    jest
+      .spyOn(service as any, 'syncStockActivity')
+      .mockResolvedValue(undefined);
+    jest
+      .spyOn(service as any, 'broadcastSessionUpdate')
+      .mockImplementation(() => undefined);
+
+    // 청산값 전부 생략(자동 위임) + 전략을 scalping 으로 변경 → ensemble 프로파일 적용
+    const updated = await service.startSession(1, {
+      stockCode: '005930',
+      stockName: '삼성전자',
+      strategyId: 'scalping',
+      variant: 'ensemble',
+      investmentAmount: 1_000_000,
+      onConflict: 'update',
+    } as any);
+
+    expect(updated.strategyId).toBe('scalping');
+    expect(updated.takeProfitPct).toBe(2.2);
+    expect(updated.stopLossPct).toBe(-1.5);
+    expect(updated.maxHoldingDays).toBe(3);
+  });
+
+  it('preserves existing exits on conflict update for strategies without a profile', async () => {
+    const { service, em } = createService();
+    const existing = {
+      id: 11,
+      stockCode: '005930',
+      stockName: '삼성전자',
+      strategyId: 'scalping',
+      variant: 'ensemble',
+      takeProfitPct: 2.2,
+      stopLossPct: -1.5,
+      maxHoldingDays: 3,
+      status: SessionStatus.ACTIVE,
+    } as unknown as AutoTradingSessionEntity;
+
+    (em as any).findOneOrFail = jest.fn().mockResolvedValue({ id: 1 });
+    em.findOne.mockResolvedValue(existing);
+    jest
+      .spyOn(service as any, 'syncStockActivity')
+      .mockResolvedValue(undefined);
+    jest
+      .spyOn(service as any, 'broadcastSessionUpdate')
+      .mockImplementation(() => undefined);
+
+    // 프로파일 없는 전략으로 변경 + 청산값 생략 → 기존값 유지 (기존 동작)
+    const updated = await service.startSession(1, {
+      stockCode: '005930',
+      stockName: '삼성전자',
+      strategyId: 'day-trading',
+      variant: 'breakout',
+      investmentAmount: 1_000_000,
+      onConflict: 'update',
+    } as any);
+
+    expect(updated.strategyId).toBe('day-trading');
+    expect(updated.takeProfitPct).toBe(2.2);
+    expect(updated.stopLossPct).toBe(-1.5);
+    expect(updated.maxHoldingDays).toBe(3);
+  });
+
   it('triggers auto sell immediately when latest price exceeds take profit', async () => {
     const { service, em } = createService();
     const session = {

@@ -14,35 +14,51 @@ export interface TradingConfigItem {
   /** 보유 종목에 추가 매수 신호 발생 시 동작 — 기본 'skip' */
   addOnBuyMode: AddOnBuyMode;
   /**
-   * 사용자가 TP/SL/보유일을 직접 수정했는지.
-   * 추천(자동) 전략 + 미수정이면 제출 시 청산값을 생략해 backend 가
-   * 확정된 전략의 exit profile/기본값을 적용하게 한다.
+   * 청산값을 backend 에 위임(자동)할지 — 명시적 상태로, UI 도 숫자 대신
+   * '자동' 으로 표시하고 제출 시 TP/SL/보유일을 생략한다. backend 가
+   * 전략 확정 후 그 전략의 exit profile/기본값을 적용한다.
+   * 사용자가 값을 입력하거나 구체 전략을 고르면 false 로 전환되어
+   * 화면의 숫자가 그대로 제출된다 (화면 = 제출값 불변식).
    */
-  exitsEdited?: boolean;
+  exitsAuto?: boolean;
 }
 
-/** 전략 변경 시 청산값 패치: 프로파일 전략은 검증된 프로파일, 그 외는 진입 시 시드 복원 */
+/**
+ * 전략 변경 시 청산값 패치 — 현재 행 값을 기준으로 한다 (사용자 수정 보존).
+ * - 프로파일 전략: 검증된 exit profile 로 교체 (입력칸에 보이는 의도된 리셋)
+ * - 추천(자동, ''): 청산값을 backend 위임으로 전환 (UI '자동' 표시)
+ * - 그 외 전략: 현재 행 값 유지
+ */
 function buildStrategyExitPatch(
-  seed: Pick<
+  current: Pick<
     TradingConfigItem,
     'takeProfitPct' | 'stopLossPct' | 'maxHoldingDays'
   >,
   strategyId: string,
 ): Partial<TradingConfigItem> {
-  const profile = strategyId ? getKnownExitProfile(strategyId) : undefined;
-  const exits = profile
-    ? {
-        takeProfitPct: profile.takeProfitPct,
-        stopLossPct: profile.stopLossPct,
-        maxHoldingDays: profile.maxHoldingDays,
-      }
-    : {
-        takeProfitPct: seed.takeProfitPct,
-        stopLossPct: seed.stopLossPct,
-        maxHoldingDays: seed.maxHoldingDays,
-      };
   // 전략 변경 시 stale variant 방지를 위해 variant 도 함께 비움
-  return { strategyId, variant: undefined, ...exits, exitsEdited: false };
+  if (!strategyId) {
+    return { strategyId, variant: undefined, exitsAuto: true };
+  }
+  const profile = getKnownExitProfile(strategyId);
+  if (profile) {
+    return {
+      strategyId,
+      variant: undefined,
+      takeProfitPct: profile.takeProfitPct,
+      stopLossPct: profile.stopLossPct,
+      maxHoldingDays: profile.maxHoldingDays,
+      exitsAuto: false,
+    };
+  }
+  return {
+    strategyId,
+    variant: undefined,
+    takeProfitPct: current.takeProfitPct,
+    stopLossPct: current.stopLossPct,
+    maxHoldingDays: current.maxHoldingDays,
+    exitsAuto: false,
+  };
 }
 
 interface Props {
@@ -87,14 +103,6 @@ export function AutoTradingConfigModal({
   initialEntryMode = 'monitor',
 }: Props) {
   const [configs, setConfigs] = useState<TradingConfigItem[]>(items);
-  // 모달 진입 시점의 청산값 시드 — 전략을 비프로파일 전략으로 되돌릴 때 복원용
-  const [exitSeeds] = useState(() =>
-    items.map((it) => ({
-      takeProfitPct: it.takeProfitPct,
-      stopLossPct: it.stopLossPct,
-      maxHoldingDays: it.maxHoldingDays,
-    })),
-  );
   const [entryMode, setEntryMode] =
     useState<SessionEntryMode>(initialEntryMode);
 
@@ -109,14 +117,18 @@ export function AutoTradingConfigModal({
   };
 
   const changeStrategy = (index: number, strategyId: string) => {
-    updateItem(index, buildStrategyExitPatch(exitSeeds[index], strategyId));
+    setConfigs((prev) =>
+      prev.map((item, i) =>
+        i === index ? { ...item, ...buildStrategyExitPatch(item, strategyId) } : item,
+      ),
+    );
   };
 
   const applyStrategyToAll = (strategyId: string) => {
     setConfigs((prev) =>
-      prev.map((item, i) => ({
+      prev.map((item) => ({
         ...item,
-        ...buildStrategyExitPatch(exitSeeds[i], strategyId),
+        ...buildStrategyExitPatch(item, strategyId),
       })),
     );
   };
@@ -143,10 +155,11 @@ export function AutoTradingConfigModal({
             {description ??
               '각 종목별로 사용할 전략과 목표 수익/손절/최대 보유일을 설정하세요. 기본값은 백테스트 기반 추천 전략 및 +2.0% / -2.0% / 7일입니다.'}
           </p>
-          {configs.some((c) => !c.strategyId && !c.exitsEdited) && (
+          {configs.some((c) => c.exitsAuto) && (
             <p className="text-muted modal-description">
-              추천(자동) 전략 종목은 청산값을 직접 수정하지 않으면 확정된
-              전략의 기본 청산 프로파일(단타 스캘핑 등)이 자동 적용됩니다.
+              청산값이 &lsquo;자동&rsquo;인 종목은 전략 확정 후 그 전략의 기본
+              청산 프로파일(단타 스캘핑 등)이 적용됩니다. 직접 입력하면
+              입력값이 우선합니다.
             </p>
           )}
 
@@ -221,7 +234,7 @@ export function AutoTradingConfigModal({
                   onBlur={(e) => {
                     const v = parseFloat(e.target.value);
                     if (!isNaN(v))
-                      applyToAll({ takeProfitPct: v, exitsEdited: true });
+                      applyToAll({ takeProfitPct: v, exitsAuto: false });
                     e.target.value = '';
                   }}
                 />
@@ -235,7 +248,7 @@ export function AutoTradingConfigModal({
                   onBlur={(e) => {
                     const v = parseFloat(e.target.value);
                     if (!isNaN(v))
-                      applyToAll({ stopLossPct: v, exitsEdited: true });
+                      applyToAll({ stopLossPct: v, exitsAuto: false });
                     e.target.value = '';
                   }}
                 />
@@ -249,7 +262,7 @@ export function AutoTradingConfigModal({
                   onBlur={(e) => {
                     const v = parseInt(e.target.value, 10);
                     if (!isNaN(v))
-                      applyToAll({ maxHoldingDays: v, exitsEdited: true });
+                      applyToAll({ maxHoldingDays: v, exitsAuto: false });
                     e.target.value = '';
                   }}
                 />
@@ -315,7 +328,13 @@ export function AutoTradingConfigModal({
                         className="config-num-input"
                         type="number"
                         step="0.5"
-                        value={item.takeProfitPct}
+                        value={item.exitsAuto ? '' : item.takeProfitPct}
+                        placeholder={item.exitsAuto ? '자동' : undefined}
+                        title={
+                          item.exitsAuto
+                            ? '전략 확정 후 해당 전략의 기본 청산값이 적용됩니다. 직접 입력하면 입력값이 우선합니다.'
+                            : undefined
+                        }
                         onChange={(e) => {
                           // 빈 입력은 NaN → 기존 값 유지 (0 으로 강제 변경되는 버그 방지).
                           // 0 을 원하는 사용자는 "0" 을 직접 입력해야 함.
@@ -323,7 +342,7 @@ export function AutoTradingConfigModal({
                           if (!isNaN(v))
                             updateItem(i, {
                               takeProfitPct: v,
-                              exitsEdited: true,
+                              exitsAuto: false,
                             });
                         }}
                       />
@@ -333,11 +352,12 @@ export function AutoTradingConfigModal({
                         className="config-num-input"
                         type="number"
                         step="0.5"
-                        value={item.stopLossPct}
+                        value={item.exitsAuto ? '' : item.stopLossPct}
+                        placeholder={item.exitsAuto ? '자동' : undefined}
                         onChange={(e) => {
                           const v = parseFloat(e.target.value);
                           if (!isNaN(v))
-                            updateItem(i, { stopLossPct: v, exitsEdited: true });
+                            updateItem(i, { stopLossPct: v, exitsAuto: false });
                         }}
                       />
                     </td>
@@ -347,16 +367,21 @@ export function AutoTradingConfigModal({
                         type="number"
                         step="1"
                         min="0"
-                        value={item.maxHoldingDays}
+                        value={item.exitsAuto ? '' : item.maxHoldingDays}
+                        placeholder={item.exitsAuto ? '자동' : undefined}
                         onChange={(e) => {
                           const v = parseInt(e.target.value, 10);
                           if (!isNaN(v))
                             updateItem(i, {
                               maxHoldingDays: v,
-                              exitsEdited: true,
+                              exitsAuto: false,
                             });
                         }}
-                        title="0이면 최대 보유일 제한을 사용하지 않습니다"
+                        title={
+                          item.exitsAuto
+                            ? '전략 확정 후 해당 전략의 기본 보유일이 적용됩니다'
+                            : '0이면 최대 보유일 제한을 사용하지 않습니다'
+                        }
                       />
                     </td>
                     <td>
