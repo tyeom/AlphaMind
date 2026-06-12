@@ -41,6 +41,13 @@ export interface StartSessionDto {
    */
   onConflict?: SessionConflictAction;
   /**
+   * 청산값(TP/SL/보유일)을 확정된 전략의 exit profile 에 명시적으로 위임.
+   * onConflict 'update' 에서 true 면 기존 세션의 청산값을 확정 전략의
+   * 프로파일(있을 때)로 갱신한다. 미지정/false 면 생략된 청산 필드는
+   * 기존값 유지 — 단순 필드 생략이 활성 세션의 리스크 설정을 바꾸지 않는다.
+   */
+  delegateExits?: boolean;
+  /**
    * 세션 진입 방식
    * - 'monitor' (기본): 전략 매수 신호 대기
    * - 'immediate': 세션 생성 직후 시장가로 전략별 첫 진입 비중 매수

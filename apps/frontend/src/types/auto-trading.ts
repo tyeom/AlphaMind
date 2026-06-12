@@ -79,6 +79,11 @@ export interface StartSessionRequest {
    * - 미지정: 409 Conflict 응답
    */
   onConflict?: SessionConflictAction;
+  /**
+   * 청산값(TP/SL/보유일)을 확정된 전략의 exit profile 에 명시적으로 위임.
+   * onConflict 'update' 시 단순 필드 생략만으로는 기존 청산값이 바뀌지 않는다.
+   */
+  delegateExits?: boolean;
   /** 진입 방식 — 미지정시 'monitor' */
   entryMode?: SessionEntryMode;
 }

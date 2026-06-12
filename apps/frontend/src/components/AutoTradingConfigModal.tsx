@@ -79,6 +79,12 @@ interface Props {
   showEntryMode?: boolean;
   /** 초기 진입 방식 — 기본 'monitor' */
   initialEntryMode?: SessionEntryMode;
+  /**
+   * '추천 (자동)' 전략 옵션 노출 여부 — 기본 true.
+   * 세션 수정 모드처럼 청산값 위임(자동)을 지원하지 않는 경로에서는 false 로
+   * 두어 화면('자동')과 제출값(숫자)이 어긋나는 상태 자체를 차단한다.
+   */
+  allowAutoStrategy?: boolean;
 }
 
 const STRATEGY_OPTIONS: { id: string; name: string }[] = [
@@ -101,7 +107,11 @@ export function AutoTradingConfigModal({
   confirmLabel,
   showEntryMode = true,
   initialEntryMode = 'monitor',
+  allowAutoStrategy = true,
 }: Props) {
+  const strategyOptions = allowAutoStrategy
+    ? STRATEGY_OPTIONS
+    : STRATEGY_OPTIONS.filter((s) => s.id !== '');
   const [configs, setConfigs] = useState<TradingConfigItem[]>(items);
   const [entryMode, setEntryMode] =
     useState<SessionEntryMode>(initialEntryMode);
@@ -218,7 +228,7 @@ export function AutoTradingConfigModal({
                   }}
                 >
                   <option value="__none__">선택</option>
-                  {STRATEGY_OPTIONS.map((s) => (
+                  {strategyOptions.map((s) => (
                     <option key={s.id || '__auto__'} value={s.id}>
                       {s.name}
                     </option>
@@ -316,7 +326,7 @@ export function AutoTradingConfigModal({
                           changeStrategy(i, e.target.value)
                         }
                       >
-                        {STRATEGY_OPTIONS.map((s) => (
+                        {strategyOptions.map((s) => (
                           <option key={s.id || '__auto__'} value={s.id}>
                             {s.name}
                           </option>

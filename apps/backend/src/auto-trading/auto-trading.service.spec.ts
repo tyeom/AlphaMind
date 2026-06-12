@@ -122,7 +122,48 @@ describe('AutoTradingService', () => {
       .spyOn(service as any, 'broadcastSessionUpdate')
       .mockImplementation(() => undefined);
 
-    // 청산값 전부 생략(자동 위임) + 전략을 scalping 으로 변경 → ensemble 프로파일 적용
+    // 명시적 위임(delegateExits) + 전략을 scalping 으로 변경 → ensemble 프로파일 적용
+    const updated = await service.startSession(1, {
+      stockCode: '005930',
+      stockName: '삼성전자',
+      strategyId: 'scalping',
+      variant: 'ensemble',
+      investmentAmount: 1_000_000,
+      onConflict: 'update',
+      delegateExits: true,
+    } as any);
+
+    expect(updated.strategyId).toBe('scalping');
+    expect(updated.takeProfitPct).toBe(2.2);
+    expect(updated.stopLossPct).toBe(-1.5);
+    expect(updated.maxHoldingDays).toBe(3);
+  });
+
+  it('keeps existing exits on conflict update when exits are omitted without delegateExits', async () => {
+    const { service, em } = createService();
+    const existing = {
+      id: 12,
+      stockCode: '005930',
+      stockName: '삼성전자',
+      strategyId: 'day-trading',
+      variant: undefined,
+      takeProfitPct: 2.5,
+      stopLossPct: -2.0,
+      maxHoldingDays: 7,
+      status: SessionStatus.ACTIVE,
+    } as unknown as AutoTradingSessionEntity;
+
+    (em as any).findOneOrFail = jest.fn().mockResolvedValue({ id: 1 });
+    em.findOne.mockResolvedValue(existing);
+    jest
+      .spyOn(service as any, 'syncStockActivity')
+      .mockResolvedValue(undefined);
+    jest
+      .spyOn(service as any, 'broadcastSessionUpdate')
+      .mockImplementation(() => undefined);
+
+    // 위임 플래그 없는 단순 필드 생략(외부 클라이언트/재시도)은 프로파일 전략으로
+    // 바뀌더라도 활성 세션의 청산값을 건드리지 않는다
     const updated = await service.startSession(1, {
       stockCode: '005930',
       stockName: '삼성전자',
@@ -133,9 +174,9 @@ describe('AutoTradingService', () => {
     } as any);
 
     expect(updated.strategyId).toBe('scalping');
-    expect(updated.takeProfitPct).toBe(2.2);
-    expect(updated.stopLossPct).toBe(-1.5);
-    expect(updated.maxHoldingDays).toBe(3);
+    expect(updated.takeProfitPct).toBe(2.5);
+    expect(updated.stopLossPct).toBe(-2.0);
+    expect(updated.maxHoldingDays).toBe(7);
   });
 
   it('preserves existing exits on conflict update for strategies without a profile', async () => {

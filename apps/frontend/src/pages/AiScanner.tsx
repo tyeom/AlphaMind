@@ -1801,7 +1801,8 @@ export function AiScanner() {
   ) => {
     const sessionDtos: StartSessionRequest[] = items.map((item) => {
       // exitsAuto = 모달에 '자동'으로 표시된 위임 상태 (화면 = 제출값 불변식).
-      // 생략 시 backend 가 전략 확정 후 exit profile(단타 등)/기본값을 적용한다.
+      // delegateExits 를 명시 전송해 onConflict 'update' 에서도 단순 생략과
+      // 구분된다 — backend 가 전략 확정 후 exit profile(단타 등)/기본값 적용.
       const omitExits = item.exitsAuto === true;
       return {
         stockCode: item.stockCode,
@@ -1810,7 +1811,7 @@ export function AiScanner() {
         variant: item.variant,
         investmentAmount: Number(investmentAmount),
         ...(omitExits
-          ? {}
+          ? { delegateExits: true }
           : {
               takeProfitPct: item.takeProfitPct,
               stopLossPct: item.stopLossPct,
@@ -2124,6 +2125,7 @@ export function AiScanner() {
           description="전략과 목표 수익/손절 기준을 변경할 수 있습니다. 변경사항은 즉시 모니터링에 반영됩니다."
           confirmLabel="수정 저장"
           showEntryMode={false}
+          allowAutoStrategy={false}
           items={[
             {
               stockCode: editSession.stockCode,
