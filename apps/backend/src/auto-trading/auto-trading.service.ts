@@ -19,8 +19,10 @@ import {
   analyzeCandlePattern,
   analyzeMomentumPower,
   analyzeMomentumSurge,
+  analyzeScalping,
   StrategyAnalysisResult,
   getStrategyTradeMeta,
+  getStrategyExitProfile,
   evaluateLongBuyRisk,
   computeScaleOutSellQty,
   computeRiskBasedQty,
@@ -88,6 +90,7 @@ const STRATEGY_MAP: Record<
   'momentum-power': analyzeMomentumPower,
   'momentum-surge': (candles, config, stockCode) =>
     analyzeMomentumSurge(candles, config, stockCode ?? ''),
+  scalping: analyzeScalping,
 };
 
 /** 기본 익절/손절 — 세션에 값이 없을 때만 사용 */
@@ -664,7 +667,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         id: { $in: heldOrders.map((held) => held.sessionId) },
         status: SessionStatus.ACTIVE,
       });
-      const sessionById = new Map(sessions.map((session) => [session.id, session]));
+      const sessionById = new Map(
+        sessions.map((session) => [session.id, session]),
+      );
 
       for (const held of heldOrders) {
         this.viHeldOrders.delete(held.sessionId);
@@ -992,6 +997,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
 
     const { strategyId, variant } = await this.resolveStrategy(dto);
+    // 전략 고유 exit profile(단타 스캘핑 등)이 있으면 DTO 미지정 시 그 값을 기본으로 사용
+    // — 수동 생성 세션도 스캔 검증과 같은 청산 룰을 갖게 한다.
+    const exitProfile = getStrategyExitProfile(strategyId, variant);
 
     const session = this.em.create(AutoTradingSessionEntity, {
       user,
@@ -1000,9 +1008,14 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       strategyId,
       variant,
       investmentAmount: dto.investmentAmount,
-      takeProfitPct: dto.takeProfitPct ?? DEFAULT_TAKE_PROFIT_PCT,
-      stopLossPct: dto.stopLossPct ?? DEFAULT_STOP_LOSS_PCT,
-      maxHoldingDays: dto.maxHoldingDays ?? DEFAULT_MAX_HOLDING_DAYS,
+      takeProfitPct:
+        dto.takeProfitPct ?? exitProfile?.takeProfitPct ?? DEFAULT_TAKE_PROFIT_PCT,
+      stopLossPct:
+        dto.stopLossPct ?? exitProfile?.stopLossPct ?? DEFAULT_STOP_LOSS_PCT,
+      maxHoldingDays:
+        dto.maxHoldingDays ??
+        exitProfile?.maxHoldingDays ??
+        DEFAULT_MAX_HOLDING_DAYS,
       addOnBuyMode:
         (dto.addOnBuyMode as AddOnBuyMode | undefined) ?? AddOnBuyMode.SKIP,
       aiScore: dto.aiScore,

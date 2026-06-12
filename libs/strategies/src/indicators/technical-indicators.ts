@@ -147,6 +147,19 @@ export function countConsecutiveUpCandles(candles: CandleData[], fromIndex: numb
   return count;
 }
 
+/** 연속 음봉 수 (현재 캔들부터 역순) */
+export function countConsecutiveDownCandles(candles: CandleData[], fromIndex: number): number {
+  let count = 0;
+  for (let i = fromIndex; i >= 0; i--) {
+    if (candles[i].close < candles[i].open) {
+      count++;
+    } else {
+      break;
+    }
+  }
+  return count;
+}
+
 /** OBV (On-Balance Volume) 누적 값 시리즈 계산 */
 export function calculateOBV(candles: CandleData[]): number[] {
   const obv: number[] = [];

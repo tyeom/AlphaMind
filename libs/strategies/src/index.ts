@@ -10,6 +10,7 @@ export {
   calculateAvgVolume,
   calculateOBV,
   countConsecutiveUpCandles,
+  countConsecutiveDownCandles,
   type BollingerBands,
 } from './indicators/technical-indicators';
 
@@ -20,6 +21,7 @@ export { analyzeInfinityBot } from './strategies/infinity-bot.strategy';
 export { analyzeCandlePattern } from './strategies/candle-pattern.strategy';
 export { analyzeMomentumPower } from './strategies/momentum-power.strategy';
 export { analyzeMomentumSurge } from './strategies/momentum-surge.strategy';
+export { analyzeScalping } from './strategies/scalping.strategy';
 
 // Utils
 export {
@@ -74,4 +76,9 @@ export {
 } from './utils/correlation-cluster';
 
 // Trade meta
-export { getStrategyTradeMeta, type TradeMeta } from './trade-meta';
+export {
+  getStrategyTradeMeta,
+  getStrategyExitProfile,
+  type TradeMeta,
+  type StrategyExitProfile,
+} from './trade-meta';

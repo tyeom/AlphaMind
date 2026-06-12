@@ -1,4 +1,8 @@
-import { DayTradingVariant, MeanReversionVariant } from '@alpha-mind/strategies';
+import {
+  DayTradingVariant,
+  MeanReversionVariant,
+  ScalpingVariant,
+} from '@alpha-mind/strategies';
 
 export interface DayTradingQueryDto {
   variant?: DayTradingVariant;
@@ -36,4 +40,13 @@ export interface CandlePatternQueryDto {
   useVolumeConfirmation?: string;
   useTrendConfirmation?: string;
   trendPeriod?: string;
+}
+
+export interface ScalpingQueryDto {
+  variant?: ScalpingVariant;
+  rsiPeriod?: string;
+  rsiOversold?: string;
+  minRvol?: string;
+  pullbackMinPct?: string;
+  pullbackMaxPct?: string;
 }

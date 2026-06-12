@@ -1,6 +1,7 @@
 import { SignalDirection } from '@alpha-mind/strategies';
 import { ConfigService } from '@nestjs/config';
 import { promises as fs } from 'fs';
+import * as os from 'os';
 import * as path from 'path';
 import { BacktestService } from './backtest.service';
 import type { BacktestConfig, BacktestResult } from './types/backtest.types';
@@ -987,7 +988,7 @@ describe('BacktestService simulate', () => {
   });
 
   it('persists and reads market regime hysteresis state as JSON', async () => {
-    const tmpDir = await fs.mkdtemp('/tmp/market-regime-');
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'market-regime-'));
     const service = createService();
     (service as any).marketRegimeStatePath = path.join(
       tmpDir,

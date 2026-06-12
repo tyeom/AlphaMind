@@ -25,6 +25,7 @@ import {
   MeanReversionQueryDto,
   InfinityBotQueryDto,
   CandlePatternQueryDto,
+  ScalpingQueryDto,
 } from './dto/strategy-query.dto';
 import { BacktestQueryDto } from './dto/backtest-query.dto';
 import { ScanBodyDto } from './dto/scan-query.dto';
@@ -345,6 +346,46 @@ export class StrategyController {
   @Get(':code/momentum-surge')
   analyzeMomentumSurge(@Param('code') code: string) {
     return this.strategyService.analyzeMomentumSurge(code);
+  }
+
+  /** 단타 스캘핑 분석 */
+  @Get(':code/scalping')
+  analyzeScalping(
+    @Param('code') code: string,
+    @Query() query: ScalpingQueryDto,
+  ) {
+    return this.strategyService.analyzeScalping(code, {
+      ...(query.variant && { variant: query.variant }),
+      ...((query.rsiPeriod || query.rsiOversold) && {
+        rsiSnapback: {
+          rsiPeriod: parseInt(query.rsiPeriod!) || 3,
+          rsiOversold: parseFloat(query.rsiOversold!) || 20,
+          trendSmaPeriod: 20,
+          minConsecutiveDownCandles: 2,
+        },
+      }),
+      ...(query.minRvol && {
+        gapMomentum: {
+          rvolPeriod: 20,
+          minRvol: parseFloat(query.minRvol) || 1.8,
+          minClosePosition: 0.7,
+          breakoutLookback: 20,
+          rsiPeriod: 14,
+          rsiOverbought: 78,
+          maxDailyGainPct: 15,
+        },
+      }),
+      ...((query.pullbackMinPct || query.pullbackMaxPct) && {
+        pullback: {
+          trendSmaPeriod: 20,
+          fastSmaPeriod: 5,
+          pullbackMinPct: parseFloat(query.pullbackMinPct!) || 2,
+          pullbackMaxPct: parseFloat(query.pullbackMaxPct!) || 7,
+          highLookback: 10,
+          volumeContractionRatio: 1.0,
+        },
+      }),
+    });
   }
 
   /**

@@ -79,6 +79,8 @@ interface ScanResult {
   /** market-data 백테스트에 실제 적용된 TP/SL. backend 는 이 값을 그대로 세션에 반영한다. */
   autoTakeProfitPct?: number;
   autoStopLossPct?: number;
+  /** 스캔 백테스트에 적용된 최대 보유 거래일 — 전략 고유 exit profile(단타 등) 반영값. */
+  maxHoldingDays?: number;
   bestStrategy: { strategyId: string; strategyName: string; variant?: string };
   currentSignal: { direction: string; strength: number; reason: string };
 }
@@ -639,10 +641,7 @@ export class ScheduledScannerService {
         ? SCAN_INVESTMENT_AMOUNT
         : Math.round(SCAN_INVESTMENT_AMOUNT * amountMultiplier);
     const clusterGate = this.resolveClusterGate(response, activeCodes);
-    const availableSlots = Math.max(
-      0,
-      effectiveMaxHoldings - activeCodes.size,
-    );
+    const availableSlots = Math.max(0, effectiveMaxHoldings - activeCodes.size);
     const sectorCounts = new Map(activeSectorCounts);
     const clusterCounts = new Map(clusterGate.clusterCounts);
     const filteredCandidates: ScanResult[] = [];
@@ -672,7 +671,10 @@ export class ScheduledScannerService {
       }
       if (sector) sectorCounts.set(sector, (sectorCounts.get(sector) ?? 0) + 1);
       if (clusterGate.enabled && c.clusterId != null) {
-        clusterCounts.set(c.clusterId, (clusterCounts.get(c.clusterId) ?? 0) + 1);
+        clusterCounts.set(
+          c.clusterId,
+          (clusterCounts.get(c.clusterId) ?? 0) + 1,
+        );
       }
       filteredCandidates.push(c);
     }
@@ -723,7 +725,8 @@ export class ScheduledScannerService {
           variant: candidate.bestStrategy.variant,
           takeProfitPct: dyn.takeProfitPct,
           stopLossPct: dyn.stopLossPct,
-          maxHoldingDays: SESSION_MAX_HOLDING_DAYS,
+          // 스캔 백테스트에 적용된 보유일(전략 exit profile 반영)을 그대로 사용해 정합 유지
+          maxHoldingDays: candidate.maxHoldingDays ?? SESSION_MAX_HOLDING_DAYS,
           scheduledScan: true,
         });
         await this.autoTradingService.resumeSession(session.id, userId);
@@ -769,7 +772,7 @@ export class ScheduledScannerService {
                 effectiveBaseInvestmentAmount,
               takeProfitPct: dyn.takeProfitPct,
               stopLossPct: dyn.stopLossPct,
-              maxHoldingDays: SESSION_MAX_HOLDING_DAYS,
+              maxHoldingDays: c.maxHoldingDays ?? SESSION_MAX_HOLDING_DAYS,
               onConflict: 'update' as const,
               scheduledScan: true,
             };
@@ -884,10 +887,7 @@ export class ScheduledScannerService {
 
     for (let i = 0; i < candidates.length; i++) {
       const rawWeight = (invVols[i] / sumInv) * n; // 평균 = 1
-      const weight = Math.max(
-        volWeightMin,
-        Math.min(volWeightMax, rawWeight),
-      );
+      const weight = Math.max(volWeightMin, Math.min(volWeightMax, rawWeight));
       const amount = Math.round(baseInvestmentAmount * weight);
       map.set(candidates[i].stockCode, amount);
     }

@@ -21,6 +21,7 @@ const STRATEGY_NAMES: Record<string, string> = {
   'candle-pattern': '캔들 패턴',
   'momentum-power': 'Momentum Power',
   'momentum-surge': 'Momentum Surge',
+  scalping: '단타 스캘핑',
 };
 
 type SourceFilter = 'all' | BalanceItemSource;

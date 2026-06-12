@@ -31,6 +31,11 @@ export interface ScanResult {
   autoTakeProfitPct?: number;
   autoStopLossPct?: number;
   /**
+   * 스캔 백테스트에 실제 적용된 최대 보유 거래일.
+   * 전략 고유 exit profile(단타 스캘핑 등)이 있으면 전역값 대신 그 값이 실린다.
+   */
+  maxHoldingDays?: number;
+  /**
    * 종목 변동성 — 최근 ATR(14) / 종가 × 100 (%).
    * 분산 배분(역가중)에 사용한다.
    */

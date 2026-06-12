@@ -42,6 +42,7 @@ const STRATEGY_OPTIONS: { id: string; name: string }[] = [
   { id: 'candle-pattern', name: '캔들 패턴' },
   { id: 'momentum-power', name: 'Momentum Power' },
   { id: 'momentum-surge', name: 'Momentum Surge' },
+  { id: 'scalping', name: '단타 스캘핑' },
 ];
 
 export function AutoTradingConfigModal({

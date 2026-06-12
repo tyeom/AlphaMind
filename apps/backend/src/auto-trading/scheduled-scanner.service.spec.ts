@@ -173,6 +173,79 @@ describe('ScheduledScannerService', () => {
     );
   });
 
+  it('uses scan-validated maxHoldingDays (scalping exit profile) with 7-day fallback', async () => {
+    const { service, execute, em, autoTradingService } = createService();
+    const event: ScanCompletedEvent = {
+      userId: 1,
+      requestId: 'req-2b',
+      response: {
+        scannedStocks: 2,
+        eligibleStocks: 2,
+        excludedStocks: 0,
+        results: [
+          {
+            stockCode: '005930',
+            stockName: '삼성전자',
+            volatilityPct: 3.2,
+            autoTakeProfitPct: 2.2,
+            autoStopLossPct: -1.5,
+            // 단타 스캘핑 — 스캔 백테스트가 exit profile 보유일(3일)로 검증한 후보
+            maxHoldingDays: 3,
+            bestStrategy: {
+              strategyId: 'scalping',
+              strategyName: '단타 스캘핑',
+              variant: 'ensemble',
+            },
+            currentSignal: {
+              direction: 'BUY',
+              strength: 0.8,
+              reason: 'fresh buy',
+            },
+          },
+          {
+            stockCode: '000660',
+            stockName: 'SK하이닉스',
+            volatilityPct: 2.8,
+            autoTakeProfitPct: 4.0,
+            autoStopLossPct: -3.5,
+            // 구버전 market-data 응답 — maxHoldingDays 없음 → 기존 7일 fallback
+            bestStrategy: {
+              strategyId: 'day-trading',
+              strategyName: '일간 모멘텀 통합 전략',
+            },
+            currentSignal: {
+              direction: 'BUY',
+              strength: 0.75,
+              reason: 'fresh buy',
+            },
+          },
+        ],
+      },
+    };
+
+    execute.mockResolvedValueOnce([{ job_name: 'scheduled-ai-scan' }]);
+    (em.find as jest.Mock).mockResolvedValue([]);
+    autoTradingService.startSessions.mockResolvedValue([
+      { stockCode: '005930' },
+      { stockCode: '000660' },
+    ]);
+
+    await service.handleScanCompleted(event);
+
+    const sessions =
+      autoTradingService.startSessions.mock.calls[0][1].sessions;
+    const scalping = sessions.find(
+      (s: { stockCode: string }) => s.stockCode === '005930',
+    );
+    const legacy = sessions.find(
+      (s: { stockCode: string }) => s.stockCode === '000660',
+    );
+    expect(scalping.maxHoldingDays).toBe(3);
+    expect(scalping.takeProfitPct).toBe(2.2);
+    expect(scalping.stopLossPct).toBe(-1.5);
+    expect(legacy.maxHoldingDays).toBe(7);
+  });
+
   it('keeps legacy slot and investment amounts when Sprint3 toggles are off', async () => {
     const { service, execute, em, autoTradingService } = createService();
     const event: ScanCompletedEvent = {

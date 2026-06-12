@@ -1994,6 +1994,7 @@ export function AiScanner() {
     'candle-pattern': '캔들 패턴',
     'momentum-power': 'Momentum Power',
     'momentum-surge': 'Momentum Surge',
+    scalping: '단타 스캘핑',
   };
   const totalRealizedPnl = sessions.reduce(
     (sum, session) => sum + Number(session.realizedPnl),

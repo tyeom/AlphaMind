@@ -238,6 +238,83 @@ export interface MomentumPowerConfig {
   exitConfig: ExitConfig;
 }
 
+// ─── Scalping Types (단타 스캘핑) ───
+
+/**
+ * 단타 스캘핑 variant.
+ * 모든 variant 는 일봉 신호 → 익일 시가 진입 → 타이트 TP/SL + 짧은 보유일로
+ * "짧게 먹고 빠지기"를 반복하는 단기 회전 전략이다.
+ * 라이브 신호 재검증이 KIS 일봉 30~60개로 돌기 때문에 지표 기간은 20일 이하만 사용한다.
+ */
+export enum ScalpingVariant {
+  /** 눌림목: 상승 추세 중 단기 조정 후 반전 양봉 */
+  Pullback = 'pullback',
+  /** RSI 스냅백: 추세 위 단기 과매도(RSI3) 반등 */
+  RsiSnapback = 'rsi_snapback',
+  /** 강종가 모멘텀: 거래량 급증 + 고가권 마감 + 신고가 돌파 */
+  GapMomentum = 'gap_momentum',
+  /** 혼합: 위 3개 신호 합의(컨플루언스) 기반 */
+  Ensemble = 'ensemble',
+}
+
+export interface ScalpingPullbackConfig {
+  /** 추세 판단 SMA 기간 (기본: 20) */
+  trendSmaPeriod: number;
+  /** 눌림 기준 단기 SMA 기간 (기본: 5) */
+  fastSmaPeriod: number;
+  /** 단기 고점 대비 최소 조정폭 % (기본: 2) */
+  pullbackMinPct: number;
+  /** 단기 고점 대비 최대 조정폭 % — 초과 시 추세 훼손으로 간주 (기본: 7) */
+  pullbackMaxPct: number;
+  /** 단기 고점 산정 lookback (기본: 10) */
+  highLookback: number;
+  /** 조정 구간 거래량 수축 기준 — 20일 평균 대비 비율 (기본: 1.0) */
+  volumeContractionRatio: number;
+}
+
+export interface ScalpingRsiSnapbackConfig {
+  /** 단기 RSI 기간 (기본: 3) */
+  rsiPeriod: number;
+  /** 과매도 임계 (기본: 20) */
+  rsiOversold: number;
+  /** 추세 판단 SMA 기간 (기본: 20) */
+  trendSmaPeriod: number;
+  /** 최소 연속 음봉 수 (기본: 2) */
+  minConsecutiveDownCandles: number;
+}
+
+export interface ScalpingGapMomentumConfig {
+  /** RVOL(상대 거래량) 평균 기간 (기본: 20) */
+  rvolPeriod: number;
+  /** 최소 RVOL (기본: 1.8) */
+  minRvol: number;
+  /** 종가의 일중 레인지 내 최소 위치 0~1 (기본: 0.7 = 상위 30%) */
+  minClosePosition: number;
+  /** 신고가 돌파 확인 lookback (기본: 20) */
+  breakoutLookback: number;
+  /** 과열 차단 RSI 기간 (기본: 14) */
+  rsiPeriod: number;
+  /** 과열 차단 RSI 상한 (기본: 78) */
+  rsiOverbought: number;
+  /** 당일 상승률 상한 % — 상한가 추격 방지 (기본: 15) */
+  maxDailyGainPct: number;
+}
+
+export interface ScalpingEnsembleConfig {
+  /** 2개 이상 합의 시 강도 가산 (기본: 0.1) */
+  confluenceBoost: number;
+  /** 단독 신호 강도 감쇠 배수 (기본: 0.9) */
+  soloDampen: number;
+}
+
+export interface ScalpingConfig {
+  variant: ScalpingVariant;
+  pullback: ScalpingPullbackConfig;
+  rsiSnapback: ScalpingRsiSnapbackConfig;
+  gapMomentum: ScalpingGapMomentumConfig;
+  ensemble: ScalpingEnsembleConfig;
+}
+
 // ─── Momentum Surge Types ───
 
 /** ETF 타입 */

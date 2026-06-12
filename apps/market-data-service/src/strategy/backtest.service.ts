@@ -14,6 +14,7 @@ import {
   CandleData,
   DayTradingVariant,
   MeanReversionVariant,
+  ScalpingVariant,
   Signal,
   SignalDirection,
   StrategyAnalysisResult,
@@ -23,6 +24,8 @@ import {
   analyzeCandlePattern,
   analyzeMomentumPower,
   analyzeMomentumSurge,
+  analyzeScalping,
+  getStrategyExitProfile,
   evaluateLongBuyRisk,
   LongBuyRiskProfile,
   DEFAULT_DYNAMIC_TP_SL_OPTIONS,
@@ -270,6 +273,7 @@ const STRATEGY_MAP: Record<
     analyze: (candles, config, stockCode) =>
       analyzeMomentumSurge(candles, config, stockCode ?? ''),
   },
+  scalping: { name: '단타 스캘핑', analyze: analyzeScalping },
 };
 
 /**
@@ -292,6 +296,12 @@ const STRATEGY_VARIANTS: Record<string, (string | undefined)[]> = {
   'candle-pattern': [undefined],
   'momentum-power': [undefined],
   'momentum-surge': [undefined],
+  scalping: [
+    ScalpingVariant.Pullback,
+    ScalpingVariant.RsiSnapback,
+    ScalpingVariant.GapMomentum,
+    ScalpingVariant.Ensemble,
+  ],
 };
 
 /**
@@ -302,12 +312,14 @@ const SHORT_TERM_SCAN_STRATEGY_IDS = [
   'day-trading',
   'mean-reversion',
   'candle-pattern',
+  'scalping',
 ];
 
 const SHORT_TERM_SCAN_VARIANTS: Record<string, (string | undefined)[]> = {
   'day-trading': STRATEGY_VARIANTS['day-trading'],
   'mean-reversion': [MeanReversionVariant.RSI, MeanReversionVariant.Bollinger],
   'candle-pattern': [undefined],
+  scalping: STRATEGY_VARIANTS['scalping'],
 };
 
 interface TradeQuality {
@@ -1972,6 +1984,9 @@ export class BacktestService {
       folds: EvaluatedWalkForwardFold[];
       wfConsistency: number;
       rollingEnabled: boolean;
+      appliedTakeProfitPct: number;
+      appliedStopLossPct: number;
+      appliedMaxHoldingDays: number;
     } | null = null;
 
     for (const strategyId of SHORT_TERM_SCAN_STRATEGY_IDS) {
@@ -1981,6 +1996,17 @@ export class BacktestService {
 
       for (const variant of variants) {
         try {
+          // 전략 고유 exit profile(단타 스캘핑 등)이 있으면 전역 TP/SL/보유일 대신
+          // 그 값으로 백테스트한다 — 타이트 청산이 전략 정의의 일부이기 때문.
+          // 적용값은 bestResult 에 실려 ScanResult → backend 세션까지 그대로 흐른다.
+          const exitProfile = getStrategyExitProfile(strategyId, variant);
+          const appliedTakeProfitPct =
+            exitProfile?.takeProfitPct ?? dynamicTpSl.takeProfitPct;
+          const appliedStopLossPct =
+            exitProfile?.stopLossPct ?? dynamicTpSl.stopLossPct;
+          const appliedMaxHoldingDays =
+            exitProfile?.maxHoldingDays ?? maxHoldingDays;
+
           const analyzeConfig = variant ? { variant } : {};
           // 지표 연속성을 위해 전체 캔들로 한 번 분석한 뒤,
           // 신호를 날짜 맵으로 변환해 in-sample / OOS 시뮬레이션에서 공유 사용.
@@ -1998,9 +2024,9 @@ export class BacktestService {
             investmentAmount,
             tradeRatioPct,
             commissionPct,
-            autoTakeProfitPct: dynamicTpSl.takeProfitPct,
-            autoStopLossPct: dynamicTpSl.stopLossPct,
-            maxHoldingDays,
+            autoTakeProfitPct: appliedTakeProfitPct,
+            autoStopLossPct: appliedStopLossPct,
+            maxHoldingDays: appliedMaxHoldingDays,
             allowAddOnBuy: false,
             minBuySignalStrength: BACKTEST_MIN_BUY_SIGNAL_STRENGTH,
             ...scaleOutOptions,
@@ -2071,6 +2097,9 @@ export class BacktestService {
               folds: walkForward.folds,
               wfConsistency: walkForward.wfConsistency,
               rollingEnabled: walkForward.rollingEnabled,
+              appliedTakeProfitPct,
+              appliedStopLossPct,
+              appliedMaxHoldingDays,
             };
           }
         } catch {
@@ -2101,8 +2130,9 @@ export class BacktestService {
       finalValue: outOfSample.finalValue,
       investmentAmount,
       volatilityPct,
-      autoTakeProfitPct: dynamicTpSl.takeProfitPct,
-      autoStopLossPct: dynamicTpSl.stopLossPct,
+      autoTakeProfitPct: bestResult.appliedTakeProfitPct,
+      autoStopLossPct: bestResult.appliedStopLossPct,
+      maxHoldingDays: bestResult.appliedMaxHoldingDays,
       profitFactor: bestResult.tradeQuality.profitFactor,
       expectancyPct: bestResult.tradeQuality.expectancyPct,
       riskProfile: {
@@ -2385,6 +2415,9 @@ export class BacktestService {
         if (!strategy) continue;
         const variants = SHORT_TERM_SCAN_VARIANTS[sid] ?? [undefined];
         for (const variant of variants) {
+          // 전략 고유 exit profile 이 있는 전략은 전역 TP/SL 그리드 대상이 아니다
+          // (스캔에서 항상 자기 프로파일을 쓰므로 그리드 최적값을 왜곡시킨다).
+          if (getStrategyExitProfile(sid, variant)) continue;
           try {
             const analyzeConfig = variant ? { variant } : {};
             const analysis = strategy.analyze(

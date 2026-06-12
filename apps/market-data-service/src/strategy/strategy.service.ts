@@ -10,6 +10,7 @@ import {
   CandlePatternConfig,
   MomentumPowerConfig,
   MomentumSurgeConfig,
+  ScalpingConfig,
   StrategyAnalysisResult,
   InfinityBotResult,
   analyzeDayTrading,
@@ -18,6 +19,7 @@ import {
   analyzeCandlePattern,
   analyzeMomentumPower,
   analyzeMomentumSurge,
+  analyzeScalping,
 } from '@alpha-mind/strategies';
 
 const STRATEGY_LOOKBACK_MONTHS = 6;
@@ -64,6 +66,13 @@ export class StrategyService {
         description:
           'OBV + MA 정/역배열 + RSI 조합 레버리지/인버스 ETF 추세 추종 전략',
       },
+      {
+        id: 'scalping',
+        name: '단타 스캘핑',
+        description:
+          '눌림목/RSI 스냅백/강종가 모멘텀 + 혼합(컨플루언스) — 타이트 TP/SL과 짧은 보유일로 짧게 먹고 빠지기 반복',
+        variants: ['pullback', 'rsi_snapback', 'gap_momentum', 'ensemble'],
+      },
     ];
   }
 
@@ -87,6 +96,7 @@ export class StrategyService {
         analyzeMomentumSurge(candles, {}, code),
         code,
       ),
+      scalping: withStockCode(analyzeScalping(candles), code),
     };
 
     return { stock: { code: stock.code, name: stock.name }, results };
@@ -147,6 +157,15 @@ export class StrategyService {
   ): Promise<StrategyAnalysisResult> {
     const { candles } = await this.loadCandles(code);
     return withStockCode(analyzeMomentumSurge(candles, config, code), code);
+  }
+
+  /** 단타 스캘핑 전략 분석 */
+  async analyzeScalping(
+    code: string,
+    config: Partial<ScalpingConfig> = {},
+  ): Promise<StrategyAnalysisResult> {
+    const { candles } = await this.loadCandles(code);
+    return withStockCode(analyzeScalping(candles, config), code);
   }
 
   /** DB에서 6개월 일봉 데이터 로드 */
