@@ -951,28 +951,33 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       // update: 기존 세션 설정 덮어쓰기
       if (dto.onConflict === 'update') {
         const { strategyId, variant } = await this.resolveStrategy(dto);
-        // 명시적 위임(delegateExits)일 때만 확정 전략의 exit profile 로 갱신 —
-        // 전략이 바뀌었는데 이전 세션의 청산 룰이 남는 것을 막는다.
+        // 명시적 위임(delegateExits) = backend 가 청산값을 소유한다는 뜻 —
+        // 확정 전략의 exit profile, 없으면 세션 생성과 동일한 기본값을 적용해
+        // 이전 전략의 청산 룰이 다른 전략으로 넘어가 남는 것을 막는다.
         // 플래그 없이 청산 필드가 생략된 경우는 기존값 유지: optional 필드
         // 생략(외부 클라이언트/재시도)이 활성 세션의 리스크 설정을 바꾸면 안 된다.
-        const omittedExitProfile =
+        const delegatedExits =
           dto.delegateExits === true
-            ? getStrategyExitProfile(strategyId, variant)
+            ? (getStrategyExitProfile(strategyId, variant) ?? {
+                takeProfitPct: DEFAULT_TAKE_PROFIT_PCT,
+                stopLossPct: DEFAULT_STOP_LOSS_PCT,
+                maxHoldingDays: DEFAULT_MAX_HOLDING_DAYS,
+              })
             : undefined;
         existing.strategyId = strategyId;
         existing.variant = variant;
         existing.investmentAmount = dto.investmentAmount;
         existing.takeProfitPct =
           dto.takeProfitPct ??
-          omittedExitProfile?.takeProfitPct ??
+          delegatedExits?.takeProfitPct ??
           existing.takeProfitPct;
         existing.stopLossPct =
           dto.stopLossPct ??
-          omittedExitProfile?.stopLossPct ??
+          delegatedExits?.stopLossPct ??
           existing.stopLossPct;
         existing.maxHoldingDays =
           dto.maxHoldingDays ??
-          omittedExitProfile?.maxHoldingDays ??
+          delegatedExits?.maxHoldingDays ??
           existing.maxHoldingDays;
         if (dto.addOnBuyMode !== undefined) {
           existing.addOnBuyMode = dto.addOnBuyMode as AddOnBuyMode;

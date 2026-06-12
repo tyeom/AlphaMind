@@ -139,6 +139,47 @@ describe('AutoTradingService', () => {
     expect(updated.maxHoldingDays).toBe(3);
   });
 
+  it('resets exits to creation defaults on delegated update to a no-profile strategy', async () => {
+    const { service, em } = createService();
+    // 기존 세션은 scalping 프로파일 청산값 보유 — 비프로파일 전략으로 위임 갱신 시
+    // 이 값이 남으면 안 되고 생성 기본값(2.0/-2.0/7일)으로 재설정돼야 한다
+    const existing = {
+      id: 13,
+      stockCode: '005930',
+      stockName: '삼성전자',
+      strategyId: 'scalping',
+      variant: 'ensemble',
+      takeProfitPct: 2.2,
+      stopLossPct: -1.5,
+      maxHoldingDays: 3,
+      status: SessionStatus.ACTIVE,
+    } as unknown as AutoTradingSessionEntity;
+
+    (em as any).findOneOrFail = jest.fn().mockResolvedValue({ id: 1 });
+    em.findOne.mockResolvedValue(existing);
+    jest
+      .spyOn(service as any, 'syncStockActivity')
+      .mockResolvedValue(undefined);
+    jest
+      .spyOn(service as any, 'broadcastSessionUpdate')
+      .mockImplementation(() => undefined);
+
+    const updated = await service.startSession(1, {
+      stockCode: '005930',
+      stockName: '삼성전자',
+      strategyId: 'day-trading',
+      variant: 'breakout',
+      investmentAmount: 1_000_000,
+      onConflict: 'update',
+      delegateExits: true,
+    } as any);
+
+    expect(updated.strategyId).toBe('day-trading');
+    expect(updated.takeProfitPct).toBe(2.0);
+    expect(updated.stopLossPct).toBe(-2.0);
+    expect(updated.maxHoldingDays).toBe(7);
+  });
+
   it('keeps existing exits on conflict update when exits are omitted without delegateExits', async () => {
     const { service, em } = createService();
     const existing = {

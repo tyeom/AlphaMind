@@ -41,10 +41,12 @@ export interface StartSessionDto {
    */
   onConflict?: SessionConflictAction;
   /**
-   * 청산값(TP/SL/보유일)을 확정된 전략의 exit profile 에 명시적으로 위임.
+   * 청산값(TP/SL/보유일)을 backend 에 명시적으로 위임.
    * onConflict 'update' 에서 true 면 기존 세션의 청산값을 확정 전략의
-   * 프로파일(있을 때)로 갱신한다. 미지정/false 면 생략된 청산 필드는
-   * 기존값 유지 — 단순 필드 생략이 활성 세션의 리스크 설정을 바꾸지 않는다.
+   * exit profile, 프로파일이 없는 전략이면 세션 생성 기본값(2.0/-2.0/7일)으로
+   * 갱신한다 — 이전 전략의 청산 룰이 새 전략으로 넘어가 남지 않는다.
+   * 미지정/false 면 생략된 청산 필드는 기존값 유지 — 단순 필드 생략이
+   * 활성 세션의 리스크 설정을 바꾸지 않는다.
    */
   delegateExits?: boolean;
   /**
