@@ -105,11 +105,19 @@ export async function runBacktest(
   );
 }
 
+export interface StrategyExitProfile {
+  takeProfitPct: number;
+  stopLossPct: number;
+  maxHoldingDays: number;
+}
+
 export interface StrategyInfo {
   id: string;
   name: string;
   description: string;
   variants?: string[];
+  /** variant 별 전략 고유 청산 프로파일 (단타 스캘핑 등) — 폼 시드용 */
+  exitProfiles?: Record<string, StrategyExitProfile>;
 }
 
 const FALLBACK_STRATEGIES: StrategyInfo[] = [
@@ -154,6 +162,21 @@ const FALLBACK_STRATEGIES: StrategyInfo[] = [
     description:
       '눌림목/RSI 스냅백/강종가 모멘텀 + 혼합(컨플루언스) — 타이트 TP/SL과 짧은 보유일로 짧게 먹고 빠지기 반복',
     variants: ['pullback', 'rsi_snapback', 'gap_momentum', 'ensemble'],
+    // libs/strategies getStrategyExitProfile 과 동일값 — API 미응답 시 fallback
+    exitProfiles: {
+      pullback: { takeProfitPct: 2.0, stopLossPct: -1.5, maxHoldingDays: 2 },
+      rsi_snapback: {
+        takeProfitPct: 1.8,
+        stopLossPct: -1.5,
+        maxHoldingDays: 2,
+      },
+      gap_momentum: {
+        takeProfitPct: 2.5,
+        stopLossPct: -1.8,
+        maxHoldingDays: 2,
+      },
+      ensemble: { takeProfitPct: 2.2, stopLossPct: -1.5, maxHoldingDays: 3 },
+    },
   },
 ];
 

@@ -20,9 +20,17 @@ import {
   analyzeMomentumPower,
   analyzeMomentumSurge,
   analyzeScalping,
+  getStrategyExitProfile,
 } from '@alpha-mind/strategies';
 
 const STRATEGY_LOOKBACK_MONTHS = 6;
+
+const SCALPING_VARIANTS = [
+  'pullback',
+  'rsi_snapback',
+  'gap_momentum',
+  'ensemble',
+];
 
 @Injectable()
 export class StrategyService {
@@ -71,7 +79,15 @@ export class StrategyService {
         name: '단타 스캘핑',
         description:
           '눌림목/RSI 스냅백/강종가 모멘텀 + 혼합(컨플루언스) — 타이트 TP/SL과 짧은 보유일로 짧게 먹고 빠지기 반복',
-        variants: ['pullback', 'rsi_snapback', 'gap_momentum', 'ensemble'],
+        variants: SCALPING_VARIANTS,
+        // variant 별 고정 청산 프로파일 — 프론트 백테스트/수동 시작 폼이
+        // 일반 기본값 대신 이 값을 시드해 스캔 검증과 같은 룰을 쓰게 한다.
+        exitProfiles: Object.fromEntries(
+          SCALPING_VARIANTS.map((v) => [
+            v,
+            getStrategyExitProfile('scalping', v)!,
+          ]),
+        ),
       },
     ];
   }

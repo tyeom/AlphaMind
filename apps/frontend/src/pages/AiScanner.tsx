@@ -1759,7 +1759,8 @@ export function AiScanner() {
         variant: r.bestStrategy.variant,
         takeProfitPct: tpSl.takeProfitPct,
         stopLossPct: tpSl.stopLossPct,
-        maxHoldingDays: holdingSeed,
+        // 스캔이 검증한 보유일(전략 exit profile 반영)을 우선 — 폼 시드는 구버전 응답 fallback
+        maxHoldingDays: r.maxHoldingDays ?? holdingSeed,
         addOnBuyMode: 'skip',
       };
     });

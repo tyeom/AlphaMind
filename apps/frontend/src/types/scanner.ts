@@ -14,6 +14,8 @@ export interface ScanResult {
   /** 스캔 백테스트에 실제 적용된 자동 익절/손절 값 */
   autoTakeProfitPct?: number;
   autoStopLossPct?: number;
+  /** 스캔 백테스트에 적용된 최대 보유 거래일 — 전략 고유 exit profile(단타 등) 반영값 */
+  maxHoldingDays?: number;
   volatilityPct?: number;
   profitFactor?: number;
   expectancyPct?: number;

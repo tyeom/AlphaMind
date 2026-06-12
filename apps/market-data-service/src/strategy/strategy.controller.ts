@@ -15,6 +15,7 @@ import {
   Payload,
 } from '@nestjs/microservices';
 import { Public } from '@alpha-mind/common';
+import { getStrategyExitProfile } from '@alpha-mind/strategies';
 import type { ScaleOutPlan } from '@alpha-mind/strategies';
 import { firstValueFrom } from 'rxjs';
 import { StrategyService } from './strategy.service';
@@ -593,6 +594,13 @@ export class StrategyController {
   /** 백테스팅 */
   @Get(':code/backtest')
   runBacktest(@Param('code') code: string, @Query() query: BacktestQueryDto) {
+    // 전략 고유 exit profile(단타 스캘핑 등)이 있으면 TP/SL/보유일 미지정 시
+    // 일반 기본값(2.0/-2.0/7일) 대신 프로파일을 적용 — 스캔 검증과 같은 청산
+    // 룰로 백테스트되게 한다. 명시 입력은 그대로 우선한다.
+    const exitProfile = getStrategyExitProfile(
+      query.strategyId ?? '',
+      query.variant,
+    );
     const allowAddOnBuy = parseBooleanOptional(query.allowAddOnBuy);
     const useNextOpenForBuy = parseBooleanOptional(query.useNextOpenForBuy);
     const sellTaxPct = parseNumberOptional(query.sellTaxPct);
@@ -642,9 +650,18 @@ export class StrategyController {
       ),
       tradeRatioPct: parseNumberOrDefault(query.tradeRatioPct, 10),
       commissionPct: parseNumberOrDefault(query.commissionPct, 0.015),
-      autoTakeProfitPct: parseNumberOrDefault(query.autoTakeProfitPct, 2.0),
-      autoStopLossPct: parseNumberOrDefault(query.autoStopLossPct, -2.0),
-      maxHoldingDays: parseNumberOrDefault(query.maxHoldingDays, 7),
+      autoTakeProfitPct: parseNumberOrDefault(
+        query.autoTakeProfitPct,
+        exitProfile?.takeProfitPct ?? 2.0,
+      ),
+      autoStopLossPct: parseNumberOrDefault(
+        query.autoStopLossPct,
+        exitProfile?.stopLossPct ?? -2.0,
+      ),
+      maxHoldingDays: parseNumberOrDefault(
+        query.maxHoldingDays,
+        exitProfile?.maxHoldingDays ?? 7,
+      ),
       slippagePct: parseNumberOrDefault(query.slippagePct, 0.05),
       trailingStopTriggerPct: parseNumberOrDefault(
         query.trailingStopTriggerPct,

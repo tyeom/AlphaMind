@@ -183,4 +183,59 @@ describe('StrategyController', () => {
       }),
     );
   });
+
+  it('defaults backtest TP/SL/holding to the strategy exit profile when omitted', () => {
+    const { controller, backtestService } = createController();
+
+    controller.runBacktest('005930', {
+      strategyId: 'scalping',
+      variant: 'gap_momentum',
+    } as any);
+
+    expect(backtestService.runBacktest).toHaveBeenCalledWith(
+      '005930',
+      expect.objectContaining({
+        autoTakeProfitPct: 2.5,
+        autoStopLossPct: -1.8,
+        maxHoldingDays: 2,
+      }),
+    );
+  });
+
+  it('lets explicit backtest query values override the exit profile', () => {
+    const { controller, backtestService } = createController();
+
+    // variant 미지정 → ensemble 프로파일이 기본, 명시 입력(TP/보유일)은 우선
+    controller.runBacktest('005930', {
+      strategyId: 'scalping',
+      autoTakeProfitPct: '3.5',
+      maxHoldingDays: '5',
+    } as any);
+
+    expect(backtestService.runBacktest).toHaveBeenCalledWith(
+      '005930',
+      expect.objectContaining({
+        autoTakeProfitPct: 3.5,
+        autoStopLossPct: -1.5,
+        maxHoldingDays: 5,
+      }),
+    );
+  });
+
+  it('keeps generic backtest defaults for strategies without an exit profile', () => {
+    const { controller, backtestService } = createController();
+
+    controller.runBacktest('005930', {
+      strategyId: 'day-trading',
+    } as any);
+
+    expect(backtestService.runBacktest).toHaveBeenCalledWith(
+      '005930',
+      expect.objectContaining({
+        autoTakeProfitPct: 2.0,
+        autoStopLossPct: -2.0,
+        maxHoldingDays: 7,
+      }),
+    );
+  });
 });

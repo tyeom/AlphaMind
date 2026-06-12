@@ -39,6 +39,10 @@ export function Backtest() {
   const [optimalTpSlSource, setOptimalTpSlSource] = useState<
     'optimized' | 'default' | null
   >(null);
+  const [optimalSeed, setOptimalSeed] = useState<{
+    tpPct: number;
+    slPct: number;
+  } | null>(null);
   const [maxHoldingDays, setMaxHoldingDays] = useState('7');
   const [result, setResult] = useState<BacktestResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -50,14 +54,14 @@ export function Backtest() {
       .catch(() => setError('전략 목록을 불러올 수 없습니다.'));
   }, []);
 
-  // 마운트 시 단타 optimal TP/SL 조회 → 입력 폼 초기값으로 사용.
+  // 마운트 시 단타 optimal TP/SL 조회 — 시드 값만 저장하고 실제 주입은 아래
+  // 전략별 시딩 effect 가 담당 (exit profile 전략과의 경합 방지).
   useEffect(() => {
     let cancelled = false;
     getOptimalShortTermTpSl()
       .then((opt) => {
         if (cancelled) return;
-        setAutoTakeProfitPct(String(opt.tpPct));
-        setAutoStopLossPct(String(opt.slPct));
+        setOptimalSeed({ tpPct: opt.tpPct, slPct: opt.slPct });
         setOptimalTpSlSource(opt.source);
       })
       .catch(() => {
@@ -69,6 +73,22 @@ export function Backtest() {
   }, []);
 
   const selectedStrategy = strategies.find((s) => s.id === strategyId);
+
+  // 전략/variant 선택에 맞춰 TP/SL/보유일 시드.
+  // exit profile 전략(단타 스캘핑)은 검증에 쓰인 프로파일 값을, 그 외는 그리드
+  // 서치 optimal 값을 주입한다 — 프로파일 전략이 일반 기본값으로 평가되는 것 방지.
+  useEffect(() => {
+    const profile = selectedStrategy?.exitProfiles?.[variant || 'ensemble'];
+    if (profile) {
+      setAutoTakeProfitPct(String(profile.takeProfitPct));
+      setAutoStopLossPct(String(profile.stopLossPct));
+      setMaxHoldingDays(String(profile.maxHoldingDays));
+    } else if (optimalSeed) {
+      setAutoTakeProfitPct(String(optimalSeed.tpPct));
+      setAutoStopLossPct(String(optimalSeed.slPct));
+      setMaxHoldingDays('7');
+    }
+  }, [selectedStrategy, variant, optimalSeed]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
