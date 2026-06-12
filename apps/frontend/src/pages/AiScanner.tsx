@@ -1799,18 +1799,28 @@ export function AiScanner() {
     items: TradingConfigItem[],
     entryMode: SessionEntryMode,
   ) => {
-    const sessionDtos: StartSessionRequest[] = items.map((item) => ({
-      stockCode: item.stockCode,
-      stockName: item.stockName,
-      strategyId: item.strategyId,
-      variant: item.variant,
-      investmentAmount: Number(investmentAmount),
-      takeProfitPct: item.takeProfitPct,
-      stopLossPct: item.stopLossPct,
-      maxHoldingDays: item.maxHoldingDays,
-      addOnBuyMode: item.addOnBuyMode,
-      aiScore: aiScores.get(item.stockCode)?.score,
-    }));
+    const sessionDtos: StartSessionRequest[] = items.map((item) => {
+      // 추천(자동) 전략 + 청산값 미수정이면 TP/SL/보유일을 생략 — backend 가
+      // 전략 확정 후 그 전략의 exit profile(단타 등)/기본값을 적용하게 한다.
+      // 모달에 보이던 일반 시드값이 명시값으로 실려 프로파일을 덮는 것을 방지.
+      const omitExits = !item.strategyId && !item.exitsEdited;
+      return {
+        stockCode: item.stockCode,
+        stockName: item.stockName,
+        strategyId: item.strategyId,
+        variant: item.variant,
+        investmentAmount: Number(investmentAmount),
+        ...(omitExits
+          ? {}
+          : {
+              takeProfitPct: item.takeProfitPct,
+              stopLossPct: item.stopLossPct,
+              maxHoldingDays: item.maxHoldingDays,
+            }),
+        addOnBuyMode: item.addOnBuyMode,
+        aiScore: aiScores.get(item.stockCode)?.score,
+      };
+    });
     await submitSessions(sessionDtos, entryMode);
   };
 
