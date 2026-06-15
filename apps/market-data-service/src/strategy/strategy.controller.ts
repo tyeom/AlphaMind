@@ -20,6 +20,7 @@ import type { ScaleOutPlan } from '@alpha-mind/strategies';
 import { firstValueFrom } from 'rxjs';
 import { StrategyService } from './strategy.service';
 import { BacktestService } from './backtest.service';
+import type { ScanSelectionOptions } from './backtest.service';
 import { WeeklyOptimizerService } from './weekly-optimizer.service';
 import {
   DayTradingQueryDto,
@@ -45,6 +46,11 @@ const DEFAULT_RUNNER_BREAKEVEN_FLOOR_PCT = 1.0;
 const DEFAULT_RUNNER_TAKE_PROFIT_PCT = 6.0;
 const DEFAULT_R_SIZING_ENABLED = false;
 const DEFAULT_R_RISK_PCT = 0.5;
+const SCALPING_SECTOR_SCAN_OPTIONS: ScanSelectionOptions = {
+  strategyIds: ['scalping'],
+  strategySelectionMetric: 'totalReturnPct',
+  sectorTopOneFirst: true,
+};
 
 interface ScaleOutRequestOptions {
   scaleOut: ScaleOutPlan;
@@ -413,6 +419,7 @@ export class StrategyController {
       scaleOutOptions,
       regimeCorrelationOptions,
       body.forceFixedTpSl ?? false,
+      SCALPING_SECTOR_SCAN_OPTIONS,
     );
   }
 
@@ -450,6 +457,7 @@ export class StrategyController {
         scaleOutOptions,
         regimeCorrelationOptions,
         body.forceFixedTpSl ?? false,
+        SCALPING_SECTOR_SCAN_OPTIONS,
       );
     } catch (err: any) {
       const message = this.getErrorMessage(err);

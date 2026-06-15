@@ -9,8 +9,9 @@ import type {
 
 export interface TriggerScheduledScanResponse {
   triggered: boolean;
-  reason?: 'no_user_id' | 'already_running';
+  reason?: 'no_user_id' | 'already_running' | 'insufficient_cash';
   userId?: number;
+  availableCash?: number;
 }
 
 /**

@@ -16,17 +16,20 @@ export async function scanStocks(params: {
   excludeCodes?: string[];
   topN?: number;
   investmentAmount?: number;
+  tradeRatioPct?: number;
   autoTakeProfitPct?: number;
   autoStopLossPct?: number;
   maxHoldingDays?: number;
 }): Promise<ScanResponse> {
-  // TP/SL/maxHoldingDays 는 undefined 면 객체에서 생략 (JSON.stringify 가 omit).
+  // 매매비율/TP/SL/maxHoldingDays 는 undefined 면 객체에서 생략 (JSON.stringify 가 omit).
   // 그래야 backend 의 `?? optimal.tpPct` fallback 이 발동해 그리드 서치 결과가 적용된다.
   const body: Record<string, unknown> = {
     excludeCodes: params.excludeCodes ?? [],
     topN: params.topN ?? 10,
     investmentAmount: params.investmentAmount ?? 10_000_000,
   };
+  if (params.tradeRatioPct !== undefined)
+    body.tradeRatioPct = params.tradeRatioPct;
   if (params.autoTakeProfitPct !== undefined)
     body.autoTakeProfitPct = params.autoTakeProfitPct;
   if (params.autoStopLossPct !== undefined)

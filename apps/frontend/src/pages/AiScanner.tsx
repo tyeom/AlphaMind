@@ -791,6 +791,7 @@ export function AiScanner() {
   const [sessions, setSessions] = useState<AutoTradingSession[]>([]);
   const [prices, setPrices] = useState<Map<string, number>>(new Map());
   const [investmentAmount, setInvestmentAmount] = useState('10000000');
+  const [tradeRatioPct, setTradeRatioPct] = useState('10');
   // TP/SL 초기값은 빈 문자열. 마운트 시 backend 그리드 서치 optimal 값을 가져와 채운다.
   // 비어 있는 상태로 스캔하면 backend 가 다시 optimal 을 fallback 으로 적용한다 (이중 안전장치).
   const [autoTakeProfitPct, setAutoTakeProfitPct] = useState('');
@@ -1418,8 +1419,14 @@ export function AiScanner() {
     try {
       const res = await triggerScheduledScan();
       if (res.triggered) {
+        const availableCashMessage =
+          res.availableCash != null
+            ? `현재 주문가능 예수금 ${fmt(res.availableCash)}원을 기준으로 종목을 추출합니다.\n`
+            : '';
         window.alert(
-          '예약 스캔을 시작했습니다. 완료까지 약 1~2분 소요됩니다.\n스캔 결과는 자동매매 세션 및 알림으로 반영됩니다.',
+          '예약 스캔을 시작했습니다. 완료까지 약 1~2분 소요됩니다.\n' +
+            availableCashMessage +
+            '스캔 결과는 자동매매 세션 및 알림으로 반영됩니다.',
         );
       } else if (res.reason === 'already_running') {
         window.alert('이미 다른 인스턴스에서 예약 스캔이 실행 중입니다.');
@@ -1427,11 +1434,19 @@ export function AiScanner() {
         window.alert(
           '서버에 SCHEDULED_TRADER_USER_ID 설정이 없어 예약 스캔을 실행할 수 없습니다.',
         );
+      } else if (res.reason === 'insufficient_cash') {
+        window.alert(
+          '현재 주문가능 예수금이 0원이라 예약 스캔을 실행하지 않았습니다.',
+        );
       } else {
         window.alert('예약 스캔을 시작하지 못했습니다.');
       }
-    } catch (err: any) {
-      setError(err?.message || '예약 스캔 수동 실행에 실패했습니다.');
+    } catch (err: unknown) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : '예약 스캔 수동 실행에 실패했습니다.',
+      );
     } finally {
       setTriggeringScheduled(false);
     }
@@ -1464,6 +1479,7 @@ export function AiScanner() {
         excludeCodes,
         topN: requestedTopN,
         investmentAmount: toOptionalNumber(investmentAmount),
+        tradeRatioPct: toOptionalNumber(tradeRatioPct),
         autoTakeProfitPct: toOptionalNumber(autoTakeProfitPct),
         autoStopLossPct: toOptionalNumber(autoStopLossPct),
         maxHoldingDays: toOptionalNumber(maxHoldingDays),
@@ -2148,8 +2164,8 @@ export function AiScanner() {
         <div className="scanner-config card">
           <h2>1. 최적 종목 스캔</h2>
           <p className="text-muted">
-            전체 KRX 종목을 단기 전략으로 백테스팅하여 현재 매수 신호가 강한
-            종목을 추출합니다.
+            전체 KRX 종목을 단타 스캘핑 전략으로 백테스팅하여 섹터별 수익률 1위
+            후보를 우선 혼합해 추출합니다.
           </p>
           {optimalTpSlSource === 'optimized' && (
             <p className="text-muted" style={{ fontSize: '0.85em' }}>
@@ -2199,6 +2215,18 @@ export function AiScanner() {
                 type="text"
                 value={investmentAmount}
                 onChange={(e) => setInvestmentAmount(e.target.value)}
+                disabled={step === 'scanning'}
+              />
+            </label>
+            <label>
+              1회 매매 비율 (%)
+              <input
+                type="number"
+                value={tradeRatioPct}
+                onChange={(e) => setTradeRatioPct(e.target.value)}
+                min="1"
+                max="100"
+                step="1"
                 disabled={step === 'scanning'}
               />
             </label>

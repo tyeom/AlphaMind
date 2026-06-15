@@ -6,7 +6,11 @@ import {
   ScanCompletedEvent,
   ScheduledScannerService,
 } from './scheduled-scanner.service';
-import { SessionStatus } from './entities/auto-trading-session.entity';
+import {
+  PauseReason,
+  SessionStatus,
+} from './entities/auto-trading-session.entity';
+import { KisInquiryService } from '../kis/kis-inquiry.service';
 
 describe('ScheduledScannerService', () => {
   const createService = (config: Record<string, unknown> = {}) => {
@@ -14,8 +18,10 @@ describe('ScheduledScannerService', () => {
     const em = {
       getConnection: () => ({ execute }),
       find: jest.fn(),
+      flush: jest.fn(),
     } as unknown as EntityManager & {
       find: jest.Mock;
+      flush: jest.Mock;
     };
     const configService = {
       get: jest.fn((key: string, defaultValue?: unknown) => {
@@ -38,6 +44,20 @@ describe('ScheduledScannerService', () => {
     const notificationService = {
       create: jest.fn(),
     };
+    const kisInquiryService = {
+      getBuyableAmount: jest.fn().mockResolvedValue({
+        ord_psbl_cash: '2000000',
+      }),
+      getBalance: jest.fn().mockResolvedValue({
+        items: [],
+        summary: {
+          dnca_tot_amt: '2000000',
+        },
+      }),
+    } as unknown as KisInquiryService & {
+      getBuyableAmount: jest.Mock;
+      getBalance: jest.Mock;
+    };
     const marketDataClient = {
       emit: jest.fn(),
       send: jest.fn().mockReturnValue(
@@ -54,6 +74,7 @@ describe('ScheduledScannerService', () => {
       em,
       autoTradingService as any,
       notificationService as any,
+      kisInquiryService,
       marketDataClient,
     );
 
@@ -64,6 +85,7 @@ describe('ScheduledScannerService', () => {
       configService,
       autoTradingService,
       notificationService,
+      kisInquiryService,
       marketDataClient,
     };
   };
@@ -89,6 +111,90 @@ describe('ScheduledScannerService', () => {
     expect(execute.mock.calls[1][0]).toContain('update scheduled_job_locks');
     expect(execute.mock.calls[1][0]).toContain('"locked_until" = now()');
     expect(execute.mock.calls[1][0]).toContain('released:');
+  });
+
+  it('uses current KIS orderable cash as scheduled scan investment amount', async () => {
+    const { service, execute, em, kisInquiryService, marketDataClient } =
+      createService();
+    execute.mockResolvedValueOnce([{ job_name: 'scheduled-ai-scan' }]);
+    (em.find as jest.Mock).mockResolvedValue([]);
+    kisInquiryService.getBuyableAmount.mockResolvedValue({
+      ord_psbl_cash: '12,345,678',
+    });
+    marketDataClient.emit.mockReturnValue(of(undefined));
+
+    const result = await service.triggerScan('manual');
+
+    expect(result).toEqual({
+      triggered: true,
+      userId: 1,
+      availableCash: 12_345_678,
+    });
+    expect(marketDataClient.emit).toHaveBeenCalledWith(
+      'strategy.scan.request',
+      expect.objectContaining({
+        investmentAmount: 12_345_678,
+        scanStrategy: 'scalping',
+        sectorTopOneFirst: true,
+      }),
+    );
+  });
+
+  it('falls back to balance cash when buyable cash lookup fails', async () => {
+    const { service, execute, em, kisInquiryService, marketDataClient } =
+      createService();
+    execute.mockResolvedValueOnce([{ job_name: 'scheduled-ai-scan' }]);
+    (em.find as jest.Mock).mockResolvedValue([]);
+    kisInquiryService.getBuyableAmount.mockRejectedValue(
+      new Error('buyable failed'),
+    );
+    kisInquiryService.getBalance.mockResolvedValue({
+      items: [],
+      summary: {
+        dnca_tot_amt: '3500000',
+      },
+    });
+    marketDataClient.emit.mockReturnValue(of(undefined));
+
+    const result = await service.triggerScan('manual');
+
+    expect(result.availableCash).toBe(3_500_000);
+    expect(marketDataClient.emit).toHaveBeenCalledWith(
+      'strategy.scan.request',
+      expect.objectContaining({
+        investmentAmount: 3_500_000,
+      }),
+    );
+  });
+
+  it('does not scan or clean sessions when current cash is not positive', async () => {
+    const {
+      service,
+      execute,
+      autoTradingService,
+      kisInquiryService,
+      marketDataClient,
+    } = createService();
+    execute
+      .mockResolvedValueOnce([{ job_name: 'scheduled-ai-scan' }])
+      .mockResolvedValueOnce([]);
+    kisInquiryService.getBuyableAmount.mockResolvedValue({
+      ord_psbl_cash: '-100',
+    });
+
+    const result = await service.triggerScan('manual');
+
+    expect(result).toEqual({
+      triggered: false,
+      reason: 'insufficient_cash',
+      userId: 1,
+      availableCash: 0,
+    });
+    expect(
+      autoTradingService.removeStaleScheduledScanSessions,
+    ).not.toHaveBeenCalled();
+    expect(marketDataClient.emit).not.toHaveBeenCalled();
+    expect(execute).toHaveBeenCalledTimes(2);
   });
 
   it('claims a completed event only once before applying scan results', async () => {
@@ -291,10 +397,19 @@ describe('ScheduledScannerService', () => {
   });
 
   it('applies CRISIS floors to slots and base investment amount when enabled', async () => {
-    const { service, execute, em, autoTradingService } = createService({
+    const {
+      service,
+      execute,
+      em,
+      autoTradingService,
+      kisInquiryService,
+    } = createService({
       REGIME_SCALING_ENABLED: true,
       REGIME_MIN_HOLDINGS_FLOOR: 3,
       REGIME_AMOUNT_FLOOR: 0.4,
+    });
+    kisInquiryService.getBuyableAmount.mockResolvedValue({
+      ord_psbl_cash: '3000000',
     });
     const event: ScanCompletedEvent = {
       userId: 1,
@@ -338,6 +453,48 @@ describe('ScheduledScannerService', () => {
       400_000,
       400_000,
     ]);
+  });
+
+  it('distributes current cash across resumed and new sessions without exceeding the balance', async () => {
+    const { service, execute, em, autoTradingService, kisInquiryService } =
+      createService();
+    const pausedSession = {
+      id: 10,
+      stockCode: 'AAA',
+      stockName: 'AAA',
+      investmentAmount: 1_000_000,
+      status: SessionStatus.PAUSED,
+      pauseReason: PauseReason.AUTO_SELL,
+      scheduledScan: true,
+    };
+    const event: ScanCompletedEvent = {
+      userId: 1,
+      requestId: 'req-budget',
+      response: {
+        scannedStocks: 2,
+        eligibleStocks: 2,
+        excludedStocks: 0,
+        results: [scanCandidate('AAA', 0.9, 3), scanCandidate('BBB', 0.8, 3)],
+      },
+    };
+
+    execute.mockResolvedValueOnce([{ job_name: 'scheduled-ai-scan' }]);
+    (em.find as jest.Mock).mockResolvedValue([pausedSession]);
+    kisInquiryService.getBuyableAmount.mockResolvedValue({
+      ord_psbl_cash: '1000000',
+    });
+    autoTradingService.startSessions.mockResolvedValue([{ stockCode: 'BBB' }]);
+
+    await service.handleScanCompleted(event);
+
+    const startedSessions =
+      autoTradingService.startSessions.mock.calls[0][1].sessions;
+    expect(pausedSession.investmentAmount).toBe(500_000);
+    expect(startedSessions[0].investmentAmount).toBe(500_000);
+    expect(
+      pausedSession.investmentAmount + startedSessions[0].investmentAmount,
+    ).toBe(1_000_000);
+    expect(autoTradingService.resumeSession).toHaveBeenCalledWith(10, 1);
   });
 
   it('seeds cluster counts from active holdings and gates in one adoption loop', async () => {

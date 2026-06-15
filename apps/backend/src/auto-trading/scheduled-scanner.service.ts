@@ -15,8 +15,8 @@ import { AutoTradingService } from './auto-trading.service';
 import { NotificationService } from '../notification/notification.service';
 import { NotificationType } from '../notification/entities/notification.entity';
 import { MARKET_DATA_SERVICE } from '../rmq/rmq.module';
+import { KisInquiryService } from '../kis/kis-inquiry.service';
 
-const SCAN_INVESTMENT_AMOUNT = 1_000_000;
 const SCAN_TOP_N = 35;
 /**
  * market-data 그리드 서치 결과 미수신/실패 시 fallback.
@@ -114,6 +114,17 @@ export interface ScanFailedEvent {
   error: string;
 }
 
+interface AvailableCashSnapshot {
+  amount: number;
+  source: 'buyable' | 'balance';
+}
+
+class InsufficientScheduledCashError extends Error {
+  constructor(readonly availableCash: number) {
+    super('현재 주문가능 예수금이 없습니다.');
+  }
+}
+
 @Injectable()
 export class ScheduledScannerService {
   private readonly logger = new Logger(ScheduledScannerService.name);
@@ -124,6 +135,7 @@ export class ScheduledScannerService {
     private readonly em: EntityManager,
     private readonly autoTradingService: AutoTradingService,
     private readonly notificationService: NotificationService,
+    private readonly kisInquiryService: KisInquiryService,
     @Inject(MARKET_DATA_SERVICE) private readonly marketDataClient: ClientProxy,
   ) {}
 
@@ -165,8 +177,9 @@ export class ScheduledScannerService {
    */
   async triggerScan(source: 'cron' | 'manual'): Promise<{
     triggered: boolean;
-    reason?: 'no_user_id' | 'already_running';
+    reason?: 'no_user_id' | 'already_running' | 'insufficient_cash';
     userId?: number;
+    availableCash?: number;
   }> {
     const userId = this.configService.get<number>('SCHEDULED_TRADER_USER_ID');
     if (!userId) {
@@ -183,11 +196,24 @@ export class ScheduledScannerService {
     this.logger.log(`예약 스캔 트리거 (source=${source})`);
 
     try {
-      await this.requestScan(userId, requestId);
-      return { triggered: true, userId };
-    } catch (err: any) {
-      this.logger.error(`예약 스캔 요청 실패: ${err.message ?? err}`);
+      const availableCash = await this.requestScan(userId, requestId);
+      return { triggered: true, userId, availableCash };
+    } catch (err: unknown) {
       await this.releaseScanLock(requestId, requestId);
+      if (err instanceof InsufficientScheduledCashError) {
+        this.logger.warn(
+          `예약 스캔 건너뜀: 현재 주문가능 예수금 ${err.availableCash}원`,
+        );
+        return {
+          triggered: false,
+          reason: 'insufficient_cash',
+          userId,
+          availableCash: err.availableCash,
+        };
+      }
+      this.logger.error(
+        `예약 스캔 요청 실패: ${err instanceof Error ? err.message : String(err)}`,
+      );
       throw err;
     }
   }
@@ -197,8 +223,18 @@ export class ScheduledScannerService {
    * 실제 후처리(resume/start)는 {@link handleScanCompleted}가 완료 이벤트 수신 시 수행한다.
    * 락은 완료/실패 이벤트 수신 시점 또는 TTL(30분)으로 해제된다.
    */
-  private async requestScan(userId: number, requestId: string): Promise<void> {
+  private async requestScan(
+    userId: number,
+    requestId: string,
+  ): Promise<number> {
     this.logger.log(`예약 스캔 요청 시작 (userId=${userId})`);
+
+    // Step 1. 실제 주문가능 예수금을 먼저 확인한다.
+    // 예수금이 없으면 기존 세션 정리나 신규 스캔을 진행하지 않는다.
+    const availableCash = await this.fetchAvailableCash();
+    if (availableCash.amount <= 0) {
+      throw new InsufficientScheduledCashError(availableCash.amount);
+    }
 
     const cleanup =
       await this.autoTradingService.removeStaleScheduledScanSessions(userId);
@@ -254,7 +290,7 @@ export class ScheduledScannerService {
         requestId,
         excludeCodes,
         topN: SCAN_TOP_N,
-        investmentAmount: SCAN_INVESTMENT_AMOUNT,
+        investmentAmount: availableCash.amount,
         autoTakeProfitPct: optimal.tpPct,
         autoStopLossPct: optimal.slPct,
         maxHoldingDays: SCAN_MAX_HOLDING_DAYS,
@@ -265,6 +301,9 @@ export class ScheduledScannerService {
         regimeEnabled,
         correlationEnabled,
         correlationCodes: Array.from(activeCodes),
+        // market-data 쪽에서도 강제하지만 요청 의도를 명시해 운영 로그/계약에서 확인 가능하게 한다.
+        scanStrategy: 'scalping',
+        sectorTopOneFirst: true,
         // 고정모드: market-data 가 ATR동적을 건너뛰고 위 고정 TP/SL 로 백테스트하도록 알린다(검증↔실전 정합).
         forceFixedTpSl: this.getBooleanConfig('SCAN_FORCE_FIXED_TP_SL', false),
       }),
@@ -275,8 +314,64 @@ export class ScheduledScannerService {
       `예약 스캔 이벤트 emit 완료 — requestId=${requestId} exclude=${excludeCodes.length}건 ` +
         `(active=${activeCodes.size}, manual=${manualCodes.size}), ` +
         `regime=${regimeEnabled ? 'ON' : 'OFF'} correlation=${correlationEnabled ? 'ON' : 'OFF'}, ` +
+        `예수금=${availableCash.amount.toLocaleString('ko-KR')}원(${availableCash.source}), ` +
         `TP=${optimal.tpPct}% SL=${optimal.slPct}% (${optimal.source}), 완료 이벤트 대기`,
     );
+
+    return availableCash.amount;
+  }
+
+  /**
+   * 예약 스캔에 사용할 실제 주문가능 예수금 조회.
+   * - 1순위: 매수가능조회 `ord_psbl_cash`
+   * - 2순위: 잔고조회 `dnca_tot_amt`
+   * 두 조회가 모두 실패하면 고정 금액으로 진행하지 않고 호출자에게 오류를 전달한다.
+   */
+  private async fetchAvailableCash(): Promise<AvailableCashSnapshot> {
+    let buyableError: unknown;
+    try {
+      const buyable = await this.kisInquiryService.getBuyableAmount({
+        stockCode: '',
+        orderDvsn: '01',
+      });
+      const amount = this.parseKisAmount(buyable.ord_psbl_cash);
+      if (amount != null) {
+        return { amount, source: 'buyable' };
+      }
+      buyableError = new Error(
+        `ord_psbl_cash 형식 오류: ${buyable.ord_psbl_cash}`,
+      );
+    } catch (err: unknown) {
+      buyableError = err;
+    }
+
+    this.logger.warn(
+      `KIS 매수가능 예수금 조회 실패 — 잔고 예수금으로 폴백: ${
+        buyableError instanceof Error
+          ? buyableError.message
+          : String(buyableError)
+      }`,
+    );
+
+    const balance = await this.kisInquiryService.getBalance();
+    const amount = this.parseKisAmount(balance.summary.dnca_tot_amt);
+    if (amount == null) {
+      throw new Error(
+        `KIS 잔고 예수금 형식 오류: ${balance.summary.dnca_tot_amt}`,
+      );
+    }
+    return { amount, source: 'balance' };
+  }
+
+  private parseKisAmount(value: string | number | undefined): number | null {
+    const parsed =
+      typeof value === 'number'
+        ? value
+        : typeof value === 'string'
+          ? Number(value.replaceAll(',', '').trim())
+          : Number.NaN;
+    if (!Number.isFinite(parsed)) return null;
+    return Math.max(0, Math.floor(parsed));
   }
 
   /**
@@ -612,7 +707,7 @@ export class ScheduledScannerService {
     // - 활성 세션 + 신규/재개 합계가 MAX_CONCURRENT_HOLDINGS 를 넘지 않도록 슬롯 제한.
     // - 한 섹터에 MAX_PER_SECTOR 초과 종목이 몰리면 그 이상은 스킵.
     // - 섹터 미상 종목은 캡에서 제외(분류 불가 → 클러스터 위험 산정 불가).
-    // - 입력은 rankScore 내림차순(scanAllStocks 에서 정렬됨) 가정 → 상위 우선 채택.
+    // - 입력은 섹터별 스캘핑 수익률 Top 1 우선 순서 → 섹터 대표 후보부터 채택.
     const activeSectorCounts = await this.countSectors(
       activeSessions,
       response,
@@ -636,10 +731,6 @@ export class ScheduledScannerService {
           regimeScale.amountMultiplier,
         )
       : 1;
-    const effectiveBaseInvestmentAmount =
-      amountMultiplier === 1
-        ? SCAN_INVESTMENT_AMOUNT
-        : Math.round(SCAN_INVESTMENT_AMOUNT * amountMultiplier);
     const clusterGate = this.resolveClusterGate(response, activeCodes);
     const availableSlots = Math.max(0, effectiveMaxHoldings - activeCodes.size);
     const sectorCounts = new Map(activeSectorCounts);
@@ -710,11 +801,47 @@ export class ScheduledScannerService {
       else toStart.push(c);
     }
 
-    // 변동성 역가중 — 한 종목당 투자금을 ATR% 역수에 비례해 배분 (평균 = SCAN_INVESTMENT_AMOUNT)
-    const investmentByCode = this.computeVolatilityWeightedInvestments(
-      toStart,
-      effectiveBaseInvestmentAmount,
-    );
+    const allocationCandidates = [
+      ...toResume.map(({ candidate }) => candidate),
+      ...toStart,
+    ];
+    let investmentByCode = new Map<string, number>();
+    let allocatedBudget = 0;
+    let currentAvailableCash = 0;
+
+    if (allocationCandidates.length > 0) {
+      // Step 1. 스캔 완료 시점의 최신 예수금을 다시 조회한다.
+      // 스캔 실행 중 주문/입출금이 발생했을 수 있으므로 요청 시점 금액을 재사용하지 않는다.
+      const cashSnapshot = await this.fetchAvailableCash();
+      currentAvailableCash = cashSnapshot.amount;
+      if (currentAvailableCash <= 0) {
+        await this.notificationService.create(
+          userId,
+          NotificationType.SCHEDULED_SCAN_WARNING,
+          '예약 스캔 세션 등록 건너뜀',
+          '스캔은 완료되었지만 현재 주문가능 예수금이 0원이라 신규/재개 세션을 등록하지 않았습니다.',
+          {
+            scheduledScan: true,
+            phase: 'apply_results',
+            availableCash: currentAvailableCash,
+          },
+        );
+        this.logger.warn('예약 스캔 결과 반영 스킵 — 현재 주문가능 예수금 0원');
+        return;
+      }
+
+      // Step 2. 레짐 축소는 반영하되, 공격 레짐도 실제 예수금을 초과해 배정하지 않는다.
+      allocatedBudget = Math.min(
+        currentAvailableCash,
+        Math.round(currentAvailableCash * amountMultiplier),
+      );
+
+      // Step 3. 신규/재개 후보 전체에 ATR 역가중으로 분배하고 총합을 예수금 한도에 맞춘다.
+      investmentByCode = this.computeVolatilityWeightedInvestments(
+        allocationCandidates,
+        allocatedBudget,
+      );
+    }
 
     const resumedCodes: string[] = [];
     for (const { session, candidate } of toResume) {
@@ -729,6 +856,11 @@ export class ScheduledScannerService {
           maxHoldingDays: candidate.maxHoldingDays ?? SESSION_MAX_HOLDING_DAYS,
           scheduledScan: true,
         });
+        // 예약 스캔 전용 세션은 설정 수정이 성공한 뒤 최신 예수금 배분 한도로 갱신한다.
+        session.investmentAmount =
+          investmentByCode.get(candidate.stockCode) ??
+          Number(session.investmentAmount);
+        await this.em.flush();
         await this.autoTradingService.resumeSession(session.id, userId);
         resumedCodes.push(session.stockCode);
 
@@ -767,9 +899,7 @@ export class ScheduledScannerService {
               stockName: c.stockName,
               strategyId: c.bestStrategy.strategyId,
               variant: c.bestStrategy.variant,
-              investmentAmount:
-                investmentByCode.get(c.stockCode) ??
-                effectiveBaseInvestmentAmount,
+              investmentAmount: investmentByCode.get(c.stockCode) ?? 0,
               takeProfitPct: dyn.takeProfitPct,
               stopLossPct: dyn.stopLossPct,
               maxHoldingDays: c.maxHoldingDays ?? SESSION_MAX_HOLDING_DAYS,
@@ -787,7 +917,9 @@ export class ScheduledScannerService {
 
     this.logger.log(
       `예약 스캔 완료 — 신규 ${startedCodes.length}건, 재개 ${resumedCodes.length}건 ` +
-        `(base TP=${baseTpPct}%/SL=${baseSlPct}% ${optimal.source}, 스캔 검증 TP/SL 적용)`,
+        `(예수금 ${currentAvailableCash.toLocaleString('ko-KR')}원 중 ` +
+        `${allocatedBudget.toLocaleString('ko-KR')}원 배정), ` +
+        `base TP=${baseTpPct}%/SL=${baseSlPct}% ${optimal.source}, 스캔 검증 TP/SL 적용`,
     );
   }
 
@@ -860,15 +992,15 @@ export class ScheduledScannerService {
   }
 
   /**
-   * 변동성 역가중 배분: 평균 = SCAN_INVESTMENT_AMOUNT, 종목별 weight = (1/vol) / mean(1/vol).
-   * 변동성 큰 종목엔 적게, 작은 종목엔 많이. 극단 배분 방지를 위해 [0.5, 2.0]x 클램프.
+   * 변동성 역가중 배분: 종목별 weight = (1/vol) / mean(1/vol).
+   * 변동성 큰 종목엔 적게, 작은 종목엔 많이 배분하되, 최종 합계는 totalBudget 과 일치시킨다.
    */
   private computeVolatilityWeightedInvestments(
     candidates: ScanResult[],
-    baseInvestmentAmount = SCAN_INVESTMENT_AMOUNT,
+    totalBudget: number,
   ): Map<string, number> {
     const map = new Map<string, number>();
-    if (candidates.length === 0) return map;
+    if (candidates.length === 0 || totalBudget <= 0) return map;
 
     const vols = candidates.map((c) =>
       Math.max(c.volatilityPct ?? FALLBACK_VOLATILITY_PCT, 0.5),
@@ -885,11 +1017,22 @@ export class ScheduledScannerService {
         ? R_VOL_WEIGHT_MAX
         : VOL_WEIGHT_MAX;
 
+    const weights: number[] = [];
     for (let i = 0; i < candidates.length; i++) {
       const rawWeight = (invVols[i] / sumInv) * n; // 평균 = 1
-      const weight = Math.max(volWeightMin, Math.min(volWeightMax, rawWeight));
-      const amount = Math.round(baseInvestmentAmount * weight);
+      weights.push(Math.max(volWeightMin, Math.min(volWeightMax, rawWeight)));
+    }
+
+    const weightSum = weights.reduce((sum, weight) => sum + weight, 0);
+    let remainingBudget = Math.floor(totalBudget);
+    for (let i = 0; i < candidates.length; i++) {
+      // 마지막 종목에 나머지를 배정해 반올림 오차로 총액을 초과하지 않도록 한다.
+      const amount =
+        i === candidates.length - 1
+          ? remainingBudget
+          : Math.floor((totalBudget * weights[i]) / weightSum);
       map.set(candidates[i].stockCode, amount);
+      remainingBudget -= amount;
     }
     return map;
   }

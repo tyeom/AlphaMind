@@ -322,6 +322,18 @@ const SHORT_TERM_SCAN_VARIANTS: Record<string, (string | undefined)[]> = {
   scalping: STRATEGY_VARIANTS['scalping'],
 };
 
+export interface ScanSelectionOptions {
+  /** 스캔에서 평가할 전략 목록. 미지정 시 기존 단기 전략 전체를 평가한다. */
+  strategyIds?: string[];
+  /** 같은 종목의 전략/variant 중 OOS 수익률을 우선해 선택한다. */
+  strategySelectionMetric?: 'rankScore' | 'totalReturnPct';
+  /**
+   * 섹터별 수익률 1위를 먼저 채운 뒤 2위, 3위 순으로 보충한다.
+   * 특정 섹터 후보가 결과 상단을 독점하지 않도록 라운드 로빈으로 구성한다.
+   */
+  sectorTopOneFirst?: boolean;
+}
+
 interface TradeQuality {
   profitFactor: number;
   expectancyPct: number;
@@ -1124,6 +1136,7 @@ export class BacktestService {
     scaleOutOptions: ScaleOutBacktestOptions = {},
     regimeCorrelationOptions: RegimeCorrelationOptions = {},
     forceFixedTpSl = false,
+    selectionOptions: ScanSelectionOptions = {},
   ): Promise<ScanResponse> {
     const logger = new Logger('BacktestService');
     const startTime = Date.now();
@@ -1275,6 +1288,7 @@ export class BacktestService {
             minTotalTrades,
             scaleOutOptions,
             forceFixedTpSl,
+            selectionOptions,
           );
           if (result) {
             allResults.push(result);
@@ -1303,9 +1317,12 @@ export class BacktestService {
       pricesByStockId.clear();
     }
 
-    // 5. 단기 운용 적합도 기반 위험조정 점수로 정렬 후 Top N
-    allResults.sort((a, b) => b.rankScore - a.rankScore);
-    const topResults = allResults.slice(0, topN);
+    // 5. 기본은 기존 위험조정 점수 Top N, 섹터 우선 모드는 섹터별 수익률 순위로 혼합한다.
+    const topResults = this.selectTopScanResults(
+      allResults,
+      topN,
+      selectionOptions,
+    );
     let regime: ScanResponse['regime'];
     let clusters: ScanResponse['clusters'];
 
@@ -1930,6 +1947,7 @@ export class BacktestService {
     minTotalTrades = DEFAULT_MIN_TOTAL_TRADES,
     scaleOutOptions: ScaleOutBacktestOptions = {},
     forceFixedTpSl = false,
+    selectionOptions: ScanSelectionOptions = {},
   ): ScanResult | null {
     const prices = pricesByStockId.get(stock.id);
     if (!prices || prices.length < 60) return null;
@@ -1989,7 +2007,13 @@ export class BacktestService {
       appliedMaxHoldingDays: number;
     } | null = null;
 
-    for (const strategyId of SHORT_TERM_SCAN_STRATEGY_IDS) {
+    const requestedStrategyIds =
+      selectionOptions.strategyIds ?? SHORT_TERM_SCAN_STRATEGY_IDS;
+    const scanStrategyIds = requestedStrategyIds.filter((strategyId) =>
+      SHORT_TERM_SCAN_STRATEGY_IDS.includes(strategyId),
+    );
+
+    for (const strategyId of scanStrategyIds) {
       const strategy = STRATEGY_MAP[strategyId];
       if (!strategy) continue;
       const variants = SHORT_TERM_SCAN_VARIANTS[strategyId] ?? [undefined];
@@ -2083,7 +2107,17 @@ export class BacktestService {
           const rankScore =
             Math.round((baseRankScore + consistencyBonus) * 100) / 100;
 
-          if (!bestResult || rankScore > bestResult.rankScore) {
+          const isBetterResult =
+            !bestResult ||
+            (selectionOptions.strategySelectionMetric === 'totalReturnPct'
+              ? outOfSample.totalReturnPct >
+                  bestResult.outOfSample.totalReturnPct ||
+                (outOfSample.totalReturnPct ===
+                  bestResult.outOfSample.totalReturnPct &&
+                  rankScore > bestResult.rankScore)
+              : rankScore > bestResult.rankScore);
+
+          if (isBetterResult) {
             bestResult = {
               strategyId,
               strategyName: strategy.name,
@@ -2183,6 +2217,64 @@ export class BacktestService {
       },
       indicators: analysis.indicators,
     };
+  }
+
+  /**
+   * 스캔 결과 Top N 선택.
+   * sectorTopOneFirst 모드에서는 모든 섹터의 1위 후보를 먼저 비교하고,
+   * 그 다음 모든 섹터의 2위 후보를 비교하는 방식으로 섹터 편중을 줄인다.
+   */
+  private selectTopScanResults(
+    allResults: ScanResult[],
+    topN: number,
+    selectionOptions: ScanSelectionOptions,
+  ): ScanResult[] {
+    const compareByRankScore = (a: ScanResult, b: ScanResult) =>
+      b.rankScore - a.rankScore || a.stockCode.localeCompare(b.stockCode);
+
+    if (!selectionOptions.sectorTopOneFirst) {
+      return [...allResults].sort(compareByRankScore).slice(0, topN);
+    }
+
+    const compareByReturn = (a: ScanResult, b: ScanResult) =>
+      b.totalReturnPct - a.totalReturnPct ||
+      b.rankScore - a.rankScore ||
+      a.stockCode.localeCompare(b.stockCode);
+    const resultsBySector = new Map<string, ScanResult[]>();
+
+    for (const result of allResults) {
+      const sector = result.sector?.trim() || '미분류';
+      const sectorResults = resultsBySector.get(sector) ?? [];
+      sectorResults.push(result);
+      resultsBySector.set(sector, sectorResults);
+    }
+
+    for (const sectorResults of resultsBySector.values()) {
+      sectorResults.sort(compareByReturn);
+    }
+
+    const selected: ScanResult[] = [];
+    const maxDepth = Math.max(
+      0,
+      ...Array.from(resultsBySector.values(), (results) => results.length),
+    );
+
+    // Step 1. depth=0은 섹터별 수익률 Top 1, depth=1은 섹터별 Top 2다.
+    // Step 2. 같은 depth 안에서는 전체 수익률이 높은 후보부터 선택한다.
+    for (let depth = 0; depth < maxDepth && selected.length < topN; depth++) {
+      const sameRankCandidates = Array.from(
+        resultsBySector.values(),
+        (results) => results[depth],
+      )
+        .filter((result): result is ScanResult => result != null)
+        .sort(compareByReturn);
+
+      selected.push(
+        ...sameRankCandidates.slice(0, Math.max(0, topN - selected.length)),
+      );
+    }
+
+    return selected;
   }
 
   private calculateScanRankScore(

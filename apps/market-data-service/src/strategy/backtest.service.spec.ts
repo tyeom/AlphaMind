@@ -514,6 +514,28 @@ describe('BacktestService simulate', () => {
     expect(withRvol - withoutRvol).toBeCloseTo(1);
   });
 
+  it('selects every sector Top 1 before adding a sector Top 2 candidate', () => {
+    const service = createService();
+    const candidates = [
+      scanResult('TECH-1', 10, 'tech', 20),
+      scanResult('TECH-2', 9, 'tech', 19),
+      scanResult('BIO-1', 8, 'bio', 10),
+      scanResult('BIO-2', 7, 'bio', 9),
+      scanResult('FIN-1', 6, 'finance', 5),
+    ];
+
+    const selected = (service as any).selectTopScanResults(candidates, 4, {
+      sectorTopOneFirst: true,
+    });
+
+    expect(selected.map((result: any) => result.stockCode)).toEqual([
+      'TECH-1',
+      'BIO-1',
+      'FIN-1',
+      'TECH-2',
+    ]);
+  });
+
   it('computes breadth from all eligible stocks, not only scan pass results', async () => {
     const stocks = [
       { id: 1, code: 'AAA', name: 'AAA', sector: 'tech' },
@@ -1076,13 +1098,18 @@ function priceRows(
   });
 }
 
-function scanResult(stockCode: string, rankScore: number) {
+function scanResult(
+  stockCode: string,
+  rankScore: number,
+  sector = 'tech',
+  totalReturnPct = 1,
+) {
   return {
     stockCode,
     stockName: stockCode,
-    sector: 'tech',
+    sector,
     bestStrategy: { strategyId: 'day-trading', strategyName: 'day' },
-    totalReturnPct: 1,
+    totalReturnPct,
     winRate: 50,
     maxDrawdownPct: 1,
     totalTrades: 3,
