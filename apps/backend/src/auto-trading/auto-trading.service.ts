@@ -19,7 +19,6 @@ import {
   analyzeCandlePattern,
   analyzeMomentumPower,
   analyzeMomentumSurge,
-  analyzeScalping,
   StrategyAnalysisResult,
   getStrategyTradeMeta,
   getStrategyExitProfile,
@@ -74,8 +73,9 @@ import {
   ViClearReason,
   ViStateTracker,
 } from './vi-state-tracker';
+import { IntradayScalpingTracker } from './intraday-scalping';
 
-const STRATEGY_MAP: Record<
+const DAILY_STRATEGY_MAP: Record<
   string,
   (
     candles: CandleData[],
@@ -90,7 +90,6 @@ const STRATEGY_MAP: Record<
   'momentum-power': analyzeMomentumPower,
   'momentum-surge': (candles, config, stockCode) =>
     analyzeMomentumSurge(candles, config, stockCode ?? ''),
-  scalping: analyzeScalping,
 };
 
 /** 기본 익절/손절 — 세션에 값이 없을 때만 사용 */
@@ -232,6 +231,29 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     'VI_REEVAL_DEBOUNCE_MS',
     DEFAULT_VI_REEVAL_DEBOUNCE_MS,
   );
+  /** 일봉 스캔으로 고른 scalping 후보의 실제 진입은 KIS 완성 1분봉으로만 판단한다. */
+  private readonly intradayScalpingTracker = new IntradayScalpingTracker({
+    minCompletedCandles: readPositiveNumberEnv(
+      'INTRADAY_SCALPING_MIN_CANDLES',
+      5,
+    ),
+    maxTickAgeMs: readPositiveNumberEnv(
+      'INTRADAY_SCALPING_MAX_TICK_AGE_MS',
+      90_000,
+    ),
+    minExecutionStrength: readPositiveNumberEnv(
+      'INTRADAY_SCALPING_MIN_EXECUTION_STRENGTH',
+      100,
+    ),
+    maxSpreadPct: readPositiveNumberEnv(
+      'INTRADAY_SCALPING_MAX_SPREAD_PCT',
+      0.35,
+    ),
+    minVolumeRatio: readPositiveNumberEnv(
+      'INTRADAY_SCALPING_MIN_VOLUME_RATIO',
+      1.0,
+    ),
+  });
   private readonly scaleOutPlan: ScaleOutPlan = {
     enabled: false,
     tiers: [
@@ -877,6 +899,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
    * - 사전 검사: 활성 세션이 있는 종목에 onConflict가 지정되지 않으면 409로 충돌 정보 반환
    * - 충돌이 없거나 모두 해결된 경우에만 실제 생성/업데이트 진행 (부분 생성 방지)
    * - entryMode='immediate' 이면 세션 생성 직후 시장가 매수 실행
+   *   (scalping 은 일봉 후보의 즉시 주문을 막고 실시간 1분봉 신호 대기)
    */
   async startSessions(
     userId: number,
@@ -1084,9 +1107,16 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     await this.syncStockActivity(dto.stockCode);
     this.broadcastSessionUpdate(session);
 
-    // 즉시 매수 모드: 전략별 첫 진입 비중만 시장가 매수
+    // 즉시 매수 모드: 전략별 첫 진입 비중만 시장가 매수.
+    // scalping 은 일봉 후보를 곧바로 주문으로 바꾸지 않고 실시간 1분봉 신호를 기다린다.
     if (dto.entryMode === 'immediate') {
-      await this.executeImmediateBuy(session);
+      if (strategyId === 'scalping') {
+        this.logger.log(
+          `스켈핑 즉시매수 보류: ${dto.stockName}(${dto.stockCode}) - 실시간 1분봉 진입 신호 대기`,
+        );
+      } else {
+        await this.executeImmediateBuy(session);
+      }
     }
 
     return session;
@@ -1704,7 +1734,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           continue;
         }
 
-        // 전략 신호 분석 (일봉 기반이므로 일중에는 현재가 기반 간이 분석)
+        // 전략 신호 분석: scalping 은 실시간 완성 1분봉, 나머지는 기존 일봉 전략을 사용한다.
         if (session.holdingQty === 0) {
           // 미보유 시: 매수 신호 확인
           const shouldBuy = await this.shouldBuyByStrategy(session);
@@ -1733,7 +1763,27 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   private async shouldBuyByStrategy(
     session: AutoTradingSessionEntity,
   ): Promise<boolean> {
-    const strategyFn = STRATEGY_MAP[session.strategyId];
+    if (session.strategyId === 'scalping') {
+      const decision = this.intradayScalpingTracker.evaluate(session.stockCode);
+      if (!decision.shouldBuy) {
+        this.logger.debug(
+          `실시간 스켈핑 진입 보류: ${session.stockCode} ` +
+            `(${decision.reason}, 완성봉 ${decision.completedCandles}개)`,
+        );
+        return false;
+      }
+
+      const metrics = decision.metrics!;
+      this.logger.log(
+        `실시간 스켈핑 매수 신호: ${session.stockCode} ` +
+          `(1분봉 ${decision.completedCandles}개, 체결강도 ${metrics.executionStrength.toFixed(1)}, ` +
+          `거래량비 ${metrics.volumeRatio.toFixed(2)}, 스프레드 ${metrics.spreadPct.toFixed(3)}%, ` +
+          `VWAP대비 ${metrics.vwapPremiumPct.toFixed(2)}%)`,
+      );
+      return true;
+    }
+
+    const strategyFn = DAILY_STRATEGY_MAP[session.strategyId];
     if (!strategyFn) return false;
 
     try {
@@ -2370,6 +2420,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
     if (!this.executionSub) {
       this.executionSub = this.kisWsService.execution$.subscribe((data) => {
+        this.intradayScalpingTracker.record(data);
         this.setLatestPrice(data.stockCode, Number(data.price), {
           volume: data.executionVolume,
           broadcast: true,
@@ -2428,6 +2479,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     this.holdingStockCodes.clear();
     this.sellInFlightSessionIds.clear();
     this.latestPriceUpdatedAt.clear();
+    this.intradayScalpingTracker.clearAll();
     this.viStateTracker.clearAll();
     this.viHeldOrders.clear();
     this.viClearTimeoutTimers.clear();
@@ -2730,6 +2782,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       this.activeStockCodes.delete(stockCode);
       this.latestPrices.delete(stockCode);
       this.latestPriceUpdatedAt.delete(stockCode);
+      this.intradayScalpingTracker.clearStock(stockCode);
       this.viStateTracker.clearStock(stockCode);
       this.clearViClearTimeout(stockCode);
       this.clearViReevaluationTimer(stockCode);

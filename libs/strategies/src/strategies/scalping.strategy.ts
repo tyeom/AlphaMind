@@ -15,15 +15,17 @@ import {
 import { pickFreshCurrentSignal } from '../utils/signal-freshness';
 
 /**
- * 단타 스캘핑 (짧게 먹고 빠지기 반복).
+ * 일봉 기반 스켈핑 후보 선별 전략.
  *
- * 일봉 종가 신호 → 익일 시가 진입 → 타이트한 고정 TP/SL + 짧은 보유일(trade-meta
- * exit profile)로 청산까지 백테스트와 실전이 같은 규칙을 쓴다.
+ * `/scan`과 예약 스캔에서 일봉 종가 신호와 백테스트 성과로 당일 감시 종목을
+ * 선별한다. 실제 장중 매수는 backend 가 KIS 실시간 체결을 1분봉으로 집계한 뒤
+ * 별도의 intraday 신호를 확인하므로, 이 함수의 BUY 신호가 곧바로 주문되지는 않는다.
+ *
+ * 타이트한 고정 TP/SL + 짧은 보유일(trade-meta exit profile)은 스캔 백테스트와
+ * 실시간 청산 엔진이 동일하게 사용한다.
  * 매도(SELL) 신호는 의도적으로 방출하지 않는다 — 실전 청산은 backend 의
  * 실시간 손절/익절/본전보호/트레일링 엔진이 담당하므로, 백테스트에서만 작동하는
  * 반대 신호 청산을 만들면 검증↔실전 정합이 깨진다.
- *
- * 라이브 재검증이 KIS 일봉 30~60개로 돌기 때문에 모든 지표 기간은 20일 이하다.
  */
 
 const DEFAULT_CONFIG: ScalpingConfig = {

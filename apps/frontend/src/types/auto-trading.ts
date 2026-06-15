@@ -53,6 +53,7 @@ export type SessionConflictAction = 'update' | 'skip';
  * 세션 진입 방식
  * - 'monitor': 전략 매수 신호 대기 (기본)
  * - 'immediate': 세션 생성 직후 시장가로 전략별 첫 진입 비중 매수 후 운용
+ *   단, scalping 전략은 실시간 1분봉 신호 확인 전까지 모니터링
  */
 export type SessionEntryMode = 'monitor' | 'immediate';
 
@@ -85,7 +86,7 @@ export interface StartSessionRequest {
    * onConflict 'update' 시 단순 필드 생략만으로는 기존 청산값이 바뀌지 않는다.
    */
   delegateExits?: boolean;
-  /** 진입 방식 — 미지정시 'monitor' */
+  /** 진입 방식 — 미지정시 'monitor', scalping 은 immediate 요청도 실시간 신호 대기 */
   entryMode?: SessionEntryMode;
 }
 

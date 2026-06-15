@@ -41,6 +41,24 @@ export const validationSchema = Joi.object({
     .positive()
     .default(120000),
   PRICE_POLL_WARN_COOLDOWN_MS: Joi.number().integer().positive().default(30000),
+  // 일봉 스캔 후보의 실매수는 KIS 실시간 체결을 집계한 완성 1분봉 신호로 제한한다.
+  INTRADAY_SCALPING_MIN_CANDLES: Joi.number()
+    .integer()
+    .min(5)
+    .max(60)
+    .default(5),
+  INTRADAY_SCALPING_MAX_TICK_AGE_MS: Joi.number()
+    .integer()
+    .positive()
+    .default(90000),
+  INTRADAY_SCALPING_MIN_EXECUTION_STRENGTH: Joi.number()
+    .positive()
+    .default(100),
+  INTRADAY_SCALPING_MAX_SPREAD_PCT: Joi.number()
+    .positive()
+    .max(5)
+    .default(0.35),
+  INTRADAY_SCALPING_MIN_VOLUME_RATIO: Joi.number().positive().default(1.0),
 
   // Sprint3 VI/상하한가 처리 — 기본 OFF, 토글 ON 시에만 신규 주문 게이트 적용
   VI_HANDLING_ENABLED: Joi.boolean().default(false),
@@ -69,7 +87,7 @@ export const validationSchema = Joi.object({
   // 익절은 양수, 손절은 음수여야 함(부호 뒤집힘=진입 즉시 청산 footgun 차단). 범위는 가격제한폭 ±30% 이내.
   SCAN_AUTO_TAKE_PROFIT_PCT: Joi.number().greater(0).max(30).default(2.5),
   SCAN_AUTO_STOP_LOSS_PCT: Joi.number().less(0).min(-30).default(-2.0),
-  // 매수 신호 최소 강도(낮출수록 공격적). 스캔 후보 + 실거래 진입 게이트 공통.
+  // 일봉 매수 신호 최소 강도(낮출수록 공격적). 스캔 후보 + 비스켈핑 실거래 진입 게이트 공통.
   MIN_BUY_SIGNAL_STRENGTH: Joi.number().min(0).max(1).default(0.65),
   // 동시 보유 종목 상한.
   MAX_CONCURRENT_HOLDINGS: Joi.number().integer().positive().default(15),

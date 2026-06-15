@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { AddOnBuyMode, SessionEntryMode } from '../types/auto-trading';
 import { getKnownExitProfile } from '../api/backtest';
 
@@ -115,6 +115,16 @@ export function AutoTradingConfigModal({
   const [configs, setConfigs] = useState<TradingConfigItem[]>(items);
   const [entryMode, setEntryMode] =
     useState<SessionEntryMode>(initialEntryMode);
+  const hasScalpingStrategy = configs.some(
+    (config) => config.strategyId === 'scalping',
+  );
+
+  useEffect(() => {
+    // 일봉 스캔 후보를 즉시 주문으로 우회하지 않고 실시간 1분봉 신호를 기다린다.
+    if (hasScalpingStrategy && entryMode === 'immediate') {
+      setEntryMode('monitor');
+    }
+  }, [entryMode, hasScalpingStrategy]);
 
   const updateItem = (index: number, patch: Partial<TradingConfigItem>) => {
     setConfigs((prev) =>
@@ -198,13 +208,15 @@ export function AutoTradingConfigModal({
                     name="entry-mode"
                     value="immediate"
                     checked={entryMode === 'immediate'}
+                    disabled={hasScalpingStrategy}
                     onChange={() => setEntryMode('immediate')}
                   />
                   <span>
                     바로 매수 후 운용
                     <small className="entry-mode-hint">
-                      세션 생성 직후 시장가로 전략별 첫 진입 비중 매수, 이후
-                      익절/손절 자동 운용
+                      {hasScalpingStrategy
+                        ? '스켈핑 전략은 장중 완성 1분봉 신호 확인 후에만 매수'
+                        : '세션 생성 직후 시장가로 전략별 첫 진입 비중 매수, 이후 익절/손절 자동 운용'}
                     </small>
                   </span>
                 </label>

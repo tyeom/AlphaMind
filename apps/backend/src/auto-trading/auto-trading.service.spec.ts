@@ -99,6 +99,32 @@ describe('AutoTradingService', () => {
     );
   };
 
+  const recordIntradayScalpingSignal = (
+    service: AutoTradingService,
+    stockCode = '005930',
+  ) => {
+    const tracker = (service as any).intradayScalpingTracker;
+    const receivedAt = Date.now();
+
+    for (let index = 0; index < 6; index++) {
+      const price = 100 + index * 0.2;
+      tracker.record(
+        {
+          ...createRealtimeExecution(stockCode, false),
+          time: `090${index}00`,
+          price,
+          changeRate: price - 100,
+          weightedAvgPrice: 100.2,
+          askPrice1: price + 0.05,
+          bidPrice1: price - 0.05,
+          executionVolume: index === 4 ? 160 : 100,
+          executionStrength: 120,
+        },
+        receivedAt + index,
+      );
+    }
+  };
+
   it('applies the resolved strategy exit profile on conflict update when exits are omitted', async () => {
     const { service, em } = createService();
     const existing = {
@@ -137,6 +163,66 @@ describe('AutoTradingService', () => {
     expect(updated.takeProfitPct).toBe(2.2);
     expect(updated.stopLossPct).toBe(-1.5);
     expect(updated.maxHoldingDays).toBe(3);
+  });
+
+  it('uses completed realtime minute candles instead of daily prices for scalping entry', async () => {
+    const { service, kisQuotationService } = createService();
+    const session = {
+      stockCode: '005930',
+      strategyId: 'scalping',
+      variant: 'ensemble',
+      scheduledScan: true,
+    } as AutoTradingSessionEntity;
+    recordIntradayScalpingSignal(service, session.stockCode);
+
+    const shouldBuy = await (service as any).shouldBuyByStrategy(session);
+
+    expect(shouldBuy).toBe(true);
+    expect(kisQuotationService.getDailyPrice).not.toHaveBeenCalled();
+  });
+
+  it('does not execute an immediate buy for a scalping session', async () => {
+    const { service, em } = createService();
+    const user = { id: 1 };
+    const session = {
+      id: 100,
+      user,
+      stockCode: '005930',
+      stockName: '삼성전자',
+      strategyId: 'scalping',
+      variant: 'ensemble',
+      investmentAmount: 500_000,
+      takeProfitPct: 2.2,
+      stopLossPct: -1.5,
+      maxHoldingDays: 3,
+      status: SessionStatus.ACTIVE,
+      scheduledScan: false,
+    } as AutoTradingSessionEntity;
+
+    (em as any).findOneOrFail = jest.fn().mockResolvedValue(user);
+    em.findOne.mockResolvedValue(null);
+    (em as any).create = jest.fn().mockReturnValue(session);
+    (em as any).persistAndFlush = jest.fn().mockResolvedValue(undefined);
+    jest
+      .spyOn(service as any, 'syncStockActivity')
+      .mockResolvedValue(undefined);
+    jest
+      .spyOn(service as any, 'broadcastSessionUpdate')
+      .mockImplementation(() => undefined);
+    const immediateBuySpy = jest
+      .spyOn(service as any, 'executeImmediateBuy')
+      .mockResolvedValue(undefined);
+
+    await service.startSession(1, {
+      stockCode: session.stockCode,
+      stockName: session.stockName,
+      strategyId: session.strategyId,
+      variant: session.variant,
+      investmentAmount: session.investmentAmount,
+      entryMode: 'immediate',
+    });
+
+    expect(immediateBuySpy).not.toHaveBeenCalled();
   });
 
   it('resets exits to creation defaults on delegated update to a no-profile strategy', async () => {
