@@ -8,7 +8,7 @@ import {
 import { EntityManager } from '@mikro-orm/postgresql';
 import { KisOrderService } from './kis-order.service';
 import { KisInquiryService } from './kis-inquiry.service';
-import { KisQuotationService } from './kis-quotation.service';
+import { QuotationService } from './quotation.service';
 import { KisJournalService } from './kis-journal.service';
 import { OrderCashDto } from './dto/order-cash.dto';
 import { OrderModifyDto } from './dto/order-modify.dto';
@@ -33,7 +33,7 @@ export class KisController {
   constructor(
     private readonly orderService: KisOrderService,
     private readonly inquiryService: KisInquiryService,
-    private readonly quotationService: KisQuotationService,
+    private readonly quotationService: QuotationService,
     private readonly journalService: KisJournalService,
     private readonly em: EntityManager,
   ) {}

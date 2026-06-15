@@ -5,6 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import { KisService } from './kis.service';
 import {
   KisApiResponse,
+  KisDailyOrder,
   KisOrderOutput,
   KisRealtimeOrderNotification,
   OrderDivision,
@@ -16,6 +17,14 @@ import {
   TradeStatus,
 } from './entities/trade-history.entity';
 import { UserEntity } from '../user/entities/user.entity';
+
+export interface RecordedExecution {
+  history: TradeHistoryEntity;
+  appliedQty: number;
+  previousExecutedQty: number;
+  isFullyExecuted: boolean;
+  executionPrice: number;
+}
 
 @Injectable()
 export class KisOrderService {
@@ -120,12 +129,7 @@ export class KisOrderService {
       orderDvsn: params.orderDvsn,
       quantity,
       price,
-      status:
-        data.rt_cd === '0'
-          ? params.metadata?.trackingMode === 'optimistic-fallback'
-            ? TradeStatus.SUCCESS
-            : TradeStatus.ACCEPTED
-          : TradeStatus.FAILED,
+      status: data.rt_cd === '0' ? TradeStatus.ACCEPTED : TradeStatus.FAILED,
       kisOrderNo: data.output?.ODNO,
       errorMessage: data.rt_cd !== '0' ? data.msg1 : undefined,
       rawResponse: {
@@ -140,12 +144,7 @@ export class KisOrderService {
   /** 체결통보 기준으로 주문 이력을 체결 상태로 갱신 */
   async recordExecutionNotification(
     notification: KisRealtimeOrderNotification,
-  ): Promise<{
-    history: TradeHistoryEntity;
-    appliedQty: number;
-    previousExecutedQty: number;
-    isFullyExecuted: boolean;
-  } | null> {
+  ): Promise<RecordedExecution | null> {
     const history = await this.em.findOne(
       TradeHistoryEntity,
       {
@@ -163,20 +162,132 @@ export class KisOrderService {
     }
 
     const previousExecutedQty = Number(history.executedQuantity) || 0;
-    const remainingQty = Math.max(0, history.quantity - previousExecutedQty);
-    const appliedQty = Math.min(
-      remainingQty,
-      Math.max(0, Number(notification.executionQty) || 0),
+    const cumulativeExecutedQty =
+      previousExecutedQty + Math.max(0, Number(notification.executionQty) || 0);
+
+    return this.applyExecutionToHistory(
+      history,
+      cumulativeExecutedQty,
+      Number(notification.executionPrice) || Number(notification.orderPrice) || 0,
+      { lastNotification: notification },
     );
+  }
+
+  /** KIS 주문체결 조회 결과를 기준으로 주문 이력을 확정 갱신 */
+  async recordPolledOrderExecution(
+    orderNo: string,
+    order: KisDailyOrder,
+  ): Promise<RecordedExecution | null> {
+    const history = await this.em.findOne(
+      TradeHistoryEntity,
+      {
+        action: TradeAction.ORDER,
+        kisOrderNo: orderNo,
+        status: {
+          $in: [TradeStatus.ACCEPTED, TradeStatus.PARTIAL],
+        },
+      },
+      { orderBy: { createdAt: 'DESC' } },
+    );
+
+    if (!history) {
+      return null;
+    }
+
+    const cumulativeExecutedQty = Math.max(
+      0,
+      Number(order.tot_ccld_qty) || 0,
+    );
+    const totalAmount = Number(order.tot_ccld_amt) || 0;
+    const avgPrice =
+      Number(order.avg_prvs) ||
+      (cumulativeExecutedQty > 0 ? totalAmount / cumulativeExecutedQty : 0);
+    const remainingQty = Number(order.rmn_qty);
+    const rejectedQty = Number(order.rjct_qty) || 0;
+    const canceled = String(order.cncl_yn ?? '').toUpperCase() === 'Y';
+    const previousExecutedQty = Number(history.executedQuantity) || 0;
+
+    // 체결 없이 거부/취소/잔량 0 으로 닫힌 주문은 더 이상 open order 로 취급하지 않는다.
+    if (
+      cumulativeExecutedQty <= 0 &&
+      (rejectedQty > 0 ||
+        canceled ||
+        (Number.isFinite(remainingQty) && remainingQty <= 0))
+    ) {
+      history.status = TradeStatus.FAILED;
+      history.errorMessage =
+        rejectedQty > 0
+          ? 'KIS 주문 거부'
+          : canceled
+            ? 'KIS 주문 취소'
+            : 'KIS 주문 미체결 종료';
+      history.rawResponse = {
+        ...(history.rawResponse ?? {}),
+        lastPolledOrder: order,
+      };
+      await this.em.flush();
+      return null;
+    }
+
+    if (
+      previousExecutedQty > 0 &&
+      cumulativeExecutedQty <= previousExecutedQty &&
+      Number.isFinite(remainingQty) &&
+      remainingQty <= 0
+    ) {
+      // 이전 polling/체결통보에서 이미 반영한 수량만 있고 잔량이 0이면
+      // 포지션을 다시 건드리지 않고 주문 잠금만 해제한다.
+      history.status = TradeStatus.SUCCESS;
+      history.rawResponse = {
+        ...(history.rawResponse ?? {}),
+        lastPolledOrder: order,
+      };
+      await this.em.flush();
+      return null;
+    }
+
+    const applied = await this.applyExecutionToHistory(
+      history,
+      cumulativeExecutedQty,
+      avgPrice,
+      { lastPolledOrder: order },
+    );
+
+    if (
+      applied &&
+      applied.history.status !== TradeStatus.EXECUTED &&
+      Number.isFinite(remainingQty) &&
+      remainingQty <= 0
+    ) {
+      // 일부 체결 뒤 잔량이 없어졌으면 주문은 종료된 상태다.
+      // EXECUTED 로 과장하지 않고 SUCCESS 로 닫아 이후 중복 주문 차단만 해제한다.
+      applied.history.status = TradeStatus.SUCCESS;
+      await this.em.flush();
+    }
+
+    return applied;
+  }
+
+  private async applyExecutionToHistory(
+    history: TradeHistoryEntity,
+    cumulativeExecutedQty: number,
+    executionPrice: number,
+    rawPatch: Record<string, any>,
+  ): Promise<RecordedExecution | null> {
+    const previousExecutedQty = Number(history.executedQuantity) || 0;
+    const nextExecutedQty = Math.min(
+      history.quantity,
+      Math.max(previousExecutedQty, cumulativeExecutedQty),
+    );
+    const appliedQty = nextExecutedQty - previousExecutedQty;
 
     if (appliedQty <= 0) {
       return null;
     }
 
-    history.executedQuantity = previousExecutedQty + appliedQty;
+    history.executedQuantity = nextExecutedQty;
     history.executedAmount =
-      Number(history.executedAmount) +
-      Math.round((Number(notification.executionPrice) || 0) * appliedQty);
+      Number(history.executedAmount) + Math.round(executionPrice * appliedQty);
     history.lastExecutedAt = new Date();
     history.status =
       history.executedQuantity >= history.quantity
@@ -184,7 +295,7 @@ export class KisOrderService {
         : TradeStatus.PARTIAL;
     history.rawResponse = {
       ...(history.rawResponse ?? {}),
-      lastNotification: notification,
+      ...rawPatch,
     };
 
     await this.em.flush();
@@ -194,6 +305,7 @@ export class KisOrderService {
       appliedQty,
       previousExecutedQty,
       isFullyExecuted: history.status === TradeStatus.EXECUTED,
+      executionPrice,
     };
   }
 

@@ -8,6 +8,7 @@ import {
   KisBalanceRealizedSummary,
   KisBalanceSummary,
   KisBuyableOutput,
+  KisDailyOrder,
 } from './kis.types';
 
 @Injectable()
@@ -149,7 +150,9 @@ export class KisInquiryService {
     endDate: string;
     orderType?: 'all' | 'sell' | 'buy';
     status?: 'all' | 'executed' | 'pending';
-  }): Promise<any[]> {
+    stockCode?: string;
+    orderNo?: string;
+  }): Promise<KisDailyOrder[]> {
     const trId = this.kisService.getTrId('TTTC0081R', 'VTTC0081R');
     const headers = await this.kisService.getAuthHeaders(trId);
 
@@ -168,7 +171,7 @@ export class KisInquiryService {
 
     const { data } = await this.kisService.request(() =>
       firstValueFrom(
-        this.httpService.get(
+        this.httpService.get<KisApiResponse<KisDailyOrder[]>>(
           `${this.kisService.baseUrl}/uapi/domestic-stock/v1/trading/inquire-daily-ccld`,
           {
             headers,
@@ -179,10 +182,10 @@ export class KisInquiryService {
               INQR_END_DT: params.endDate,
               SLL_BUY_DVSN_CD: sllBuyDvsnCd,
               INQR_DVSN: '00',
-              PDNO: '',
+              PDNO: params.stockCode ?? '',
               CCLD_DVSN: ccldDvsn,
               ORD_GNO_BRNO: '',
-              ODNO: '',
+              ODNO: params.orderNo ?? '',
               INQR_DVSN_3: '00',
               INQR_DVSN_1: '',
               CTX_AREA_FK100: '',
@@ -192,6 +195,12 @@ export class KisInquiryService {
         ),
       ),
     );
+
+    if (data.rt_cd !== '0') {
+      throw new Error(
+        `KIS 주문체결 조회 실패: [${data.msg_cd}] ${data.msg1}`,
+      );
+    }
 
     return data.output1 ?? [];
   }

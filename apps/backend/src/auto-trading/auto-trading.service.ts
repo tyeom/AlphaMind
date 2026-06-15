@@ -40,12 +40,16 @@ import {
   InternalUpdateSessionDto,
   ManualOrderDto,
 } from './dto/start-session.dto';
-import { KisOrderService } from '../kis/kis-order.service';
+import {
+  KisOrderService,
+  type RecordedExecution,
+} from '../kis/kis-order.service';
 import { KisWebSocketService } from '../kis/kis-websocket.service';
-import { KisQuotationService } from '../kis/kis-quotation.service';
+import { QuotationService } from '../kis/quotation.service';
 import { KisInquiryService } from '../kis/kis-inquiry.service';
 import {
   KisBalanceItem,
+  KisDailyOrder,
   KisRealtimeExecution,
   KisRealtimeOrderNotification,
   KisRealtimeSubscriptionResult,
@@ -154,6 +158,18 @@ const PRICE_POLL_WARN_COOLDOWN_MS = readPositiveNumberEnv(
 );
 const PRICE_TRIGGERED_SELL_CHECK_DEBOUNCE_MS = 1_000;
 const SELL_PRICE_REST_FALLBACK_STALE_MS = 10_000;
+const ORDER_POLL_INITIAL_DELAY_MS = readPositiveNumberEnv(
+  'ORDER_POLL_INITIAL_DELAY_MS',
+  2_000,
+);
+const ORDER_POLL_INTERVAL_MS = readPositiveNumberEnv(
+  'ORDER_POLL_INTERVAL_MS',
+  5_000,
+);
+const ORDER_POLL_MAX_ATTEMPTS = Math.max(
+  1,
+  Math.floor(readPositiveNumberEnv('ORDER_POLL_MAX_ATTEMPTS', 24)),
+);
 const SUBSCRIPTION_RETRY_BASE_DELAY_MS = 5_000;
 const SUBSCRIPTION_RETRY_MAX_DELAY_MS = 60_000;
 const SCHEDULED_CLEANUP_BALANCE_MAX_ATTEMPTS = 2;
@@ -315,9 +331,11 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   /**
    * 보유 수량이 있는 ACTIVE 세션의 stockCode 캐시.
    * 현재가 기반 익절/손절 트리거 판단에 사용해 보유 없는 종목의 DB 조회를 피한다.
-   * 30초 루프의 잔고 동기화 직후 전체 재계산되며, 매수 이벤트 시 즉시 add 된다.
+   * 30초 루프의 잔고 동기화 직후 전체 재계산되며, 매수 확정 이벤트 시 즉시 add 된다.
    */
   private holdingStockCodes = new Set<string>();
+  /** 체결통보 비활성화 시 주문체결 조회로 체결 확정을 확인하는 timer */
+  private orderPollingTimers = new Map<string, ReturnType<typeof setTimeout>>();
   /**
    * 매도 주문 접수가 진행 중인 세션 ID.
    * 동일 세션에 대해 실시간 트리거와 30초 루프가 동시에 executeSell 을
@@ -344,7 +362,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     private readonly em: EntityManager,
     private readonly kisOrderService: KisOrderService,
     private readonly kisWsService: KisWebSocketService,
-    private readonly kisQuotationService: KisQuotationService,
+    private readonly quotationService: QuotationService,
     private readonly kisInquiryService: KisInquiryService,
     private readonly notificationService: NotificationService,
     @Inject(MARKET_DATA_SERVICE) private readonly marketDataClient: ClientProxy,
@@ -437,7 +455,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         session.user.id,
         NotificationType.ORDER_TRACKING_WARNING,
         '주문 체결 추적 경고',
-        `${session.stockName}(${session.stockCode}) 주문은 진행되지만 실시간 체결 추적이 비활성화되어 접수 기준으로 반영됩니다. ${detail}`,
+        `${session.stockName}(${session.stockCode}) 주문은 진행되지만 실시간 체결 추적이 비활성화되어 주문체결 조회로 체결 여부를 확인합니다. ${detail}`,
         {
           stockCode: session.stockCode,
           sessionId: session.id,
@@ -448,48 +466,6 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     } catch (err: any) {
       this.logger.warn(`주문 추적 경고 알림 생성 실패: ${err.message ?? err}`);
     }
-  }
-
-  private applyOptimisticBuyFill(
-    session: AutoTradingSessionEntity,
-    price: number,
-    qty: number,
-  ) {
-    const wasFlat = session.holdingQty <= 0;
-    const totalCost = session.avgBuyPrice * session.holdingQty + price * qty;
-    session.holdingQty += qty;
-    session.avgBuyPrice = totalCost / session.holdingQty;
-    if (wasFlat && session.holdingQty > 0) {
-      session.enteredAt = new Date();
-      session.addOnBuyCount = 0;
-    } else {
-      session.addOnBuyCount += 1;
-    }
-    this.markPositionRiskOnBuy(session, price, wasFlat);
-    session.totalBuys += 1;
-    if (session.holdingQty > 0) {
-      this.holdingStockCodes.add(session.stockCode);
-    }
-  }
-
-  private applyOptimisticSellFill(
-    session: AutoTradingSessionEntity,
-    price: number,
-    qty: number,
-  ): number {
-    const pnl = (price - session.avgBuyPrice) * qty;
-    session.realizedPnl = Number(session.realizedPnl) + Math.round(pnl);
-    session.holdingQty = Math.max(0, session.holdingQty - qty);
-    if (session.holdingQty <= 0) {
-      session.holdingQty = 0;
-      session.avgBuyPrice = 0;
-      session.unrealizedPnl = 0;
-      session.enteredAt = undefined;
-      session.addOnBuyCount = 0;
-      this.resetPositionRisk(session);
-    }
-    session.totalSells += 1;
-    return Math.round(pnl);
   }
 
   private async getOpenOrderMap(
@@ -562,6 +538,189 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   ): boolean {
     const userId = this.getEntityUserId(session.user);
     return (openOrders.get(`${userId}:${session.stockCode}`)?.length ?? 0) > 0;
+  }
+
+  private normalizeOrderNo(orderNo?: string | null): string {
+    return String(orderNo ?? '').trim();
+  }
+
+  private sameOrderNo(left?: string | null, right?: string | null): boolean {
+    const a = this.normalizeOrderNo(left);
+    const b = this.normalizeOrderNo(right);
+    if (!a || !b) return false;
+
+    const stripLeadingZero = (value: string) => value.replace(/^0+/, '');
+    return a === b || stripLeadingZero(a) === stripLeadingZero(b);
+  }
+
+  private findPolledOrder(
+    orders: KisDailyOrder[],
+    orderNo: string,
+    stockCode: string,
+  ): KisDailyOrder | undefined {
+    return orders.find((order) => {
+      const pdno = String(order.pdno ?? '').trim();
+      const stockMatched =
+        pdno.length === 0 || pdno === stockCode || pdno.endsWith(stockCode);
+      return stockMatched && this.sameOrderNo(order.odno, orderNo);
+    });
+  }
+
+  private getKstYmd(date = new Date()): string {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Seoul',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).formatToParts(date);
+    const part = (type: Intl.DateTimeFormatPartTypes) =>
+      parts.find((item) => item.type === type)?.value ?? '';
+    return `${part('year')}${part('month')}${part('day')}`;
+  }
+
+  private clearOrderPollingTimer(orderNo?: string | null): void {
+    const normalizedOrderNo = this.normalizeOrderNo(orderNo);
+    if (!normalizedOrderNo) return;
+
+    const timer = this.orderPollingTimers.get(normalizedOrderNo);
+    if (!timer) return;
+    clearTimeout(timer);
+    this.orderPollingTimers.delete(normalizedOrderNo);
+  }
+
+  private scheduleOrderPollingFallback(
+    orderNo?: string | null,
+    attempt = 1,
+    delayMs = ORDER_POLL_INITIAL_DELAY_MS,
+  ): void {
+    const normalizedOrderNo = this.normalizeOrderNo(orderNo);
+    if (!normalizedOrderNo) {
+      this.logger.warn(
+        '주문체결 polling 예약 실패: KIS 주문번호가 없어 체결 확인을 자동화할 수 없습니다.',
+      );
+      return;
+    }
+    if (this.orderPollingTimers.has(normalizedOrderNo)) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      this.orderPollingTimers.delete(normalizedOrderNo);
+      void this.pollOrderExecutionFallback(normalizedOrderNo, attempt);
+    }, delayMs);
+    this.orderPollingTimers.set(normalizedOrderNo, timer);
+  }
+
+  private async isOrderStillOpen(orderNo: string): Promise<boolean> {
+    const openOrder = await this.em.findOne(TradeHistoryEntity, {
+      action: TradeAction.ORDER,
+      kisOrderNo: orderNo,
+      status: {
+        $in: [TradeStatus.ACCEPTED, TradeStatus.PARTIAL],
+      },
+    });
+    return Boolean(openOrder);
+  }
+
+  private async pollOrderExecutionFallback(
+    orderNo: string,
+    attempt: number,
+  ): Promise<void> {
+    try {
+      const history = await this.em.findOne(
+        TradeHistoryEntity,
+        {
+          action: TradeAction.ORDER,
+          kisOrderNo: orderNo,
+          status: {
+            $in: [TradeStatus.ACCEPTED, TradeStatus.PARTIAL],
+          },
+        },
+        { orderBy: { createdAt: 'DESC' } },
+      );
+
+      if (!history) {
+        return;
+      }
+
+      const orders = await this.kisInquiryService.getDailyOrders({
+        startDate: this.getKstYmd(history.createdAt),
+        endDate: this.getKstYmd(),
+        orderType: history.tradeType === TradeType.SELL ? 'sell' : 'buy',
+        status: 'all',
+        stockCode: history.stockCode,
+        orderNo,
+      });
+      const polledOrder = this.findPolledOrder(
+        orders,
+        orderNo,
+        history.stockCode,
+      );
+
+      if (polledOrder) {
+        const execution = await this.kisOrderService.recordPolledOrderExecution(
+          orderNo,
+          polledOrder,
+        );
+        if (execution) {
+          await this.applyConfirmedOrderExecution(execution);
+        }
+      }
+
+      if (!(await this.isOrderStillOpen(orderNo))) {
+        return;
+      }
+
+      if (attempt >= ORDER_POLL_MAX_ATTEMPTS) {
+        this.logger.warn(
+          `주문체결 polling 최대 재시도 도달: orderNo=${orderNo}. ` +
+            '주문은 미체결 상태로 남겨 중복 주문을 차단합니다.',
+        );
+        return;
+      }
+
+      this.scheduleOrderPollingFallback(
+        orderNo,
+        attempt + 1,
+        ORDER_POLL_INTERVAL_MS,
+      );
+    } catch (err: any) {
+      if (attempt >= ORDER_POLL_MAX_ATTEMPTS) {
+        this.logger.warn(
+          `주문체결 polling 실패 후 최대 재시도 도달: orderNo=${orderNo} - ${err.message ?? err}`,
+        );
+        return;
+      }
+
+      this.logger.warn(
+        `주문체결 polling 실패, 재시도 예약: orderNo=${orderNo}, ` +
+          `attempt=${attempt}/${ORDER_POLL_MAX_ATTEMPTS} - ${err.message ?? err}`,
+      );
+      this.scheduleOrderPollingFallback(
+        orderNo,
+        attempt + 1,
+        ORDER_POLL_INTERVAL_MS,
+      );
+    }
+  }
+
+  private async restoreOrderPollingFallbacks(
+    notificationReady: boolean,
+  ): Promise<void> {
+    const openOrders = await this.em.find(TradeHistoryEntity, {
+      action: TradeAction.ORDER,
+      status: {
+        $in: [TradeStatus.ACCEPTED, TradeStatus.PARTIAL],
+      },
+    });
+
+    for (const order of openOrders) {
+      const trackingMode = order.rawResponse?.meta?.trackingMode;
+      if (trackingMode !== 'polling-fallback' && notificationReady) {
+        continue;
+      }
+      this.scheduleOrderPollingFallback(order.kisOrderNo);
+    }
   }
 
   private getEntityUserId(user: UserEntity | number): number {
@@ -774,11 +933,10 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     if (cached != null && cached > 0) return cached;
 
     try {
-      const priceRaw = await this.kisQuotationService.getCurrentPrice(
+      const price = await this.quotationService.getLastPrice(
         session.stockCode,
       );
-      const price = Number(priceRaw.stck_prpr);
-      return Number.isFinite(price) && price > 0 ? price : undefined;
+      return Number.isFinite(price) && (price ?? 0) > 0 ? price : undefined;
     } catch (err: any) {
       this.logger.warn(
         `VI/정지 해제 후 현재가 조회 실패: ${session.stockCode} - ${err.message ?? err}`,
@@ -868,8 +1026,10 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       action: TradeAction.ORDER,
       status: { $in: [TradeStatus.ACCEPTED, TradeStatus.PARTIAL] },
     });
+    let notificationReady = true;
     if (openOrderCount > 0) {
-      await this.ensureOrderNotificationTrackingReady();
+      notificationReady = await this.ensureOrderNotificationTrackingReady();
+      await this.restoreOrderPollingFallbacks(notificationReady);
     }
 
     // 서버 재시작 시 활성 세션이 있으면 모니터링 시작
@@ -1156,12 +1316,11 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     if (trimmed) return trimmed;
 
     try {
-      const raw = await this.kisQuotationService.getCurrentPrice(stockCode);
-      const fromKis = raw?.hts_kor_isnm?.trim();
-      if (fromKis) return fromKis;
+      const fromQuote = await this.quotationService.getStockName(stockCode);
+      if (fromQuote) return fromQuote;
     } catch (err: any) {
       this.logger.warn(
-        `종목명 KIS 조회 실패 (${stockCode}): ${err.message ?? err}`,
+        `종목명 시세 조회 실패 (${stockCode}): ${err.message ?? err}`,
       );
     }
 
@@ -1726,10 +1885,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           );
         }
 
-        if (
-          this.kisWsService.isOrderNotificationsSubscribed() &&
-          this.hasOpenOrderInMap(session, openOrders)
-        ) {
+        if (this.hasOpenOrderInMap(session, openOrders)) {
           await this.em.flush();
           continue;
         }
@@ -1788,7 +1944,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
     try {
       // 현재가 일봉 데이터로 신호 확인 (최근 데이터 기반)
-      const dailyPrices = await this.kisQuotationService.getDailyPrice(
+      const dailyPrices = await this.quotationService.getDailyPrice(
         session.stockCode,
         'D',
       );
@@ -1885,6 +2041,16 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       return;
     }
 
+    if (
+      await this.hasOpenOrderSafely(
+        session.user,
+        session.stockCode,
+        '자동 매수 전 미체결 주문 확인',
+      )
+    ) {
+      return;
+    }
+
     const trackingReady = await this.ensureOrderNotificationTrackingReady();
     if (!trackingReady) {
       await this.warnOrderTrackingUnavailable(session);
@@ -1949,7 +2115,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         metadata: {
           sessionId: session.id,
           source: 'auto-buy',
-          trackingMode: trackingReady ? 'notification' : 'optimistic-fallback',
+          trackingMode: trackingReady ? 'notification' : 'polling-fallback',
         },
       });
 
@@ -1966,10 +2132,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       );
       this.viHeldOrders.delete(session.id);
       if (!trackingReady) {
-        this.applyOptimisticBuyFill(session, price, qty);
-        await this.em.flush();
-        this.broadcastSessionUpdate(session);
-        this.createSignalNotification(session, 'buy', price, qty);
+        this.scheduleOrderPollingFallback(result.output?.ODNO);
       }
     } catch (err: any) {
       this.logger.error(`매수 실패: ${session.stockCode} - ${err.message}`);
@@ -1982,21 +2145,31 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
    */
   private async executeImmediateBuy(session: AutoTradingSessionEntity) {
     try {
+      if (
+        await this.hasOpenOrderSafely(
+          session.user,
+          session.stockCode,
+          '즉시 매수 전 미체결 주문 확인',
+        )
+      ) {
+        return;
+      }
+
       const trackingReady = await this.ensureOrderNotificationTrackingReady();
       if (!trackingReady) {
         await this.warnOrderTrackingUnavailable(session);
       }
 
-      const priceRaw = await this.kisQuotationService.getCurrentPrice(
+      const lastPrice = await this.quotationService.getLastPrice(
         session.stockCode,
       );
-      const price = Number(priceRaw.stck_prpr);
-      if (!Number.isFinite(price) || price <= 0) {
+      if (lastPrice == null || !Number.isFinite(lastPrice) || lastPrice <= 0) {
         this.logger.warn(
           `즉시 매수 건너뜀: ${session.stockCode} - 현재가 조회 실패`,
         );
         return;
       }
+      const price = lastPrice;
 
       const meta = getStrategyTradeMeta(session.strategyId, session.variant);
       const tradeAmount =
@@ -2031,7 +2204,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         metadata: {
           sessionId: session.id,
           source: 'immediate-buy',
-          trackingMode: trackingReady ? 'notification' : 'optimistic-fallback',
+          trackingMode: trackingReady ? 'notification' : 'polling-fallback',
         },
       });
 
@@ -2048,9 +2221,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           `(주문번호 ${result.output?.ODNO ?? 'N/A'})`,
       );
       if (!trackingReady) {
-        this.applyOptimisticBuyFill(session, price, qty);
-        await this.em.flush();
-        this.broadcastSessionUpdate(session);
+        this.scheduleOrderPollingFallback(result.output?.ODNO);
       }
     } catch (err: any) {
       // 즉시 매수 실패는 세션 자체를 롤백하지 않고 로깅만 — 이후 전략 신호로 진입 가능
@@ -2083,6 +2254,16 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
     this.sellInFlightSessionIds.add(session.id);
     try {
+      if (
+        await this.hasOpenOrderSafely(
+          session.user,
+          session.stockCode,
+          '자동 매도 전 미체결 주문 확인',
+        )
+      ) {
+        return;
+      }
+
       const trackingReady = await this.ensureOrderNotificationTrackingReady();
       if (!trackingReady) {
         await this.warnOrderTrackingUnavailable(session);
@@ -2116,7 +2297,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
             stage: opts?.stage,
             trackingMode: trackingReady
               ? 'notification'
-              : 'optimistic-fallback',
+              : 'polling-fallback',
           },
         });
 
@@ -2137,23 +2318,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         }
         session.pauseReason = undefined;
         if (!trackingReady) {
-          const pnl = this.applyOptimisticSellFill(session, price, sellQty);
-          if (opts?.stage != null && session.holdingQty > 0) {
-            session.scaleOutStage = opts.stage;
-          }
+          this.scheduleOrderPollingFallback(result.output?.ODNO);
           await this.em.flush();
           this.broadcastSessionUpdate(session);
-          this.createSignalNotification(
-            session,
-            'sell',
-            price,
-            sellQty,
-            reason,
-            pnl,
-          );
-          if (pauseAfterSell) {
-            await this.pauseSessionAfterAutoSell(session, reason);
-          }
         } else {
           await this.em.flush();
           this.broadcastSessionUpdate(session);
@@ -2166,48 +2333,15 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-  private async handleOrderNotification(
-    notification: KisRealtimeOrderNotification,
+  private async applyConfirmedOrderExecution(
+    execution: RecordedExecution,
   ): Promise<void> {
-    if (notification.isRejected) {
-      const history =
-        await this.kisOrderService.markOrderRejected(notification);
-      const sessionId = Number(history?.rawResponse?.meta?.sessionId ?? 0);
-      if (history?.rawResponse?.meta?.pauseAfterSell && sessionId > 0) {
-        const session = await this.em.findOne(
-          AutoTradingSessionEntity,
-          sessionId,
-        );
-        if (session?.autoPausePending) {
-          session.autoPausePending = false;
-          await this.em.flush();
-          this.broadcastSessionUpdate(session);
-        }
-      }
-      return;
-    }
-
-    if (!notification.isExecuted || notification.executionQty <= 0) {
-      return;
-    }
-
-    const execution =
-      await this.kisOrderService.recordExecutionNotification(notification);
-    if (!execution) {
-      return;
-    }
+    this.clearOrderPollingTimer(execution.history.kisOrderNo);
 
     const sessionId = Number(
       execution.history.rawResponse?.meta?.sessionId ?? 0,
     );
     if (!sessionId) {
-      return;
-    }
-
-    if (
-      execution.history.rawResponse?.meta?.trackingMode ===
-      'optimistic-fallback'
-    ) {
       return;
     }
 
@@ -2218,9 +2352,18 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
     const executedQty = execution.appliedQty;
     const executedPrice =
-      Number(notification.executionPrice) ||
-      Number(notification.orderPrice) ||
+      Number(execution.executionPrice) ||
+      Number(execution.history.price) ||
+      Number(session.avgBuyPrice) ||
       0;
+    if (executedQty <= 0 || executedPrice <= 0) {
+      this.logger.warn(
+        `체결 반영 보류: ${execution.history.stockCode} ` +
+          `qty=${executedQty}, price=${executedPrice}`,
+      );
+      return;
+    }
+
     const wasFirstExecution = execution.previousExecutedQty === 0;
 
     if (execution.history.tradeType === TradeType.BUY) {
@@ -2305,6 +2448,41 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         | undefined;
       await this.pauseSessionAfterAutoSell(session, reason);
     }
+  }
+
+  private async handleOrderNotification(
+    notification: KisRealtimeOrderNotification,
+  ): Promise<void> {
+    if (notification.isRejected) {
+      this.clearOrderPollingTimer(notification.orderNo);
+      const history =
+        await this.kisOrderService.markOrderRejected(notification);
+      const sessionId = Number(history?.rawResponse?.meta?.sessionId ?? 0);
+      if (history?.rawResponse?.meta?.pauseAfterSell && sessionId > 0) {
+        const session = await this.em.findOne(
+          AutoTradingSessionEntity,
+          sessionId,
+        );
+        if (session?.autoPausePending) {
+          session.autoPausePending = false;
+          await this.em.flush();
+          this.broadcastSessionUpdate(session);
+        }
+      }
+      return;
+    }
+
+    if (!notification.isExecuted || notification.executionQty <= 0) {
+      return;
+    }
+
+    const execution =
+      await this.kisOrderService.recordExecutionNotification(notification);
+    if (!execution) {
+      return;
+    }
+
+    await this.applyConfirmedOrderExecution(execution);
   }
 
   /**
@@ -2457,6 +2635,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     for (const timer of this.priceTriggeredSellCheckTimers.values()) {
       clearTimeout(timer);
     }
+    for (const timer of this.orderPollingTimers.values()) {
+      clearTimeout(timer);
+    }
     for (const timer of this.viClearTimeoutTimers.values()) {
       clearTimeout(timer);
     }
@@ -2476,6 +2657,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     this.subscriptionRetryAttempts.clear();
     this.priceTriggeredSellCheckTimers.clear();
     this.priceTriggeredSellCheckInFlight.clear();
+    this.orderPollingTimers.clear();
     this.holdingStockCodes.clear();
     this.sellInFlightSessionIds.clear();
     this.latestPriceUpdatedAt.clear();
@@ -2489,7 +2671,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
 
   private schedulePriceTriggeredSellCheck(stockCode: string) {
     // 보유 수량 없는 종목은 DB 조회까지 갈 필요 없이 스킵한다.
-    // 매수 이벤트는 applyOptimisticBuyFill/handleOrderNotification 에서 add 되고,
+    // 매수 확정 이벤트는 체결통보/polling 공통 체결 반영 경로에서 add 되고,
     // 30초 루프의 refreshHoldingStockCodes 가 주기적으로 전체 재계산한다.
     if (
       !this.activeStockCodes.has(stockCode) ||
@@ -2958,10 +3140,8 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     this.pollingInFlight.add(stockCode);
 
     try {
-      const priceRaw =
-        await this.kisQuotationService.getCurrentPrice(stockCode);
-      const price = Number(priceRaw.stck_prpr);
-      if (!Number.isFinite(price) || price <= 0) {
+      const price = await this.quotationService.getLastPrice(stockCode);
+      if (price == null || !Number.isFinite(price) || price <= 0) {
         this.recordPricePollingFailure(stockCode, '유효하지 않은 가격');
         return;
       }
@@ -3091,8 +3271,11 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
 
     if (
-      trackingReady &&
-      (await this.hasOpenOrder(session.user.id, session.stockCode))
+      await this.hasOpenOrderSafely(
+        session.user,
+        session.stockCode,
+        '수동 주문 전 미체결 주문 확인',
+      )
     ) {
       throw new ConflictException({
         message: '미체결 주문이 있어 새 주문을 낼 수 없습니다.',
@@ -3117,7 +3300,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       metadata: {
         sessionId: session.id,
         source: 'manual',
-        trackingMode: trackingReady ? 'notification' : 'optimistic-fallback',
+        trackingMode: trackingReady ? 'notification' : 'polling-fallback',
       },
     });
 
@@ -3130,22 +3313,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
 
     if (!trackingReady) {
-      if (dto.orderType === 'buy') {
-        const estimatedPrice =
-          dto.orderDvsn === '01'
-            ? (this.latestPrices.get(session.stockCode) ?? session.avgBuyPrice)
-            : price;
-        this.applyOptimisticBuyFill(session, estimatedPrice, dto.quantity);
-      } else {
-        const sellPrice =
-          dto.orderDvsn === '01'
-            ? (this.latestPrices.get(session.stockCode) ?? session.avgBuyPrice)
-            : price;
-        this.applyOptimisticSellFill(session, sellPrice, dto.quantity);
-      }
-
-      await this.em.flush();
-      this.broadcastSessionUpdate(session);
+      this.scheduleOrderPollingFallback(orderResult.output?.ODNO);
     }
 
     return session;

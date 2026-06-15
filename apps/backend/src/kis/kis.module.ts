@@ -6,6 +6,10 @@ import { KisRateLimiterService } from './kis-rate-limiter.service';
 import { KisOrderService } from './kis-order.service';
 import { KisInquiryService } from './kis-inquiry.service';
 import { KisQuotationService } from './kis-quotation.service';
+import { TossService } from './toss.service';
+import { TossRateLimiterService } from './toss-rate-limiter.service';
+import { TossQuotationService } from './toss-quotation.service';
+import { QuotationService } from './quotation.service';
 import { KisJournalService } from './kis-journal.service';
 import { KisWebSocketService } from './kis-websocket.service';
 import { KisWebSocketGateway } from './kis-websocket.gateway';
@@ -35,6 +39,10 @@ import { NotificationModule } from '../notification/notification.module';
     KisOrderService,
     KisInquiryService,
     KisQuotationService,
+    TossService,
+    TossRateLimiterService,
+    TossQuotationService,
+    QuotationService,
     KisJournalService,
     KisWebSocketService,
     KisWebSocketGateway,
@@ -46,6 +54,8 @@ import { NotificationModule } from '../notification/notification.module';
     KisOrderService,
     KisInquiryService,
     KisQuotationService,
+    TossQuotationService,
+    QuotationService,
     KisJournalService,
     KisWebSocketService,
   ],

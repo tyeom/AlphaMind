@@ -5,6 +5,7 @@ import {
   AutoTradingSessionEntity,
   SessionStatus,
 } from './entities/auto-trading-session.entity';
+import { TradeType } from '../kis/entities/trade-history.entity';
 
 describe('AutoTradingService', () => {
   const createService = () => {
@@ -23,6 +24,7 @@ describe('AutoTradingService', () => {
     const kisOrderService = {
       orderCash: jest.fn(),
       recordExecutionNotification: jest.fn(),
+      recordPolledOrderExecution: jest.fn(),
       markOrderRejected: jest.fn(),
     };
     const kisWsService = {
@@ -36,12 +38,15 @@ describe('AutoTradingService', () => {
       isOrderNotificationsSubscribed: jest.fn().mockReturnValue(true),
       getOrderNotificationSubscriptionError: jest.fn(),
     };
-    const kisQuotationService = {
+    const quotationService = {
+      getLastPrice: jest.fn(),
       getCurrentPrice: jest.fn(),
       getDailyPrice: jest.fn(),
+      getStockName: jest.fn(),
     };
     const kisInquiryService = {
       getBalance: jest.fn(),
+      getDailyOrders: jest.fn(),
     };
     const notificationService = {
       create: jest.fn().mockResolvedValue({}),
@@ -52,7 +57,7 @@ describe('AutoTradingService', () => {
       em,
       kisOrderService as any,
       kisWsService as any,
-      kisQuotationService as any,
+      quotationService as any,
       kisInquiryService as any,
       notificationService as any,
       marketDataClient,
@@ -63,7 +68,7 @@ describe('AutoTradingService', () => {
       em,
       kisOrderService,
       kisWsService,
-      kisQuotationService,
+      quotationService,
       kisInquiryService,
     };
   };
@@ -166,7 +171,7 @@ describe('AutoTradingService', () => {
   });
 
   it('uses completed realtime minute candles instead of daily prices for scalping entry', async () => {
-    const { service, kisQuotationService } = createService();
+    const { service, quotationService } = createService();
     const session = {
       stockCode: '005930',
       strategyId: 'scalping',
@@ -178,7 +183,7 @@ describe('AutoTradingService', () => {
     const shouldBuy = await (service as any).shouldBuyByStrategy(session);
 
     expect(shouldBuy).toBe(true);
-    expect(kisQuotationService.getDailyPrice).not.toHaveBeenCalled();
+    expect(quotationService.getDailyPrice).not.toHaveBeenCalled();
   });
 
   it('does not execute an immediate buy for a scalping session', async () => {
@@ -427,7 +432,7 @@ describe('AutoTradingService', () => {
     expect((service as any).executeSell).not.toHaveBeenCalled();
   });
 
-  it('keeps partial optimistic sells active and increments stage only after fill', async () => {
+  it('keeps partial fallback sells unchanged until polling confirms fill', async () => {
     const { service, kisOrderService, kisWsService } = createService();
     const session = {
       id: 13,
@@ -451,6 +456,9 @@ describe('AutoTradingService', () => {
     const pauseSpy = jest
       .spyOn(service as any, 'pauseSessionAfterAutoSell')
       .mockResolvedValue(undefined);
+    const pollingSpy = jest
+      .spyOn(service as any, 'scheduleOrderPollingFallback')
+      .mockImplementation(() => undefined);
 
     await (service as any).executeSell(session, 102, 'TP1 부분익절', {
       sellQty: 5,
@@ -465,13 +473,88 @@ describe('AutoTradingService', () => {
           pauseAfterSell: false,
           partial: true,
           stage: 1,
+          trackingMode: 'polling-fallback',
         }),
       }),
     );
-    expect(session.holdingQty).toBe(5);
+    expect(pollingSpy).toHaveBeenCalledWith('123');
+    expect(session.holdingQty).toBe(10);
     expect(session.autoPausePending).toBe(false);
-    expect(session.scaleOutStage).toBe(1);
+    expect(session.scaleOutStage).toBe(0);
     expect(pauseSpy).not.toHaveBeenCalled();
+  });
+
+  it('applies polling-confirmed buy execution through the shared fill path', async () => {
+    const { service, em, kisInquiryService, kisOrderService } = createService();
+    const session = {
+      id: 14,
+      stockCode: '005930',
+      stockName: '삼성전자',
+      status: SessionStatus.ACTIVE,
+      holdingQty: 0,
+      avgBuyPrice: 0,
+      scaleOutStage: 0,
+      initialQty: 0,
+      highestPriceAfterEntry: 0,
+      addOnBuyCount: 0,
+      totalBuys: 0,
+      totalSells: 0,
+      unrealizedPnl: 0,
+      autoPausePending: false,
+      user: { id: 1 },
+    } as AutoTradingSessionEntity;
+    const history = {
+      stockCode: session.stockCode,
+      stockName: session.stockName,
+      tradeType: TradeType.BUY,
+      price: 0,
+      kisOrderNo: '123',
+      createdAt: new Date('2026-06-16T09:00:00+09:00'),
+      rawResponse: {
+        meta: {
+          sessionId: session.id,
+          trackingMode: 'polling-fallback',
+        },
+      },
+    };
+
+    em.findOne
+      .mockResolvedValueOnce(history)
+      .mockResolvedValueOnce(session)
+      .mockResolvedValueOnce(null);
+    kisInquiryService.getDailyOrders.mockResolvedValue([
+      {
+        odno: '123',
+        pdno: session.stockCode,
+        tot_ccld_qty: '3',
+        avg_prvs: '100',
+        rmn_qty: '0',
+      },
+    ]);
+    kisOrderService.recordPolledOrderExecution.mockResolvedValue({
+      history,
+      appliedQty: 3,
+      previousExecutedQty: 0,
+      isFullyExecuted: true,
+      executionPrice: 100,
+    });
+
+    await (service as any).pollOrderExecutionFallback('123', 1);
+
+    expect(kisInquiryService.getDailyOrders).toHaveBeenCalledWith(
+      expect.objectContaining({
+        stockCode: session.stockCode,
+        orderNo: '123',
+        orderType: 'buy',
+        status: 'all',
+      }),
+    );
+    expect(session.holdingQty).toBe(3);
+    expect(session.avgBuyPrice).toBe(100);
+    expect(session.totalBuys).toBe(1);
+    expect((service as any).holdingStockCodes.has(session.stockCode)).toBe(
+      true,
+    );
   });
 
   it('skips price-triggered sell checks when there is no holding', async () => {
@@ -613,7 +696,7 @@ describe('AutoTradingService', () => {
   });
 
   it('queues REST current price refresh and skips trading when realtime price is missing', async () => {
-    const { service, em, kisQuotationService, kisInquiryService } =
+    const { service, em, quotationService, kisInquiryService } =
       createService();
     const session = {
       id: 6,
@@ -638,7 +721,7 @@ describe('AutoTradingService', () => {
         },
       ],
     });
-    kisQuotationService.getCurrentPrice.mockResolvedValue({ stck_prpr: '103' });
+    quotationService.getLastPrice.mockResolvedValue(103);
     jest.spyOn(service as any, 'executeSell').mockResolvedValue(undefined);
     (service as any).activeStockCodes.add(session.stockCode);
 
@@ -647,7 +730,7 @@ describe('AutoTradingService', () => {
     expect((service as any).pollingStockCodes.has(session.stockCode)).toBe(
       true,
     );
-    expect(kisQuotationService.getCurrentPrice).toHaveBeenCalledWith(
+    expect(quotationService.getLastPrice).toHaveBeenCalledWith(
       session.stockCode,
     );
     expect((service as any).executeSell).not.toHaveBeenCalled();

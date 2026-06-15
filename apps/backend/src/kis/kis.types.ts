@@ -117,6 +117,26 @@ export interface KisBuyableOutput {
   max_buy_qty: string;
 }
 
+/** 일별 주문/체결 조회 응답 */
+export interface KisDailyOrder {
+  ord_dt?: string;
+  odno?: string;
+  orgn_odno?: string;
+  sll_buy_dvsn_cd?: string;
+  pdno?: string;
+  prdt_name?: string;
+  ord_qty?: string;
+  ord_unpr?: string;
+  ord_tmd?: string;
+  tot_ccld_qty?: string;
+  avg_prvs?: string;
+  cncl_yn?: string;
+  tot_ccld_amt?: string;
+  ord_dvsn_cd?: string;
+  rmn_qty?: string;
+  rjct_qty?: string;
+}
+
 /** 주문구분 코드 */
 export type OrderDivision =
   | '00' // 지정가

@@ -30,6 +30,17 @@ export const validationSchema = Joi.object({
   KIS_RATE_MAX_RETRY: Joi.number().default(5),
   KIS_WS_APPROVAL_TIMEOUT_MS: Joi.number().integer().positive().default(15000),
   KIS_WS_HANDSHAKE_TIMEOUT_MS: Joi.number().integer().positive().default(15000),
+
+  // Toss (토스증권 Open API) — 현재가/차트 등 시세 조회를 KIS REST 대신 사용.
+  // 키 미설정 시 시세 조회는 KIS REST 로 폴백한다(allow('')).
+  TOSS_API_BASE_URL: Joi.string()
+    .uri()
+    .default('https://openapi.tossinvest.com'),
+  TOSS_CLIENT_ID: Joi.string().allow('').optional(),
+  TOSS_CLIENT_SECRET: Joi.string().allow('').optional(),
+  TOSS_REQUEST_TIMEOUT_MS: Joi.number().integer().positive().default(10000),
+  // 토스 현재가 체결시각 허용 신선도(ms). 초과/누락 시 KIS 현재가로 폴백한다.
+  TOSS_PRICE_MAX_AGE_MS: Joi.number().integer().positive().default(300000),
   PRICE_POLL_TICK_MS: Joi.number().integer().positive().default(1000),
   PRICE_POLL_MAX_IN_FLIGHT: Joi.number().integer().positive().default(2),
   PRICE_POLL_FAILURE_BASE_DELAY_MS: Joi.number()
@@ -41,6 +52,10 @@ export const validationSchema = Joi.object({
     .positive()
     .default(120000),
   PRICE_POLL_WARN_COOLDOWN_MS: Joi.number().integer().positive().default(30000),
+  // 체결통보 비활성화 시 주문체결 조회로 실제 체결 확정을 확인한다.
+  ORDER_POLL_INITIAL_DELAY_MS: Joi.number().integer().positive().default(2000),
+  ORDER_POLL_INTERVAL_MS: Joi.number().integer().positive().default(5000),
+  ORDER_POLL_MAX_ATTEMPTS: Joi.number().integer().positive().default(24),
   // 일봉 스캔 후보의 실매수는 KIS 실시간 체결을 집계한 완성 1분봉 신호로 제한한다.
   INTRADAY_SCALPING_MIN_CANDLES: Joi.number()
     .integer()
