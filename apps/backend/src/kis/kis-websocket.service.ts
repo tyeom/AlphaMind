@@ -555,6 +555,14 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
       try {
         const json = JSON.parse(raw);
         const trId = json.header?.tr_id;
+        // KIS 는 PINGPONG 을 평문이 아니라 JSON({header:{tr_id:'PINGPONG'}}) 으로도 보낸다.
+        // 이 분기를 놓치면 lastPingpongAt 이 갱신되지 않아 90초마다 연결이 끊기고,
+        // echo 도 못 보내 서버가 연결을 강제 종료한다(무한 재연결).
+        if (trId === 'PINGPONG') {
+          this.lastPingpongAt = Date.now();
+          this.ws?.send(raw);
+          return;
+        }
         const trKey = json.header?.tr_key;
         const rtCd = json.body?.rt_cd;
         const msgCd = json.body?.msg_cd;
