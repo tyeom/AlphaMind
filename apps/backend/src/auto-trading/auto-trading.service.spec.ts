@@ -841,6 +841,33 @@ describe('AutoTradingService', () => {
     });
   });
 
+  it('상시 폴링 중에도 비-limit 구독 실패는 WebSocket 재시도를 예약한다 (회귀 방지)', () => {
+    const { service } = createService();
+    const svc = service as any;
+    const stockCode = '005930';
+    svc.activeStockCodes.add(stockCode);
+    // 변경 후 active 종목은 WebSocket 구독과 무관하게 항상 REST 폴링이 켜진다.
+    const pollingTimer = setInterval(jest.fn(), 1_000_000);
+    svc.pollingStockIntervals.set(stockCode, pollingTimer);
+
+    try {
+      svc.handleExecutionSubscriptionResult({
+        trId: 'H0STCNT0',
+        action: 'subscribe',
+        trKey: stockCode,
+        success: false,
+        code: 'ERR',
+        message: '일시적 연결 오류', // limit/초과/한도 미포함 → 비-limit 실패
+      });
+
+      // 폴링이 상시 켜져 있어도 비-limit 실패는 재시도가 예약되어야 한다.
+      expect(svc.subscriptionRetryTimers.has(stockCode)).toBe(true);
+    } finally {
+      clearInterval(pollingTimer);
+      svc.clearSubscriptionRetry(stockCode);
+    }
+  });
+
   it('re-evaluates held sell intent against current price when VI clears', async () => {
     const { service, em } = createService();
     const session = {

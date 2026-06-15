@@ -2826,9 +2826,12 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   }
 
   private scheduleSubscriptionRetry(stockCode: string, reason: string) {
+    // 주의: 폴링은 이제 active 종목에 상시 동작하므로 pollingStockIntervals 를
+    // 재시도 차단 조건으로 쓰면 비(非)-limit 구독 실패가 영구히 재시도되지 않는다.
+    // 한도초과 케이스는 handleExecutionSubscriptionResult 에서 별도 분기로 처리되어
+    // 여기 도달하지 않으므로, 여기서는 폴링 여부와 무관하게 재시도를 예약한다.
     if (
       this.subscriptionRetryTimers.has(stockCode) ||
-      this.pollingStockIntervals.has(stockCode) ||
       !this.activeStockCodes.has(stockCode)
     ) {
       return;
