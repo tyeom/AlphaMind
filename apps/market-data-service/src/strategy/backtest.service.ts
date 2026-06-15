@@ -332,6 +332,16 @@ export interface ScanSelectionOptions {
    * 특정 섹터 후보가 결과 상단을 독점하지 않도록 라운드 로빈으로 구성한다.
    */
   sectorTopOneFirst?: boolean;
+  /**
+   * 엄격 OOS 품질 필터 통과 후보가 없을 때 양수 IS/OOS 수익과 최신 BUY 신호를
+   * 만족하는 후보를 사용한다. 단일 스켈핑 강제 시 결과가 0건으로 고착되는 것을 막는다.
+   */
+  allowProfitableQualityFallback?: boolean;
+  /**
+   * 최근 BUY 신호가 없어도 양수 IS/OOS 수익과 거래수 조건을 만족하면 모니터링 후보로 반환한다.
+   * 실제 예약 세션은 monitor 모드이므로 이후 BUY 신호가 발생하기 전에는 주문하지 않는다.
+   */
+  allowWatchlistFallback?: boolean;
 }
 
 interface TradeQuality {
@@ -698,7 +708,19 @@ export class BacktestService {
       buyAmount: number,
       wasFlat: boolean,
     ) => {
-      const legacyQty = Math.floor(buyAmount / fillPrice);
+      let legacyQty = Math.floor(buyAmount / fillPrice);
+
+      // 스캔은 소액 계좌에서도 전략 성과를 평가할 수 있어야 한다.
+      // 비율 금액이 1주 가격보다 작아도 전체 현금으로 1주 매수가 가능하면 최소 1주로 평가한다.
+      if (config.ensureMinOneShare && wasFlat && legacyQty <= 0) {
+        const maxAffordableQty = Math.floor(
+          cash / (1 + commissionRate) / fillPrice,
+        );
+        if (maxAffordableQty >= 1) {
+          legacyQty = 1;
+        }
+      }
+
       if (!rSizing.enabled || !wasFlat) {
         return legacyQty;
       }
@@ -1989,7 +2011,7 @@ export class BacktestService {
       ? { takeProfitPct: autoTakeProfitPct, stopLossPct: autoStopLossPct }
       : computeAtrDynamicTpSl(autoTakeProfitPct, autoStopLossPct, volatilityPct);
 
-    let bestResult: {
+    type EvaluatedScanResult = {
       strategyId: string;
       strategyName: string;
       variant?: string;
@@ -2005,7 +2027,11 @@ export class BacktestService {
       appliedTakeProfitPct: number;
       appliedStopLossPct: number;
       appliedMaxHoldingDays: number;
-    } | null = null;
+      watchlistFallback: boolean;
+    };
+    let bestResult: EvaluatedScanResult | null = null;
+    let bestQualityFallback: EvaluatedScanResult | null = null;
+    let bestWatchlistFallback: EvaluatedScanResult | null = null;
 
     const requestedStrategyIds =
       selectionOptions.strategyIds ?? SHORT_TERM_SCAN_STRATEGY_IDS;
@@ -2053,6 +2079,7 @@ export class BacktestService {
             maxHoldingDays: appliedMaxHoldingDays,
             allowAddOnBuy: false,
             minBuySignalStrength: BACKTEST_MIN_BUY_SIGNAL_STRENGTH,
+            ensureMinOneShare: true,
             ...scaleOutOptions,
           };
 
@@ -2069,7 +2096,6 @@ export class BacktestService {
           if (inSample.totalReturnPct <= 0) continue;
           if (outOfSample.totalReturnPct <= 0) continue;
           const tradeQuality = this.calculateTradeQuality(outOfSample);
-          if (!this.passesOosQuality(outOfSample, tradeQuality)) continue;
 
           // 합산 거래수 최소치 (튜닝 가능한 통계 신뢰도 임계)
           const combinedTrades = inSample.totalTrades + outOfSample.totalTrades;
@@ -2077,18 +2103,21 @@ export class BacktestService {
 
           // 스캔 매수 후보는 "현재 상태"가 아니라 fresh BUY 중 가장 강한 신호로 판단한다.
           // currentSignal 자체는 최신 방향 표시용이므로 반대 신호와 섞어 쓰지 않는다.
-          const currentSignal = pickFreshStrongestSignal(
+          const freshBuySignal = pickFreshStrongestSignal(
             signals,
             candles[candles.length - 1],
             SignalDirection.Buy,
             { tradingDates: candles },
           );
-          if (
-            !currentSignal ||
-            currentSignal.strength < minCurrentSignalStrength
-          ) {
+          const hasFreshBuy =
+            freshBuySignal != null &&
+            freshBuySignal.strength >= minCurrentSignalStrength;
+          if (!hasFreshBuy && !selectionOptions.allowWatchlistFallback) {
             continue;
           }
+          const currentSignal = hasFreshBuy
+            ? freshBuySignal!
+            : analysis.currentSignal;
 
           // 랭킹은 집계 OOS 지표 기준이며 폴드별 양수 AND 조건을 요구하지 않는다.
           const baseRankScore = this.calculateScanRankScore(
@@ -2107,6 +2136,28 @@ export class BacktestService {
           const rankScore =
             Math.round((baseRankScore + consistencyBonus) * 100) / 100;
 
+          const evaluatedResult = {
+            strategyId,
+            strategyName: strategy.name,
+            variant,
+            inSample,
+            outOfSample,
+            rankScore,
+            analysis,
+            currentSignal,
+            tradeQuality,
+            folds: walkForward.folds,
+            wfConsistency: walkForward.wfConsistency,
+            rollingEnabled: walkForward.rollingEnabled,
+            appliedTakeProfitPct,
+            appliedStopLossPct,
+            appliedMaxHoldingDays,
+            watchlistFallback: !hasFreshBuy,
+          };
+          const passesQuality = this.passesOosQuality(
+            outOfSample,
+            tradeQuality,
+          );
           const isBetterResult =
             !bestResult ||
             (selectionOptions.strategySelectionMetric === 'totalReturnPct'
@@ -2117,24 +2168,31 @@ export class BacktestService {
                   rankScore > bestResult.rankScore)
               : rankScore > bestResult.rankScore);
 
-          if (isBetterResult) {
-            bestResult = {
-              strategyId,
-              strategyName: strategy.name,
-              variant,
-              inSample,
-              outOfSample,
-              rankScore,
-              analysis,
-              currentSignal,
-              tradeQuality,
-              folds: walkForward.folds,
-              wfConsistency: walkForward.wfConsistency,
-              rollingEnabled: walkForward.rollingEnabled,
-              appliedTakeProfitPct,
-              appliedStopLossPct,
-              appliedMaxHoldingDays,
-            };
+          if (hasFreshBuy && passesQuality && isBetterResult) {
+            bestResult = evaluatedResult;
+          } else if (
+            hasFreshBuy &&
+            !passesQuality &&
+            selectionOptions.allowProfitableQualityFallback &&
+            (!bestQualityFallback ||
+              outOfSample.totalReturnPct >
+                bestQualityFallback.outOfSample.totalReturnPct ||
+              (outOfSample.totalReturnPct ===
+                bestQualityFallback.outOfSample.totalReturnPct &&
+                rankScore > bestQualityFallback.rankScore))
+          ) {
+            bestQualityFallback = evaluatedResult;
+          } else if (
+            !hasFreshBuy &&
+            selectionOptions.allowWatchlistFallback &&
+            (!bestWatchlistFallback ||
+              outOfSample.totalReturnPct >
+                bestWatchlistFallback.outOfSample.totalReturnPct ||
+              (outOfSample.totalReturnPct ===
+                bestWatchlistFallback.outOfSample.totalReturnPct &&
+                rankScore > bestWatchlistFallback.rankScore))
+          ) {
+            bestWatchlistFallback = evaluatedResult;
           }
         } catch {
           // 전략/변형 분석 실패 시 건너뛰기
@@ -2142,33 +2200,42 @@ export class BacktestService {
       }
     }
 
-    if (!bestResult) return null;
+    const selectedResult =
+      bestResult ?? bestQualityFallback ?? bestWatchlistFallback;
+    if (!selectedResult) return null;
 
-    const { analysis, currentSignal, inSample, outOfSample } = bestResult;
+    const { analysis, currentSignal, inSample, outOfSample } = selectedResult;
 
     return {
       stockCode: stock.code,
       stockName: stock.name,
       sector: stock.sector ?? undefined,
       bestStrategy: {
-        strategyId: bestResult.strategyId,
-        strategyName: bestResult.strategyName,
-        variant: bestResult.variant,
+        strategyId: selectedResult.strategyId,
+        strategyName: selectedResult.strategyName,
+        variant: selectedResult.variant,
       },
       // 외부 필드는 OOS 기준 (예측 가능한 신뢰 구간 지표)
       totalReturnPct: outOfSample.totalReturnPct,
       winRate: outOfSample.winRate,
       maxDrawdownPct: outOfSample.maxDrawdownPct,
       totalTrades: outOfSample.totalTrades,
-      rankScore: bestResult.rankScore,
+      rankScore: selectedResult.rankScore,
       finalValue: outOfSample.finalValue,
       investmentAmount,
+      latestPrice: candles[candles.length - 1].close,
+      ...(bestResult == null && bestQualityFallback != null
+        ? { qualityFallback: true }
+        : {}),
+      ...(selectedResult.watchlistFallback
+        ? { watchlistFallback: true }
+        : {}),
       volatilityPct,
-      autoTakeProfitPct: bestResult.appliedTakeProfitPct,
-      autoStopLossPct: bestResult.appliedStopLossPct,
-      maxHoldingDays: bestResult.appliedMaxHoldingDays,
-      profitFactor: bestResult.tradeQuality.profitFactor,
-      expectancyPct: bestResult.tradeQuality.expectancyPct,
+      autoTakeProfitPct: selectedResult.appliedTakeProfitPct,
+      autoStopLossPct: selectedResult.appliedStopLossPct,
+      maxHoldingDays: selectedResult.appliedMaxHoldingDays,
+      profitFactor: selectedResult.tradeQuality.profitFactor,
+      expectancyPct: selectedResult.tradeQuality.expectancyPct,
       riskProfile: {
         avgTurnover20: riskProfile.avgTurnover20,
         sma20Slope5dPct: riskProfile.sma20Slope5dPct,
@@ -2189,8 +2256,8 @@ export class BacktestService {
         totalTrades: outOfSample.totalTrades,
         maxDrawdownPct: outOfSample.maxDrawdownPct,
       },
-      ...(bestResult.rollingEnabled && {
-        folds: bestResult.folds.map(({ fold, inSample, outOfSample }) => ({
+      ...(selectedResult.rollingEnabled && {
+        folds: selectedResult.folds.map(({ fold, inSample, outOfSample }) => ({
           foldIndex: fold.foldIndex,
           inSampleLength: fold.inSampleEnd - fold.inSampleStart,
           outOfSampleLength: fold.oosEnd - fold.oosStart,
@@ -2207,7 +2274,7 @@ export class BacktestService {
             maxDrawdownPct: outOfSample.maxDrawdownPct,
           },
         })),
-        wfConsistency: bestResult.wfConsistency,
+        wfConsistency: selectedResult.wfConsistency,
       }),
       summary: analysis.summary,
       currentSignal: {

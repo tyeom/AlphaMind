@@ -24,6 +24,12 @@ export interface ScanResult {
   rankScore: number;
   finalValue: number;
   investmentAmount: number;
+  /** 스캔 기준 최신 종가. 예약 스캔의 실제 1주 매수 가능 예산 계산에 사용한다. */
+  latestPrice?: number;
+  /** 엄격 OOS 품질 필터 대신 양수 OOS 수익 후보 fallback으로 채택됐는지 여부. */
+  qualityFallback?: boolean;
+  /** 최근 BUY 신호는 없지만 수익 양수 스켈핑 전략으로 모니터링할 후보인지 여부. */
+  watchlistFallback?: boolean;
   /**
    * 스캔 백테스트에 실제 적용된 자동 익절/손절 값.
    * backend 예약 스캐너가 이 값을 그대로 세션에 반영해 검증 룰과 실전 룰을 일치시킨다.

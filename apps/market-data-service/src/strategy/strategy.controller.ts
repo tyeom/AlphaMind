@@ -50,6 +50,8 @@ const SCALPING_SECTOR_SCAN_OPTIONS: ScanSelectionOptions = {
   strategyIds: ['scalping'],
   strategySelectionMetric: 'totalReturnPct',
   sectorTopOneFirst: true,
+  allowProfitableQualityFallback: true,
+  allowWatchlistFallback: true,
 };
 
 interface ScaleOutRequestOptions {

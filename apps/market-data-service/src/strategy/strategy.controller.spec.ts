@@ -126,6 +126,8 @@ describe('StrategyController', () => {
       strategyIds: ['scalping'],
       strategySelectionMetric: 'totalReturnPct',
       sectorTopOneFirst: true,
+      allowProfitableQualityFallback: true,
+      allowWatchlistFallback: true,
     };
 
     const http = createController();

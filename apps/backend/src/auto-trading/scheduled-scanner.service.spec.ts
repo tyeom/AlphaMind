@@ -497,6 +497,92 @@ describe('ScheduledScannerService', () => {
     expect(autoTradingService.resumeSession).toHaveBeenCalledWith(10, 1);
   });
 
+  it('keeps only candidates that can buy at least one share with current cash', async () => {
+    const { service, execute, em, autoTradingService, kisInquiryService } =
+      createService();
+    const event: ScanCompletedEvent = {
+      userId: 1,
+      requestId: 'req-affordable',
+      response: {
+        scannedStocks: 3,
+        eligibleStocks: 3,
+        excludedStocks: 0,
+        results: [
+          scalpingCandidate('EXPENSIVE', 0.95, 300_000),
+          scalpingCandidate('MID', 0.9, 100_000),
+          scalpingCandidate('CHEAP', 0.85, 50_000),
+        ],
+      },
+    };
+
+    execute.mockResolvedValueOnce([{ job_name: 'scheduled-ai-scan' }]);
+    (em.find as jest.Mock).mockResolvedValue([]);
+    kisInquiryService.getBuyableAmount.mockResolvedValue({
+      ord_psbl_cash: '500000',
+    });
+    autoTradingService.startSessions.mockResolvedValue([
+      { stockCode: 'MID' },
+      { stockCode: 'CHEAP' },
+    ]);
+
+    await service.handleScanCompleted(event);
+
+    const sessions = autoTradingService.startSessions.mock.calls[0][1].sessions;
+    expect(sessions.map((session: any) => session.stockCode)).toEqual([
+      'MID',
+      'CHEAP',
+    ]);
+    expect(sessions.map((session: any) => session.investmentAmount)).toEqual([
+      300_000, 200_000,
+    ]);
+    expect(
+      sessions.reduce(
+        (sum: number, session: any) => sum + session.investmentAmount,
+        0,
+      ),
+    ).toBe(500_000);
+  });
+
+  it('registers profitable scalping watchlist fallbacks without a current BUY signal', async () => {
+    const { service, execute, em, autoTradingService } = createService();
+    const candidate: any = scalpingCandidate('WAIT', 0, 50_000);
+    candidate.watchlistFallback = true;
+    candidate.currentSignal = {
+      direction: 'NEUTRAL',
+      strength: 0,
+      reason: '최근 BUY 신호 대기',
+    };
+    const event: ScanCompletedEvent = {
+      userId: 1,
+      requestId: 'req-watchlist',
+      response: {
+        scannedStocks: 1,
+        eligibleStocks: 1,
+        excludedStocks: 0,
+        results: [candidate],
+      },
+    };
+
+    execute.mockResolvedValueOnce([{ job_name: 'scheduled-ai-scan' }]);
+    (em.find as jest.Mock).mockResolvedValue([]);
+    autoTradingService.startSessions.mockResolvedValue([{ stockCode: 'WAIT' }]);
+
+    await service.handleScanCompleted(event);
+
+    expect(autoTradingService.startSessions).toHaveBeenCalledWith(
+      1,
+      expect.objectContaining({
+        entryMode: 'monitor',
+        sessions: [
+          expect.objectContaining({
+            stockCode: 'WAIT',
+            strategyId: 'scalping',
+          }),
+        ],
+      }),
+    );
+  });
+
   it('seeds cluster counts from active holdings and gates in one adoption loop', async () => {
     const { service, execute, em, autoTradingService } = createService({
       CORRELATION_CAP_ENABLED: true,
@@ -565,6 +651,22 @@ function scanCandidate(stockCode: string, strength: number, volatilityPct: numbe
       direction: 'BUY',
       strength,
       reason: 'fresh buy',
+    },
+  };
+}
+
+function scalpingCandidate(
+  stockCode: string,
+  strength: number,
+  latestPrice: number,
+) {
+  return {
+    ...scanCandidate(stockCode, strength, 3),
+    latestPrice,
+    bestStrategy: {
+      strategyId: 'scalping',
+      strategyName: '단타 스캘핑',
+      variant: 'ensemble',
     },
   };
 }

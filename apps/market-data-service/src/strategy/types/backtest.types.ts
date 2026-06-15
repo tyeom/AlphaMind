@@ -10,6 +10,11 @@ export interface BacktestConfig {
   investmentAmount: number;
   /** 1회 매매 비율 % (기본 10) */
   tradeRatioPct: number;
+  /**
+   * 스캔 전용 최소 수량 보정.
+   * 비율 금액으로 0주가 계산되더라도 전체 투자금으로 1주를 살 수 있으면 1주로 평가한다.
+   */
+  ensureMinOneShare?: boolean;
   /** 매매 수수료율 % (기본 0.015) */
   commissionPct: number;
   /** 자동 익절 수익률 % (기본 2.0) */

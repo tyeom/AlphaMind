@@ -5,7 +5,10 @@ import { Cron } from '@nestjs/schedule';
 import { ClientProxy } from '@nestjs/microservices';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { firstValueFrom } from 'rxjs';
-import { computeAtrDynamicTpSl } from '@alpha-mind/strategies';
+import {
+  computeAtrDynamicTpSl,
+  getStrategyTradeMeta,
+} from '@alpha-mind/strategies';
 import {
   AutoTradingSessionEntity,
   PauseReason,
@@ -76,6 +79,10 @@ interface ScanResult {
   sector?: string;
   clusterId?: number;
   volatilityPct?: number;
+  /** market-data 스캔 기준 최신 종가 — 실제 1주 진입 가능 예산 판정에 사용한다. */
+  latestPrice?: number;
+  qualityFallback?: boolean;
+  watchlistFallback?: boolean;
   /** market-data 백테스트에 실제 적용된 TP/SL. backend 는 이 값을 그대로 세션에 반영한다. */
   autoTakeProfitPct?: number;
   autoStopLossPct?: number;
@@ -681,8 +688,9 @@ export class ScheduledScannerService {
 
     const rawBuyCandidates = response.results.filter(
       (r) =>
-        r.currentSignal.direction.toUpperCase() === 'BUY' &&
-        r.currentSignal.strength >= minBuyStrength,
+        r.watchlistFallback === true ||
+        (r.currentSignal.direction.toUpperCase() === 'BUY' &&
+          r.currentSignal.strength >= minBuyStrength),
     );
     const skippedByManual = rawBuyCandidates.filter((r) =>
       manualCodes.has(r.stockCode),
@@ -699,8 +707,8 @@ export class ScheduledScannerService {
     }
 
     this.logger.log(
-      `스캔 결과: ${response.results.length}건 → 매수 후보 ${buyCandidates.length}건 ` +
-        `(strength >= ${minBuyStrength})`,
+      `스캔 결과: ${response.results.length}건 → 모니터링 후보 ${buyCandidates.length}건 ` +
+        `(BUY strength >= ${minBuyStrength} 또는 스켈핑 신호 대기 fallback)`,
     );
 
     // 분산 필터: 동시 보유 상한 + 섹터 캡 적용
@@ -790,21 +798,7 @@ export class ScheduledScannerService {
       );
     }
 
-    const toResume: Array<{
-      session: AutoTradingSessionEntity;
-      candidate: ScanResult;
-    }> = [];
-    const toStart: ScanResult[] = [];
-    for (const c of filteredCandidates) {
-      const paused = pausedByCode.get(c.stockCode);
-      if (paused) toResume.push({ session: paused, candidate: c });
-      else toStart.push(c);
-    }
-
-    const allocationCandidates = [
-      ...toResume.map(({ candidate }) => candidate),
-      ...toStart,
-    ];
+    let allocationCandidates = filteredCandidates;
     let investmentByCode = new Map<string, number>();
     let allocatedBudget = 0;
     let currentAvailableCash = 0;
@@ -836,11 +830,47 @@ export class ScheduledScannerService {
         Math.round(currentAvailableCash * amountMultiplier),
       );
 
-      // Step 3. 신규/재개 후보 전체에 ATR 역가중으로 분배하고 총합을 예수금 한도에 맞춘다.
-      investmentByCode = this.computeVolatilityWeightedInvestments(
+      // Step 3. 스켈핑 첫 진입 비율로 실제 1주 매수가 가능한 후보만 순서대로 채택한다.
+      // 고가 종목 하나가 예산을 초과해도 뒤의 저가 섹터 대표 후보는 계속 검토한다.
+      const affordable = this.computeAffordableInvestments(
         allocationCandidates,
         allocatedBudget,
       );
+      allocationCandidates = affordable.candidates;
+      investmentByCode = affordable.investments;
+
+      if (affordable.skippedCodes.length > 0) {
+        this.logger.log(
+          `예수금 1주 기준 제외 ${affordable.skippedCodes.length}건: ` +
+            affordable.skippedCodes.join(', '),
+        );
+      }
+      if (allocationCandidates.length === 0) {
+        await this.notificationService.create(
+          userId,
+          NotificationType.SCHEDULED_SCAN_WARNING,
+          '예약 스캔 매수 가능 종목 없음',
+          '추천 후보는 있었지만 현재 예수금과 스켈핑 첫 진입 비율로 1주를 매수할 수 있는 종목이 없어 세션을 등록하지 않았습니다.',
+          {
+            scheduledScan: true,
+            phase: 'allocation',
+            availableCash: currentAvailableCash,
+            allocatedBudget,
+          },
+        );
+        return;
+      }
+    }
+
+    const toResume: Array<{
+      session: AutoTradingSessionEntity;
+      candidate: ScanResult;
+    }> = [];
+    const toStart: ScanResult[] = [];
+    for (const c of allocationCandidates) {
+      const paused = pausedByCode.get(c.stockCode);
+      if (paused) toResume.push({ session: paused, candidate: c });
+      else toStart.push(c);
     }
 
     const resumedCodes: string[] = [];
@@ -1035,6 +1065,71 @@ export class ScheduledScannerService {
       remainingBudget -= amount;
     }
     return map;
+  }
+
+  /**
+   * 현재 예수금 안에서 전략 첫 진입 비율로 최소 1주를 살 수 있는 후보만 채택한다.
+   * 각 후보의 최소 필요 세션 예산을 먼저 예약하고, 남는 금액만 ATR 역가중으로 추가 배분한다.
+   */
+  private computeAffordableInvestments(
+    candidates: ScanResult[],
+    totalBudget: number,
+  ): {
+    candidates: ScanResult[];
+    investments: Map<string, number>;
+    skippedCodes: string[];
+  } {
+    const selected: ScanResult[] = [];
+    const minimumByCode = new Map<string, number>();
+    const skippedCodes: string[] = [];
+    let remainingBudget = Math.floor(totalBudget);
+
+    // Step 1. 섹터별 수익률 우선 순서를 유지하면서 최소 1주 예산을 예약한다.
+    for (const candidate of candidates) {
+      const latestPrice = Number(candidate.latestPrice);
+      const initialRatioPct = getStrategyTradeMeta(
+        candidate.bestStrategy.strategyId,
+        candidate.bestStrategy.variant,
+      ).initialBuyRatioPct;
+      const minimumInvestment =
+        Number.isFinite(latestPrice) && latestPrice > 0 && initialRatioPct > 0
+          ? Math.ceil(latestPrice / (initialRatioPct / 100))
+          : 0;
+
+      // 구버전 market-data 응답처럼 최신가가 없으면 기존 배분 경로를 유지한다.
+      if (minimumInvestment > remainingBudget) {
+        skippedCodes.push(candidate.stockCode);
+        continue;
+      }
+
+      selected.push(candidate);
+      minimumByCode.set(candidate.stockCode, minimumInvestment);
+      remainingBudget -= minimumInvestment;
+    }
+
+    if (selected.length === 0) {
+      return {
+        candidates: selected,
+        investments: new Map(),
+        skippedCodes,
+      };
+    }
+
+    // Step 2. 최소 예산 예약 후 남는 금액을 기존 ATR 역가중 방식으로 추가한다.
+    const extraByCode = this.computeVolatilityWeightedInvestments(
+      selected,
+      remainingBudget,
+    );
+    const investments = new Map<string, number>();
+    for (const candidate of selected) {
+      investments.set(
+        candidate.stockCode,
+        (minimumByCode.get(candidate.stockCode) ?? 0) +
+          (extraByCode.get(candidate.stockCode) ?? 0),
+      );
+    }
+
+    return { candidates: selected, investments, skippedCodes };
   }
 
   private async acquireScanLock(requestId: string): Promise<boolean> {

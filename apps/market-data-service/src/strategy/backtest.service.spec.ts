@@ -263,6 +263,74 @@ describe('BacktestService simulate', () => {
     expect(buy.quantity).toBe(10_000);
   });
 
+  it('buys at least one share in scan mode when the ratio amount is too small', () => {
+    const service = createService();
+    const candles = [candle(1, 60_000)];
+    const signals = new Map([
+      [
+        '2026-01-01',
+        {
+          direction: SignalDirection.Buy,
+          strength: 0.7,
+          reason: 'buy',
+          date: candles[0].date,
+          price: 60_000,
+        },
+      ],
+    ]);
+
+    const result = (service as any).simulate(
+      stock,
+      candles,
+      signals,
+      {
+        ...baseConfig,
+        investmentAmount: 500_000,
+        tradeRatioPct: 10,
+        ensureMinOneShare: true,
+      },
+      'test',
+    );
+
+    const buy = result.trades.find(
+      (trade: any) => trade.direction === SignalDirection.Buy,
+    );
+    expect(buy.quantity).toBe(1);
+    expect(result.remainingCash).toBe(440_000);
+  });
+
+  it('does not force one share when the total investment cannot afford it', () => {
+    const service = createService();
+    const candles = [candle(1, 600_000)];
+    const signals = new Map([
+      [
+        '2026-01-01',
+        {
+          direction: SignalDirection.Buy,
+          strength: 0.7,
+          reason: 'buy',
+          date: candles[0].date,
+          price: 600_000,
+        },
+      ],
+    ]);
+
+    const result = (service as any).simulate(
+      stock,
+      candles,
+      signals,
+      {
+        ...baseConfig,
+        investmentAmount: 500_000,
+        tradeRatioPct: 100,
+        ensureMinOneShare: true,
+      },
+      'test',
+    );
+
+    expect(result.trades).toHaveLength(0);
+  });
+
   it('closes positions at max holding days when thresholds are not hit', () => {
     const service = createService();
     const candles = Array.from({ length: 8 }, (_, i) =>
@@ -1009,6 +1077,114 @@ describe('BacktestService simulate', () => {
     expect(cfg.autoStopLossPct).toBe(-2);
   });
 
+  it('uses a profitable scalping fallback when strict OOS quality rejects every variant', () => {
+    const service = createService();
+    const prices = buildFreshGapMomentumPrices(131);
+    const walkForward = jest.fn().mockReturnValue({
+      inSample: backtestResult({ totalReturnPct: 1, totalTrades: 5 }),
+      outOfSample: backtestResult({
+        totalReturnPct: 1.5,
+        totalTrades: 2,
+        winTrades: 1,
+        lossTrades: 1,
+        maxDrawdownPct: 2,
+      }),
+      folds: [],
+      wfConsistency: 1,
+      rollingEnabled: false,
+      usedFallback: false,
+    });
+    (service as any).simulateWalkForwardRun = walkForward;
+    (service as any).passesOosQuality = jest.fn(() => false);
+
+    const result = (service as any).scanSingleStock(
+      { id: 1, code: 'AAA', name: 'AAA', sector: 'tech' },
+      new Map([[1, prices]]),
+      500_000,
+      100,
+      0.015,
+      2,
+      -2,
+      7,
+      0,
+      0,
+      {},
+      false,
+      {
+        strategyIds: ['scalping'],
+        strategySelectionMetric: 'totalReturnPct',
+        sectorTopOneFirst: true,
+        allowProfitableQualityFallback: true,
+      },
+    );
+
+    expect(result).toEqual(
+      expect.objectContaining({
+        stockCode: 'AAA',
+        latestPrice: expect.any(Number),
+        qualityFallback: true,
+        bestStrategy: expect.objectContaining({
+          strategyId: 'scalping',
+        }),
+      }),
+    );
+  });
+
+  it('returns a profitable scalping watchlist candidate when there is no fresh BUY signal', () => {
+    const service = createService();
+    const walkForward = jest.fn().mockReturnValue({
+      inSample: backtestResult({ totalReturnPct: 1, totalTrades: 5 }),
+      outOfSample: backtestResult({
+        totalReturnPct: 1.2,
+        totalTrades: 2,
+        winTrades: 2,
+        lossTrades: 0,
+        maxDrawdownPct: 1,
+      }),
+      folds: [],
+      wfConsistency: 1,
+      rollingEnabled: false,
+      usedFallback: false,
+    });
+    (service as any).simulateWalkForwardRun = walkForward;
+    (service as any).passesOosQuality = jest.fn(() => true);
+
+    const result = (service as any).scanSingleStock(
+      { id: 1, code: 'WAIT', name: 'WAIT', sector: 'finance' },
+      new Map([[1, wfCandles(131)]]),
+      500_000,
+      100,
+      0.015,
+      2,
+      -2,
+      7,
+      0.65,
+      0,
+      {},
+      false,
+      {
+        strategyIds: ['scalping'],
+        strategySelectionMetric: 'totalReturnPct',
+        sectorTopOneFirst: true,
+        allowProfitableQualityFallback: true,
+        allowWatchlistFallback: true,
+      },
+    );
+
+    expect(result).toEqual(
+      expect.objectContaining({
+        stockCode: 'WAIT',
+        watchlistFallback: true,
+        bestStrategy: expect.objectContaining({
+          strategyId: 'scalping',
+        }),
+        currentSignal: expect.objectContaining({
+          direction: SignalDirection.Neutral,
+        }),
+      }),
+    );
+  });
+
   it('persists and reads market regime hysteresis state as JSON', async () => {
     const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'market-regime-'));
     const service = createService();
@@ -1132,6 +1308,39 @@ function wfCandles(length: number) {
     close: 100,
     volume: 5_000_000,
   }));
+}
+
+function buildFreshGapMomentumPrices(length: number) {
+  const candles = [];
+  let price = 10_000;
+
+  for (let index = 0; index < length - 1; index++) {
+    const change = index % 2 === 0 ? 0.014 : -0.006;
+    const open = price;
+    const close = price * (1 + change);
+    candles.push({
+      date: new Date(Date.UTC(2025, 0, index + 1)),
+      open,
+      high: Math.max(open, close) * 1.003,
+      low: Math.min(open, close) * 0.997,
+      close,
+      volume: 5_000_000,
+    });
+    price = close;
+  }
+
+  const priorMaxClose = Math.max(...candles.map((item) => item.close));
+  const close = priorMaxClose * 1.01;
+  candles.push({
+    date: new Date(Date.UTC(2025, 0, length)),
+    open: priorMaxClose * 0.99,
+    high: close * 1.004,
+    low: priorMaxClose * 0.985,
+    close,
+    volume: 15_000_000,
+  });
+
+  return candles;
 }
 
 function backtestResult(

@@ -11,6 +11,12 @@ export interface ScanResult {
   maxDrawdownPct: number;
   totalTrades: number;
   rankScore: number;
+  /** 스캔 기준 최신 종가 */
+  latestPrice?: number;
+  /** 엄격 OOS 품질 필터 미통과 후 양수 수익 후보 fallback 여부 */
+  qualityFallback?: boolean;
+  /** 현재 BUY 신호를 기다리는 수익 양수 스켈핑 모니터링 후보 */
+  watchlistFallback?: boolean;
   /** 스캔 백테스트에 실제 적용된 자동 익절/손절 값 */
   autoTakeProfitPct?: number;
   autoStopLossPct?: number;
