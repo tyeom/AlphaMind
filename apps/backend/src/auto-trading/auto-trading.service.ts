@@ -136,7 +136,23 @@ function envNum(key: string, fallback: number): number {
  * 다음봉 시가 매수 직후 일중 흔들림에 의한 즉시 본전 청산을 방지.
  */
 const POSITION_GRACE_PERIOD_MS = 5 * 60_000;
-const PRICE_POLL_INTERVAL_MS = 3_000;
+const PRICE_POLL_TICK_MS = readPositiveNumberEnv('PRICE_POLL_TICK_MS', 1_000);
+const PRICE_POLL_MAX_IN_FLIGHT = Math.max(
+  1,
+  Math.floor(readPositiveNumberEnv('PRICE_POLL_MAX_IN_FLIGHT', 2)),
+);
+const PRICE_POLL_FAILURE_BASE_DELAY_MS = readPositiveNumberEnv(
+  'PRICE_POLL_FAILURE_BASE_DELAY_MS',
+  15_000,
+);
+const PRICE_POLL_FAILURE_MAX_DELAY_MS = readPositiveNumberEnv(
+  'PRICE_POLL_FAILURE_MAX_DELAY_MS',
+  120_000,
+);
+const PRICE_POLL_WARN_COOLDOWN_MS = readPositiveNumberEnv(
+  'PRICE_POLL_WARN_COOLDOWN_MS',
+  30_000,
+);
 const PRICE_TRIGGERED_SELL_CHECK_DEBOUNCE_MS = 1_000;
 const SELL_PRICE_REST_FALLBACK_STALE_MS = 10_000;
 const SUBSCRIPTION_RETRY_BASE_DELAY_MS = 5_000;
@@ -241,13 +257,25 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
    * 세션 상태가 바뀔 때마다 syncStockActivity 로 갱신한다.
    */
   private activeStockCodes = new Set<string>();
-  /** 구독 한도 초과 종목은 REST 현재가 폴링으로 폴백 */
-  private pollingStockIntervals = new Map<
-    string,
-    ReturnType<typeof setInterval>
-  >();
+  /**
+   * REST 현재가 보강 대상 종목.
+   * WebSocket 체결가를 주력으로 쓰고, 캐시가 오래된 종목만 단일 폴러에서
+   * 라운드로빈으로 보강한다. 종목별 setInterval 을 두면 모의 KIS 지연 시
+   * 10초 timeout 요청이 겹쳐 다음 라운드까지 밀리므로 중앙에서 속도를 제한한다.
+   */
+  private pollingStockCodes = new Set<string>();
+  /** REST 현재가 보강 중앙 폴러 */
+  private pricePollingTimer?: ReturnType<typeof setInterval>;
   /** 현재가 폴링 중복 실행 방지 */
   private pollingInFlight = new Set<string>();
+  /** REST 현재가 보강 실패 횟수 — 종목별 백오프 계산에 사용 */
+  private pricePollingFailureCounts = new Map<string, number>();
+  /** 종목별 다음 REST 보강 가능 시각 */
+  private nextPricePollAt = new Map<string, number>();
+  /** timeout 로그 폭주 방지용 마지막 경고 시각 */
+  private lastPricePollWarningAt = new Map<string, number>();
+  /** 라운드로빈 시작 위치 */
+  private pricePollCursor = 0;
   /** 기타 구독 실패에 대한 종목별 재시도 타이머 */
   private subscriptionRetryTimers = new Map<
     string,
@@ -788,10 +816,10 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   }
 
   /**
-   * 캐시 가격이 신선하면 그대로, 아니면 REST 현재가로 보강해 반환한다.
-   * 상시 폴링의 빈틈(첫 폴링 전·일시 실패)에 대한 안전망 — 보유/미보유 모두
-   * 가격 부재로 신호 평가가 skip 되지 않게 한다.
-   * rate-limit(EGW00201)은 kisService.request 중앙 리미터가 throttle/재시도로 처리한다.
+   * 캐시 가격이 신선하면 그대로 반환한다.
+   * 캐시가 없거나 오래됐으면 즉시 REST 를 기다리지 않고 중앙 폴러에 보강을 맡긴다.
+   * 모의 KIS REST 가 느린 구간에서 세션 루프가 종목 수만큼 10초씩 막히면
+   * 실시간 WebSocket 처리까지 불안정해지므로, 매매 판단은 신선한 가격이 있을 때만 진행한다.
    */
   private async getReliablePrice(
     stockCode: string,
@@ -806,25 +834,11 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       return cached;
     }
 
-    try {
-      const priceRaw =
-        await this.kisQuotationService.getCurrentPrice(stockCode);
-      const price = Number(priceRaw.stck_prpr);
-      if (!Number.isFinite(price) || price <= 0) {
-        this.logger.warn(
-          `현재가 REST 보강 실패: ${stockCode} - 유효하지 않은 가격`,
-        );
-        return undefined;
-      }
-
-      this.setLatestPrice(stockCode, price, { broadcast: true });
-      return price;
-    } catch (err: any) {
-      this.logger.warn(
-        `현재가 REST 보강 실패: ${stockCode} - ${err.message ?? err}`,
-      );
-      return undefined;
+    if (this.activeStockCodes.has(stockCode)) {
+      this.ensurePricePolling(stockCode);
+      this.requestPricePollSoon(stockCode);
     }
+    return undefined;
   }
 
   async onModuleInit() {
@@ -2385,9 +2399,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     this.executionSub?.unsubscribe();
     this.subscriptionResultSub?.unsubscribe();
     if (this.monitorInterval) clearInterval(this.monitorInterval);
-    for (const interval of this.pollingStockIntervals.values()) {
-      clearInterval(interval);
-    }
+    this.clearPricePollingTimer();
     for (const timer of this.subscriptionRetryTimers.values()) {
       clearTimeout(timer);
     }
@@ -2403,8 +2415,12 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     this.executionSub = undefined;
     this.subscriptionResultSub = undefined;
     this.monitorInterval = undefined;
-    this.pollingStockIntervals.clear();
+    this.pollingStockCodes.clear();
     this.pollingInFlight.clear();
+    this.pricePollingFailureCounts.clear();
+    this.nextPricePollAt.clear();
+    this.lastPricePollWarningAt.clear();
+    this.pricePollCursor = 0;
     this.subscriptionRetryTimers.clear();
     this.subscriptionRetryAttempts.clear();
     this.priceTriggeredSellCheckTimers.clear();
@@ -2739,7 +2755,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
 
     if (result.success) {
-      // 상시 폴링은 유지(WebSocket 과 병행) — 가격은 폴링을 주력으로 확보한다.
+      // WebSocket 성공 시 REST 는 캐시 stale 구간에만 보강한다.
       this.clearSubscriptionRetry(stockCode);
       this.subscriptionRetryAttempts.delete(stockCode);
       return;
@@ -2770,29 +2786,112 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
   }
 
   /**
-   * active 종목은 WebSocket 구독 성공 여부와 무관하게 항상 REST 현재가 폴링으로
-   * 가격을 확보한다. WebSocket(execution$) 으로 더 최신 체결가가 오면 그 값으로 갱신된다.
-   * rate-limit(EGW00201)은 kisService.request 중앙 리미터가 throttle/재시도로 처리한다.
+   * active 종목을 REST 보강 대상에 등록한다.
+   * 실제 호출은 중앙 라운드로빈 폴러가 수행해 모의 KIS REST 지연/timeout 이
+   * 종목 수만큼 동시에 쌓이지 않게 한다.
    */
   private ensurePricePolling(stockCode: string) {
-    if (this.pollingStockIntervals.has(stockCode)) {
-      return;
+    this.pollingStockCodes.add(stockCode);
+    if (!this.latestPriceUpdatedAt.has(stockCode)) {
+      this.requestPricePollSoon(stockCode);
     }
-    void this.pollCurrentPrice(stockCode);
-
-    const interval = setInterval(() => {
-      void this.pollCurrentPrice(stockCode);
-    }, PRICE_POLL_INTERVAL_MS);
-    this.pollingStockIntervals.set(stockCode, interval);
+    this.startPricePollingTimer();
   }
 
   private stopPricePolling(stockCode: string) {
-    const interval = this.pollingStockIntervals.get(stockCode);
-    if (interval) {
-      clearInterval(interval);
-      this.pollingStockIntervals.delete(stockCode);
-    }
+    this.pollingStockCodes.delete(stockCode);
     this.pollingInFlight.delete(stockCode);
+    this.pricePollingFailureCounts.delete(stockCode);
+    this.nextPricePollAt.delete(stockCode);
+    this.lastPricePollWarningAt.delete(stockCode);
+
+    if (this.pollingStockCodes.size === 0) {
+      this.clearPricePollingTimer();
+    }
+  }
+
+  private startPricePollingTimer() {
+    if (this.pricePollingTimer) {
+      return;
+    }
+
+    this.pricePollingTimer = setInterval(() => {
+      void this.runPricePollingRound();
+    }, PRICE_POLL_TICK_MS);
+    (this.pricePollingTimer as any).unref?.();
+    void this.runPricePollingRound();
+  }
+
+  private clearPricePollingTimer() {
+    if (this.pricePollingTimer) {
+      clearInterval(this.pricePollingTimer);
+      this.pricePollingTimer = undefined;
+    }
+  }
+
+  private requestPricePollSoon(
+    stockCode: string,
+    options?: { ignoreFailureBackoff?: boolean },
+  ) {
+    if (
+      !options?.ignoreFailureBackoff &&
+      (this.pricePollingFailureCounts.get(stockCode) ?? 0) > 0
+    ) {
+      return;
+    }
+
+    const nextAt = this.nextPricePollAt.get(stockCode);
+    if (nextAt == null || nextAt > Date.now()) {
+      this.nextPricePollAt.set(stockCode, Date.now());
+    }
+  }
+
+  private runPricePollingRound() {
+    if (this.pollingStockCodes.size === 0) {
+      this.clearPricePollingTimer();
+      return;
+    }
+
+    const slots = PRICE_POLL_MAX_IN_FLIGHT - this.pollingInFlight.size;
+    if (slots <= 0) {
+      return;
+    }
+
+    const stockCodes = Array.from(this.pollingStockCodes);
+    const now = Date.now();
+    let started = 0;
+
+    // Step 1. 마지막 위치부터 한 바퀴만 훑어 REST 호출 후보를 고른다.
+    for (let i = 0; i < stockCodes.length && started < slots; i += 1) {
+      const index = (this.pricePollCursor + i) % stockCodes.length;
+      const stockCode = stockCodes[index];
+
+      if (!this.shouldPollCurrentPrice(stockCode, now)) {
+        continue;
+      }
+
+      // Step 2. 호출은 fire-and-forget 으로 시작하고, 동시 실행 수는 pollingInFlight 로 제한한다.
+      void this.pollCurrentPrice(stockCode);
+      started += 1;
+      this.pricePollCursor = (index + 1) % stockCodes.length;
+    }
+  }
+
+  private shouldPollCurrentPrice(stockCode: string, now: number): boolean {
+    if (
+      !this.activeStockCodes.has(stockCode) ||
+      this.pollingInFlight.has(stockCode)
+    ) {
+      return false;
+    }
+
+    const nextAt = this.nextPricePollAt.get(stockCode) ?? 0;
+    if (now < nextAt) {
+      return false;
+    }
+
+    const cachedAt = this.latestPriceUpdatedAt.get(stockCode) ?? 0;
+    return cachedAt === 0 || now - cachedAt > SELL_PRICE_REST_FALLBACK_STALE_MS;
   }
 
   private async pollCurrentPrice(stockCode: string) {
@@ -2810,24 +2909,50 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         await this.kisQuotationService.getCurrentPrice(stockCode);
       const price = Number(priceRaw.stck_prpr);
       if (!Number.isFinite(price) || price <= 0) {
-        this.logger.warn(
-          `REST 현재가 조회 실패: ${stockCode} - 유효하지 않은 가격`,
-        );
+        this.recordPricePollingFailure(stockCode, '유효하지 않은 가격');
         return;
       }
+      if (!this.activeStockCodes.has(stockCode)) {
+        return;
+      }
+      this.pricePollingFailureCounts.delete(stockCode);
+      this.nextPricePollAt.set(
+        stockCode,
+        Date.now() + SELL_PRICE_REST_FALLBACK_STALE_MS,
+      );
       this.setLatestPrice(stockCode, price, { broadcast: true });
     } catch (err: any) {
-      this.logger.warn(
-        `REST 현재가 폴링 실패: ${stockCode} - ${err.message ?? err}`,
-      );
+      this.recordPricePollingFailure(stockCode, err.message ?? String(err));
     } finally {
       this.pollingInFlight.delete(stockCode);
     }
   }
 
+  private recordPricePollingFailure(stockCode: string, reason: string) {
+    const failures = (this.pricePollingFailureCounts.get(stockCode) ?? 0) + 1;
+    this.pricePollingFailureCounts.set(stockCode, failures);
+
+    const delay = Math.min(
+      PRICE_POLL_FAILURE_BASE_DELAY_MS * Math.pow(2, failures - 1),
+      PRICE_POLL_FAILURE_MAX_DELAY_MS,
+    );
+    this.nextPricePollAt.set(stockCode, Date.now() + delay);
+
+    const lastWarnedAt = this.lastPricePollWarningAt.get(stockCode) ?? 0;
+    if (Date.now() - lastWarnedAt < PRICE_POLL_WARN_COOLDOWN_MS) {
+      return;
+    }
+
+    this.lastPricePollWarningAt.set(stockCode, Date.now());
+    this.logger.warn(
+      `REST 현재가 보강 실패: ${stockCode} - ${reason} ` +
+        `(연속 ${failures}회, ${Math.round(delay / 1000)}초 후 재시도)`,
+    );
+  }
+
   private scheduleSubscriptionRetry(stockCode: string, reason: string) {
-    // 주의: 폴링은 이제 active 종목에 상시 동작하므로 pollingStockIntervals 를
-    // 재시도 차단 조건으로 쓰면 비(非)-limit 구독 실패가 영구히 재시도되지 않는다.
+    // 주의: REST 보강 등록 여부를 재시도 차단 조건으로 쓰면
+    // 비(非)-limit 구독 실패가 영구히 재시도되지 않는다.
     // 한도초과 케이스는 handleExecutionSubscriptionResult 에서 별도 분기로 처리되어
     // 여기 도달하지 않으므로, 여기서는 폴링 여부와 무관하게 재시도를 예약한다.
     if (

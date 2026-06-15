@@ -526,7 +526,7 @@ describe('AutoTradingService', () => {
     expect((service as any).executeSell).not.toHaveBeenCalled();
   });
 
-  it('uses REST current price for held sessions when realtime price is missing', async () => {
+  it('queues REST current price refresh and skips trading when realtime price is missing', async () => {
     const { service, em, kisQuotationService, kisInquiryService } =
       createService();
     const session = {
@@ -554,17 +554,18 @@ describe('AutoTradingService', () => {
     });
     kisQuotationService.getCurrentPrice.mockResolvedValue({ stck_prpr: '103' });
     jest.spyOn(service as any, 'executeSell').mockResolvedValue(undefined);
+    (service as any).activeStockCodes.add(session.stockCode);
 
     await (service as any).checkSignalsAndTrade();
 
+    expect((service as any).pollingStockCodes.has(session.stockCode)).toBe(
+      true,
+    );
     expect(kisQuotationService.getCurrentPrice).toHaveBeenCalledWith(
       session.stockCode,
     );
-    expect((service as any).executeSell).toHaveBeenCalledWith(
-      session,
-      103,
-      '자동 익절 (3.0%)',
-    );
+    expect((service as any).executeSell).not.toHaveBeenCalled();
+    (service as any).stopMonitoring();
   });
 
   it('re-arms an auto-sell pending session when residual holdings remain without open orders', async () => {
@@ -841,14 +842,13 @@ describe('AutoTradingService', () => {
     });
   });
 
-  it('상시 폴링 중에도 비-limit 구독 실패는 WebSocket 재시도를 예약한다 (회귀 방지)', () => {
+  it('REST 보강 대상이어도 비-limit 구독 실패는 WebSocket 재시도를 예약한다 (회귀 방지)', () => {
     const { service } = createService();
     const svc = service as any;
     const stockCode = '005930';
     svc.activeStockCodes.add(stockCode);
-    // 변경 후 active 종목은 WebSocket 구독과 무관하게 항상 REST 폴링이 켜진다.
-    const pollingTimer = setInterval(jest.fn(), 1_000_000);
-    svc.pollingStockIntervals.set(stockCode, pollingTimer);
+    // REST 보강 대상 등록 여부와 WebSocket 구독 재시도 여부는 서로 독립이어야 한다.
+    svc.pollingStockCodes.add(stockCode);
 
     try {
       svc.handleExecutionSubscriptionResult({
@@ -860,11 +860,11 @@ describe('AutoTradingService', () => {
         message: '일시적 연결 오류', // limit/초과/한도 미포함 → 비-limit 실패
       });
 
-      // 폴링이 상시 켜져 있어도 비-limit 실패는 재시도가 예약되어야 한다.
+      // REST 보강이 등록되어 있어도 비-limit 실패는 재시도가 예약되어야 한다.
       expect(svc.subscriptionRetryTimers.has(stockCode)).toBe(true);
     } finally {
-      clearInterval(pollingTimer);
       svc.clearSubscriptionRetry(stockCode);
+      svc.stopMonitoring();
     }
   });
 

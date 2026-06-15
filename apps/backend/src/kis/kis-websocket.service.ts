@@ -22,6 +22,8 @@ import {
 const RECONNECT_BASE_DELAY = 1000;
 const RECONNECT_MAX_DELAY = 60000;
 const PINGPONG_TIMEOUT = 90000; // KIS 서버 PING 주기(약 60초) + 여유
+const WS_APPROVAL_TIMEOUT_MS = 15_000;
+const WS_HANDSHAKE_TIMEOUT_MS = 15_000;
 /** 연속 재연결 실패가 이 횟수 이상이면 사용자에게 알림 (≈ 30초~5분 무복구 후 통지) */
 const RECONNECT_ALERT_THRESHOLD = 5;
 /** 외부 헬스 체크 주기 — PINGPONG 모니터의 백업 안전망 */
@@ -59,6 +61,7 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
   /** 재연결 상태 */
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   private reconnectAttempt = 0;
+  private connectInFlight = false;
   private destroyed = false;
   private consecutiveFailures = 0;
   private alerted = false;
@@ -110,6 +113,7 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
 
   onModuleDestroy() {
     this.destroyed = true;
+    this.connectInFlight = false;
     this.clearReconnectTimer();
     this.clearPingpongTimer();
     this.clearHealthCheckTimer();
@@ -142,14 +146,30 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
         : 'https://openapivts.koreainvestment.com:29443';
 
     const { data } = await firstValueFrom(
-      this.httpService.post(`${baseUrl}/oauth2/Approval`, {
-        grant_type: 'client_credentials',
-        appkey: this.configService.get('KIS_APP_KEY'),
-        secretkey: this.configService.get('KIS_APP_SECRET'),
-      }),
+      this.httpService.post(
+        `${baseUrl}/oauth2/Approval`,
+        {
+          grant_type: 'client_credentials',
+          appkey: this.configService.get('KIS_APP_KEY'),
+          secretkey: this.configService.get('KIS_APP_SECRET'),
+        },
+        {
+          timeout: this.getPositiveNumberConfig(
+            'KIS_WS_APPROVAL_TIMEOUT_MS',
+            WS_APPROVAL_TIMEOUT_MS,
+          ),
+        },
+      ),
     );
 
     return data.approval_key;
+  }
+
+  private getPositiveNumberConfig(key: string, fallback: number): number {
+    const value = Number(
+      this.configService.get<number | string>(key, fallback),
+    );
+    return Number.isFinite(value) && value > 0 ? value : fallback;
   }
 
   /** 기존 소켓 정리 */
@@ -169,6 +189,12 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
   /** KIS WebSocket 연결 */
   private async connect() {
     if (this.destroyed) return;
+    if (this.connectInFlight) {
+      return;
+    }
+
+    this.connectInFlight = true;
+    this.clearReconnectTimer();
 
     // 기존 소켓이 남아있으면 정리
     this.closeExistingSocket();
@@ -179,10 +205,16 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
       this.approvalKey = await this.getApprovalKey();
       this.logger.log('KIS WebSocket 접속키 발급 완료');
     } catch (err: any) {
+      this.connectInFlight = false;
       this.logger.error(`접속키 발급 실패: ${err.message}`);
       this.lastConnectError = `approval_key: ${err.message ?? err}`;
       this.recordFailureAndMaybeAlert();
       this.scheduleReconnect();
+      return;
+    }
+
+    if (this.destroyed) {
+      this.connectInFlight = false;
       return;
     }
 
@@ -191,9 +223,18 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
         ? 'ws://ops.koreainvestment.com:21000'
         : 'ws://ops.koreainvestment.com:31000';
 
-    this.ws = new WebSocket(wsUrl);
+    const ws = new WebSocket(wsUrl, {
+      handshakeTimeout: this.getPositiveNumberConfig(
+        'KIS_WS_HANDSHAKE_TIMEOUT_MS',
+        WS_HANDSHAKE_TIMEOUT_MS,
+      ),
+    });
+    this.ws = ws;
 
-    this.ws.on('open', () => {
+    ws.on('open', () => {
+      if (this.ws !== ws) return;
+      this.connectInFlight = false;
+      this.clearReconnectTimer();
       this.reconnectAttempt = 0;
       this.lastConnectedAt = Date.now();
       this.logger.log('KIS WebSocket 연결 성공');
@@ -202,11 +243,15 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
       this.handleConnectionRecovered();
     });
 
-    this.ws.on('message', (raw: Buffer) => {
+    ws.on('message', (raw: Buffer) => {
+      if (this.ws !== ws) return;
       this.handleMessage(raw.toString());
     });
 
-    this.ws.on('close', (code: number, reason: Buffer) => {
+    ws.on('close', (code: number, reason: Buffer) => {
+      if (this.ws !== ws) return;
+      this.connectInFlight = false;
+      this.ws = null;
       const reasonStr = reason.toString() || 'N/A';
       this.logger.warn(
         `KIS WebSocket 연결 종료 (code: ${code}, reason: ${reasonStr})`,
@@ -223,7 +268,8 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
       this.scheduleReconnect();
     });
 
-    this.ws.on('error', (err) => {
+    ws.on('error', (err) => {
+      if (this.ws !== ws) return;
       this.logger.error(`KIS WebSocket 오류: ${err.message}`);
       this.lastConnectError = `error: ${err.message}`;
       // error 이벤트 후 close 이벤트가 자동 발생하므로 여기서 reconnect하지 않음
@@ -336,8 +382,13 @@ export class KisWebSocketService implements OnModuleInit, OnModuleDestroy {
     this.clearHealthCheckTimer();
     this.healthCheckTimer = setInterval(() => {
       if (this.destroyed) return;
-      // 재연결이 이미 예약되어 있거나 연결 시도 중이면 패스
-      if (this.reconnectTimer || this.ws?.readyState === WebSocket.CONNECTING) {
+      // 재연결이 이미 예약되어 있거나 연결 시도 중이면 패스.
+      // 접속키 발급 단계에는 아직 ws 객체가 없으므로 connectInFlight 도 같이 확인한다.
+      if (
+        this.reconnectTimer ||
+        this.connectInFlight ||
+        this.ws?.readyState === WebSocket.CONNECTING
+      ) {
         return;
       }
       const open = this.ws?.readyState === WebSocket.OPEN;

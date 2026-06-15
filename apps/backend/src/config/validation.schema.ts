@@ -28,6 +28,19 @@ export const validationSchema = Joi.object({
   KIS_MAX_RPS: Joi.number().default(8),
   KIS_RATE_BURST: Joi.number().default(8),
   KIS_RATE_MAX_RETRY: Joi.number().default(5),
+  KIS_WS_APPROVAL_TIMEOUT_MS: Joi.number().integer().positive().default(15000),
+  KIS_WS_HANDSHAKE_TIMEOUT_MS: Joi.number().integer().positive().default(15000),
+  PRICE_POLL_TICK_MS: Joi.number().integer().positive().default(1000),
+  PRICE_POLL_MAX_IN_FLIGHT: Joi.number().integer().positive().default(2),
+  PRICE_POLL_FAILURE_BASE_DELAY_MS: Joi.number()
+    .integer()
+    .positive()
+    .default(15000),
+  PRICE_POLL_FAILURE_MAX_DELAY_MS: Joi.number()
+    .integer()
+    .positive()
+    .default(120000),
+  PRICE_POLL_WARN_COOLDOWN_MS: Joi.number().integer().positive().default(30000),
 
   // Sprint3 VI/상하한가 처리 — 기본 OFF, 토글 ON 시에만 신규 주문 게이트 적용
   VI_HANDLING_ENABLED: Joi.boolean().default(false),
