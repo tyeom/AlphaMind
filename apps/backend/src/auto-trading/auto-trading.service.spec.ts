@@ -6,6 +6,7 @@ import {
   SessionStatus,
 } from './entities/auto-trading-session.entity';
 import { TradeType } from '../kis/entities/trade-history.entity';
+import { NotificationType } from '../notification/entities/notification.entity';
 
 describe('AutoTradingService', () => {
   const createService = () => {
@@ -47,6 +48,13 @@ describe('AutoTradingService', () => {
     const kisInquiryService = {
       getBalance: jest.fn(),
       getDailyOrders: jest.fn(),
+      getBuyableAmount: jest.fn().mockResolvedValue({
+        ord_psbl_cash: '100000000',
+        nrcvb_buy_amt: '100000000',
+        nrcvb_buy_qty: '9999',
+        max_buy_amt: '100000000',
+        max_buy_qty: '9999',
+      }),
     };
     const notificationService = {
       create: jest.fn().mockResolvedValue({}),
@@ -70,6 +78,7 @@ describe('AutoTradingService', () => {
       kisWsService,
       quotationService,
       kisInquiryService,
+      notificationService,
     };
   };
 
@@ -846,6 +855,94 @@ describe('AutoTradingService', () => {
         true,
       ),
     ).toBe(15);
+  });
+
+  it('reduces auto-buy quantity to KIS buyable quantity before ordering', async () => {
+    const { service, kisOrderService, kisInquiryService } = createService();
+    const session = {
+      id: 15,
+      stockCode: '037460',
+      stockName: '삼표시멘트',
+      strategyId: 'scalping',
+      variant: 'ensemble',
+      investmentAmount: 10_000_000,
+      holdingQty: 0,
+      avgBuyPrice: 0,
+      stopLossPct: -1.5,
+      addOnBuyCount: 0,
+      user: { id: 1 },
+    } as AutoTradingSessionEntity;
+
+    jest.spyOn(service as any, 'computeBuyQuantity').mockReturnValue(109);
+    kisInquiryService.getBuyableAmount.mockResolvedValueOnce({
+      ord_psbl_cash: '3500000',
+      nrcvb_buy_amt: '3500000',
+      nrcvb_buy_qty: '80',
+      max_buy_amt: '3500000',
+      max_buy_qty: '80',
+    });
+    kisOrderService.orderCash.mockResolvedValue({
+      rt_cd: '0',
+      output: { ODNO: 'BUY-1' },
+    });
+
+    await (service as any).executeBuy(session, 41650);
+
+    expect(kisInquiryService.getBuyableAmount).toHaveBeenCalledWith({
+      stockCode: session.stockCode,
+      price: 41650,
+      orderDvsn: '00',
+    });
+    expect(kisOrderService.orderCash).toHaveBeenCalledWith(
+      expect.objectContaining({
+        quantity: 80,
+        metadata: expect.objectContaining({
+          requestedQuantity: 109,
+          adjustedQuantity: 80,
+          quantityAdjusted: true,
+          kisBuyableQty: 80,
+        }),
+      }),
+    );
+  });
+
+  it('creates a frontend notification when KIS rejects a buy order', async () => {
+    const { service, kisOrderService, notificationService } = createService();
+    const session = {
+      id: 16,
+      stockCode: '037460',
+      stockName: '삼표시멘트',
+      strategyId: 'scalping',
+      variant: 'ensemble',
+      investmentAmount: 10_000_000,
+      holdingQty: 0,
+      avgBuyPrice: 0,
+      stopLossPct: -1.5,
+      addOnBuyCount: 0,
+      user: { id: 1 },
+    } as AutoTradingSessionEntity;
+
+    jest.spyOn(service as any, 'computeBuyQuantity').mockReturnValue(10);
+    kisOrderService.orderCash.mockResolvedValue({
+      rt_cd: '1',
+      msg_cd: 'APBK0013',
+      msg1: '주문가능금액을 초과 했습니다',
+    });
+
+    await (service as any).executeBuy(session, 41650);
+
+    expect(notificationService.create).toHaveBeenCalledWith(
+      session.user.id,
+      NotificationType.ORDER_REJECTED,
+      `${session.stockName} 매수 주문 거부`,
+      expect.stringContaining('주문가능금액을 초과 했습니다'),
+      expect.objectContaining({
+        stockCode: session.stockCode,
+        action: 'buy',
+        reason: '주문가능금액을 초과 했습니다',
+        msgCd: 'APBK0013',
+      }),
+    );
   });
 
   it('keeps the existing stop-loss call shape when VI handling is disabled', async () => {

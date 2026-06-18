@@ -7,6 +7,7 @@ export interface Notification {
     | 'ai_meeting_completed'
     | 'ai_meeting_error'
     | 'order_tracking_warning'
+    | 'order_rejected'
     | 'scheduled_scan_warning'
     | 'buy_signal'
     | 'sell_signal';

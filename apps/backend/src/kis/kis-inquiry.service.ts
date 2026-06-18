@@ -131,7 +131,10 @@ export class KisInquiryService {
               CANO: this.kisService.accountNo,
               ACNT_PRDT_CD: this.kisService.accountProdCd,
               PDNO: params.stockCode,
-              ORD_UNPR: params.price ? String(params.price) : '',
+              ORD_UNPR:
+                params.price != null && Number.isFinite(params.price)
+                  ? String(params.price)
+                  : '',
               ORD_DVSN: params.orderDvsn ?? '01',
               CMA_EVLU_AMT_ICLD_YN: 'Y',
               OVRS_ICLD_YN: 'N',
@@ -140,6 +143,10 @@ export class KisInquiryService {
         ),
       ),
     );
+
+    if (data.rt_cd !== '0') {
+      throw new Error(`KIS 매수가능 조회 실패: [${data.msg_cd}] ${data.msg1}`);
+    }
 
     return data.output!;
   }

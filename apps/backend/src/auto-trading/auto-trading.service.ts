@@ -194,6 +194,14 @@ interface ExecuteSellOptions {
   orderPrice?: number;
 }
 
+interface BuyQuantityAdjustment {
+  requestedQty: number;
+  orderQty: number;
+  adjusted: boolean;
+  buyableQty?: number;
+  buyableAmount?: number;
+}
+
 type ViDeferredOrderIntent =
   | 'buy'
   | 'tp1-scale-out'
@@ -465,6 +473,114 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       this.gateway?.broadcastNotification(notification);
     } catch (err: any) {
       this.logger.warn(`주문 추적 경고 알림 생성 실패: ${err.message ?? err}`);
+    }
+  }
+
+  private parseKisNumber(
+    value: string | number | undefined | null,
+  ): number | null {
+    const n =
+      typeof value === 'number'
+        ? value
+        : typeof value === 'string'
+          ? Number(value.replaceAll(',', '').trim())
+          : NaN;
+    return Number.isFinite(n) ? n : null;
+  }
+
+  private async createOrderRejectedNotification(
+    session: AutoTradingSessionEntity,
+    action: 'buy' | 'sell',
+    reason: string,
+    metadata?: Record<string, any>,
+  ): Promise<void> {
+    const actionLabel = action === 'buy' ? '매수' : '매도';
+    try {
+      const notification = await this.notificationService.create(
+        session.user.id,
+        NotificationType.ORDER_REJECTED,
+        `${session.stockName} ${actionLabel} 주문 거부`,
+        `${session.stockName}(${session.stockCode}) ${actionLabel} 주문이 거부되었습니다. 사유: ${reason}`,
+        {
+          stockCode: session.stockCode,
+          stockName: session.stockName,
+          sessionId: session.id,
+          action,
+          reason,
+          ...metadata,
+        },
+      );
+      this.gateway?.broadcastNotification(notification);
+    } catch (err: any) {
+      this.logger.warn(`주문 거부 알림 생성 실패: ${err.message ?? err}`);
+    }
+  }
+
+  private async resolveBuyQuantityWithinKisLimit(
+    session: AutoTradingSessionEntity,
+    requestedQty: number,
+    price: number,
+    orderDvsn: OrderDivision,
+    source: string,
+  ): Promise<BuyQuantityAdjustment | null> {
+    try {
+      const buyable = await this.kisInquiryService.getBuyableAmount({
+        stockCode: session.stockCode,
+        price,
+        orderDvsn,
+      });
+      const safeQty = this.parseKisNumber(buyable.nrcvb_buy_qty);
+      const fallbackQty = this.parseKisNumber(buyable.max_buy_qty);
+      const buyableQty = Math.max(0, Math.floor(safeQty ?? fallbackQty ?? 0));
+      const buyableAmount =
+        this.parseKisNumber(buyable.nrcvb_buy_amt) ??
+        this.parseKisNumber(buyable.ord_psbl_cash) ??
+        undefined;
+      const orderQty = Math.min(requestedQty, buyableQty);
+
+      if (orderQty <= 0) {
+        await this.createOrderRejectedNotification(
+          session,
+          'buy',
+          'KIS 기준 주문가능수량이 없습니다.',
+          {
+            source,
+            requestedQty,
+            adjustedQty: 0,
+            buyableQty,
+            buyableAmount,
+            price,
+            orderDvsn,
+            kisBuyable: buyable,
+          },
+        );
+        return null;
+      }
+
+      if (orderQty < requestedQty) {
+        this.logger.warn(
+          `매수 수량 자동 조정: ${session.stockCode} ${requestedQty}주 → ${orderQty}주 ` +
+            `(KIS 주문가능수량 ${buyableQty}주)`,
+        );
+      }
+
+      return {
+        requestedQty,
+        orderQty,
+        adjusted: orderQty < requestedQty,
+        buyableQty,
+        buyableAmount,
+      };
+    } catch (err: any) {
+      const reason = `KIS 매수가능 조회 실패: ${err.message ?? err}`;
+      this.logger.warn(`${reason} (${session.stockCode})`);
+      await this.createOrderRejectedNotification(session, 'buy', reason, {
+        source,
+        requestedQty,
+        price,
+        orderDvsn,
+      });
+      return null;
     }
   }
 
@@ -2091,14 +2207,24 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       tradeAmount = remainingBudget;
     }
 
-    const qty = this.computeBuyQuantity(
+    const requestedQty = this.computeBuyQuantity(
       session,
       price,
       tradeAmount,
       remainingBudget,
       isAddOn,
     );
-    if (qty <= 0) return;
+    if (requestedQty <= 0) return;
+
+    const quantityAdjustment = await this.resolveBuyQuantityWithinKisLimit(
+      session,
+      requestedQty,
+      price,
+      '00',
+      'auto-buy',
+    );
+    if (!quantityAdjustment) return;
+    const qty = quantityAdjustment.orderQty;
 
     this.logger.log(
       `매수 실행(지정가): ${session.stockCode} ${qty}주 @ ${price}`,
@@ -2116,12 +2242,32 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           sessionId: session.id,
           source: 'auto-buy',
           trackingMode: trackingReady ? 'notification' : 'polling-fallback',
+          requestedQuantity: quantityAdjustment.requestedQty,
+          adjustedQuantity: quantityAdjustment.orderQty,
+          quantityAdjusted: quantityAdjustment.adjusted,
+          kisBuyableQty: quantityAdjustment.buyableQty,
+          kisBuyableAmount: quantityAdjustment.buyableAmount,
         },
       });
 
       if (result.rt_cd !== '0') {
         this.logger.error(
           `매수 주문 거부: ${session.stockCode} - ${result.msg1}`,
+        );
+        await this.createOrderRejectedNotification(
+          session,
+          'buy',
+          result.msg1 || 'KIS 주문이 거부되었습니다.',
+          {
+            source: 'auto-buy',
+            requestedQty: quantityAdjustment.requestedQty,
+            adjustedQty: quantityAdjustment.orderQty,
+            price,
+            orderDvsn: '00',
+            rtCd: result.rt_cd,
+            msgCd: result.msg_cd,
+            kisResponse: result,
+          },
         );
         return;
       }
@@ -2174,20 +2320,30 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       const meta = getStrategyTradeMeta(session.strategyId, session.variant);
       const tradeAmount =
         Number(session.investmentAmount) * (meta.initialBuyRatioPct / 100);
-      const qty = this.computeBuyQuantity(
+      const requestedQty = this.computeBuyQuantity(
         session,
         price,
         tradeAmount,
         tradeAmount,
         false,
       );
-      if (qty <= 0) {
+      if (requestedQty <= 0) {
         this.logger.warn(
           `즉시 매수 건너뜀: ${session.stockCode} - 첫 진입금액(${Math.round(tradeAmount)}) 대비 ` +
             `현재가(${price})가 커서 1주도 매수 불가`,
         );
         return;
       }
+
+      const quantityAdjustment = await this.resolveBuyQuantityWithinKisLimit(
+        session,
+        requestedQty,
+        0,
+        '01',
+        'immediate-buy',
+      );
+      if (!quantityAdjustment) return;
+      const qty = quantityAdjustment.orderQty;
 
       this.logger.log(
         `즉시 매수 실행: ${session.stockCode} ${qty}주 @ ${price} ` +
@@ -2205,12 +2361,32 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           sessionId: session.id,
           source: 'immediate-buy',
           trackingMode: trackingReady ? 'notification' : 'polling-fallback',
+          requestedQuantity: quantityAdjustment.requestedQty,
+          adjustedQuantity: quantityAdjustment.orderQty,
+          quantityAdjusted: quantityAdjustment.adjusted,
+          kisBuyableQty: quantityAdjustment.buyableQty,
+          kisBuyableAmount: quantityAdjustment.buyableAmount,
         },
       });
 
       if (result.rt_cd !== '0') {
         this.logger.error(
           `즉시 매수 주문 거부: ${session.stockCode} - ${result.msg1}`,
+        );
+        await this.createOrderRejectedNotification(
+          session,
+          'buy',
+          result.msg1 || 'KIS 주문이 거부되었습니다.',
+          {
+            source: 'immediate-buy',
+            requestedQty: quantityAdjustment.requestedQty,
+            adjustedQty: quantityAdjustment.orderQty,
+            price: 0,
+            orderDvsn: '01',
+            rtCd: result.rt_cd,
+            msgCd: result.msg_cd,
+            kisResponse: result,
+          },
         );
         return;
       }
@@ -2304,6 +2480,22 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         if (result.rt_cd !== '0') {
           this.logger.error(
             `매도 주문 거부: ${session.stockCode} - ${result.msg1}`,
+          );
+          await this.createOrderRejectedNotification(
+            session,
+            'sell',
+            result.msg1 || 'KIS 주문이 거부되었습니다.',
+            {
+              source: 'auto-sell',
+              requestedQty: sellQty,
+              adjustedQty: sellQty,
+              price: orderPrice,
+              orderDvsn,
+              reason,
+              rtCd: result.rt_cd,
+              msgCd: result.msg_cd,
+              kisResponse: result,
+            },
           );
           return;
         }
@@ -3284,28 +3476,68 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     }
 
     const price = dto.orderDvsn === '01' ? 0 : (dto.price ?? 0);
+    let orderQuantity = dto.quantity;
+    let quantityAdjustment: BuyQuantityAdjustment | undefined;
+
+    if (dto.orderType === 'buy') {
+      const adjustment = await this.resolveBuyQuantityWithinKisLimit(
+        session,
+        dto.quantity,
+        price,
+        dto.orderDvsn,
+        'manual',
+      );
+      if (!adjustment) {
+        throw new ConflictException({
+          message: 'KIS 기준 주문가능수량이 없어 매수 주문을 낼 수 없습니다.',
+          code: 'NO_BUYABLE_QUANTITY',
+        });
+      }
+      quantityAdjustment = adjustment;
+      orderQuantity = adjustment.orderQty;
+    }
 
     this.logger.log(
       `수동 ${dto.orderType === 'buy' ? '매수' : '매도'}: ${session.stockCode} ` +
-        `${dto.quantity}주 @ ${dto.orderDvsn === '01' ? '시장가' : price} (세션 ${sessionId})`,
+        `${orderQuantity}주 @ ${dto.orderDvsn === '01' ? '시장가' : price} (세션 ${sessionId})`,
     );
 
     const orderResult = await this.kisOrderService.orderCash({
       stockCode: session.stockCode,
       orderType: dto.orderType,
       orderDvsn: dto.orderDvsn,
-      quantity: dto.quantity,
+      quantity: orderQuantity,
       price,
       userId: session.user.id,
       metadata: {
         sessionId: session.id,
         source: 'manual',
         trackingMode: trackingReady ? 'notification' : 'polling-fallback',
+        requestedQuantity: quantityAdjustment?.requestedQty ?? dto.quantity,
+        adjustedQuantity: orderQuantity,
+        quantityAdjusted: quantityAdjustment?.adjusted ?? false,
+        kisBuyableQty: quantityAdjustment?.buyableQty,
+        kisBuyableAmount: quantityAdjustment?.buyableAmount,
       },
     });
 
     // KIS 주문 실패 시 세션 상태를 변경하지 않고 에러 반환
     if (orderResult.rt_cd !== '0') {
+      await this.createOrderRejectedNotification(
+        session,
+        dto.orderType,
+        orderResult.msg1 || 'KIS 주문이 거부되었습니다.',
+        {
+          source: 'manual',
+          requestedQty: quantityAdjustment?.requestedQty ?? dto.quantity,
+          adjustedQty: orderQuantity,
+          price,
+          orderDvsn: dto.orderDvsn,
+          rtCd: orderResult.rt_cd,
+          msgCd: orderResult.msg_cd,
+          kisResponse: orderResult,
+        },
+      );
       throw new ConflictException({
         message: orderResult.msg1 || 'KIS 주문이 실패했습니다.',
         code: 'ORDER_FAILED',
