@@ -200,6 +200,7 @@ interface BuyQuantityAdjustment {
   adjusted: boolean;
   buyableQty?: number;
   buyableAmount?: number;
+  buyableSource?: string;
 }
 
 type ViDeferredOrderIntent =
@@ -522,6 +523,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
     price: number,
     orderDvsn: OrderDivision,
     source: string,
+    referencePrice?: number,
   ): Promise<BuyQuantityAdjustment | null> {
     try {
       const buyable = await this.kisInquiryService.getBuyableAmount({
@@ -530,12 +532,44 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         orderDvsn,
       });
       const safeQty = this.parseKisNumber(buyable.nrcvb_buy_qty);
-      const fallbackQty = this.parseKisNumber(buyable.max_buy_qty);
-      const buyableQty = Math.max(0, Math.floor(safeQty ?? fallbackQty ?? 0));
-      const buyableAmount =
-        this.parseKisNumber(buyable.nrcvb_buy_amt) ??
-        this.parseKisNumber(buyable.ord_psbl_cash) ??
-        undefined;
+      const maxQty = this.parseKisNumber(buyable.max_buy_qty);
+      const safeAmount = this.parseKisNumber(buyable.nrcvb_buy_amt);
+      const maxAmount = this.parseKisNumber(buyable.max_buy_amt);
+      const cashAmount = this.parseKisNumber(buyable.ord_psbl_cash);
+      const firstPositiveAmount = (
+        ...amounts: Array<number | null>
+      ): number | undefined =>
+        amounts.find((amount): amount is number => amount != null && amount > 0);
+      const effectivePrice =
+        price > 0
+          ? price
+          : referencePrice != null && referencePrice > 0
+            ? referencePrice
+            : 0;
+
+      let buyableQty = 0;
+      let buyableSource = 'none';
+      let buyableAmount: number | undefined;
+
+      if (safeQty != null && safeQty > 0) {
+        // 1단계: 미수 없는 매수가능수량이 있으면 가장 보수적인 KIS 수량을 우선한다.
+        buyableQty = Math.floor(safeQty);
+        buyableSource = 'nrcvb_buy_qty';
+        buyableAmount = firstPositiveAmount(safeAmount, maxAmount, cashAmount);
+      } else if (maxQty != null && maxQty > 0) {
+        // 2단계: nrcvb 수량이 0이어도 최대 매수가능수량이 있으면 주문 가능 수량으로 사용한다.
+        buyableQty = Math.floor(maxQty);
+        buyableSource = 'max_buy_qty';
+        buyableAmount = firstPositiveAmount(maxAmount, cashAmount, safeAmount);
+      } else {
+        buyableAmount = firstPositiveAmount(maxAmount, cashAmount, safeAmount);
+        if (buyableAmount != null && effectivePrice > 0) {
+          // 3단계: 수량 필드가 0이면 실시간 주문가능금액과 주문 기준가로 현금 매수 수량을 계산한다.
+          buyableQty = Math.floor(buyableAmount / effectivePrice);
+          buyableSource = 'buyable_amount';
+        }
+      }
+
       const orderQty = Math.min(requestedQty, buyableQty);
 
       if (orderQty <= 0) {
@@ -549,7 +583,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
             adjustedQty: 0,
             buyableQty,
             buyableAmount,
+            buyableSource,
             price,
+            referencePrice,
             orderDvsn,
             kisBuyable: buyable,
           },
@@ -560,7 +596,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
       if (orderQty < requestedQty) {
         this.logger.warn(
           `매수 수량 자동 조정: ${session.stockCode} ${requestedQty}주 → ${orderQty}주 ` +
-            `(KIS 주문가능수량 ${buyableQty}주)`,
+            `(KIS 주문가능수량 ${buyableQty}주, 기준 ${buyableSource})`,
         );
       }
 
@@ -570,6 +606,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         adjusted: orderQty < requestedQty,
         buyableQty,
         buyableAmount,
+        buyableSource,
       };
     } catch (err: any) {
       const reason = `KIS 매수가능 조회 실패: ${err.message ?? err}`;
@@ -578,6 +615,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         source,
         requestedQty,
         price,
+        referencePrice,
         orderDvsn,
       });
       return null;
@@ -2247,6 +2285,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           quantityAdjusted: quantityAdjustment.adjusted,
           kisBuyableQty: quantityAdjustment.buyableQty,
           kisBuyableAmount: quantityAdjustment.buyableAmount,
+          kisBuyableSource: quantityAdjustment.buyableSource,
         },
       });
 
@@ -2262,6 +2301,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
             source: 'auto-buy',
             requestedQty: quantityAdjustment.requestedQty,
             adjustedQty: quantityAdjustment.orderQty,
+            buyableQty: quantityAdjustment.buyableQty,
+            buyableAmount: quantityAdjustment.buyableAmount,
+            buyableSource: quantityAdjustment.buyableSource,
             price,
             orderDvsn: '00',
             rtCd: result.rt_cd,
@@ -2341,6 +2383,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         0,
         '01',
         'immediate-buy',
+        lastPrice,
       );
       if (!quantityAdjustment) return;
       const qty = quantityAdjustment.orderQty;
@@ -2366,6 +2409,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           quantityAdjusted: quantityAdjustment.adjusted,
           kisBuyableQty: quantityAdjustment.buyableQty,
           kisBuyableAmount: quantityAdjustment.buyableAmount,
+          kisBuyableSource: quantityAdjustment.buyableSource,
         },
       });
 
@@ -2381,7 +2425,11 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
             source: 'immediate-buy',
             requestedQty: quantityAdjustment.requestedQty,
             adjustedQty: quantityAdjustment.orderQty,
+            buyableQty: quantityAdjustment.buyableQty,
+            buyableAmount: quantityAdjustment.buyableAmount,
+            buyableSource: quantityAdjustment.buyableSource,
             price: 0,
+            referencePrice: lastPrice,
             orderDvsn: '01',
             rtCd: result.rt_cd,
             msgCd: result.msg_cd,
@@ -3518,6 +3566,7 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
         quantityAdjusted: quantityAdjustment?.adjusted ?? false,
         kisBuyableQty: quantityAdjustment?.buyableQty,
         kisBuyableAmount: quantityAdjustment?.buyableAmount,
+        kisBuyableSource: quantityAdjustment?.buyableSource,
       },
     });
 
@@ -3531,6 +3580,9 @@ export class AutoTradingService implements OnModuleInit, OnModuleDestroy {
           source: 'manual',
           requestedQty: quantityAdjustment?.requestedQty ?? dto.quantity,
           adjustedQty: orderQuantity,
+          buyableQty: quantityAdjustment?.buyableQty,
+          buyableAmount: quantityAdjustment?.buyableAmount,
+          buyableSource: quantityAdjustment?.buyableSource,
           price,
           orderDvsn: dto.orderDvsn,
           rtCd: orderResult.rt_cd,

@@ -906,6 +906,98 @@ describe('AutoTradingService', () => {
     );
   });
 
+  it('uses max buyable quantity when KIS non-receivable quantity is zero', async () => {
+    const { service, kisOrderService, kisInquiryService } = createService();
+    const session = {
+      id: 16,
+      stockCode: '037460',
+      stockName: '삼표시멘트',
+      strategyId: 'scalping',
+      variant: 'ensemble',
+      investmentAmount: 10_000_000,
+      holdingQty: 0,
+      avgBuyPrice: 0,
+      stopLossPct: -1.5,
+      addOnBuyCount: 0,
+      user: { id: 1 },
+    } as AutoTradingSessionEntity;
+
+    jest.spyOn(service as any, 'computeBuyQuantity').mockReturnValue(109);
+    kisInquiryService.getBuyableAmount.mockResolvedValueOnce({
+      ord_psbl_cash: '3500000',
+      nrcvb_buy_amt: '0',
+      nrcvb_buy_qty: '0',
+      max_buy_amt: '3500000',
+      max_buy_qty: '80',
+    });
+    kisOrderService.orderCash.mockResolvedValue({
+      rt_cd: '0',
+      output: { ODNO: 'BUY-1' },
+    });
+
+    await (service as any).executeBuy(session, 41650);
+
+    expect(kisOrderService.orderCash).toHaveBeenCalledWith(
+      expect.objectContaining({
+        quantity: 80,
+        metadata: expect.objectContaining({
+          requestedQuantity: 109,
+          adjustedQuantity: 80,
+          quantityAdjusted: true,
+          kisBuyableQty: 80,
+          kisBuyableAmount: 3500000,
+          kisBuyableSource: 'max_buy_qty',
+        }),
+      }),
+    );
+  });
+
+  it('calculates auto-buy quantity from KIS orderable cash when quantity fields are zero', async () => {
+    const { service, kisOrderService, kisInquiryService } = createService();
+    const session = {
+      id: 17,
+      stockCode: '037460',
+      stockName: '삼표시멘트',
+      strategyId: 'scalping',
+      variant: 'ensemble',
+      investmentAmount: 10_000_000,
+      holdingQty: 0,
+      avgBuyPrice: 0,
+      stopLossPct: -1.5,
+      addOnBuyCount: 0,
+      user: { id: 1 },
+    } as AutoTradingSessionEntity;
+
+    jest.spyOn(service as any, 'computeBuyQuantity').mockReturnValue(109);
+    kisInquiryService.getBuyableAmount.mockResolvedValueOnce({
+      ord_psbl_cash: '3500000',
+      nrcvb_buy_amt: '0',
+      nrcvb_buy_qty: '0',
+      max_buy_amt: '0',
+      max_buy_qty: '0',
+    });
+    kisOrderService.orderCash.mockResolvedValue({
+      rt_cd: '0',
+      output: { ODNO: 'BUY-1' },
+    });
+
+    await (service as any).executeBuy(session, 41650);
+
+    expect(kisOrderService.orderCash).toHaveBeenCalledWith(
+      expect.objectContaining({
+        quantity: 84,
+        metadata: expect.objectContaining({
+          requestedQuantity: 109,
+          adjustedQuantity: 84,
+          quantityAdjusted: true,
+          kisBuyableQty: 84,
+          kisBuyableAmount: 3500000,
+          kisBuyableSource: 'buyable_amount',
+        }),
+      }),
+    );
+  });
+
   it('creates a frontend notification when KIS rejects a buy order', async () => {
     const { service, kisOrderService, notificationService } = createService();
     const session = {
